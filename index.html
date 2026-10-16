@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<title>SUIII STREAM</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#090b13;color:#fff;font-family:Arial}
+header{padding:18px;background:#111526;position:sticky;top:0;z-index:5}
+.brand{color:#b69cff;font-weight:900;font-size:23px}
+input,button,select{padding:12px;border:0;border-radius:9px}
+input,select{background:#22283a;color:white}
+button{background:#8b5cf6;color:white;cursor:pointer;font-weight:bold}
+.search{display:flex;gap:8px;margin-top:15px}
+.search input{width:100%;min-width:0}
+main{padding:18px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{background:#151a29;border-radius:10px;overflow:hidden;cursor:pointer}
+.card img{width:100%;aspect-ratio:2/3;object-fit:cover}
+.info{padding:8px;font-size:13px}
+.muted{color:#aab0c4;font-size:12px}
+#detail{display:none;background:#151a29;border-radius:12px;padding:15px;margin-top:20px}
+#poster{width:105px;float:left;margin:0 13px 10px 0;border-radius:8px}
+#player{display:none;margin-top:15px;clear:both}
+video{width:100%;max-height:60vh;background:black}
+a{color:#c4b5fd}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+#status{color:#c4b5fd;font-size:14px;margin:15px 0}
+footer{text-align:center;padding:25px;color:#999}
+@media(min-width:650px){main,header{padding-left:5%;padding-right:5%}
+.grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+<header>
+ <div class="brand">SUIII_STREAM</div>
+ <div class="muted">MOVIES · SERIES · OFFICIAL TRAILERS</div>
+ <form id="searchForm" class="search">
+  <input id="query" placeholder="Search movies or series..." required>
+  <button>Search</button>
+ </form>
+</header>
+
+<main>
+ <div class="row">
+  <button onclick="home('movie')">Movies</button>
+  <button onclick="home('tv')">TV Series</button>
+ </div>
+ <h3 id="heading">Trending Movies</h3>
+ <div id="status">Loading...</div>
+ <div class="grid" id="grid"></div>
+
+ <section id="detail">
+  <img id="poster" alt="Poster">
+  <h2 id="title"></h2>
+  <div class="muted" id="meta"></div>
+  <p id="overview"></p>
+  <div id="extra"></div>
+  <div class="row" id="actions"></div>
+  <div id="player">
+   <video id="video" controls playsinline></video>
+   <p class="muted">Playback depends on source compatibility.</p>
+  </div>
+  <div style="clear:both"></div>
+ </section>
+</main>
+
+<footer>
+ Movie metadata by TMDB. This product uses the TMDB API
+ but is not endorsed or certified by TMDB.
+</footer>
+
+<script>
+const API_KEY="PASTE_TMDB_API_KEY";
+const API="https://api.themoviedb.org/3";
+const IMG="https://image.tmdb.org/t/p/w500";
+
+// Add only video URLs you are authorized to stream.
+// Movie: movie ID -> HTTPS MP4 URL
+// TV: tv ID -> season -> episode -> HTTPS MP4 URL
+const SOURCES={
+ movie:{},
+ tv:{}
+};
+
+const $=id=>document.getElementById(id);
+let current=null;
+let currentType="movie";
+
+async function api(path){
+ if(API_KEY==="PASTE_TMDB_API_KEY")
+  throw Error("Add your TMDB API key first.");
+ const r=await fetch(API+path,{
+  headers:{accept:"application/json"}
+ });
+ if(!r.ok)throw Error("API error: "+r.status);
+ return r.json();
+}
+
+function showItems(items){
+ $("grid").replaceChildren();
+ items.forEach(m=>{
+  const card=document.createElement("div");
+  card.className="card";
+  const img=document.createElement("img");
+  img.loading="lazy";
+  img.alt=m.title||m.name||"Poster";
+  img.src=m.poster_path?IMG+m.poster_path:"";
+  const info=document.createElement("div");
+  info.className="info";
+  const name=document.createElement("b");
+  name.textContent=m.title||m.name||"Untitled";
+  const rating=document.createElement("div");
+  rating.className="muted";
+  rating.textContent="★ "+Number(m.vote_average||0).toFixed(1);
+  info.append(name,rating);
+  card.append(img,info);
+  card.onclick=()=>openTitle(m);
+  $("grid").append(card);
+ });
+}
+
+async function load(path,label){
+ $("heading").textContent=label;
+ $("status").textContent="Loading...";
+ $("detail").style.display="none";
+ $("grid").replaceChildren();
+ try{
+  const d=await api(path);
+  showItems(d.results||[]);
+  $("status").textContent=d.results?.length?"":"No results found.";
+ }catch(e){$("status").textContent=e.message;}
+}
+
+function home(type){
+ currentType=type;
+ load(type==="movie"?"/trending/movie/week":
+  "/trending/tv/week",
+  type==="movie"?"Trending Movies":"Trending Series");
+}
+
+$("searchForm").onsubmit=e=>{
+ e.preventDefault();
+ const q=$("query").value.trim();
+ if(!q)return;
+ load("/search/multi?query="+encodeURIComponent(q),
+  "Search Results");
+};
+
+async function openTitle(m){
+ current=m;
+ currentType=(m.media_type==="tv"||!!m.first_air_date)?"tv":"movie";
+ $("detail").style.display="block";
+ $("title").textContent=m.title||m.name||"";
+ $("poster").src=m.poster_path?IMG+m.poster_path:"";
+ $("overview").textContent=m.overview||"No overview available.";
+ $("meta").textContent="Release: "+
+  (m.release_date||m.first_air_date||"N/A")+
+  " · Rating: "+Number(m.vote_average||0).toFixed(1);
+ $("extra").replaceChildren();
+ $("actions").replaceChildren();
+ $("player").style.display="none";
+ $("video").pause();
+ $("video").removeAttribute("src");
+
+ try{
+  const d=await api("/"+currentType+"/"+m.id+"/videos");
+  const trailer=(d.results||[]).find(v=>
+   v.site==="YouTube"&&v.type==="Trailer");
+  if(trailer){
+   const a=document.createElement("a");
+   a.href="https://www.youtube.com/watch?v="+trailer.key;
+   a.target="_blank";
+   a.rel="noopener noreferrer";
+   a.textContent="Watch Official Trailer";
+   $("extra").append(a);
+  }
+ }catch(e){}
+
+ if(currentType==="tv")await showEpisodes(m.id);
+
+ const sourceButton=document.createElement("button");
+ sourceButton.textContent="STREAM NOW";
+ sourceButton.onclick=()=>playSource(
+  currentType,m.id,0,0);
+ $("actions").append(sourceButton);
+ $("detail").scrollIntoView({behavior:"smooth"});
+}
+
+async function showEpisodes(id){
+ const select=document.createElement("select");
+ const episodes=document.createElement("select");
+ select.innerHTML="<option value=''>Choose season</option>";
+ episodes.innerHTML="<option value=''>Choose episode</option>";
+ $("extra").append(document.createElement("br"),select,episodes);
+
+ try{
+  const d=await api("/tv/"+id);
+  (d.seasons||[]).filter(s=>s.season_number>0)
+   .forEach(s=>{
+    const o=document.createElement("option");
+    o.value=s.season_number;
+    o.textContent=s.name;
+    select.append(o);
+   });
+ }catch(e){return;}
+
+ select.onchange=async()=>{
+  episodes.replaceChildren();
+  episodes.innerHTML="<option value=''>Choose episode</option>";
+  if(!select.value)return;
+  try{
+   const d=await api("/tv/"+id+"/season/"+select.value);
+   (d.episodes||[]).forEach(ep=>{
+    const o=document.createElement("option");
+    o.value=ep.episode_number;
+    o.textContent="E"+ep.episode_number+" · "+ep.name;
+    episodes.append(o);
+   });
+  }catch(e){}
+ };
+ episodes.onchange=()=>{
+  if(episodes.value)playSource(
+   "tv",id,Number(select.value),Number(episodes.value));
+ };
+}
+
+function playSource(type,id,season,episode){
+ let url;
+ if(type==="movie"){
+  url=SOURCES.movie[String(id)];
+ }else{
+  url=SOURCES.tv[String(id)]?.[String(season)]?.[String(episode)];
+ }
+ if(!url){
+  alert("Authorized video source available nahi hai.");
+  return;
+ }
+ try{
+  const u=new URL(url);
+  if(u.protocol!=="https"||
+   !["mp4","webm","ogg"].includes(
+    u.pathname.split(".").pop().toLowerCase())){
+   alert("Is demo mein HTTPS MP4, WebM ya OGG files supported hain.");
+   return;
+  }
+  $("video").src=u.href;
+  $("player").style.display="block";
+  $("player").scrollIntoView({behavior:"smooth"});
+  $("video").play().catch(()=>{});
+ }catch(e){alert("Invalid video URL.");}
+}
+
+const tg=window.Telegram?.WebApp;
+if(tg){tg.ready();tg.expand();}
+
+const q=new URLSearchParams(location.search).get("q");
+if(q){
+ $("query").value=q;
+ load("/search/multi?query="+encodeURIComponent(q),
+  "Search Results");
+}else home("movie");
+</script>
+</body>
+</html>
