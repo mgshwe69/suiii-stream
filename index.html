@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080a11">
+  <meta name="description" content="Discover movies, TV series, posters, ratings and official trailers with SUIII_STREAM.">
   <title>SUIII_STREAM</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -71,6 +72,13 @@
       font-size: 14px;
     }
 
+    button:focus-visible,
+    .movie:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #c4b5fd;
+      outline-offset: 3px;
+    }
+
     main {
       padding: 22px 16px;
       min-height: 65vh;
@@ -107,6 +115,7 @@
       border-radius: 12px;
       overflow: hidden;
       cursor: pointer;
+      min-width: 0;
     }
 
     .movie img {
@@ -123,6 +132,7 @@
       font-size: 14px;
       font-weight: bold;
       line-height: 1.5;
+      overflow-wrap: anywhere;
     }
 
     .year {
@@ -148,6 +158,7 @@
       color: #c1c5d4;
       line-height: 1.7;
       font-size: 14px;
+      overflow-wrap: anywhere;
     }
 
     .wide {
@@ -209,7 +220,9 @@
         margin: auto;
       }
 
-      .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
 
       .creator {
         max-width: 918px;
@@ -244,7 +257,7 @@
 
     <section id="resultsView">
       <h2 id="sectionTitle">Trending Movies</h2>
-      <p id="message">Loading titles...</p>
+      <p id="message" role="status">Loading titles...</p>
       <div id="results" class="grid"></div>
     </section>
 
@@ -261,20 +274,27 @@
 
   <footer class="creator">
     Create by
-    <a href="https://t.me/MG1SHWE"
-       target="_blank"
-       rel="noopener noreferrer">@MG1SHWE</a>
+    <a
+      href="https://t.me/MG1SHWE"
+      target="_blank"
+      rel="noopener noreferrer"
+    >@MG1SHWE</a>
   </footer>
 
   <script>
-    // Add your TMDB API key here for local testing.
-    // Do not publish your private key in a public repository.
-    const TMDB_API_KEY = "ec66de9180a4c0d4e6e8a4807a403acc";
+    /*
+      IMPORTANT:
+      For local testing only, a TMDB API key can be placed below.
+      A key in browser JavaScript is visible to website visitors.
+      For a public production site, use a secure backend/Netlify Function.
+    */
+    const TMDB_API_KEY = "PASTE_YOUR_NEW_TMDB_API_KEY_HERE";
 
     const API = "https://api.themoviedb.org/3";
     const IMG = "https://image.tmdb.org/t/p/w500";
 
     const tg = window.Telegram?.WebApp;
+
     if (tg) {
       tg.ready();
       tg.expand();
@@ -286,6 +306,7 @@
     let lastQuery = "";
     let detailId = null;
     let requestNumber = 0;
+    let episodeRequestNumber = 0;
 
     function escapeHTML(value = "") {
       return String(value).replace(/[&<>"']/g, ch => ({
@@ -323,30 +344,44 @@
     }
 
     async function api(path) {
-      if (
-        !TMDB_API_KEY ||
-        TMDB_API_KEY === "ec66de9180a4c0d4e6e8a4807a403acc"
-      ) {
+      const key = TMDB_API_KEY.trim();
+
+      // FIXED: only reject an empty or unchanged placeholder key.
+      if (!key || key === "PASTE_YOUR_NEW_TMDB_API_KEY_HERE") {
         throw new Error(
-          "Add your TMDB API key in index.html first."
+          "TMDB API key is not configured. Add your new key in index.html."
         );
       }
 
       const separator = path.includes("?") ? "&" : "?";
       const url = API + path + separator +
-        "api_key=" + encodeURIComponent(TMDB_API_KEY);
+        "api_key=" + encodeURIComponent(key);
 
-      const response = await fetch(url);
+      let response;
+
+      try {
+        response = await fetch(url);
+      } catch {
+        throw new Error(
+          "Network error. Check your internet connection and try again."
+        );
+      }
 
       if (!response.ok) {
         if (response.status === 401) {
           throw new Error(
-            "API key invalid. Check your TMDB API settings."
+            "TMDB returned 401. Check that your new API key is valid."
+          );
+        }
+
+        if (response.status === 403) {
+          throw new Error(
+            "TMDB access denied (403). Check your API settings."
           );
         }
 
         throw new Error(
-          "TMDB request failed (" + response.status + ")."
+          "TMDB request failed (" + response.status + "). Please try again."
         );
       }
 
@@ -365,6 +400,7 @@
       lastQuery = query.trim();
       showResultsView();
       $("results").innerHTML = "";
+
       $("sectionTitle").textContent = lastQuery
         ? "Search Results"
         : "Trending " +
@@ -403,11 +439,13 @@
           const year = escapeHTML(yearOf(item));
 
           return `
-            <article class="movie"
+            <article
+              class="movie"
               data-id="${id}"
               role="button"
               tabindex="0"
-              aria-label="${title}">
+              aria-label="${title}"
+            >
               <img
                 src="${imageURL(item.poster_path)}"
                 alt="${title}"
@@ -443,6 +481,7 @@
 
     async function showDetails(id) {
       detailId = id;
+      const typeAtRequest = currentType;
       const myRequest = ++requestNumber;
 
       $("resultsView").classList.add("hidden");
@@ -453,17 +492,20 @@
 
       try {
         const item = await api(
-          "/" + currentType + "/" + id +
+          "/" + typeAtRequest + "/" + id +
           "?append_to_response=videos"
         );
 
-        if (myRequest !== requestNumber || detailId !== id) return;
+        if (
+          myRequest !== requestNumber ||
+          detailId !== id ||
+          currentType !== typeAtRequest
+        ) return;
 
-        const title = titleOf(item);
-        const year = yearOf(item);
+        const title = titleOf(item, typeAtRequest);
+        const year = yearOf(item, typeAtRequest);
         const rating = Number(item.vote_average || 0).toFixed(1);
         const overview = item.overview || "No overview available.";
-
         const videos = item.videos?.results || [];
 
         const trailer = videos.find(v =>
@@ -473,36 +515,46 @@
         ) || videos.find(v =>
           v.site === "YouTube" &&
           v.type === "Trailer"
-        ) || videos.find(v => v.site === "YouTube");
+        ) || videos.find(v =>
+          v.site === "YouTube" && v.key
+        );
 
         let html = `
           ${item.poster_path ? `
-            <img class="detail-poster"
+            <img
+              class="detail-poster"
               src="${imageURL(item.poster_path)}"
-              alt="${escapeHTML(title)}">
+              alt="${escapeHTML(title)}"
+            >
           ` : ""}
 
           <h2>${escapeHTML(title)}</h2>
-          <p class="year">${escapeHTML(year)} · Rating ${rating}/10</p>
+          <p class="year">
+            ${escapeHTML(year)} · Rating ${rating}/10
+          </p>
           <p class="overview">${escapeHTML(overview)}</p>
         `;
 
-        if (trailer) {
+        if (trailer && trailer.key) {
           html += `
-            <a class="wide"
+            <a
+              class="wide"
               href="https://www.youtube.com/watch?v=${encodeURIComponent(trailer.key)}"
               target="_blank"
-              rel="noopener noreferrer">
-              ▶ Watch Official Trailer
+              rel="noopener noreferrer"
+            >
+              ▶ Watch Trailer on YouTube
             </a>
           `;
         } else {
-          html += `<p class="year">No official trailer found.</p>`;
+          html += `
+            <p class="year">No trailer found in TMDB listings.</p>
+          `;
         }
 
-        if (currentType === "tv") {
+        if (typeAtRequest === "tv") {
           const seasons = (item.seasons || []).filter(
-            season => season.season_number > 0
+            season => Number(season.season_number) > 0
           );
 
           html += `
@@ -521,7 +573,7 @@
 
         $("details").innerHTML = html;
 
-        if (currentType === "tv") {
+        if (typeAtRequest === "tv") {
           const select = $("seasonSelect");
 
           if (select && select.options.length) {
@@ -549,6 +601,9 @@
       const container = $("episodes");
       if (!container) return;
 
+      const myEpisodeRequest = ++episodeRequestNumber;
+      const selectedDetailId = detailId;
+
       container.innerHTML = "<p>Loading episodes...</p>";
 
       try {
@@ -556,7 +611,11 @@
           "/tv/" + showId + "/season/" + seasonNumber
         );
 
-        if (!container.isConnected) return;
+        if (
+          !container.isConnected ||
+          myEpisodeRequest !== episodeRequestNumber ||
+          detailId !== selectedDetailId
+        ) return;
 
         const episodes = season.episodes || [];
 
@@ -584,7 +643,10 @@
           </article>
         `).join("");
       } catch (error) {
-        if (container.isConnected) {
+        if (
+          container.isConnected &&
+          myEpisodeRequest === episodeRequestNumber
+        ) {
           container.textContent = error.message;
         }
       }
@@ -611,6 +673,7 @@
 
     $("backButton").addEventListener("click", () => {
       requestNumber++;
+      episodeRequestNumber++;
       showResultsView();
       window.scrollTo(0, 0);
     });
