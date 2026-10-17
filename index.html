@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080a11">
-  <meta name="description" content="Discover movies, TV series, posters, ratings and official trailers with SUIII_STREAM.">
+  <meta name="description" content="Discover movies, TV series, ratings and trailers.">
   <title>SUIII_STREAM</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -70,13 +70,6 @@
       color: white;
       cursor: pointer;
       font-size: 14px;
-    }
-
-    button:focus-visible,
-    .movie:focus-visible,
-    a:focus-visible {
-      outline: 2px solid #c4b5fd;
-      outline-offset: 3px;
     }
 
     main {
@@ -274,23 +267,13 @@
 
   <footer class="creator">
     Create by
-    <a
-      href="https://t.me/MG1SHWE"
-      target="_blank"
-      rel="noopener noreferrer"
-    >@MG1SHWE</a>
+    <a href="https://t.me/MG1SHWE"
+       target="_blank"
+       rel="noopener noreferrer">@MG1SHWE</a>
   </footer>
 
   <script>
-    /*
-      IMPORTANT:
-      For local testing only, a TMDB API key can be placed below.
-      A key in browser JavaScript is visible to website visitors.
-      For a public production site, use a secure backend/Netlify Function.
-    */
-    const TMDB_API_KEY = "PASTE_YOUR_NEW_TMDB_API_KEY_HERE";
-
-    const API = "https://api.themoviedb.org/3";
+    const API_PROXY = "/.netlify/functions/tmdb";
     const IMG = "https://image.tmdb.org/t/p/w500";
 
     const tg = window.Telegram?.WebApp;
@@ -343,55 +326,47 @@
       $("message").classList.add("hidden");
     }
 
+    // Requests go through the Netlify Function.
+    // The TMDB key is not stored in this browser code.
     async function api(path) {
-      const key = TMDB_API_KEY.trim();
-
-      // FIXED: only reject an empty or unchanged placeholder key.
-      if (!key || key === "PASTE_YOUR_NEW_TMDB_API_KEY_HERE") {
-        throw new Error(
-          "TMDB API key is not configured. Add your new key in index.html."
-        );
-      }
-
-      const separator = path.includes("?") ? "&" : "?";
-      const url = API + path + separator +
-        "api_key=" + encodeURIComponent(key);
+      const endpoint =
+        API_PROXY + "?path=" + encodeURIComponent(path);
 
       let response;
 
       try {
-        response = await fetch(url);
+        response = await fetch(endpoint);
       } catch {
         throw new Error(
-          "Network error. Check your internet connection and try again."
+          "Network error. Check your internet connection."
+        );
+      }
+
+      let data;
+
+      try {
+        data = await response.json();
+      } catch {
+        throw new Error(
+          "The server returned an invalid response. Check Netlify deployment."
         );
       }
 
       if (!response.ok) {
-        if (response.status === 401) {
-          throw new Error(
-            "TMDB returned 401. Check that your new API key is valid."
-          );
-        }
-
-        if (response.status === 403) {
-          throw new Error(
-            "TMDB access denied (403). Check your API settings."
-          );
-        }
-
         throw new Error(
-          "TMDB request failed (" + response.status + "). Please try again."
+          data.error ||
+          "Request failed (" + response.status + ")."
         );
       }
 
-      return response.json();
+      return data;
     }
 
     function showResultsView() {
       $("resultsView").classList.remove("hidden");
       $("detailView").classList.add("hidden");
       detailId = null;
+      episodeRequestNumber++;
     }
 
     async function loadTitles(query = "") {
@@ -439,18 +414,15 @@
           const year = escapeHTML(yearOf(item));
 
           return `
-            <article
-              class="movie"
+            <article class="movie"
               data-id="${id}"
               role="button"
               tabindex="0"
-              aria-label="${title}"
-            >
+              aria-label="${title}">
               <img
                 src="${imageURL(item.poster_path)}"
                 alt="${title}"
-                loading="lazy"
-              >
+                loading="lazy">
               <div class="movie-info">
                 <div class="movie-title">${title}</div>
                 <div class="year">${year}</div>
@@ -513,19 +485,16 @@
           v.type === "Trailer" &&
           v.official
         ) || videos.find(v =>
-          v.site === "YouTube" &&
-          v.type === "Trailer"
+          v.site === "YouTube" && v.type === "Trailer"
         ) || videos.find(v =>
           v.site === "YouTube" && v.key
         );
 
         let html = `
           ${item.poster_path ? `
-            <img
-              class="detail-poster"
+            <img class="detail-poster"
               src="${imageURL(item.poster_path)}"
-              alt="${escapeHTML(title)}"
-            >
+              alt="${escapeHTML(title)}">
           ` : ""}
 
           <h2>${escapeHTML(title)}</h2>
@@ -537,19 +506,15 @@
 
         if (trailer && trailer.key) {
           html += `
-            <a
-              class="wide"
+            <a class="wide"
               href="https://www.youtube.com/watch?v=${encodeURIComponent(trailer.key)}"
               target="_blank"
-              rel="noopener noreferrer"
-            >
+              rel="noopener noreferrer">
               ▶ Watch Trailer on YouTube
             </a>
           `;
         } else {
-          html += `
-            <p class="year">No trailer found in TMDB listings.</p>
-          `;
+          html += `<p class="year">No trailer found in TMDB listings.</p>`;
         }
 
         if (typeAtRequest === "tv") {
