@@ -485,7 +485,7 @@
   }
   checkAuth();
 
-  const TMDB_API_KEY = "5805561a35ee3f31a49f8fc208c90962"; // Fresh working public key
+  const TMDB_API_KEY = "5805561a35ee3f31a49f8fc208c90962";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -520,10 +520,10 @@
   });
 
   async function api(path) {
-    const url = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
+    const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
+    const url = `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`;
     try {
       const res = await fetch(url);
-      if (!res.ok) throw new Error('Failed to fetch');
       return await res.json();
     } catch (err) {
       console.error("API Error:", err);
