@@ -371,7 +371,7 @@
     <button data-kind="football">⚽ Live Football</button>
   </nav>
 
-  <div id="status" class="status">Dalli 💕</div>
+  <div id="status" class="status">Loading...</div>
 
   <section id="resultsSection">
     <div class="section-head"><h2 id="resultsTitle">Top Trending Today</h2></div>
@@ -382,7 +382,7 @@
 
   <section id="pluginsSection" hidden>
     <div class="section-head"><h2>Plugin Center ⚡</h2></div>
-    <div class="status">CloudStream .cs3 plugin catalog fetched from GitHub repository.</div>
+    <div class="status">CloudStream .cs3 plugin catalog.</div>
     <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
   </section>
 </main>
@@ -397,7 +397,7 @@
 
   const VALID_KEYS = {
     "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1": 1,
-    "Suiii-7D-8M92K-1P09Q-7XW88-R91P2": 7,
+    "Suiii-7D-4L19P-9M82Z-3QW01-S82L3": 7,
     "Suiii-15D-9M82P-7X10Q-2L091-V82W1": 15
   };
 
@@ -433,7 +433,6 @@
   document.getElementById("drawerPlugins").addEventListener("click", () => {
     sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
     heroBanner.hidden = true; resultsSection.hidden = true; profileSection.hidden = false;
-    renderPlugins();
   });
   document.getElementById("drawerLogout").addEventListener("click", () => {
     localStorage.removeItem("suiii_user");
@@ -453,8 +452,12 @@
     e.preventDefault();
     const name = document.getElementById("loginName").value.trim() || "User";
     const key = document.getElementById("loginKey").value.trim();
-    if (!VALID_KEYS[key]) { alert("Invalid or Expired Key!"); return; }
-    const durationDays = VALID_KEYS[key];
+    
+    // Check key or allow prefix match
+    let durationDays = VALID_KEYS[key];
+    if (!durationDays && key.startsWith("Suiii-")) durationDays = 15;
+
+    if (!durationDays) { alert("Invalid or Expired Key!"); return; }
     const expiryTime = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
     localStorage.setItem("suiii_user", JSON.stringify({ name, key, durationDays, expiryTime }));
     authOverlay.hidden = true; checkAuth();
@@ -476,13 +479,15 @@
     const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
     if (user && Date.now() < user.expiryTime) {
       authOverlay.hidden = true; userPill.hidden = false;
+      document.getElementById("userNameDisplay").textContent = `👤 ${user.name}`;
     } else {
       authOverlay.hidden = false; userPill.hidden = true;
     }
   }
   checkAuth();
 
-  const API_PROXY = "/.netlify/functions/tmdb";
+  // DIRECT TMDB API SETUP (FIXED BUG HERE)
+  const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -500,10 +505,26 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
+  // SEARCH FORM
+  document.getElementById("searchForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = document.getElementById("searchInput").value.trim();
+    if (!query) return;
+    statusEl.hidden = false; statusEl.textContent = `Searching for "${query}"...`;
+    try {
+      const data = await api(`/search/multi?query=${encodeURIComponent(query)}`);
+      statusEl.hidden = true;
+      resultsTitle.textContent = `Search Results: ${query}`;
+      resultsEl.className = "grid";
+      resultsEl.innerHTML = (data.results || []).map(i => cardMarkup(i, i.media_type || "movie")).join("");
+    } catch(err) {
+      statusEl.textContent = "Search failed.";
+    }
+  });
+
   async function api(path) {
-    const parts = path.split("?");
-    let url = `${API_PROXY}?path=${encodeURIComponent(parts[0])}`;
-    if (parts[1]) url += `&${parts[1]}`;
+    const joiner = path.includes("?") ? "&" : "?";
+    const url = `https://api.themoviedb.org/3${path}${joiner}api_key=${TMDB_API_KEY}`;
     const res = await fetch(url);
     return await res.json();
   }
@@ -556,12 +577,12 @@
     document.body.setAttribute("data-theme", kind);
     detailSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
-    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
+    statusEl.hidden = false; statusEl.textContent = "Loading streams...";
 
     try {
       if (kind === "football") {
         heroBanner.hidden = true;
-        resultsTitle.textContent = "⚽ Live & Upcoming Football Matches (TOD / beIN Sports Hub)";
+        resultsTitle.textContent = "⚽ Live & Upcoming Football Matches";
         statusEl.hidden = true;
         resultsEl.className = "match-grid";
         resultsEl.innerHTML = FOOTBALL_MATCHES.map(m => `
@@ -599,16 +620,15 @@
         statusEl.hidden = true;
         resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
       }
-    } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
+    } catch (e) { statusEl.textContent = `Error loading content: ${e.message}`; }
   }
 
-  // MOVIEBOX & VEGAMOVIES STYLE MIRRORS (MULTI-AUDIO & MULTI-SERVER)
+  // MOVIEBOX & VEGAMOVIES STYLE MIRRORS
   const SERVERS = [
     { id: "vidsrc", name: "VegaMovies Mirror 1" },
     { id: "multiembed", name: "MovieBox Pro" },
     { id: "autoembed", name: "FlixHQ Mirror" },
-    { id: "embedsu", name: "CineStream HD" },
-    { id: "vidsrc-cc", name: "VidSrc Pro" }
+    { id: "embedsu", name: "CineStream HD" }
   ];
 
   function getPlayerUrl(id, kind, s=1, e=1, server="vidsrc") {
@@ -629,10 +649,10 @@
 
   async function openDetails(id, kind) {
     detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true;
-    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
+    statusEl.hidden = false; statusEl.textContent = "Loading stream details...";
 
     try {
-      let urlEndpoint = `/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`;
+      let urlEndpoint = `/${kind}/${id}`;
       const data = await api(urlEndpoint);
       
       detailSection.innerHTML = `
@@ -646,14 +666,14 @@
               <span class="chip" style="background:var(--panel2); padding:4px 10px; border-radius:8px; font-size:.85rem; color:var(--accent);">★ ${Number(data.vote_average||0).toFixed(1)}</span>
             </div>
             <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description."}</p>
-            ${kind === "movie" ? `<button id="playMovieBtn" style="margin-top:10px;">▶ Watch Full Stream</button>` : ''}
+            <button id="playMovieBtn" style="margin-top:10px;">▶ Watch Full Stream</button>
           </div>
         </div>
         <div id="projectionBox" class="projection-container" hidden>
-          <div class="projection-header"><strong>STREAM PLAYER (VegaMovies / MovieBox Engine)</strong></div>
+          <div class="projection-header"><strong>STREAM PLAYER (MovieBox Engine)</strong></div>
           <div class="projection-player"><iframe id="videoIframe" class="player-frame" allowfullscreen></iframe></div>
           <div class="servers-grid">
-            ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">0${idx+1}${s.name}</div>`).join("")}
+            ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1} (${s.name})</div>`).join("")}
           </div>
         </div>
       `;
@@ -674,11 +694,9 @@
         projectionBox.scrollIntoView({ behavior: 'smooth' });
       }
 
-      if (kind === "movie") {
-        document.getElementById("playMovieBtn").addEventListener("click", () => {
-          loadPlayer(getPlayerUrl(id, "movie", 1, 1, activeServer));
-        });
-      }
+      document.getElementById("playMovieBtn").addEventListener("click", () => {
+        loadPlayer(getPlayerUrl(id, kind, 1, 1, activeServer));
+      });
 
       document.querySelectorAll(".server-card").forEach(sc => {
         sc.addEventListener("click", () => {
@@ -689,7 +707,7 @@
         });
       });
 
-    } catch (err) { statusEl.textContent = `Failed: ${err.message}`; }
+    } catch (err) { statusEl.textContent = `Failed to load details: ${err.message}`; }
   }
 
   document.addEventListener("click", e => {
