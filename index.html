@@ -376,6 +376,8 @@
       margin-top: 50px;
     }
 
+    footer a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
+
     @media(max-width:768px) {
       .top { padding: 12px; }
       .top form { order: 3; max-width: none; flex-basis: 100%; }
@@ -456,7 +458,7 @@
 </main>
 
 <footer>
-  © <span id="year"></span> SUIII_STREAM. All rights reserved.
+  © <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
 </footer>
 
 <script>
@@ -627,7 +629,6 @@
     searchTitles(searchInput.value);
   });
 
-  /* MULTI-LANGUAGE & SUBTITLE SUPPORT SERVERS */
   const SERVERS = [
     { id: "vidsrc", name: "VidSrc Pro", mirror: "Multi-Audio/Subs", live: true },
     { id: "vidsrc-cc", name: "VidSrc.cc", mirror: "Server 2", live: false },
