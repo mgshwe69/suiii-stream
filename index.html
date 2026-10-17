@@ -66,7 +66,7 @@
       max-width: 500px;
     }
 
-    input[type="text"], input[type="search"] {
+    input[type="text"], input[type="number"], input[type="search"] {
       min-width: 0;
       flex: 1;
       background: var(--panel);
@@ -102,6 +102,78 @@
       max-width: 1300px;
       margin: auto;
       padding: 0 20px 60px;
+    }
+
+    /* AUTH MODAL STYLES */
+    .auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+
+    .auth-card h2 { margin-top: 0; margin-bottom: 8px; font-size: 1.6rem; }
+    .auth-card p { color: var(--muted); font-size: .9rem; margin-bottom: 20px; }
+
+    .auth-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      background: var(--bg);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .auth-tabs button {
+      flex: 1;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .auth-tabs button.active {
+      background: var(--accent-gold);
+      color: #000;
+    }
+
+    .auth-form { display: flex; flex-direction: column; gap: 14px; }
+
+    /* PROFILE MODAL */
+    .profile-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .hero-feature {
@@ -390,6 +462,36 @@
 
 <body>
 
+<!-- AUTH MODAL -->
+<div id="authOverlay" class="auth-overlay">
+  <div class="auth-card">
+    <h2>Welcome to SUIII_STREAM</h2>
+    <p>Sign in or request an access key to start streaming.</p>
+
+    <div class="auth-tabs">
+      <button type="button" id="tabLogin" class="active">Login</button>
+      <button type="button" id="tabSignup">Sign Up</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="auth-form">
+      <input type="text" id="loginName" placeholder="Your Name" required>
+      <input type="text" id="loginKey" placeholder="Enter Key (e.g. Suiii-1D-01)" required>
+      <button type="submit">Enter 🚀</button>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm" class="auth-form" hidden>
+      <input type="text" id="signupName" placeholder="Name" required>
+      <input type="number" id="signupAge" placeholder="Age" required>
+      <input type="text" id="signupCountry" placeholder="Country" required>
+      <a id="askKeyLink" href="https://t.me/MG1SHWE" target="_blank" style="display:block; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-weight:800;">
+        Ask Key 🔑 (@MG1SHWE)
+      </a>
+    </form>
+  </div>
+</div>
+
 <header>
   <div class="top">
     <div class="brand" id="brandHome">
@@ -399,6 +501,9 @@
       <input id="searchInput" type="search" placeholder="Search movies or TV shows..." aria-label="Search titles">
       <button type="submit">Search</button>
     </form>
+    <div id="userPill" class="user-pill" hidden>
+      <span id="userNameDisplay">👤 Profile</span>
+    </div>
     <button type="button" class="secondary" id="pluginsNavBtn">
       ⚡ Plugins
     </button>
@@ -406,6 +511,30 @@
 </header>
 
 <main id="app">
+
+  <!-- PROFILE SECTION -->
+  <section id="profileSection" hidden>
+    <button type="button" class="secondary" id="closeProfileBtn" style="margin-bottom:16px;">← Back to Home</button>
+    <div class="profile-card">
+      <h2 style="margin:0 0 6px;">User Profile 👤</h2>
+      <p style="color:var(--muted); margin:0 0 16px;">Key Validity & Recent Activity</p>
+      
+      <div style="background:var(--panel2); padding:16px; border-radius:12px; border:1px solid var(--line); margin-bottom:24px;">
+        <div style="font-size:1.1rem; font-weight:800; color:var(--accent-gold);" id="profName">Name: -</div>
+        <div style="font-size:.9rem; color:var(--muted); margin-top:4px;" id="profKey">Key Used: -</div>
+        <div style="font-size:.9rem; color:#22c55e; margin-top:4px; font-weight:700;" id="profDays">Remaining Time: -</div>
+        <div style="font-size:.8rem; color:var(--muted); margin-top:2px;" id="profExpiry">Expiry Date: -</div>
+      </div>
+
+      <button type="button" id="logoutBtn" style="background:#e11d48; color:#fff; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; border:0; margin-bottom:24px;">Logout</button>
+
+      <div class="section-head">
+        <h2>Recently Watched 🕒</h2>
+      </div>
+      <div id="recentGrid" class="grid"></div>
+    </div>
+  </section>
+
   <section id="heroBanner" class="hero-feature" style="background-image: url('https://image.tmdb.org/t/p/original/8rpDpt23A1L25mEV22R323Za683.jpg');">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -465,6 +594,152 @@
 (() => {
   "use strict";
 
+    // RANDOM LONG KEYS DATABASE
+  const VALID_KEYS = {
+    // 1-Day Keys
+    "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1": 1,
+    "Suiii-1D-3M71P-8Q2XZ-9LK01-B91W2": 1,
+    "Suiii-1D-0A91L-2M98P-4QW11-C82E3": 1,
+
+    // 7-Day Keys
+    "Suiii-7D-8M92K-1P09Q-7XW88-R91P2": 7,
+    "Suiii-7D-4L19P-9M82Z-3QW01-S82L3": 7,
+    "Suiii-7D-2Z81L-0M92Q-8P100-T71W4": 7,
+
+    // 15-Day Keys
+    "Suiii-15D-9M82P-7X10Q-2L091-V82W1": 15,
+    "Suiii-15D-4Z19L-0M82P-8QW12-X91L2": 15,
+    "Suiii-15D-1P09Q-8M92Z-3XW99-Y71E3": 15
+  };
+
+
+  const authOverlay = document.getElementById("authOverlay");
+  const tabLogin = document.getElementById("tabLogin");
+  const tabSignup = document.getElementById("tabSignup");
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  const userPill = document.getElementById("userPill");
+  const userNameDisplay = document.getElementById("userNameDisplay");
+  const profileSection = document.getElementById("profileSection");
+  const askKeyLink = document.getElementById("askKeyLink");
+
+  // TAB SWITCHING
+  tabLogin.addEventListener("click", () => {
+    tabLogin.classList.add("active"); tabSignup.classList.remove("active");
+    loginForm.hidden = false; signupForm.hidden = true;
+  });
+
+  tabSignup.addEventListener("click", () => {
+    tabSignup.classList.add("active"); tabLogin.classList.remove("active");
+    signupForm.hidden = false; loginForm.hidden = true;
+  });
+
+  // PREPARE DM MESSAGE FOR ASK KEY LINK
+  document.getElementById("signupForm").addEventListener("input", () => {
+    const name = document.getElementById("signupName").value.trim();
+    const age = document.getElementById("signupAge").value.trim();
+    const country = document.getElementById("signupCountry").value.trim();
+    const msg = encodeURIComponent(`Hello @MG1SHWE! I want an Access Key for SUIII_STREAM.\n\nName: ${name}\nAge: ${age}\nCountry: ${country}`);
+    askKeyLink.href = `https://t.me/MG1SHWE?text=${msg}`;
+  });
+
+  // LOGIN LOGIC
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = document.getElementById("loginName").value.trim();
+    const key = document.getElementById("loginKey").value.trim();
+
+    if (!VALID_KEYS[key]) {
+      alert("Invalid or Expired Key! Please request a valid key from @MG1SHWE on Telegram.");
+      return;
+    }
+
+    const durationDays = VALID_KEYS[key];
+    const expiryTime = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
+
+    const userObj = { name, key, durationDays, expiryTime };
+    localStorage.setItem("suiii_user", JSON.stringify(userObj));
+    checkAuth();
+  });
+
+  // LOGOUT
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("suiii_user");
+    profileSection.hidden = true;
+    checkAuth();
+  });
+
+  // PROFILE UI TOGGLE
+  userPill.addEventListener("click", () => {
+    renderProfile();
+    heroBanner.hidden = true; resultsSection.hidden = true; detailSection.hidden = true; pluginsSection.hidden = true;
+    profileSection.hidden = false;
+  });
+
+  document.getElementById("closeProfileBtn").addEventListener("click", () => {
+    profileSection.hidden = true;
+    heroBanner.hidden = false; resultsSection.hidden = false;
+  });
+
+  function renderProfile() {
+    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
+    if (!user) return;
+
+    document.getElementById("profName").textContent = `Name: ${user.name}`;
+    document.getElementById("profKey").textContent = `Key Used: ${user.key} (${user.durationDays} Days Plan)`;
+    
+    const now = Date.now();
+    const diff = user.expiryTime - now;
+
+    if (diff <= 0) {
+      document.getElementById("profDays").textContent = "Status: Key Expired ❌";
+      document.getElementById("profDays").style.color = "#ef4444";
+    } else {
+      const hoursLeft = Math.floor(diff / (1000 * 60 * 60));
+      const daysLeft = (hoursLeft / 24).toFixed(1);
+      document.getElementById("profDays").textContent = `Remaining Time: ${daysLeft} Days (${hoursLeft} Hours)`;
+      document.getElementById("profDays").style.color = "#22c55e";
+    }
+
+    document.getElementById("profExpiry").textContent = `Expiry Date: ${new Date(user.expiryTime).toLocaleString()}`;
+
+    // RENDER RECENT WATCH HISTORY
+    const recent = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
+    const recentGrid = document.getElementById("recentGrid");
+    if (!recent.length) {
+      recentGrid.innerHTML = "<p style='color:var(--muted);'>No recently watched titles yet.</p>";
+    } else {
+      recentGrid.innerHTML = recent.map(i => cardMarkup(i, i.media_type)).join("");
+    }
+  }
+
+  function saveToRecent(item) {
+    let list = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
+    list = list.filter(x => String(x.id) !== String(item.id));
+    list.unshift(item);
+    if (list.length > 10) list.pop(); // Keep top 10
+    localStorage.setItem("suiii_recent", JSON.stringify(list));
+  }
+
+  function checkAuth() {
+    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
+    if (user && Date.now() < user.expiryTime) {
+      authOverlay.hidden = true;
+      userPill.hidden = false;
+      userNameDisplay.textContent = `👤 ${user.name}`;
+    } else {
+      if (user && Date.now() >= user.expiryTime) {
+        alert("Your key has expired! Please enter a new key.");
+        localStorage.removeItem("suiii_user");
+      }
+      authOverlay.hidden = false;
+      userPill.hidden = true;
+    }
+  }
+
+  checkAuth();
+
+  // STREAMING APP LOGIC
   const API_PROXY = "/.netlify/functions/tmdb";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
@@ -486,7 +761,7 @@
 
   const pluginsSection = document.getElementById("pluginsSection");
   document.getElementById("pluginsNavBtn").addEventListener("click", () => {
-    resultsSection.hidden = true; detailSection.hidden = true; heroBanner.hidden = true; pluginsSection.hidden = false;
+    resultsSection.hidden = true; detailSection.hidden = true; heroBanner.hidden = true; profileSection.hidden = true; pluginsSection.hidden = false;
     renderPlugins();
   });
   document.getElementById("backToMovies").addEventListener("click", () => {
@@ -509,7 +784,6 @@
     `).join("");
   }
 
-  // FIXED API CALL TO PRESERVE QUERY PARAMS (LIKE SEARCH QUERIES)
   async function api(path) {
     const parts = path.split("?");
     const route = parts[0];
@@ -579,7 +853,7 @@
 
   async function loadTrending(kind = currentKind) {
     currentKind = kind;
-    detailSection.hidden = true; pluginsSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+    detailSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
     statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
 
@@ -604,7 +878,7 @@
     const q = query.trim();
     if (!q) return loadTrending(currentKind);
 
-    detailSection.hidden = true; pluginsSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = false;
+    detailSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = false;
     resultsEl.innerHTML = "";
     resultsTitle.textContent = `Search results for “${q}”`;
     statusEl.hidden = false;
@@ -660,12 +934,16 @@
   }
 
   async function openDetails(id, kind) {
-    detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true; pluginsSection.hidden = true;
+    detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true;
     statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
 
     try {
       const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
       const title = titleOf(data, kind);
+      
+      // SAVE TO RECENT HISTORY
+      saveToRecent({...data, media_type: kind});
+
       const genres = (data.genres||[]).map(g => `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
       const castList = (data.credits?.cast||[]).slice(0, 8).map(c => `
         <div class="cast-item">
@@ -807,9 +1085,12 @@
     } catch (err) { statusEl.textContent = `Could not load: ${err.message}`; }
   }
 
-  resultsEl.addEventListener("click", e => {
+  // EVENT DELEGATION FOR CLICKING CARDS (INCLUDING RECENT WATCHED)
+  document.addEventListener("click", e => {
     const card = e.target.closest(".card");
-    if (card) openDetails(Number(card.dataset.id), card.dataset.kind);
+    if (card && card.dataset.id) {
+      openDetails(Number(card.dataset.id), card.dataset.kind || "movie");
+    }
   });
 
   document.querySelectorAll(".tabs button").forEach(b => {
