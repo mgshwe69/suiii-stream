@@ -1,1110 +1,905 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#0b0b0e">
-  <title>SUIII_STREAM — Movies & TV Shows</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0b0b0e;
-      --panel: #141419;
-      --panel2: #1c1c24;
-      --text: #f3f3f6;
-      --muted: #9595a6;
-      --accent-gold: #f5c518;
-      --accent-btn: #f5c518;
-      --accent-btn-hover: #e0b010;
-      --line: #22222d;
-      --card-bg: #131318;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101015">
+<title>SUIII_STREAM — Liquid Glass</title>
 
-    * { box-sizing: border-box; }
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#09090e;
+  --panel:rgba(28,29,40,.70);
+  --panel2:rgba(255,255,255,.075);
+  --text:#f5f5fa;
+  --muted:#a2a3b5;
+  --gold:#f5c95d;
+  --line:rgba(255,255,255,.14);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--text);
+  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(ellipse at 5% 0%,rgba(104,90,190,.2),transparent 42%),
+    radial-gradient(ellipse at 100% 45%,rgba(245,201,93,.07),transparent 35%),
+    var(--bg);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:active{transform:scale(.97)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(12,12,18,.72);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:blur(30px) saturate(180%);
+  -webkit-backdrop-filter:blur(30px) saturate(180%);
+}
+.top{
+  max-width:1300px;margin:auto;padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+}
+.brand{font-size:1.3rem;font-weight:900;letter-spacing:-.6px;cursor:pointer}
+.brand span{color:var(--gold)}
+form{display:flex;gap:8px;flex:1;max-width:500px}
+input{
+  min-width:0;width:100%;padding:12px 16px;
+  color:white;background:rgba(255,255,255,.055);
+  border:1px solid var(--line);border-radius:999px;
+  outline:none;backdrop-filter:blur(18px);
+}
+input:focus{border-color:var(--gold)}
+button{
+  padding:11px 18px;border:1px solid transparent;
+  border-radius:999px;background:var(--gold);
+  color:#111;font-weight:800;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+button:hover{background:#ffdc82}
+button.secondary{
+  background:rgba(255,255,255,.07);color:white;
+  border-color:var(--line);
+  backdrop-filter:blur(20px);
+}
+button.secondary:hover{background:rgba(255,255,255,.14)}
+main{max-width:1300px;margin:auto;padding:0 20px 55px}
+[hidden]{display:none!important}
 
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    }
+/* LIQUID GLASS AUTH */
+.auth-overlay{
+  position:fixed;inset:0;z-index:9999;padding:20px;
+  display:grid;place-items:center;
+  background:rgba(3,4,9,.78);
+  backdrop-filter:blur(28px) saturate(150%);
+  -webkit-backdrop-filter:blur(28px) saturate(150%);
+}
+.glass{
+  background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+  border:1px solid rgba(255,255,255,.17);
+  box-shadow:0 24px 70px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter:blur(28px) saturate(160%);
+  -webkit-backdrop-filter:blur(28px) saturate(160%);
+}
+.auth-card{
+  width:100%;max-width:420px;padding:28px;border-radius:28px;
+}
+.auth-card h2{margin:0 0 8px;font-size:1.65rem;letter-spacing:-.8px}
+.auth-card p{color:var(--muted);margin:0 0 22px}
+.auth-tabs{display:flex;gap:7px;padding:5px;border-radius:17px;background:rgba(0,0,0,.2);margin-bottom:18px}
+.auth-tabs button{flex:1;background:transparent;color:var(--muted);padding:10px}
+.auth-tabs button.active{background:var(--gold);color:#111}
+.auth-form{display:flex;flex-direction:column;gap:13px}
+.contact-links{display:flex;gap:8px}
+.contact-links a{
+  flex:1;text-align:center;text-decoration:none;color:white;
+  padding:12px 6px;border-radius:13px;font-weight:800;font-size:.85rem;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 11, 14, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--line);
-    }
+/* PROFILE */
+.user-pill{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.08);border:1px solid var(--line);
+  border-radius:999px;padding:9px 14px;cursor:pointer;font-weight:700;
+}
+.profile-card{margin-top:20px;padding:22px;border-radius:25px}
+.profile-info{background:rgba(255,255,255,.055);padding:16px;border-radius:17px;border:1px solid var(--line);overflow-wrap:anywhere}
+.profile-info div{margin:5px 0}
 
-    .top {
-      max-width: 1300px;
-      margin: auto;
-      padding: 14px 20px;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
+/* HERO */
+.hero-feature{
+  margin-top:24px;position:relative;overflow:hidden;
+  min-height:420px;display:flex;align-items:flex-end;padding:36px;
+  border-radius:28px;border:1px solid var(--line);
+  background-size:cover;background-position:center;
+  box-shadow:0 22px 65px rgba(0,0,0,.3);
+}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(5,6,10,.98),rgba(5,6,10,.3) 75%,rgba(5,6,10,.05)),
+  linear-gradient(90deg,rgba(5,6,10,.65),transparent);
+}
+.hero-content{position:relative;z-index:2;max-width:650px}
+.feature-tag{font-size:.78rem;color:var(--gold);font-weight:900;letter-spacing:2px}
+.hero-content h1{font-size:clamp(2.2rem,5vw,3.7rem);line-height:1.1;margin:10px 0;letter-spacing:-1.6px}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;color:#ddd;margin:12px 0}
+.rating{color:var(--gold);font-weight:800}
+.hero-content p{color:#d0d0dc;line-height:1.7;max-width:600px}
 
-    .brand {
-      font-weight: 900;
-      letter-spacing: .5px;
-      font-size: 1.35rem;
-      color: #fff;
-      cursor: pointer;
-    }
+/* NAVIGATION */
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:28px 0 20px}
+.tabs button{
+  background:rgba(255,255,255,.055);color:var(--muted);
+  border:1px solid var(--line);
+}
+.tabs button.active{background:var(--gold);color:#111}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:28px 0 16px}
+.section-head h2{margin:0;font-size:1.35rem}
+.status{
+  padding:15px;text-align:center;margin:20px 0;
+  border-radius:17px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);
+}
 
-    .brand span { color: var(--accent-gold); }
+/* POSTERS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:17px}
+.card{
+  min-width:0;overflow:hidden;cursor:pointer;
+  border-radius:19px;border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.025));
+  box-shadow:0 8px 26px rgba(0,0,0,.16);
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.card:hover{transform:translateY(-5px);border-color:rgba(245,201,93,.55);box-shadow:0 15px 35px #0004}
+.poster{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;background:#20202b}
+.poster-placeholder{aspect-ratio:2/3;display:grid;place-items:center;background:#20202b;color:var(--muted)}
+.card-info{padding:11px}
+.card-title{font-weight:750;margin:0 0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-sub{display:flex;justify-content:space-between;gap:6px;font-size:.78rem;color:var(--muted)}
+.rating-badge{color:var(--gold);font-weight:800}
 
-    form {
-      display: flex;
-      gap: 8px;
-      flex: 1;
-      max-width: 500px;
-    }
+/* DETAILS */
+.detail{
+  display:grid;grid-template-columns:minmax(180px,280px) 1fr;
+  gap:26px;padding:25px;border-radius:26px;
+}
+.detail img{width:100%;border-radius:18px}
+.detail h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 12px;overflow-wrap:anywhere}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}
+.chip{padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.07);font-size:.82rem}
+.cast-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(105px,1fr));gap:15px;margin-top:15px}
+.cast-item{text-align:center;min-width:0}
+.cast-img{width:76px;height:76px;border-radius:50%;object-fit:cover;background:#252530;border:1px solid var(--line)}
+.cast-name,.cast-role{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cast-name{font-weight:750;font-size:.84rem}
+.cast-role{font-size:.75rem;color:var(--muted)}
+.episodes{display:grid;gap:12px;margin-top:15px}
+.episode{padding:15px;border:1px solid var(--line);border-radius:17px;background:rgba(255,255,255,.04)}
+.episode-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.episode-row strong{overflow-wrap:anywhere}
 
-    input[type="text"], input[type="number"], input[type="search"] {
-      min-width: 0;
-      flex: 1;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--text);
-      padding: 11px 16px;
-      border-radius: 12px;
-      font: inherit;
-      outline: none;
-    }
-    input:focus { border-color: var(--accent-gold); }
+/* PLAYER */
+.projection-container{margin-top:24px;border:1px solid var(--line);border-radius:23px;overflow:hidden;background:rgba(255,255,255,.035)}
+.projection-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px;background:rgba(255,255,255,.07);border-bottom:1px solid var(--line)}
+.projection-player{width:100%;aspect-ratio:16/9;background:#000}
+.player-frame{width:100%;height:100%;border:0}
+.servers-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px;padding:15px}
+.server-card{padding:13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04);cursor:pointer}
+.server-card.active{border-color:var(--gold);background:rgba(245,201,93,.09)}
+.server-live{color:#4ade80;font-size:.72rem}
+.season-content{margin-top:10px}
 
-    button {
-      background: var(--accent-btn);
-      color: #000;
-      border: 0;
-      border-radius: 11px;
-      padding: 11px 18px;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-    }
-    button:hover { background: var(--accent-btn-hover); }
+/* FOOTER */
+footer{text-align:center;padding:28px 15px;border-top:1px solid var(--line);background:rgba(255,255,255,.025);color:var(--muted);margin-top:40px}
+footer a{color:var(--gold);text-decoration:none;font-weight:800}
 
-    button.secondary {
-      background: var(--panel2);
-      color: #fff;
-      border: 1px solid var(--line);
-    }
-    button.secondary:hover { background: #262633; }
-
-    main {
-      max-width: 1300px;
-      margin: auto;
-      padding: 0 20px 60px;
-    }
-
-    /* AUTH MODAL STYLES */
-    .auth-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
-      z-index: 9999;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
-    .auth-overlay[hidden] { display: none !important; }
-
-    .auth-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 30px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    }
-
-    .auth-card h2 { margin-top: 0; margin-bottom: 8px; font-size: 1.6rem; }
-    .auth-card p { color: var(--muted); font-size: .9rem; margin-bottom: 20px; }
-
-    .auth-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-      background: var(--bg);
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid var(--line);
-    }
-
-    .auth-tabs button {
-      flex: 1;
-      background: transparent;
-      color: var(--muted);
-      border-radius: 8px;
-      padding: 8px;
-    }
-
-    .auth-tabs button.active {
-      background: var(--accent-gold);
-      color: #000;
-    }
-
-    .auth-form { display: flex; flex-direction: column; gap: 14px; }
-    .auth-form[hidden] { display: none !important; }
-
-    /* PROFILE MODAL */
-    .profile-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 24px;
-      margin-top: 20px;
-    }
-
-    .user-pill {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--panel2);
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--line);
-      font-size: .85rem;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .hero-feature {
-      margin-top: 24px;
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
-      min-height: 420px;
-      display: flex;
-      align-items: flex-end;
-      padding: 40px;
-      background-size: cover;
-      background-position: center;
-      border: 1px solid var(--line);
-      box-shadow: 0 24px 50px rgba(0,0,0,0.7);
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(11,11,14,0.1) 0%, rgba(11,11,14,0.85) 65%, rgba(11,11,14,1) 100%),
-                  linear-gradient(90deg, rgba(11,11,14,0.95) 0%, rgba(11,11,14,0.5) 50%, rgba(11,11,14,0.1) 100%);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 650px;
-    }
-
-    .feature-tag {
-      font-size: .8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .hero-content h1 {
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      line-height: 1.1;
-      margin: 0 0 12px;
-      font-weight: 900;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 14px;
-      font-size: .95rem;
-      color: #d1d1d6;
-    }
-
-    .hero-meta .rating { color: var(--accent-gold); font-weight: 800; }
-
-    .hero-content p {
-      color: var(--muted);
-      margin: 0 0 24px;
-      font-size: 1rem;
-      line-height: 1.6;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin: 32px 0 20px;
-    }
-
-    .tabs button {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--muted);
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tabs button.active {
-      background: var(--accent-gold);
-      color: #000;
-      border-color: var(--accent-gold);
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin: 32px 0 16px;
-    }
-
-    .section-head h2 { margin: 0; font-size: 1.4rem; font-weight: 800; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform .2s, border-color .2s;
-    }
-
-    .card:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
-
-    .poster {
-      width: 100%;
-      aspect-ratio: 2/3;
-      object-fit: cover;
-      background: #1a1a24;
-      display: block;
-    }
-
-    .poster-placeholder {
-      aspect-ratio: 2/3;
-      display: grid;
-      place-items: center;
-      background: #1a1a24;
-      color: var(--muted);
-      padding: 12px;
-      font-size: .85rem;
-      text-align: center;
-    }
-
-    .card-info { padding: 12px; }
-
-    .card-title {
-      font-weight: 700;
-      font-size: .92rem;
-      line-height: 1.3;
-      margin: 0 0 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-sub {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: .8rem;
-    }
-
-    .rating-badge { color: var(--accent-gold); font-weight: 700; }
-
-    .status {
-      padding: 16px;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      color: var(--text);
-      font-weight: 700;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .detail {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 30px;
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: minmax(200px, 280px) 1fr;
-      gap: 30px;
-    }
-
-    .detail img { width: 100%; border-radius: 16px; }
-    .detail h1 { margin: 0 0 10px; font-size: 2.2rem; }
-
-    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
-    .chip {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 5px 12px;
-      font-size: .85rem;
-      color: #d1d1d6;
-    }
-
-    .projection-container {
-      margin-top: 24px;
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-    }
-
-    .projection-header {
-      padding: 16px 20px;
-      background: var(--panel2);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .projection-player {
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: #000;
-      border: 0;
-    }
-
-    .player-frame {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .servers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px;
-      padding: 16px;
-    }
-
-    .server-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px 14px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: .9rem;
-      transition: border-color .2s;
-    }
-    .server-card:hover { border-color: var(--accent-gold); }
-    .server-card.active { border-color: var(--accent-gold); background: rgba(245, 197, 24, 0.08); }
-    .server-live { font-size: .75rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
-
-    .cast-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .cast-item { text-align: center; }
-    .cast-img {
-      width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-      background: var(--panel2); margin: auto; margin-bottom: 6px; border: 1px solid var(--line);
-    }
-    .cast-name { font-size: .85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .cast-role { font-size: .75rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .episodes { display: grid; gap: 12px; margin-top: 16px; }
-    .episode { background: var(--card-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
-
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 30px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: .9rem;
-      background: var(--panel);
-      margin-top: 50px;
-    }
-
-    footer a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
-
-    @media(max-width:768px) {
-      .top { padding: 12px; }
-      .top form { order: 3; max-width: none; flex-basis: 100%; }
-      .detail { grid-template-columns: 1fr; padding: 16px; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-      .hero-feature { min-height: 340px; padding: 20px; }
-    }
-  </style>
+@media(max-width:768px){
+  .top{padding:12px;gap:10px}
+  .top form{order:3;flex-basis:100%;max-width:none}
+  main{padding:0 13px 40px}
+  .hero-feature{min-height:350px;padding:22px;border-radius:23px}
+  .hero-content h1{font-size:2.35rem}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .detail{grid-template-columns:1fr;padding:15px;gap:17px}
+  .detail .poster-wrap{max-width:240px}
+  .auth-card{padding:23px 19px}
+  .section-head h2{font-size:1.2rem}
+  .tabs button{padding:10px 15px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;scroll-behavior:auto!important}
+}
+</style>
 </head>
 
 <body>
 
-<!-- AUTH MODAL -->
+<!-- AUTHENTICATION -->
 <div id="authOverlay" class="auth-overlay">
-  <div class="auth-card">
-    <h2>Welcome to SUIII_STREAM</h2>
-    <p>Sign in or request an access key to start streaming.</p>
-
+  <div class="auth-card glass">
+    <h2>Welcome to SUIII<span style="color:var(--gold)">_STREAM</span></h2>
+    <p>Sign in with your access key to continue.</p>
     <div class="auth-tabs">
-      <button type="button" id="tabLogin" class="active">Login</button>
-      <button type="button" id="tabSignup">Sign Up</button>
+      <button id="tabLogin" class="active" type="button">Login</button>
+      <button id="tabSignup" type="button">Sign Up</button>
     </div>
 
-    <!-- LOGIN FORM -->
     <form id="loginForm" class="auth-form">
-      <input type="text" id="loginName" placeholder="Your Name" required>
-      <input type="text" id="loginKey" placeholder="Enter Secure Key" required>
-      <button type="submit">Enter 🚀</button>
+      <input id="loginName" placeholder="Your Name" required maxlength="60">
+      <input id="loginKey" placeholder="Access Key" required autocomplete="off">
+      <button type="submit">Enter ↗</button>
     </form>
 
-    <!-- SIGNUP FORM -->
     <form id="signupForm" class="auth-form" hidden>
-      <input type="text" id="signupName" placeholder="Name" required>
-      <input type="number" id="signupAge" placeholder="Age" required>
-      <input type="text" id="signupCountry" placeholder="Country" required>
-      <div style="display: flex; gap: 8px; margin-top: 4px;">
-        <a id="askKeyTelegram" href="https://t.me/MG1SHWE" target="_blank" style="flex:1; display:block; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-size:.85rem; font-weight:800;">
-          Telegram 📲
-        </a>
-        <a id="askKeyWhatsapp" href="https://wa.me/919999999999" target="_blank" style="flex:1; display:block; text-align:center; background:#25d366; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-size:.85rem; font-weight:800;">
-          WhatsApp 💚
-        </a>
+      <input id="signupName" placeholder="Your Name" required maxlength="60">
+      <input id="signupAge" type="number" min="13" max="120" placeholder="Age" required>
+      <input id="signupCountry" placeholder="Country" required maxlength="60">
+      <div class="contact-links">
+        <a id="askKeyTelegram" href="https://t.me/MG1SHWE" target="_blank" rel="noopener" style="background:#0088cc">Telegram ↗</a>
+        <a id="askKeyWhatsapp" href="https://wa.me/919999999999" target="_blank" rel="noopener" style="background:#25d366">WhatsApp ↗</a>
       </div>
+      <p style="font-size:.78rem;margin:0">Contact the owner to request access.</p>
     </form>
   </div>
 </div>
 
 <header>
   <div class="top">
-    <div class="brand" id="brandHome">
-      SUIII<span>_STREAM</span>
-    </div>
+    <div class="brand" id="brandHome">SUIII<span>_STREAM</span></div>
     <form id="searchForm" role="search">
       <input id="searchInput" type="search" placeholder="Search movies or TV shows..." aria-label="Search titles">
       <button type="submit">Search</button>
     </form>
-    <div id="userPill" class="user-pill" hidden>
-      <span id="userNameDisplay">👤 Profile</span>
-    </div>
-    <button type="button" class="secondary" id="pluginsNavBtn">
-      ⚡ Plugins
-    </button>
+    <button id="userPill" class="user-pill" hidden type="button">👤 <span id="userNameDisplay">Profile</span></button>
+    <button id="pluginsNavBtn" class="secondary" type="button">⚡ Plugins</button>
   </div>
 </header>
 
 <main id="app">
 
-  <!-- PROFILE SECTION -->
   <section id="profileSection" hidden>
-    <button type="button" class="secondary" id="closeProfileBtn" style="margin-bottom:16px;">← Back to Home</button>
-    <div class="profile-card">
-      <h2 style="margin:0 0 6px;">User Profile 👤</h2>
-      <p style="color:var(--muted); margin:0 0 16px;">Key Validity & Recent Activity</p>
-      
-      <div style="background:var(--panel2); padding:16px; border-radius:12px; border:1px solid var(--line); margin-bottom:24px;">
-        <div style="font-size:1.1rem; font-weight:800; color:var(--accent-gold);" id="profName">Name: -</div>
-        <div style="font-size:.9rem; color:var(--muted); margin-top:4px;" id="profKey">Key Used: -</div>
-        <div style="font-size:.9rem; color:#22c55e; margin-top:4px; font-weight:700;" id="profDays">Remaining Time: -</div>
-        <div style="font-size:.8rem; color:var(--muted); margin-top:2px;" id="profExpiry">Expiry Date: -</div>
+    <button class="secondary" id="closeProfileBtn" type="button">← Back Home</button>
+    <div class="profile-card glass">
+      <h2>User Profile 👤</h2>
+      <p style="color:var(--muted)">Access details and watch history</p>
+      <div class="profile-info">
+        <div id="profName" style="color:var(--gold);font-weight:800">Name: -</div>
+        <div id="profKey">Key: -</div>
+        <div id="profDays" style="color:#4ade80">Remaining: -</div>
+        <div id="profExpiry">Expiry: -</div>
       </div>
-
-      <button type="button" id="logoutBtn" style="background:#e11d48; color:#fff; padding:8px 16px; border-radius:8px; font-weight:700; cursor:pointer; border:0; margin-bottom:24px;">Logout</button>
-
-      <div class="section-head">
-        <h2>Recently Watched 🕒</h2>
-      </div>
+      <button id="logoutBtn" type="button" style="margin-top:18px;background:#e54862;color:white">Logout</button>
+      <div class="section-head"><h2>Recently Watched 🕒</h2></div>
       <div id="recentGrid" class="grid"></div>
     </div>
   </section>
 
-  <section id="heroBanner" class="hero-feature" style="background-image: url('https://image.tmdb.org/t/p/original/8rpDpt23A1L25mEV22R323Za683.jpg');">
+  <section id="heroBanner" class="hero-feature" style="background-image:url('https://image.tmdb.org/t/p/original/8rpDpt23A1L25mEV22R323Za683.jpg')">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="feature-tag">THIS WEEK'S FEATURE</div>
-      <h1 id="heroTitle">Masterplan</h1>
+      <div class="feature-tag">FEATURED TITLE</div>
+      <h1 id="heroTitle">Discover Movies</h1>
       <div class="hero-meta">
-        <span class="rating" id="heroRating">★ 7.1</span>
+        <span class="rating" id="heroRating">★ 0.0</span>
         <span id="heroYear">2026</span>
-        <span>ACTION · THRILLER</span>
+        <span>FEATURED</span>
       </div>
-      <p id="heroOverview">When a legendary thief sets his sights on the Mona Lisa, he recruits two young strangers to help him before revealing they are long-lost siblings...</p>
-      <div class="hero-actions">
-        <button type="button" id="heroPlayBtn" style="background:var(--accent-gold); color:#000; border:0; border-radius:12px; padding:12px 24px; font-weight:800; cursor:pointer;">▶ Play</button>
-      </div>
+      <p id="heroOverview">Explore movies and television shows.</p>
+      <button id="heroPlayBtn" type="button">▶ View Details</button>
     </div>
   </section>
 
-  <nav class="tabs" aria-label="Browse categories">
-    <button data-kind="all" class="active">🔥 Trending</button>
-    <button data-kind="movie">🎬 Movies</button>
-    <button data-kind="tv">📺 TV Shows</button>
+  <nav class="tabs" aria-label="Categories">
+    <button class="active" data-kind="all" type="button">🔥 Trending</button>
+    <button data-kind="movie" type="button">🎬 Movies</button>
+    <button data-kind="tv" type="button">📺 TV Shows</button>
   </nav>
 
-  <div id="status" class="status">Dalli 💕</div>
+  <div id="status" class="status">Loading content...</div>
 
   <section id="resultsSection">
-    <div class="section-head">
-      <h2 id="resultsTitle">Top 10 Today</h2>
-    </div>
+    <div class="section-head"><h2 id="resultsTitle">Trending This Week</h2></div>
     <div id="results" class="grid"></div>
   </section>
 
   <section id="detailSection" hidden></section>
 
   <section id="pluginsSection" hidden>
-    <button type="button" class="secondary" id="backToMovies" style="margin-bottom:20px;">
-      ← Back to Explore
-    </button>
-    <div class="section-head">
-      <h2>Plugin Center ⚡</h2>
-    </div>
-    <div class="status">CloudStream .cs3 plugin catalog fetched from GitHub repository.</div>
-    <div class="tabs" style="margin:16px 0; gap:10px;">
-      <input id="pluginSearch" type="search" placeholder="Search plugins..." style="flex:1; background:var(--panel); border:1px solid var(--line); color:#fff; padding:12px; border-radius:10px;">
-      <button type="button" id="refreshPlugins" style="background:var(--accent-gold); color:#000; border:0; border-radius:10px; padding:0 20px; font-weight:800; cursor:pointer;">Live Refresh</button>
+    <button id="backToMovies" class="secondary" type="button">← Back to Explore</button>
+    <div class="section-head"><h2>Plugin Center ⚡</h2></div>
+    <p style="color:var(--muted)">Plugin information from the configured catalog.</p>
+    <div style="display:flex;gap:9px;margin:18px 0">
+      <input id="pluginSearch" type="search" placeholder="Search plugins...">
+      <button id="refreshPlugins" type="button">Refresh</button>
     </div>
     <div id="pluginStatus" class="status" hidden></div>
-    <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
+    <div id="pluginResults" class="grid"></div>
   </section>
 </main>
 
 <footer>
-  © <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
+  © <span id="year"></span> SUIII_STREAM · Created with ❤️ by
+  <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
 </footer>
 
 <script>
 (() => {
-  "use strict";
+"use strict";
 
-  // SECURE KEYS DATABASE (Key -> Days Validity)
-  const VALID_KEYS = {
-    // 1-Day Keys
-    "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1": 1,
-    "Suiii-1D-3M71P-8Q2XZ-9LK01-B91W2": 1,
-    "Suiii-1D-0A91L-2M98P-4QW11-C82E3": 1,
-    // 7-Day Keys
-    "Suiii-7D-8M92K-1P09Q-7XW88-R91P2": 7,
-    "Suiii-7D-4L19P-9M82Z-3QW01-S82L3": 7,
-    "Suiii-7D-2Z81L-0M92Q-8P100-T71W4": 7,
-    // 15-Day Keys
-    "Suiii-15D-9M82P-7X10Q-2L091-V82W1": 15,
-    "Suiii-15D-4Z19L-0M82P-8QW12-X91L2": 15,
-    "Suiii-15D-1P09Q-8M92Z-3XW99-Y71E3": 15
+/*
+  DEMO ACCESS KEYS ONLY.
+  Browser-side keys and localStorage are not secure authentication.
+  Use a server-side key validation service for real users.
+*/
+const VALID_KEYS = {
+  "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1":1,
+  "Suiii-1D-3M71P-8Q2XZ-9LK01-B91W2":1,
+  "Suiii-1D-0A91L-2M98P-4QW11-C82E3":1,
+  "Suiii-7D-8M92K-1P09Q-7XW88-R91P2":7,
+  "Suiii-7D-4L19P-9M82Z-3QW01-S82L3":7,
+  "Suiii-7D-2Z81L-0M92Q-8P100-T71W4":7,
+  "Suiii-15D-9M82P-7X10Q-2L091-V82W1":15,
+  "Suiii-15D-4Z19L-0M82P-8QW12-X91L2":15,
+  "Suiii-15D-1P09Q-8M92Z-3XW99-Y71E3":15
+};
+
+const $ = id => document.getElementById(id);
+const authOverlay = $("authOverlay");
+const loginForm = $("loginForm");
+const signupForm = $("signupForm");
+const userPill = $("userPill");
+const profileSection = $("profileSection");
+const heroBanner = $("heroBanner");
+const resultsSection = $("resultsSection");
+const detailSection = $("detailSection");
+const pluginsSection = $("pluginsSection");
+const statusEl = $("status");
+const resultsEl = $("results");
+const resultsTitle = $("resultsTitle");
+const IMG = "https://image.tmdb.org/t/p/w500";
+const IMG_ORIG = "https://image.tmdb.org/t/p/original";
+const API_PROXY = "/.netlify/functions/tmdb";
+
+let currentKind = "all";
+let featuredHeroItem = null;
+let plugins = [];
+let pluginRequestId = 0;
+
+$("year").textContent = new Date().getFullYear();
+
+/* Authentication tabs */
+$("tabLogin").addEventListener("click", () => {
+  $("tabLogin").classList.add("active");
+  $("tabSignup").classList.remove("active");
+  loginForm.hidden = false;
+  signupForm.hidden = true;
+});
+
+$("tabSignup").addEventListener("click", () => {
+  $("tabSignup").classList.add("active");
+  $("tabLogin").classList.remove("active");
+  signupForm.hidden = false;
+  loginForm.hidden = true;
+});
+
+function updateContactLinks() {
+  const name = $("signupName").value.trim();
+  const age = $("signupAge").value.trim();
+  const country = $("signupCountry").value.trim();
+  const msg = encodeURIComponent(
+    `Hello @MG1SHWE! I want an access key for SUIII_STREAM.\nName: ${name}\nAge: ${age}\nCountry: ${country}`
+  );
+  $("askKeyTelegram").href = `https://t.me/MG1SHWE?text=${msg}`;
+  $("askKeyWhatsapp").href = `https://wa.me/919999999999?text=${msg}`;
+}
+signupForm.addEventListener("input", updateContactLinks);
+
+function getUser() {
+  try {
+    return JSON.parse(localStorage.getItem("suiii_user") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function checkAuth() {
+  const user = getUser();
+  if (user && user.expiryTime > Date.now()) {
+    authOverlay.hidden = true;
+    userPill.hidden = false;
+    $("userNameDisplay").textContent = user.name;
+  } else {
+    if (user) localStorage.removeItem("suiii_user");
+    authOverlay.hidden = false;
+    userPill.hidden = true;
+  }
+}
+
+loginForm.addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("loginName").value.trim();
+  const key = $("loginKey").value.trim();
+  const days = VALID_KEYS[key];
+
+  if (!name || !days) {
+    alert("Invalid access key. Please contact the owner.");
+    return;
+  }
+
+  /*
+    Demo-only expiry starts on first successful login.
+    A real system must validate keys and expiry on the server.
+  */
+  const user = {
+    name,
+    key,
+    durationDays: days,
+    expiryTime: Date.now() + days * 86400000
   };
 
-  const authOverlay = document.getElementById("authOverlay");
-  const tabLogin = document.getElementById("tabLogin");
-  const tabSignup = document.getElementById("tabSignup");
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
-  const userPill = document.getElementById("userPill");
-  const userNameDisplay = document.getElementById("userNameDisplay");
-  const profileSection = document.getElementById("profileSection");
-  const askKeyTelegram = document.getElementById("askKeyTelegram");
-  const askKeyWhatsapp = document.getElementById("askKeyWhatsapp");
-
-  // SEPARATE TAB SWITCHING
-  tabLogin.addEventListener("click", () => {
-    tabLogin.classList.add("active"); 
-    tabSignup.classList.remove("active");
-    loginForm.hidden = false; 
-    signupForm.hidden = true;
-  });
-
-  tabSignup.addEventListener("click", () => {
-    tabSignup.classList.add("active"); 
-    tabLogin.classList.remove("active");
-    signupForm.hidden = false; 
-    loginForm.hidden = true;
-  });
-
-  document.getElementById("signupForm").addEventListener("input", () => {
-    const name = document.getElementById("signupName").value.trim();
-    const age = document.getElementById("signupAge").value.trim();
-    const country = document.getElementById("signupCountry").value.trim();
-    const textMsg = encodeURIComponent(`Hello @MG1SHWE! I want an Access Key for SUIII_STREAM.\n\nName: ${name}\nAge: ${age}\nCountry: ${country}`);
-    
-    askKeyTelegram.href = `https://t.me/MG1SHWE?text=${textMsg}`;
-    askKeyWhatsapp.href = `https://wa.me/919999999999?text=${textMsg}`;
-  });
-
-  // LOGIN LOGIC (KEY MATTERS)
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("loginName").value.trim() || "User";
-    const key = document.getElementById("loginKey").value.trim();
-
-    if (!VALID_KEYS[key]) {
-      alert("Invalid or Expired Key! Please request a valid key via Telegram or WhatsApp.");
-      return;
-    }
-
-    const durationDays = VALID_KEYS[key];
-    const expiryTime = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
-
-    const userObj = { name, key, durationDays, expiryTime };
-    localStorage.setItem("suiii_user", JSON.stringify(userObj));
-    
-    authOverlay.hidden = true;
-    checkAuth();
-  });
-
-  document.getElementById("logoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("suiii_user");
-    profileSection.hidden = true;
-    authOverlay.hidden = false;
-    checkAuth();
-  });
-
-  userPill.addEventListener("click", () => {
-    renderProfile();
-    heroBanner.hidden = true; resultsSection.hidden = true; detailSection.hidden = true; pluginsSection.hidden = true;
-    profileSection.hidden = false;
-  });
-
-  document.getElementById("closeProfileBtn").addEventListener("click", () => {
-    profileSection.hidden = true;
-    heroBanner.hidden = false; resultsSection.hidden = false;
-  });
-
-  function renderProfile() {
-    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
-    if (!user) return;
-
-    document.getElementById("profName").textContent = `Name: ${user.name}`;
-    document.getElementById("profKey").textContent = `Key Used: ${user.key} (${user.durationDays} Days Plan)`;
-    
-    const now = Date.now();
-    const diff = user.expiryTime - now;
-
-    if (diff <= 0) {
-      document.getElementById("profDays").textContent = "Status: Key Expired ❌";
-      document.getElementById("profDays").style.color = "#ef4444";
-    } else {
-      const hoursLeft = Math.floor(diff / (1000 * 60 * 60));
-      const daysLeft = (hoursLeft / 24).toFixed(1);
-      document.getElementById("profDays").textContent = `Remaining Time: ${daysLeft} Days (${hoursLeft} Hours)`;
-      document.getElementById("profDays").style.color = "#22c55e";
-    }
-
-    document.getElementById("profExpiry").textContent = `Expiry Date: ${new Date(user.expiryTime).toLocaleString()}`;
-
-    const recent = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
-    const recentGrid = document.getElementById("recentGrid");
-    if (!recent.length) {
-      recentGrid.innerHTML = "<p style='color:var(--muted);'>No recently watched titles yet.</p>";
-    } else {
-      recentGrid.innerHTML = recent.map(i => cardMarkup(i, i.media_type)).join("");
-    }
-  }
-
-  function saveToRecent(item) {
-    let list = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
-    list = list.filter(x => String(x.id) !== String(item.id));
-    list.unshift(item);
-    if (list.length > 10) list.pop();
-    localStorage.setItem("suiii_recent", JSON.stringify(list));
-  }
-
-  function checkAuth() {
-    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
-    if (user && Date.now() < user.expiryTime) {
-      authOverlay.hidden = true;
-      userPill.hidden = false;
-      userNameDisplay.textContent = `👤 ${user.name}`;
-    } else {
-      if (user && Date.now() >= user.expiryTime) {
-        alert("Your key has expired! Please enter a new key.");
-        localStorage.removeItem("suiii_user");
-      }
-      authOverlay.hidden = false;
-      userPill.hidden = true;
-    }
-  }
-
+  localStorage.setItem("suiii_user", JSON.stringify(user));
   checkAuth();
+});
 
-  const API_PROXY = "/.netlify/functions/tmdb";
-  const IMG = "https://image.tmdb.org/t/p/w500";
-  const IMG_ORIG = "https://image.tmdb.org/t/p/original";
+$("logoutBtn").addEventListener("click", () => {
+  localStorage.removeItem("suiii_user");
+  profileSection.hidden = true;
+  authOverlay.hidden = false;
+  showExplore();
+});
 
-  const statusEl = document.getElementById("status");
-  const resultsEl = document.getElementById("results");
-  const resultsTitle = document.getElementById("resultsTitle");
-  const resultsSection = document.getElementById("resultsSection");
-  const detailSection = document.getElementById("detailSection");
-  const heroBanner = document.getElementById("heroBanner");
-  const searchForm = document.getElementById("searchForm");
-  const searchInput = document.getElementById("searchInput");
+function renderProfile() {
+  const user = getUser();
+  if (!user) return;
 
-  let currentKind = "all";
-  let featuredHeroItem = null;
+  $("profName").textContent = "Name: " + user.name;
+  $("profKey").textContent = "Key: " + user.key;
+  const diff = user.expiryTime - Date.now();
 
-  document.getElementById("year").textContent = new Date().getFullYear();
-  document.getElementById("brandHome").addEventListener("click", () => loadTrending("all"));
+  $("profDays").textContent = diff <= 0
+    ? "Status: Expired"
+    : `Remaining: ${(diff / 86400000).toFixed(1)} days`;
 
-  const pluginsSection = document.getElementById("pluginsSection");
-  document.getElementById("pluginsNavBtn").addEventListener("click", () => {
-    resultsSection.hidden = true; detailSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = true; pluginsSection.hidden = false;
-    renderPlugins();
-  });
-  document.getElementById("backToMovies").addEventListener("click", () => {
-    pluginsSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false; loadTrending(currentKind);
-  });
+  $("profDays").style.color = diff <= 0 ? "#ef4444" : "#4ade80";
+  $("profExpiry").textContent =
+    "Expiry: " + new Date(user.expiryTime).toLocaleString();
 
-  const FALLBACK_PLUGINS = [
-    { name: "Bollyflix", version: 33, status: 1, language: "hi", description: "Movies and Series upto 4K", authors: ["megix"], tvTypes: ["Movie", "TvSeries"], url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/Bollyflix.cs3", repositoryUrl: "https://github.com/SaurabhKaperwan/CSX" },
-    { name: "CineStream", version: 487, status: 1, language: "en", description: "All in one streaming extension", authors: ["megix"], tvTypes: ["Movie", "Anime"], url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/CineStream.cs3", repositoryUrl: "https://github.com/SaurabhKaperwan/CSX" }
-  ];
-  let plugins = [...FALLBACK_PLUGINS];
+  const recent = readRecent();
+  $("recentGrid").innerHTML = recent.length
+    ? recent.map(i => cardMarkup(i, i.media_type)).join("")
+    : '<p style="color:var(--muted)">No recently viewed titles yet.</p>';
+}
 
-  function renderPlugins() {
-    document.getElementById("pluginResults").innerHTML = plugins.map(p => `
-      <div class="card" style="padding:16px;">
-        <h3>${escapeHtml(p.name)} <span class="rating-badge">v${p.version}</span></h3>
-        <p style="color:var(--muted); font-size:.85rem;">${escapeHtml(p.description)}</p>
-        <a href="${escapeHtml(p.url)}" target="_blank" style="color:var(--accent-gold); font-size:.85rem; text-decoration:none;">Download .cs3 ↗</a>
+function readRecent() {
+  try {
+    const value = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveToRecent(item) {
+  const recent = readRecent().filter(x => String(x.id) !== String(item.id));
+  recent.unshift(item);
+  localStorage.setItem("suiii_recent", JSON.stringify(recent.slice(0,10)));
+}
+
+userPill.addEventListener("click", () => {
+  renderProfile();
+  hideSections();
+  profileSection.hidden = false;
+});
+
+$("closeProfileBtn").addEventListener("click", showExplore);
+
+function hideSections() {
+  heroBanner.hidden = true;
+  resultsSection.hidden = true;
+  detailSection.hidden = true;
+  profileSection.hidden = true;
+  pluginsSection.hidden = true;
+}
+
+function showExplore() {
+  hideSections();
+  heroBanner.hidden = false;
+  resultsSection.hidden = false;
+  loadTrending(currentKind);
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+function titleOf(item, kind) {
+  return item.title || item.name || item.original_title ||
+    item.original_name || (kind === "movie" ? "Untitled Movie" : "Untitled Show");
+}
+
+function yearOf(item) {
+  const date = item.release_date || item.first_air_date || "";
+  return date ? date.slice(0,4) : "Unknown";
+}
+
+function posterMarkup(item) {
+  if (!item.poster_path) return '<div class="poster-placeholder">No Poster</div>';
+  return `<img class="poster" loading="lazy" src="${IMG}${escapeHtml(item.poster_path)}" alt="${escapeHtml(titleOf(item,item.media_type))} poster" onerror="this.outerHTML='<div class=&quot;poster-placeholder&quot;>No Poster</div>'">`;
+}
+
+function cardMarkup(item, kind) {
+  const safeKind = kind === "tv" ? "tv" : "movie";
+  return `
+    <article class="card" data-id="${Number(item.id)}" data-kind="${safeKind}" tabindex="0" role="button" aria-label="View ${escapeHtml(titleOf(item,kind))}">
+      ${posterMarkup(item)}
+      <div class="card-info">
+        <p class="card-title">${escapeHtml(titleOf(item,kind))}</p>
+        <div class="card-sub">
+          <span>${escapeHtml(yearOf(item))}</span>
+          <span class="rating-badge">★ ${Number(item.vote_average||0).toFixed(1)}</span>
+        </div>
       </div>
-    `).join("");
-  }
+    </article>`;
+}
 
-  async function api(path) {
-    const parts = path.split("?");
-    const route = parts[0];
-    const query = parts.slice(1).join("?");
-    
-    let url = `${API_PROXY}?path=${encodeURIComponent(route)}`;
-    if (query) {
-      url += `&${query}`;
-    }
+function updateHero(item) {
+  if (!item) return;
+  featuredHeroItem = item;
+  const image = item.backdrop_path || item.poster_path;
+  if (image) heroBanner.style.backgroundImage = `url("${IMG_ORIG}${image}")`;
+  $("heroTitle").textContent = titleOf(item,item.media_type);
+  $("heroRating").textContent = "★ " + Number(item.vote_average||0).toFixed(1);
+  $("heroYear").textContent = yearOf(item);
+  $("heroOverview").textContent = item.overview || "Explore this title and its details.";
+}
 
-    const res = await fetch(url);
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `Failed`);
-    return data;
-  }
+$("heroPlayBtn").addEventListener("click", () => {
+  if (featuredHeroItem) openDetails(featuredHeroItem.id,featuredHeroItem.media_type || "movie");
+});
 
-  function escapeHtml(v) {
-    return String(v ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
-  }
+async function api(path) {
+  const parts = path.split("?");
+  let url = `${API_PROXY}?path=${encodeURIComponent(parts[0])}`;
+  if (parts[1]) url += "&" + parts[1];
 
-  function titleOf(item, kind) {
-    return item.title || item.name || item.original_title || item.original_name || (kind === "movie" ? "Untitled Movie" : "Untitled Show");
-  }
+  const res = await fetch(url);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+  return data;
+}
 
-  function yearOf(item) {
-    const d = item.release_date || item.first_air_date || "";
-    return d ? d.slice(0, 4) : "2026";
-  }
+async function loadTrending(kind = currentKind) {
+  currentKind = kind;
+  hideSections();
+  heroBanner.hidden = false;
+  resultsSection.hidden = false;
 
-  function posterMarkup(item) {
-    if (item.poster_path) {
-      return `<img class="poster" loading="lazy" src="${escapeHtml(IMG + item.poster_path)}" alt="poster" onerror="this.outerHTML='<div class=\'poster-placeholder\'>No Poster</div>'">`;
-    }
-    return '<div class="poster-placeholder">No Poster</div>';
-  }
-
-  function cardMarkup(item, kind) {
-    const id = Number(item.id);
-    return `
-      <article class="card" data-id="${id}" data-kind="${kind}">
-        ${posterMarkup(item)}
-        <div class="card-info">
-          <p class="card-title">${escapeHtml(titleOf(item, kind))}</p>
-          <div class="card-sub">
-            <span>${escapeHtml(yearOf(item))}</span>
-            <span class="rating-badge">★ ${Number(item.vote_average || 0).toFixed(1)}</span>
-          </div>
-        </div>
-      </article>
-    `;
-  }
-
-  function updateHero(item) {
-    if (!item) return;
-    featuredHeroItem = item;
-    const bg = item.backdrop_path ? `${IMG_ORIG}${item.backdrop_path}` : `${IMG_ORIG}${item.poster_path}`;
-    heroBanner.style.backgroundImage = `url('${bg}')`;
-    document.getElementById("heroTitle").textContent = titleOf(item, item.media_type);
-    document.getElementById("heroRating").textContent = `★ ${Number(item.vote_average || 0).toFixed(1)}`;
-    document.getElementById("heroYear").textContent = yearOf(item);
-    document.getElementById("heroOverview").textContent = item.overview || "Watch full stream online in high quality.";
-  }
-
-  document.getElementById("heroPlayBtn").addEventListener("click", () => {
-    if (featuredHeroItem) openDetails(featuredHeroItem.id, featuredHeroItem.media_type || "movie");
+  document.querySelectorAll('[data-kind].tabs button').forEach(b => {
+    b.classList.toggle("active", b.dataset.kind === kind);
   });
 
-  async function loadTrending(kind = currentKind) {
-    currentKind = kind;
-    detailSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
-    document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
-    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
+  statusEl.hidden = false;
+  statusEl.textContent = "Loading titles...";
+  resultsTitle.textContent = kind === "all" ? "Trending This Week" :
+    kind === "movie" ? "Trending Movies" : "Trending TV Shows";
 
-    try {
-      let lists = [];
-      if (kind === "all") {
-        const [m, t] = await Promise.all([api("/trending/movie/week"), api("/trending/tv/week")]);
-        lists = [...(m.results||[]).map(x=>({...x, media_type:"movie"})), ...(t.results||[]).map(x=>({...x, media_type:"tv"}))]
-          .sort((a,b)=>(b.popularity||0)-(a.popularity||0)).slice(0, 24);
-      } else {
-        const d = await api(`/trending/${kind}/week`);
-        lists = (d.results||[]).map(x=>({...x, media_type:kind})).slice(0, 24);
-      }
-      if (!lists.length) { statusEl.textContent = "No content found."; return; }
-      updateHero(lists[0]);
-      statusEl.hidden = true;
-      resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || kind)).join("");
-    } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
-  }
-
-  async function searchTitles(query) {
-    const q = query.trim();
-    if (!q) return loadTrending(currentKind);
-
-    detailSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = false;
-    resultsEl.innerHTML = "";
-    resultsTitle.textContent = `Search results for “${q}”`;
-    statusEl.hidden = false;
-    statusEl.textContent = "Dalli 💕";
-
-    try {
-      const [mRes, tRes] = await Promise.all([
-        api(`/search/movie?query=${encodeURIComponent(q)}&include_adult=false`),
-        api(`/search/tv?query=${encodeURIComponent(q)}&include_adult=false`)
+  try {
+    let list = [];
+    if (kind === "all") {
+      const [m,t] = await Promise.all([
+        api("/trending/movie/week"),
+        api("/trending/tv/week")
       ]);
-      const list = [...(mRes.results||[]).map(x=>({...x, media_type:"movie"})), ...(tRes.results||[]).map(x=>({...x, media_type:"tv"}))]
-        .sort((a,b)=>(b.popularity||0)-(a.popularity||0));
-
-      if (!list.length) {
-        statusEl.hidden = false;
-        statusEl.textContent = "No results found.";
-        return;
-      }
-      statusEl.hidden = true;
-      resultsEl.innerHTML = list.slice(0, 30).map(i => cardMarkup(i, i.media_type)).join("");
-    } catch (e) {
-      statusEl.hidden = false;
-      statusEl.textContent = `Search failed: ${e.message}`;
-    }
-  }
-
-  searchForm.addEventListener("submit", e => {
-    e.preventDefault();
-    searchTitles(searchInput.value);
-  });
-
-  const SERVERS = [
-    { id: "vidsrc", name: "VidSrc Pro", mirror: "Multi-Audio/Subs", live: true },
-    { id: "vidsrc-cc", name: "VidSrc.cc", mirror: "Server 2", live: false },
-    { id: "multiembed", name: "MultiEmbed", mirror: "Multi-Lang", live: false },
-    { id: "autoembed", name: "AutoEmbed", mirror: "Subtitles", live: false }
-  ];
-
-  function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
-    if (kind === "movie") {
-      if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
-      if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/movie/${id}`;
-      if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
-      if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
-      return `https://vidsrc.to/embed/movie/${id}`;
+      list = [
+        ...(m.results||[]).map(x => ({...x,media_type:"movie"})),
+        ...(t.results||[]).map(x => ({...x,media_type:"tv"}))
+      ].sort((a,b) => (b.popularity||0)-(a.popularity||0));
     } else {
-      if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
-      if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
-      if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
-      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
-      return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
+      const data = await api(`/trending/${kind}/week`);
+      list = (data.results||[]).map(x => ({...x,media_type:kind}));
     }
+
+    if (!list.length) throw new Error("No titles found.");
+    updateHero(list[0]);
+    resultsEl.innerHTML = list.slice(0,24).map(i => cardMarkup(i,i.media_type)).join("");
+    statusEl.hidden = true;
+  } catch(err) {
+    statusEl.hidden = false;
+    statusEl.textContent = "Unable to load titles: " + err.message;
   }
+}
 
-  async function openDetails(id, kind) {
-    detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true;
-    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
+async function searchTitles(query) {
+  const q = query.trim();
+  if (!q) return loadTrending(currentKind);
 
-    try {
-      const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
-      const title = titleOf(data, kind);
-      
-      saveToRecent({...data, media_type: kind});
+  hideSections();
+  resultsSection.hidden = false;
+  resultsTitle.textContent = `Search results: ${q}`;
+  resultsEl.innerHTML = "";
+  statusEl.hidden = false;
+  statusEl.textContent = "Searching...";
 
-      const genres = (data.genres||[]).map(g => `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
-      const castList = (data.credits?.cast||[]).slice(0, 8).map(c => `
-        <div class="cast-item">
-          <img class="cast-img" src="${c.profile_path ? IMG + c.profile_path : ''}" alt="" onerror="this.src=''">
-          <div class="cast-name">${escapeHtml(c.name)}</div>
-          <div class="cast-role">${escapeHtml(c.character)}</div>
+  try {
+    const [m,t] = await Promise.all([
+      api(`/search/movie?query=${encodeURIComponent(q)}&include_adult=false`),
+      api(`/search/tv?query=${encodeURIComponent(q)}&include_adult=false`)
+    ]);
+
+    const list = [
+      ...(m.results||[]).map(x => ({...x,media_type:"movie"})),
+      ...(t.results||[]).map(x => ({...x,media_type:"tv"}))
+    ].sort((a,b) => (b.popularity||0)-(a.popularity||0));
+
+    resultsEl.innerHTML = list.slice(0,30).map(i => cardMarkup(i,i.media_type)).join("");
+    statusEl.hidden = !!list.length;
+    if (!list.length) statusEl.textContent = "No results found.";
+  } catch(err) {
+    statusEl.hidden = false;
+    statusEl.textContent = "Search failed: " + err.message;
+  }
+}
+
+$("searchForm").addEventListener("submit",e => {
+  e.preventDefault();
+  searchTitles($("searchInput").value);
+});
+
+$("brandHome").addEventListener("click",showExplore);
+document.querySelectorAll(".tabs button[data-kind]").forEach(b => {
+  b.addEventListener("click",() => loadTrending(b.dataset.kind));
+});
+
+document.addEventListener("click",e => {
+  const card = e.target.closest(".card[data-id]");
+  if (card) openDetails(Number(card.dataset.id),card.dataset.kind || "movie");
+});
+document.addEventListener("keydown",e => {
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches(".card[data-id]")) {
+    e.preventDefault();
+    openDetails(Number(e.target.dataset.id),e.target.dataset.kind || "movie");
+  }
+});
+
+/* Authorized streaming providers can be configured here.
+   These external sources are not verified or guaranteed. */
+const SERVERS = [
+  {id:"vidsrc",name:"VidSrc Pro",description:"External provider"},
+  {id:"vidsrc-cc",name:"VidSrc.cc",description:"External provider"},
+  {id:"multiembed",name:"MultiEmbed",description:"External provider"},
+  {id:"autoembed",name:"AutoEmbed",description:"External provider"}
+];
+
+function getPlayerUrl(id,kind,season=1,ep=1,server="vidsrc") {
+  /*
+    Use only a streaming URL that you own or are authorized to embed.
+    Configure your authorized provider in this function.
+  */
+  const urls = {
+    vidsrc: kind === "movie" ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`,
+    "vidsrc-cc": kind === "movie" ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`,
+    multiembed: `https://multiembed.mov/?video_id=${id}&tmdb=1${kind === "tv" ? `&s=${season}&e=${ep}` : ""}`,
+    autoembed: kind === "movie" ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`
+  };
+  return urls[server] || "";
+}
+
+async function openDetails(id,kind) {
+  hideSections();
+  statusEl.hidden = false;
+  statusEl.textContent = "Loading title details...";
+
+  try {
+    const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
+    saveToRecent({...data,media_type:kind});
+
+    const title = titleOf(data,kind);
+    const genres = (data.genres||[]).map(g =>
+      `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
+
+    const cast = (data.credits?.cast||[]).slice(0,8).map(c => `
+      <div class="cast-item">
+        <img class="cast-img" loading="lazy" src="${c.profile_path ? IMG+c.profile_path : ""}" alt="" onerror="this.style.visibility='hidden'">
+        <div class="cast-name">${escapeHtml(c.name)}</div>
+        <div class="cast-role">${escapeHtml(c.character)}</div>
+      </div>`).join("");
+
+    detailSection.innerHTML = `
+      <button class="secondary" id="backBtn" type="button">← Back</button>
+      <div class="detail glass" style="margin-top:18px">
+        <div class="poster-wrap">${posterMarkup({...data,media_type:kind})}</div>
+        <div>
+          <h1>${escapeHtml(title)} <span style="color:var(--muted);font-size:1rem">(${escapeHtml(yearOf(data))})</span></h1>
+          <div class="chips">${genres}
+            <span class="chip">★ ${Number(data.vote_average||0).toFixed(1)}</span>
+            ${data.runtime ? `<span class="chip">${Number(data.runtime)} min</span>` : ""}
+          </div>
+          <p style="color:var(--muted);line-height:1.8">${escapeHtml(data.overview||"No description available.")}</p>
+          ${kind==="movie" ? '<button id="playMovieBtn" type="button">▶ Open Player</button>' : ""}
         </div>
-      `).join("");
+      </div>
 
-      detailSection.innerHTML = `
-        <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px; padding:8px 16px;">← Back</button>
-        <div class="detail">
-          <div class="poster-wrap">${posterMarkup(data)}</div>
-          <div>
-            <h1>${escapeHtml(title)} <span style="font-size:1.2rem; color:var(--muted);">(${escapeHtml(yearOf(data))})</span></h1>
-            <div class="chips">
-              ${genres}
-              <span class="chip" style="color:var(--accent-gold);">★ ${Number(data.vote_average||0).toFixed(1)}</span>
-              ${data.runtime ? `<span class="chip">${data.runtime}m</span>` : ""}
-            </div>
-            <p style="color:var(--muted); line-height:1.6;">${escapeHtml(data.overview||"No description.")}</p>
-
-            ${kind === "movie" ? `
-              <div style="margin-top:20px;">
-                <button type="button" id="playMovieBtn" style="background:var(--accent-gold); color:#000; border:0; border-radius:12px; padding:12px 24px; font-weight:800; cursor:pointer;">▶ Watch Full Movie</button>
-              </div>
-            ` : ""}
-          </div>
+      <div id="projectionBox" class="projection-container" hidden>
+        <div class="projection-header">
+          <strong>PROJECTION ROOM</strong>
+          <span id="activeServerBadge" class="rating-badge">Player</span>
         </div>
-
-        <div id="projectionBox" class="projection-container" hidden>
-          <div class="projection-header">
-            <div><strong>PROJECTION ROOM</strong> <span class="muted" style="font-size:.85rem;">· Server room</span></div>
-            <span id="activeServerBadge" class="rating-badge">VidSrc Pro</span>
-          </div>
-          <div class="projection-player">
-            <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-          </div>
-          <div class="servers-grid" id="serversGrid">
-            ${SERVERS.map((s, idx) => `
-              <div class="server-card ${idx===0?'active':''}" data-server="${s.id}">
-                <div><strong>0${idx+1}</strong>${s.name} <div style="font-size:.75rem; color:var(--muted);">${s.mirror}</div></div>${s.live ? '<span class="server-live">LIVE</span>' : ''}
-              </div>
-            `).join("")}
-          </div>
+        <div class="projection-player">
+          <iframe id="videoIframe" class="player-frame" title="Video player" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="no-referrer"></iframe>
         </div>
+        <div class="servers-grid">
+          ${SERVERS.map((s,i)=>`
+            <div class="server-card ${i===0?"active":""}" data-server="${s.id}" role="button" tabindex="0">
+              <strong>${escapeHtml(s.name)}</strong>
+              <div style="font-size:.75rem;color:var(--muted)">${escapeHtml(s.description)}</div>
+            </div>`).join("")}
+        </div>
+      </div>
 
-        ${castList ? `
-          <div class="section-head" style="margin-top:30px;"><h2>The Cast</h2></div>
-          <div class="cast-grid">${castList}</div>
-        ` : ""}
+      ${cast ? `<div class="section-head"><h2>The Cast</h2></div><div class="cast-grid">${cast}</div>` : ""}
+      ${kind==="tv" ? '<div class="section-head"><h2>Seasons & Episodes</h2></div><div id="episodesList" class="episodes"></div>' : ""}
+    `;
 
-        ${kind === "tv" ? `
-          <div class="section-head" style="margin-top:30px;"><h2>Seasons & Episodes</h2></div>
-          <div class="episodes" id="episodesList"></div>
-        ` : ""}
-      `;
+    detailSection.hidden = false;
+    statusEl.hidden = true;
+    window.scrollTo({top:0,behavior:"smooth"});
 
-      statusEl.hidden = true;
-      detailSection.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    $("backBtn").addEventListener("click",showExplore);
 
-      document.getElementById("backBtn").addEventListener("click", () => {
-        detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+    let activeServer = "vidsrc";
+    let curSeason = 1,curEp = 1;
+    const box = $("projectionBox");
+    const iframe = $("videoIframe");
+
+    function loadPlayer(server) {
+      const url = getPlayerUrl(id,kind,curSeason,curEp,server);
+      if (!url) return;
+      iframe.src = url;
+      box.hidden = false;
+      $("activeServerBadge").textContent = SERVERS.find(s=>s.id===server)?.name || server;
+      box.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+
+    if(kind==="movie") {
+      $("playMovieBtn").addEventListener("click",()=>loadPlayer(activeServer));
+    }
+
+    detailSection.querySelectorAll(".server-card").forEach(card => {
+      const selectServer = () => {
+        activeServer = card.dataset.server;
+        detailSection.querySelectorAll(".server-card").forEach(x=>x.classList.toggle("active",x===card));
+        loadPlayer(activeServer);
+      };
+      card.addEventListener("click",selectServer);
+      card.addEventListener("keydown",e=>{
+        if(e.key==="Enter"||e.key===" "){e.preventDefault();selectServer();}
       });
+    });
 
-      let activeServer = "vidsrc";
-      let curSeason = 1, curEp = 1;
-      const projectionBox = document.getElementById("projectionBox");
-      const videoIframe = document.getElementById("videoIframe");
+    if(kind==="tv") {
+      const seasons = (data.seasons||[]).filter(s=>s.season_number>0);
+      $("episodesList").innerHTML = seasons.length ? seasons.map(s=>`
+        <div class="episode">
+          <strong>${escapeHtml(s.name)}</strong>
+          <p style="color:var(--muted);font-size:.85rem">${Number(s.episode_count)||0} Episodes</p>
+          <button type="button" class="secondary seasonBtn" data-season="${s.season_number}">View Episodes</button>
+          <div class="season-content" id="season-${s.season_number}"></div>
+        </div>`).join("") : '<p style="color:var(--muted)">No season information available.</p>';
 
-      function loadPlayer(url, serverName) {
-        videoIframe.src = url;
-        projectionBox.hidden = false;
-        document.getElementById("activeServerBadge").textContent = serverName;
-        projectionBox.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      if (kind === "movie") {
-        document.getElementById("playMovieBtn").addEventListener("click", () => {
-          loadPlayer(getPlayerUrl(id, "movie", 1, 1, activeServer), "VidSrc Pro");
-        });
-      }
-
-      document.querySelectorAll(".server-card").forEach(sc => {
-        sc.addEventListener("click", () => {
-          document.querySelectorAll(".server-card").forEach(x => x.classList.remove("active"));
-          sc.classList.add("active");
-          activeServer = sc.dataset.server;
-          const sName = sc.querySelector("strong").nextSibling.textContent.trim();
-          if (kind === "movie") {
-            loadPlayer(getPlayerUrl(id, "movie", 1, 1, activeServer), sName);
-          } else {
-            loadPlayer(getPlayerUrl(id, "tv", curSeason, curEp, activeServer), sName);
+      detailSection.querySelectorAll(".seasonBtn").forEach(btn=>{
+        btn.addEventListener("click",async()=>{
+          const season = btn.dataset.season;
+          const target = $(`season-${season}`);
+          if(target.dataset.loaded==="1") {
+            target.innerHTML="";
+            target.dataset.loaded="0";
+            btn.textContent="View Episodes";
+            return;
+          }
+          btn.disabled=true;
+          btn.textContent="Loading...";
+          try {
+            const sData=await api(`/tv/${id}/season/${season}`);
+            target.innerHTML=(sData.episodes||[]).map(ep=>`
+              <div class="episode-row">
+                <strong>E${Number(ep.episode_number)}. ${escapeHtml(ep.name)}</strong>
+                <button class="playEpBtn" type="button" data-season="${season}" data-ep="${Number(ep.episode_number)}">▶ Play</button>
+              </div>`).join("") || '<p>No episodes found.</p>';
+            target.dataset.loaded="1";
+            btn.textContent="Hide Episodes";
+            target.querySelectorAll(".playEpBtn").forEach(pb=>{
+              pb.addEventListener("click",()=>{
+                curSeason=Number(pb.dataset.season);
+                curEp=Number(pb.dataset.ep);
+                loadPlayer(activeServer);
+              });
+            });
+          } catch {
+            btn.textContent="Try Again";
+          } finally {
+            btn.disabled=false;
           }
         });
       });
-
-      if (kind === "tv") {
-        const seasons = (data.seasons||[]).filter(s => s.season_number > 0);
-        const epContainer = document.getElementById("episodesList");
-        epContainer.innerHTML = seasons.map(s => `
-          <div class="episode">
-            <h4>${escapeHtml(s.name)}</h4>
-            <p style="color:var(--muted); font-size:.85rem; margin:4px 0 10px;">${s.episode_count} Episodes</p>
-            <button type="button" class="secondary seasonBtn" data-season="${s.season_number}" style="padding:6px 14px; font-size:.85rem;">View Episodes</button>
-            <div class="seasonContent" id="season-ep-${s.season_number}" style="margin-top:10px;"></div>
-          </div>
-        `).join("");
-
-        epContainer.querySelectorAll(".seasonBtn").forEach(btn => {
-          btn.addEventListener("click", async () => {
-            const sNum = btn.dataset.season;
-            const target = document.getElementById(`season-ep-${sNum}`);
-            if (target.dataset.loaded === "1") { target.innerHTML = ""; target.dataset.loaded = "0"; btn.textContent = "View Episodes"; return; }
-            btn.textContent = "Loading...";
-            try {
-              const sData = await api(`/tv/${id}/season/${sNum}`);
-              target.innerHTML = (sData.episodes||[]).map(ep => `
-                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line);">
-                  <div><strong>E${ep.episode_number}. ${escapeHtml(ep.name)}</strong></div>
-                  <button type="button" class="playEpBtn" data-s="${sNum}" data-e="${ep.episode_number}" style="background:var(--accent-gold); color:#000; border:0; border-radius:8px; padding:6px 14px; font-size:.8rem; font-weight:800; cursor:pointer;">▶ Play</button>
-                </div>
-              `).join("");
-              target.dataset.loaded = "1";
-              btn.textContent = "Hide Episodes";
-
-              target.querySelectorAll(".playEpBtn").forEach(eb => {
-                eb.addEventListener("click", () => {
-                  curSeason = eb.dataset.s; curEp = eb.dataset.e;
-                  loadPlayer(getPlayerUrl(id, "tv", curSeason, curEp, activeServer), "VidSrc Pro");
-                });
-              });
-            } catch { btn.textContent = "Error loading"; }
-          });
-        });
-      }
-
-    } catch (err) { statusEl.textContent = `Could not load: ${err.message}`; }
-  }
-
-  document.addEventListener("click", e => {
-    const card = e.target.closest(".card");
-    if (card && card.dataset.id) {
-      openDetails(Number(card.dataset.id), card.dataset.kind || "movie");
     }
-  });
+  } catch(err) {
+    detailSection.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = "Could not load details: " + err.message;
+  }
+}
 
-  document.querySelectorAll(".tabs button").forEach(b => {
-    b.addEventListener("click", () => loadTrending(b.dataset.kind));
-  });
+/* PLUGIN CATALOG */
+const FALLBACK_PLUGINS = [
+  {
+    name:"Bollyflix",version:33,language:"hi",
+    description:"Hindi movies and series extension.",
+    url:"https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/Bollyflix.cs3",
+    repositoryUrl:"https://github.com/SaurabhKaperwan/CSX"
+  },
+  {
+    name:"CineStream",version:487,language:"en",
+    description:"Streaming extension. Availability may vary.",
+    url:"https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/CineStream.cs3",
+    repositoryUrl:"https://github.com/SaurabhKaperwan/CSX"
+  }
+];
 
-  loadTrending("all");
+function renderPlugins() {
+  const query=$("pluginSearch").value.trim().toLowerCase();
+  const list=plugins.filter(p=>
+    `${p.name} ${p.description||""} ${p.language||""}`.toLowerCase().includes(query)
+  );
+
+  $("pluginResults").innerHTML=list.map(p=>`
+    <article class="card" style="padding:16px;cursor:default">
+      <h3>${escapeHtml(p.name)} <span class="rating-badge">v${escapeHtml(p.version??"?")}</span></h3>
+      <p style="font-size:.85rem;color:var(--muted)">${escapeHtml(p.description||"No description available.")}</p>
+      <p style="font-size:.8rem;color:var(--muted)">Language: ${escapeHtml(p.language||"Unknown")}</p>
+      <a href="${escapeHtml(p.url||p.repositoryUrl||"#")}" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:none;font-weight:800">Open Plugin ↗</a>
+      ${p.repositoryUrl ? `<p><a href="${escapeHtml(p.repositoryUrl)}" target="_blank" rel="noopener" style="color:var(--muted);font-size:.8rem">Repository ↗</a></p>` : ""}
+    </article>`).join("");
+
+  if(!list.length) {
+    $("pluginResults").innerHTML='<p style="color:var(--muted)">No matching plugins found.</p>';
+  }
+}
+
+async function refreshPlugins() {
+  const requestId=++pluginRequestId;
+  $("pluginStatus").hidden=false;
+  $("pluginStatus").textContent="Checking configured catalog...";
+
+  /*
+    To load a live CloudStream catalog, configure a catalog JSON URL
+    you trust and are permitted to use. Do not treat arbitrary plugin
+    repositories as verified or safe.
+  */
+  plugins=[...FALLBACK_PLUGINS];
+
+  if(requestId!==pluginRequestId) return;
+  renderPlugins();
+  $("pluginStatus").textContent="Showing configured fallback entries. No live catalog URL is configured.";
+}
+
+$("pluginsNavBtn").addEventListener("click",()=>{
+  hideSections();
+  pluginsSection.hidden=false;
+  refreshPlugins();
+});
+$("backToMovies").addEventListener("click",showExplore);
+$("pluginSearch").addEventListener("input",renderPlugins);
+$("refreshPlugins").addEventListener("click",refreshPlugins);
+
+checkAuth();
+loadTrending("all");
+
 })();
 </script>
 </body>
