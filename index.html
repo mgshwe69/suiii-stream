@@ -29,7 +29,6 @@
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    /* HEADER & SEARCH BAR */
     header {
       position: sticky;
       top: 0;
@@ -105,7 +104,6 @@
       padding: 0 20px 60px;
     }
 
-    /* DOPEBOX HERO FEATURE BANNER */
     .hero-feature {
       margin-top: 24px;
       position: relative;
@@ -172,9 +170,6 @@
       overflow: hidden;
     }
 
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
-    /* CATEGORY TABS */
     .tabs {
       display: flex;
       gap: 10px;
@@ -189,6 +184,7 @@
       border-radius: 10px;
       padding: 10px 18px;
       font-weight: 700;
+      cursor: pointer;
     }
 
     .tabs button.active {
@@ -207,7 +203,6 @@
 
     .section-head h2 { margin: 0; font-size: 1.4rem; font-weight: 800; }
 
-    /* MEDIA GRID CARDS */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
@@ -275,7 +270,6 @@
       margin: 20px 0;
     }
 
-    /* DETAILS PAGE & MULTI-SERVER PROJECTION ROOM */
     .detail {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -300,7 +294,6 @@
       color: #d1d1d6;
     }
 
-    /* PROJECTION ROOM (MULTI-SERVER) */
     .projection-container {
       margin-top: 24px;
       background: var(--card-bg);
@@ -354,7 +347,6 @@
     .server-card.active { border-color: var(--accent-gold); background: rgba(245, 197, 24, 0.08); }
     .server-live { font-size: .75rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
 
-    /* CAST GRID */
     .cast-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -404,14 +396,13 @@
 
 <body>
 
-<!-- HEADER WITH DIRECT SEARCH BAR -->
 <header>
   <div class="top">
     <div class="brand" id="brandHome">
       SUIII<span>_STREAM</span>
     </div>
     <form id="searchForm" role="search">
-      <input id="searchInput" placeholder="Search movies or TV shows..." aria-label="Search titles">
+      <input id="searchInput" type="search" placeholder="Search movies or TV shows..." aria-label="Search titles">
       <button type="submit">Search</button>
     </form>
     <button type="button" class="secondary" id="pluginsNavBtn">
@@ -421,7 +412,6 @@
 </header>
 
 <main id="app">
-  <!-- DOPEBOX HERO FEATURE BANNER -->
   <section id="heroBanner" class="hero-feature" style="background-image: url('https://image.tmdb.org/t/p/original/8rpDpt23A1L25mEV22R323Za683.jpg');">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -439,7 +429,6 @@
     </div>
   </section>
 
-  <!-- NAVIGATION TABS -->
   <nav class="tabs" aria-label="Browse categories">
     <button data-kind="all" class="active">🔥 Trending</button>
     <button data-kind="movie">🎬 Movies</button>
@@ -448,7 +437,6 @@
 
   <div id="status" class="status">Loading trending content...</div>
 
-  <!-- RESULTS SECTION -->
   <section id="resultsSection">
     <div class="section-head">
       <h2 id="resultsTitle">Top 10 Today</h2>
@@ -456,10 +444,8 @@
     <div id="results" class="grid"></div>
   </section>
 
-  <!-- DETAILS & PROJECTION ROOM -->
   <section id="detailSection" hidden></section>
 
-  <!-- PLUGINS SECTION -->
   <section id="pluginsSection" hidden>
     <button type="button" class="secondary" id="backToMovies" style="margin-bottom:20px;">
       ← Back to Explore
@@ -507,7 +493,6 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadTrending("all"));
 
-  /* Plugins page controls */
   const pluginsSection = document.getElementById("pluginsSection");
   document.getElementById("pluginsNavBtn").addEventListener("click", () => {
     resultsSection.hidden = true; detailSection.hidden = true; heroBanner.hidden = true; pluginsSection.hidden = false;
@@ -642,29 +627,26 @@
     searchTitles(searchInput.value);
   });
 
-  /* SERVERS LIST FOR PROJECTION ROOM */
   const SERVERS = [
     { id: "vidsrc", name: "VidSrcMe", mirror: "Server 1", live: true },
-    { id: "vidking", name: "VidKing", mirror: "Mirror 2", live: false },
-    { id: "videasy", name: "VidEasy", mirror: "Mirror 3", live: false },
-    { id: "cinemaos", name: "Cinemaos", mirror: "Mirror 4", live: false },
-    { id: "vidsrcru", name: "VidSrc RU", mirror: "Mirror 5", live: false },
-    { id: "multiembed", name: "MultiEmbed", mirror: "Mirror 7", live: false }
+    { id: "vidsrcpro", name: "VidSrc Pro", mirror: "Mirror 2", live: false },
+    { id: "multiembed", name: "MultiEmbed", mirror: "Mirror 3", live: false },
+    { id: "autoembed", name: "AutoEmbed", mirror: "Mirror 4", live: false }
   ];
 
   function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
     if (kind === "movie") {
-      if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
-      if (server === "vidking") return `https://vidsrc.cc/v2/embed/movie/${id}`;
-      if (server === "videasy") return `https://player.videasy.net/movie/${id}`;
+      if (server === "vidsrc") return `https://vidsrc.xyz/embed/movie?tmdb=${id}`;
+      if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
-      return `https://vidsrc.to/embed/movie/${id}`;
+      if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
+      return `https://vidsrc.xyz/embed/movie?tmdb=${id}`;
     } else {
-      if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
-      if (server === "vidking") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
-      if (server === "videasy") return `https://player.videasy.net/tv/${id}/${season}/${ep}`;
+      if (server === "vidsrc") return `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${ep}`;
+      if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
-      return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
+      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
+      return `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${ep}`;
     }
   }
 
@@ -705,14 +687,13 @@
           </div>
         </div>
 
-        <!-- PROJECTION ROOM MULTI-SERVER SECTION -->
         <div id="projectionBox" class="projection-container" hidden>
           <div class="projection-header">
             <div><strong>PROJECTION ROOM</strong> <span class="muted" style="font-size:.85rem;">· Server room</span></div>
             <span id="activeServerBadge" class="rating-badge">VidSrcMe</span>
           </div>
           <div class="projection-player">
-            <iframe id="videoIframe" class="player-frame" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+            <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
           </div>
           <div class="player-brand">
             Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
