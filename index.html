@@ -225,6 +225,7 @@
       border-radius: 14px;
       margin-top: 20px;
       background: #000;
+      position: relative;
     }
 
     .player-frame {
@@ -232,6 +233,18 @@
       height: 100%;
       border: 0;
       border-radius: 14px;
+    }
+
+    .player-brand {
+      text-align: right;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .player-brand a {
+      color: #b7a8ff;
+      text-decoration: none;
     }
 
     .server-tabs {
@@ -244,15 +257,6 @@
     .server-tabs button {
       font-size: 0.85rem;
       padding: 8px 12px;
-    }
-
-    .trailer {
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: 0;
-      border-radius: 14px;
-      margin-top: 16px;
-      background: #000;
     }
 
     .empty { color: var(--muted); padding: 20px 0; }
@@ -410,10 +414,7 @@
 
     <div class="hero">
       <h1>Plugin Center ⚡</h1>
-      <p>
-        Explore plugin information, supported categories,
-        versions and original source repositories.
-      </p>
+      <p>Explore plugin information, supported categories, versions and original source repositories.</p>
     </div>
 
     <div class="plugin-notice">
@@ -422,12 +423,7 @@
     </div>
 
     <div class="plugin-toolbar">
-      <input
-        id="pluginSearch"
-        type="search"
-        placeholder="Search plugins..."
-        aria-label="Search plugins">
-
+      <input id="pluginSearch" type="search" placeholder="Search plugins..." aria-label="Search plugins">
       <select id="pluginCategory" aria-label="Filter by category">
         <option value="all">All categories</option>
         <option value="Movie">Movies</option>
@@ -436,17 +432,13 @@
         <option value="AsianDrama">Asian Drama</option>
         <option value="Torrent">Torrent</option>
       </select>
-
       <select id="pluginLanguage" aria-label="Filter by language">
         <option value="all">All languages</option>
         <option value="hi">Hindi</option>
         <option value="en">English</option>
         <option value="unknown">Unspecified</option>
       </select>
-
-      <button type="button" id="refreshPlugins">
-        Live Refresh
-      </button>
+      <button type="button" id="refreshPlugins">Live Refresh</button>
     </div>
 
     <div class="section-head">
@@ -520,17 +512,6 @@
       repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
     },
     {
-      name: "MoviesDrive",
-      version: 33,
-      status: 1,
-      language: "hi",
-      description: "High Quality Movies and TV Shows",
-      authors: ["megix"],
-      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
-      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/MoviesDrive.cs3",
-      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
-    },
-    {
       name: "VegaMovies",
       version: 82,
       status: 1,
@@ -600,31 +581,21 @@
       ].join(" ").toLowerCase();
 
       const matchesSearch = searchable.includes(query);
-      const matchesCategory =
-        category === "all" || (plugin.tvTypes || []).includes(category);
-      const matchesLanguage =
-        language === "all" ||
-        (language === "unknown"
-          ? !plugin.language
-          : plugin.language === language);
+      const matchesCategory = category === "all" || (plugin.tvTypes || []).includes(category);
+      const matchesLanguage = language === "all" || (language === "unknown" ? !plugin.language : plugin.language === language);
 
       return matchesSearch && matchesCategory && matchesLanguage;
     });
 
-    pluginCount.textContent =
-      `${filtered.length} of ${plugins.length} plugins`;
+    pluginCount.textContent = `${filtered.length} of ${plugins.length} plugins`;
 
     if (!filtered.length) {
-      pluginResults.innerHTML =
-        '<p class="empty">No matching plugins found.</p>';
+      pluginResults.innerHTML = '<p class="empty">No matching plugins found.</p>';
       return;
     }
 
     pluginResults.innerHTML = filtered.map(plugin => {
-      const categories = (plugin.tvTypes || [])
-        .map(type => `<span class="plugin-badge">${escapeHtml(type)}</span>`)
-        .join("");
-
+      const categories = (plugin.tvTypes || []).map(type => `<span class="plugin-badge">${escapeHtml(type)}</span>`).join("");
       const languageNames = { hi: "Hindi", en: "English" };
       const languageName = languageNames[plugin.language] || (plugin.language ? plugin.language : "Unspecified");
       const author = (plugin.authors || []).join(", ") || "Unknown";
@@ -656,7 +627,7 @@
 
   fetchLivePlugins();
 
-  /* ---------- TMDB app & Player Integration ---------- */
+  /* ---------- TMDB API Proxy Function ---------- */
 
   async function api(path) {
     const response = await fetch(`${API_PROXY}?path=${encodeURIComponent(path)}`);
@@ -745,6 +716,7 @@
     }
   }
 
+  /* ---------- SEARCH IMPLEMENTATION ---------- */
   async function searchTitles(query) {
     const q = query.trim();
     if (!q) return loadTrending(currentKind);
@@ -758,18 +730,21 @@
     showStatus("Searching…");
 
     try {
-      const kinds = currentKind === "all" ? ["movie", "tv"] : [currentKind];
-      const data = await Promise.all(
-        kinds.map(kind => api(`/search/${kind}?query=${encodeURIComponent(q)}&include_adult=false`))
-      );
+      const [movieData, tvData] = await Promise.all([
+        api(`/search/movie?query=${encodeURIComponent(q)}&include_adult=false`),
+        api(`/search/tv?query=${encodeURIComponent(q)}&include_adult=false`)
+      ]);
 
-      let lists = data.flatMap((d, i) => (d.results || []).map(x => ({ ...x, media_type: kinds[i] })));
-      lists.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+      const movies = (movieData.results || []).map(m => ({ ...m, media_type: "movie" }));
+      const tvs = (tvData.results || []).map(t => ({ ...t, media_type: "tv" }));
+
+      let lists = [...movies, ...tvs].sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
       if (!lists.length) {
-        showStatus("No results found. Try another title.");
+        showStatus("No results found. Try another title.", false);
         return;
       }
+
       statusEl.hidden = true;
       resultsEl.innerHTML = lists.slice(0, 30).map(item => cardMarkup(item, item.media_type)).join("");
     } catch (error) {
@@ -777,7 +752,7 @@
     }
   }
 
-  // --- EMBED PLAYER URL GENERATOR ---
+  /* ---------- EMBED PLAYER URL GENERATOR WITH ADS RESTRICTION ---------- */
   function getMoviePlayerUrl(tmdbId, server = "vidsrc") {
     if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${tmdbId}`;
     if (server === "superembed") return `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1`;
@@ -835,7 +810,12 @@
             ` : ""}
 
             <div id="playerBox" class="player-container" hidden>
-              <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+              <!-- sandbox attribute helps block unwanted pop-ups and redirects -->
+              <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+            </div>
+            
+            <div id="playerBrand" class="player-brand" hidden>
+              Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
             </div>
 
             <div id="serverSelector" class="server-tabs" hidden>
@@ -869,11 +849,13 @@
 
       const playerBox = document.getElementById("playerBox");
       const videoIframe = document.getElementById("videoIframe");
+      const playerBrand = document.getElementById("playerBrand");
       const serverSelector = document.getElementById("serverSelector");
 
       function loadPlayer(url) {
         videoIframe.src = url;
         playerBox.hidden = false;
+        playerBrand.hidden = false;
         serverSelector.hidden = false;
         playerBox.scrollIntoView({ behavior: 'smooth' });
       }
