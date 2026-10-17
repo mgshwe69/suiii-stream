@@ -509,8 +509,18 @@
     `).join("");
   }
 
+  // FIXED API CALL TO PRESERVE QUERY PARAMS (LIKE SEARCH QUERIES)
   async function api(path) {
-    const res = await fetch(`${API_PROXY}?path=${encodeURIComponent(path)}`);
+    const parts = path.split("?");
+    const route = parts[0];
+    const query = parts.slice(1).join("?");
+    
+    let url = `${API_PROXY}?path=${encodeURIComponent(route)}`;
+    if (query) {
+      url += `&${query}`;
+    }
+
+    const res = await fetch(url);
     const data = await res.json().catch(() => ({}));
     if (!res.ok) throw new Error(data.error || `Failed`);
     return data;
