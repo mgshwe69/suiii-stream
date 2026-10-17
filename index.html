@@ -465,8 +465,7 @@
 (() => {
   "use strict";
 
-  const TMDB_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
-  const TMDB_BASE = "https://api.themoviedb.org/3";
+  const API_PROXY = "/.netlify/functions/tmdb";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -510,12 +509,10 @@
     `).join("");
   }
 
-  async function api(endpoint) {
-    const sep = endpoint.includes("?") ? "&" : "?";
-    const url = `${TMDB_BASE}${endpoint}${sep}api_key=${TMDB_KEY}`;
-    const res = await fetch(url);
+  async function api(path) {
+    const res = await fetch(`${API_PROXY}?path=${encodeURIComponent(path)}`);
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.status_message || "API request failed");
+    if (!res.ok) throw new Error(data.error || `Failed`);
     return data;
   }
 
