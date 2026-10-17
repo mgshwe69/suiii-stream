@@ -453,7 +453,6 @@
     const name = document.getElementById("loginName").value.trim() || "User";
     const key = document.getElementById("loginKey").value.trim();
     
-    // Check key or allow prefix match
     let durationDays = VALID_KEYS[key];
     if (!durationDays && key.startsWith("Suiii-")) durationDays = 15;
 
@@ -486,7 +485,6 @@
   }
   checkAuth();
 
-  // DIRECT TMDB API SETUP (FIXED BUG HERE)
   const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
@@ -505,7 +503,6 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
-  // SEARCH FORM
   document.getElementById("searchForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     const query = document.getElementById("searchInput").value.trim();
@@ -523,10 +520,15 @@
   });
 
   async function api(path) {
-    const joiner = path.includes("?") ? "&" : "?";
-    const url = `https://api.themoviedb.org/3${path}${joiner}api_key=${TMDB_API_KEY}`;
-    const res = await fetch(url);
-    return await res.json();
+    const url = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('Failed to fetch');
+      return await res.json();
+    } catch (err) {
+      console.error("API Error:", err);
+      return { results: [] };
+    }
   }
 
   function titleOf(i) { return i.title || i.name || i.original_title || "Untitled"; }
@@ -601,7 +603,8 @@
       resultsEl.className = "grid";
       let lists = [];
       if (kind === "all") {
-        const [m, t] = await Promise.all([api("/trending/movie/week"), api("/trending/tv/week")]);
+        const m = await api("/trending/movie/week");
+        const t = await api("/trending/tv/week");
         lists = [...(m.results||[]).map(x=>({...x, media_type:"movie"})), ...(t.results||[]).map(x=>({...x, media_type:"tv"}))].slice(0,24);
       } else if (kind === "movie") {
         const d = await api("/trending/movie/week"); lists = (d.results||[]).map(x=>({...x, media_type:"movie"}));
@@ -615,15 +618,16 @@
         const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
       }
 
-      if (lists.length) {
+      if (lists.length > 0) {
         setupCarousel(lists);
         statusEl.hidden = true;
         resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
+      } else {
+        statusEl.textContent = "No content found or check connection.";
       }
-    } catch (e) { statusEl.textContent = `Error loading content: ${e.message}`; }
+    } catch (e) { statusEl.textContent = `Error: ${e.message}`; }
   }
 
-  // MOVIEBOX & VEGAMOVIES STYLE MIRRORS
   const SERVERS = [
     { id: "vidsrc", name: "VegaMovies Mirror 1" },
     { id: "multiembed", name: "MovieBox Pro" },
@@ -652,8 +656,7 @@
     statusEl.hidden = false; statusEl.textContent = "Loading stream details...";
 
     try {
-      let urlEndpoint = `/${kind}/${id}`;
-      const data = await api(urlEndpoint);
+      const data = await api(`/${kind}/${id}`);
       
       detailSection.innerHTML = `
         <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px;">← Back</button>
