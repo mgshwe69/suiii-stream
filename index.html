@@ -465,7 +465,7 @@
 
 <footer>
   © <span id="year"></span> SUIII_STREAM · Created with ❤️ by
-  <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
+  <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a> — Dalli iloveu ❤️
   <br>
   <span style="font-size:.8rem; color:var(--muted);">Powered by TMDB API.</span>
 </footer>
@@ -599,6 +599,7 @@
     } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
   }
 
+  /* FIXED & OPTIMIZED SEARCH FUNCTION WITH LOADING */
   async function searchTitles(query) {
     const q = query.trim();
     if (!q) return loadTrending(currentKind);
@@ -606,7 +607,8 @@
     detailSection.hidden = true; pluginsSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = false;
     resultsEl.innerHTML = "";
     resultsTitle.textContent = `Search results for “${q}”`;
-    statusEl.hidden = false; statusEl.textContent = "Searching...";
+    statusEl.hidden = false;
+    statusEl.textContent = "Searching movies & TV shows...";
 
     try {
       const [mRes, tRes] = await Promise.all([
@@ -616,10 +618,17 @@
       const list = [...(mRes.results||[]).map(x=>({...x, media_type:"movie"})), ...(tRes.results||[]).map(x=>({...x, media_type:"tv"}))]
         .sort((a,b)=>(b.popularity||0)-(a.popularity||0));
 
-      if (!list.length) { statusEl.textContent = "No results found."; return; }
+      if (!list.length) {
+        statusEl.hidden = false;
+        statusEl.textContent = "No results found.";
+        return;
+      }
       statusEl.hidden = true;
       resultsEl.innerHTML = list.slice(0, 30).map(i => cardMarkup(i, i.media_type)).join("");
-    } catch (e) { statusEl.textContent = `Search failed: ${e.message}`; }
+    } catch (e) {
+      statusEl.hidden = false;
+      statusEl.textContent = `Search failed: ${e.message}`;
+    }
   }
 
   searchForm.addEventListener("submit", e => {
@@ -636,17 +645,17 @@
 
   function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
     if (kind === "movie") {
-      if (server === "vidsrc") return `https://vidsrc.xyz/embed/movie?tmdb=${id}`;
+      if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
       if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
       if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
-      return `https://vidsrc.xyz/embed/movie?tmdb=${id}`;
+      return `https://vidsrc.to/embed/movie/${id}`;
     } else {
-      if (server === "vidsrc") return `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${ep}`;
+      if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
       if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
       if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
-      return `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${season}&episode=${ep}`;
+      return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
     }
   }
 
@@ -696,7 +705,7 @@
             <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
           </div>
           <div class="player-brand">
-            Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
+            Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a> — Dalli iloveu ❤️
           </div>
           <div class="servers-grid" id="serversGrid">
             ${SERVERS.map((s, idx) => `
