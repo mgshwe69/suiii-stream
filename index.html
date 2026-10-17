@@ -266,7 +266,9 @@
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 12px;
-      color: var(--muted);
+      color: var(--text);
+      font-weight: 700;
+      text-align: center;
       margin: 20px 0;
     }
 
@@ -364,15 +366,6 @@
     .episodes { display: grid; gap: 12px; margin-top: 16px; }
     .episode { background: var(--card-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
 
-    .player-brand {
-      text-align: right;
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 8px;
-      padding-right: 4px;
-    }
-    .player-brand a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
-
     footer {
       border-top: 1px solid var(--line);
       padding: 30px 20px;
@@ -382,7 +375,6 @@
       background: var(--panel);
       margin-top: 50px;
     }
-    footer a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
 
     @media(max-width:768px) {
       .top { padding: 12px; }
@@ -435,7 +427,7 @@
     <button data-kind="tv">📺 TV Shows</button>
   </nav>
 
-  <div id="status" class="status">Loading trending content...</div>
+  <div id="status" class="status">Dalli 💕</div>
 
   <section id="resultsSection">
     <div class="section-head">
@@ -464,17 +456,15 @@
 </main>
 
 <footer>
-  © <span id="year"></span> SUIII_STREAM · Created with ❤️ by
-  <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a> — Dalli iloveu ❤️
-  <br>
-  <span style="font-size:.8rem; color:var(--muted);">Powered by TMDB API.</span>
+  © <span id="year"></span> SUIII_STREAM. All rights reserved.
 </footer>
 
 <script>
 (() => {
   "use strict";
 
-  const API_PROXY = "/.netlify/functions/tmdb";
+  const TMDB_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
+  const TMDB_BASE = "https://api.themoviedb.org/3";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -518,10 +508,12 @@
     `).join("");
   }
 
-  async function api(path) {
-    const res = await fetch(`${API_PROXY}?path=${encodeURIComponent(path)}`);
+  async function api(endpoint) {
+    const sep = endpoint.includes("?") ? "&" : "?";
+    const url = `${TMDB_BASE}${endpoint}${sep}api_key=${TMDB_KEY}`;
+    const res = await fetch(url);
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `Failed`);
+    if (!res.ok) throw new Error(data.status_message || "API request failed");
     return data;
   }
 
@@ -580,7 +572,7 @@
     currentKind = kind;
     detailSection.hidden = true; pluginsSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
-    statusEl.hidden = false; statusEl.textContent = "Loading trending titles...";
+    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
 
     try {
       let lists = [];
@@ -599,7 +591,6 @@
     } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
   }
 
-  /* FIXED & OPTIMIZED SEARCH FUNCTION WITH LOADING */
   async function searchTitles(query) {
     const q = query.trim();
     if (!q) return loadTrending(currentKind);
@@ -608,7 +599,7 @@
     resultsEl.innerHTML = "";
     resultsTitle.textContent = `Search results for “${q}”`;
     statusEl.hidden = false;
-    statusEl.textContent = "Searching movies & TV shows...";
+    statusEl.textContent = "Dalli 💕";
 
     try {
       const [mRes, tRes] = await Promise.all([
@@ -636,23 +627,24 @@
     searchTitles(searchInput.value);
   });
 
+  /* MULTI-LANGUAGE & SUBTITLE SUPPORT SERVERS */
   const SERVERS = [
-    { id: "vidsrc", name: "VidSrcMe", mirror: "Server 1", live: true },
-    { id: "vidsrcpro", name: "VidSrc Pro", mirror: "Mirror 2", live: false },
-    { id: "multiembed", name: "MultiEmbed", mirror: "Mirror 3", live: false },
-    { id: "autoembed", name: "AutoEmbed", mirror: "Mirror 4", live: false }
+    { id: "vidsrc", name: "VidSrc Pro", mirror: "Multi-Audio/Subs", live: true },
+    { id: "vidsrc-cc", name: "VidSrc.cc", mirror: "Server 2", live: false },
+    { id: "multiembed", name: "MultiEmbed", mirror: "Multi-Lang", live: false },
+    { id: "autoembed", name: "AutoEmbed", mirror: "Subtitles", live: false }
   ];
 
   function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
     if (kind === "movie") {
       if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
-      if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/movie/${id}`;
+      if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
       if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
       return `https://vidsrc.to/embed/movie/${id}`;
     } else {
       if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
-      if (server === "vidsrcpro") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
+      if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
       if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
       return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
@@ -661,7 +653,7 @@
 
   async function openDetails(id, kind) {
     detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true; pluginsSection.hidden = true;
-    statusEl.hidden = false; statusEl.textContent = "Loading title details & cast...";
+    statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
 
     try {
       const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
@@ -699,13 +691,10 @@
         <div id="projectionBox" class="projection-container" hidden>
           <div class="projection-header">
             <div><strong>PROJECTION ROOM</strong> <span class="muted" style="font-size:.85rem;">· Server room</span></div>
-            <span id="activeServerBadge" class="rating-badge">VidSrcMe</span>
+            <span id="activeServerBadge" class="rating-badge">VidSrc Pro</span>
           </div>
           <div class="projection-player">
             <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-          </div>
-          <div class="player-brand">
-            Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a> — Dalli iloveu ❤️
           </div>
           <div class="servers-grid" id="serversGrid">
             ${SERVERS.map((s, idx) => `
@@ -749,7 +738,7 @@
 
       if (kind === "movie") {
         document.getElementById("playMovieBtn").addEventListener("click", () => {
-          loadPlayer(getPlayerUrl(id, "movie", 1, 1, activeServer), "VidSrcMe");
+          loadPlayer(getPlayerUrl(id, "movie", 1, 1, activeServer), "VidSrc Pro");
         });
       }
 
@@ -799,7 +788,7 @@
               target.querySelectorAll(".playEpBtn").forEach(eb => {
                 eb.addEventListener("click", () => {
                   curSeason = eb.dataset.s; curEp = eb.dataset.e;
-                  loadPlayer(getPlayerUrl(id, "tv", curSeason, curEp, activeServer), "VidSrcMe");
+                  loadPlayer(getPlayerUrl(id, "tv", curSeason, curEp, activeServer), "VidSrc Pro");
                 });
               });
             } catch { btn.textContent = "Error loading"; }
