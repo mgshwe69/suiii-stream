@@ -1,2 +1,0 @@
-[build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "TMDB_API_KEY"
