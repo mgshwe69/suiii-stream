@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -250,6 +249,92 @@
       .detail .poster-wrap { max-width: 230px; }
       .section-head { margin-top: 22px; }
     }
+
+    /* SUIII_STREAM Plugins Page */
+    .plugin-toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .plugin-toolbar input,
+    .plugin-toolbar select {
+      flex: 1;
+      min-width: 140px;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 12px;
+      font: inherit;
+    }
+
+    .plugin-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      padding: 16px;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .plugin-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .plugin-card p {
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .plugin-card .plugin-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .plugin-card a {
+      color: #b7a8ff;
+      text-decoration: none;
+    }
+
+    .plugin-badge {
+      display: inline-block;
+      background: #29243e;
+      color: #c7baff;
+      border: 1px solid #453965;
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: .78rem;
+      margin: 3px 4px 3px 0;
+    }
+
+    .plugin-notice {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px;
+      margin: 16px 0;
+      color: var(--muted);
+    }
+
+    #pluginsSection .grid {
+      align-items: stretch;
+    }
+
+    @media(max-width:600px) {
+      .plugin-toolbar {
+        flex-direction: column;
+      }
+
+      .plugin-toolbar input,
+      .plugin-toolbar select {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
@@ -261,6 +346,9 @@
       <input id="searchInput" placeholder="Search movies or TV shows..." aria-label="Search titles">
       <button type="submit">Search</button>
     </form>
+    <button type="button" id="pluginsBtn" class="secondary">
+      ⚡ Plugins
+    </button>
   </div>
 </header>
 
@@ -286,6 +374,61 @@
   </section>
 
   <section id="detailSection" hidden></section>
+
+  <section id="pluginsSection" hidden>
+    <button type="button" class="secondary" id="backToMovies">
+      ← Back to Movies
+    </button>
+
+    <div class="hero">
+      <h1>Plugin Center ⚡</h1>
+      <p>
+        Explore plugin information, supported categories,
+        versions and original source repositories.
+      </p>
+    </div>
+
+    <div class="plugin-notice">
+      Plugin status is provided by the repository.
+      It does not confirm browser compatibility or working playback.
+    </div>
+
+    <div class="plugin-toolbar">
+      <input
+        id="pluginSearch"
+        type="search"
+        placeholder="Search plugins..."
+        aria-label="Search plugins">
+
+      <select id="pluginCategory" aria-label="Filter by category">
+        <option value="all">All categories</option>
+        <option value="Movie">Movies</option>
+        <option value="TvSeries">TV Shows</option>
+        <option value="Anime">Anime</option>
+        <option value="AsianDrama">Asian Drama</option>
+        <option value="Torrent">Torrent</option>
+      </select>
+
+      <select id="pluginLanguage" aria-label="Filter by language">
+        <option value="all">All languages</option>
+        <option value="hi">Hindi</option>
+        <option value="en">English</option>
+        <option value="unknown">Unspecified</option>
+      </select>
+
+      <button type="button" id="refreshPlugins">
+        Refresh
+      </button>
+    </div>
+
+    <div class="section-head">
+      <h2>Available Plugins</h2>
+      <span id="pluginCount" class="muted">5 plugins</span>
+    </div>
+
+    <div id="pluginStatus" class="status" hidden></div>
+    <div id="pluginResults" class="grid"></div>
+  </section>
 </main>
 
 <footer>
@@ -313,6 +456,206 @@
   let currentKind = "all";
 
   document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ---------- Plugins page ---------- */
+
+  const pluginsSection = document.getElementById("pluginsSection");
+  const pluginsBtn = document.getElementById("pluginsBtn");
+  const pluginResults = document.getElementById("pluginResults");
+  const pluginStatus = document.getElementById("pluginStatus");
+  const pluginSearch = document.getElementById("pluginSearch");
+  const pluginCategory = document.getElementById("pluginCategory");
+  const pluginLanguage = document.getElementById("pluginLanguage");
+  const pluginCount = document.getElementById("pluginCount");
+
+  // Data supplied from your CSX plugins.json.
+  const BUILTIN_PLUGINS = [
+    {
+      name: "Bollyflix",
+      version: 33,
+      status: 1,
+      language: "hi",
+      description: "Movies and Series upto 4K",
+      authors: ["megix"],
+      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
+      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/Bollyflix.cs3",
+      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
+    },
+    {
+      name: "CineStream",
+      version: 487,
+      status: 1,
+      language: "en",
+      description: "One stop solution for Movies, Series, Anime, AsianDrama and Torrents",
+      authors: ["megix"],
+      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime", "Torrent"],
+      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/CineStream.cs3",
+      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
+    },
+    {
+      name: "MoviesDrive",
+      version: 33,
+      status: 1,
+      language: "hi",
+      description: "High Quality Movies and TV Shows",
+      authors: ["megix"],
+      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
+      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/MoviesDrive.cs3",
+      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
+    },
+    {
+      name: "Moviesmod",
+      version: 33,
+      status: 1,
+      language: "",
+      description: "Includes Topmovies",
+      authors: ["megix"],
+      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
+      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/Moviesmod.cs3",
+      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
+    },
+    {
+      name: "VegaMovies",
+      version: 82,
+      status: 1,
+      language: "hi",
+      description: "Includes LuxMovies, Rogmovies",
+      authors: ["megix"],
+      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
+      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/VegaMovies.cs3",
+      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
+    }
+  ];
+
+  let plugins = [...BUILTIN_PLUGINS];
+
+  function showPluginsPage() {
+    resultsSection.hidden = true;
+    detailSection.hidden = true;
+    pluginsSection.hidden = false;
+    statusEl.hidden = true;
+    renderPlugins();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function showMoviesPage() {
+    pluginsSection.hidden = true;
+    detailSection.hidden = true;
+    resultsSection.hidden = false;
+    loadTrending(currentKind);
+  }
+
+  function renderPlugins() {
+    const query = pluginSearch.value.trim().toLowerCase();
+    const category = pluginCategory.value;
+    const language = pluginLanguage.value;
+
+    const filtered = plugins.filter(plugin => {
+      const searchable = [
+        plugin.name,
+        plugin.description,
+        ...(plugin.authors || []),
+        ...(plugin.tvTypes || [])
+      ].join(" ").toLowerCase();
+
+      const matchesSearch = searchable.includes(query);
+      const matchesCategory =
+        category === "all" || (plugin.tvTypes || []).includes(category);
+      const matchesLanguage =
+        language === "all" ||
+        (language === "unknown"
+          ? !plugin.language
+          : plugin.language === language);
+
+      return matchesSearch && matchesCategory && matchesLanguage;
+    });
+
+    pluginCount.textContent =
+      `${filtered.length} of ${plugins.length} plugins`;
+
+    if (!filtered.length) {
+      pluginResults.innerHTML =
+        '<p class="empty">No matching plugins found.</p>';
+      return;
+    }
+
+    pluginResults.innerHTML = filtered.map(plugin => {
+      const categories = (plugin.tvTypes || [])
+        .map(type => `<span class="plugin-badge">${escapeHtml(type)}</span>`)
+        .join("");
+
+      const languageNames = {
+        hi: "Hindi",
+        en: "English"
+      };
+
+      const languageName =
+        languageNames[plugin.language] ||
+        (plugin.language ? plugin.language : "Unspecified");
+
+      const author = (plugin.authors || []).join(", ") || "Unknown";
+
+      const statusLabel = Number(plugin.status) === 1
+        ? "Listed as active"
+        : "Repository status: " + String(plugin.status ?? "Unknown");
+
+      return `
+        <article class="plugin-card">
+          <h3>${escapeHtml(plugin.name)}</h3>
+
+          <span class="plugin-badge">
+            Version ${escapeHtml(plugin.version)}
+          </span>
+
+          <span class="plugin-badge">
+            ${escapeHtml(statusLabel)}
+          </span>
+
+          <p>${escapeHtml(plugin.description || "No description available.")}</p>
+
+          <div>${categories}</div>
+
+          <p>
+            Language: ${escapeHtml(languageName)}<br>
+            Author: ${escapeHtml(author)}
+          </p>
+
+          <div class="plugin-links">
+            <a href="${escapeHtml(plugin.repositoryUrl)}"
+               target="_blank" rel="noopener noreferrer">
+              Repository ↗
+            </a>
+
+            <a href="${escapeHtml(plugin.url)}"
+               target="_blank" rel="noopener noreferrer">
+              Plugin source ↗
+            </a>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  pluginsBtn.addEventListener("click", showPluginsPage);
+  document.getElementById("backToMovies")
+    .addEventListener("click", showMoviesPage);
+
+  pluginSearch.addEventListener("input", renderPlugins);
+  pluginCategory.addEventListener("change", renderPlugins);
+  pluginLanguage.addEventListener("change", renderPlugins);
+
+  document.getElementById("refreshPlugins").addEventListener("click", () => {
+    // Re-renders the supplied list; this does not fetch GitHub.
+    plugins = [...BUILTIN_PLUGINS];
+    renderPlugins();
+    pluginStatus.hidden = false;
+    pluginStatus.textContent =
+      "Showing the locally configured list. GitHub refresh is not connected yet.";
+  });
+
+  renderPlugins();
+
+  /* ---------- TMDB app ---------- */
 
   async function api(path) {
     const response = await fetch(
@@ -401,6 +744,7 @@
   async function loadTrending(kind = currentKind) {
     currentKind = kind;
     detailSection.hidden = true;
+    pluginsSection.hidden = true;
     resultsSection.hidden = false;
     resultsEl.innerHTML = "";
 
@@ -459,6 +803,7 @@
     if (!q) return loadTrending(currentKind);
 
     detailSection.hidden = true;
+    pluginsSection.hidden = true;
     resultsSection.hidden = false;
     resultsEl.innerHTML = "";
 
@@ -507,6 +852,7 @@
     if (!["movie", "tv"].includes(kind) || !Number.isFinite(id)) return;
 
     showStatus("Loading title details…");
+    pluginsSection.hidden = true;
     resultsSection.hidden = true;
     detailSection.hidden = false;
     detailSection.innerHTML = "";
