@@ -389,8 +389,8 @@
     </div>
 
     <div class="plugin-notice">
-      Plugin status is provided by the repository.
-      It does not confirm browser compatibility or working playback.
+      Plugins catalog fetched live from repository.
+      Note: .cs3 extensions are built for CloudStream app and cannot run directly inside standard web browsers.
     </div>
 
     <div class="plugin-toolbar">
@@ -417,13 +417,13 @@
       </select>
 
       <button type="button" id="refreshPlugins">
-        Refresh
+        Live Refresh
       </button>
     </div>
 
     <div class="section-head">
       <h2>Available Plugins</h2>
-      <span id="pluginCount" class="muted">5 plugins</span>
+      <span id="pluginCount" class="muted">Loading plugins...</span>
     </div>
 
     <div id="pluginStatus" class="status" hidden></div>
@@ -457,7 +457,7 @@
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  /* ---------- Plugins page ---------- */
+  /* ---------- Plugins page with live GitHub Fetch ---------- */
 
   const pluginsSection = document.getElementById("pluginsSection");
   const pluginsBtn = document.getElementById("pluginsBtn");
@@ -468,8 +468,8 @@
   const pluginLanguage = document.getElementById("pluginLanguage");
   const pluginCount = document.getElementById("pluginCount");
 
-  // Data supplied from your CSX plugins.json.
-  const BUILTIN_PLUGINS = [
+  // Fallback builtin list if network fetch fails
+  const FALLBACK_PLUGINS = [
     {
       name: "Bollyflix",
       version: 33,
@@ -527,7 +527,32 @@
     }
   ];
 
-  let plugins = [...BUILTIN_PLUGINS];
+  let plugins = [...FALLBACK_PLUGINS];
+
+  async function fetchLivePlugins() {
+    pluginStatus.hidden = false;
+    pluginStatus.textContent = "Fetching latest plugins from GitHub repository...";
+    
+    try {
+      const response = await fetch("https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/CS.json");
+      if (!response.ok) throw new Error("Failed to fetch from GitHub");
+      const data = await response.json();
+      
+      if (Array.isArray(data) && data.length > 0) {
+        plugins = data;
+        pluginStatus.textContent = "Plugins successfully updated from GitHub live repository!";
+        setTimeout(() => { pluginStatus.hidden = true; }, 3000);
+      } else if (data.plugins && Array.isArray(data.plugins)) {
+        plugins = data.plugins;
+        pluginStatus.textContent = "Plugins successfully updated from GitHub live repository!";
+        setTimeout(() => { pluginStatus.hidden = true; }, 3000);
+      }
+    } catch (err) {
+      pluginStatus.textContent = "Could not fetch live repository (using cached local catalog).";
+      setTimeout(() => { pluginStatus.hidden = true; }, 4000);
+    }
+    renderPlugins();
+  }
 
   function showPluginsPage() {
     resultsSection.hidden = true;
@@ -621,7 +646,7 @@
           </p>
 
           <div class="plugin-links">
-            <a href="${escapeHtml(plugin.repositoryUrl)}"
+            <a href="${escapeHtml(plugin.repositoryUrl || "https://github.com/SaurabhKaperwan/CSX")}"
                target="_blank" rel="noopener noreferrer">
               Repository ↗
             </a>
@@ -645,15 +670,11 @@
   pluginLanguage.addEventListener("change", renderPlugins);
 
   document.getElementById("refreshPlugins").addEventListener("click", () => {
-    // Re-renders the supplied list; this does not fetch GitHub.
-    plugins = [...BUILTIN_PLUGINS];
-    renderPlugins();
-    pluginStatus.hidden = false;
-    pluginStatus.textContent =
-      "Showing the locally configured list. GitHub refresh is not connected yet.";
+    fetchLivePlugins();
   });
 
-  renderPlugins();
+  // Initial load fetch
+  fetchLivePlugins();
 
   /* ---------- TMDB app ---------- */
 
@@ -815,7 +836,6 @@
         ? ["movie", "tv"]
         : [currentKind];
 
-      // FIXED: TMDB search endpoints use /search/movie and /search/tv
       const data = await Promise.all(
         kinds.map(kind =>
           api(`/search/${kind}?query=${encodeURIComponent(q)}&include_adult=false`)
