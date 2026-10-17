@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0e">
-  <title>SUIII_STREAM — Watch Free Movies & TV Shows</title>
+  <title>SUIII_STREAM — Movies & TV Shows</title>
   <style>
     :root {
       color-scheme: dark;
@@ -29,7 +29,7 @@
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    /* DOPEBOX EXACT HEADER */
+    /* HEADER & SEARCH BAR */
     header {
       position: sticky;
       top: 0;
@@ -44,88 +44,60 @@
       margin: auto;
       padding: 14px 20px;
       display: flex;
-      gap: 20px;
+      gap: 16px;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .brand {
       font-weight: 900;
       letter-spacing: .5px;
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
       cursor: pointer;
     }
 
-    .brand-logo {
-      background: var(--accent-gold);
-      color: #000;
-      padding: 2px 8px;
-      border-radius: 6px;
-      font-weight: 900;
-    }
+    .brand span { color: var(--accent-gold); }
 
-    .header-actions {
+    form {
       display: flex;
-      gap: 12px;
-      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 500px;
     }
 
-    .icon-btn {
+    input[type="text"], input[type="search"] {
+      min-width: 0;
+      flex: 1;
       background: var(--panel);
       border: 1px solid var(--line);
       color: var(--text);
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      font-size: 1.1rem;
-      transition: border-color .2s;
-    }
-
-    .icon-btn:hover { border-color: var(--accent-gold); }
-
-    /* SEARCH MODAL OVERLAY */
-    #searchModal {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 5, 8, 0.96);
-      z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      padding: 30px 20px;
-      overflow-y: auto;
-    }
-
-    .search-modal-inner {
-      max-width: 800px;
-      width: 100%;
-      margin: auto;
-    }
-
-    .search-input-wrap {
-      display: flex;
-      align-items: center;
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px 18px;
-      gap: 12px;
-    }
-
-    .search-input-wrap input {
-      flex: 1;
-      background: transparent;
-      border: 0;
-      color: #fff;
+      padding: 11px 16px;
+      border-radius: 12px;
       font: inherit;
       outline: none;
     }
+    input:focus { border-color: var(--accent-gold); }
+
+    button {
+      background: var(--accent-btn);
+      color: #000;
+      border: 0;
+      border-radius: 11px;
+      padding: 11px 18px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button:hover { background: var(--accent-btn-hover); }
+
+    button.secondary {
+      background: var(--panel2);
+      color: #fff;
+      border: 1px solid var(--line);
+    }
+    button.secondary:hover { background: #262633; }
 
     main {
       max-width: 1300px;
@@ -187,10 +159,7 @@
       color: #d1d1d6;
     }
 
-    .hero-meta .rating {
-      color: var(--accent-gold);
-      font-weight: 800;
-    }
+    .hero-meta .rating { color: var(--accent-gold); font-weight: 800; }
 
     .hero-content p {
       color: var(--muted);
@@ -203,42 +172,7 @@
       overflow: hidden;
     }
 
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn-gold {
-      background: var(--accent-btn);
-      color: #000;
-      border: 0;
-      border-radius: 12px;
-      padding: 12px 24px;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: background .2s;
-    }
-    .btn-gold:hover { background: var(--accent-btn-hover); }
-
-    .btn-dark {
-      background: var(--panel2);
-      color: #fff;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 20px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .btn-dark:hover { background: #262633; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
     /* CATEGORY TABS */
     .tabs {
@@ -255,7 +189,6 @@
       border-radius: 10px;
       padding: 10px 18px;
       font-weight: 700;
-      cursor: pointer;
     }
 
     .tabs button.active {
@@ -272,11 +205,7 @@
       margin: 32px 0 16px;
     }
 
-    .section-head h2 {
-      margin: 0;
-      font-size: 1.4rem;
-      font-weight: 800;
-    }
+    .section-head h2 { margin: 0; font-size: 1.4rem; font-weight: 800; }
 
     /* MEDIA GRID CARDS */
     .grid {
@@ -294,10 +223,7 @@
       transition: transform .2s, border-color .2s;
     }
 
-    .card:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-gold);
-    }
+    .card:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
 
     .poster {
       width: 100%;
@@ -340,7 +266,6 @@
 
     .rating-badge { color: var(--accent-gold); font-weight: 700; }
 
-    /* STATUS MESSAGE */
     .status {
       padding: 16px;
       background: var(--panel);
@@ -375,7 +300,7 @@
       color: #d1d1d6;
     }
 
-    /* PROJECTION ROOM (14+ SERVERS LIKE DOPEBOX)[span_2](start_span)[span_2](end_span) */
+    /* PROJECTION ROOM (MULTI-SERVER) */
     .projection-container {
       margin-top: 24px;
       background: var(--card-bg);
@@ -425,7 +350,6 @@
       font-size: .9rem;
       transition: border-color .2s;
     }
-
     .server-card:hover { border-color: var(--accent-gold); }
     .server-card.active { border-color: var(--accent-gold); background: rgba(245, 197, 24, 0.08); }
     .server-live { font-size: .75rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
@@ -437,39 +361,23 @@
       gap: 14px;
       margin-top: 16px;
     }
-
-    .cast-item {
-      text-align: center;
-    }
-
+    .cast-item { text-align: center; }
     .cast-img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: var(--panel2);
-      margin: auto;
-      margin-bottom: 6px;
-      border: 1px solid var(--line);
+      width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+      background: var(--panel2); margin: auto; margin-bottom: 6px; border: 1px solid var(--line);
     }
-
     .cast-name { font-size: .85rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .cast-role { font-size: .75rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* EPISODES LIST */
     .episodes { display: grid; gap: 12px; margin-top: 16px; }
-    .episode {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 16px;
-    }
+    .episode { background: var(--card-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
 
     .player-brand {
       text-align: right;
       font-size: 0.85rem;
       color: var(--muted);
       margin-top: 8px;
+      padding-right: 4px;
     }
     .player-brand a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
 
@@ -485,6 +393,8 @@
     footer a { color: var(--accent-gold); text-decoration: none; font-weight: 700; }
 
     @media(max-width:768px) {
+      .top { padding: 12px; }
+      .top form { order: 3; max-width: none; flex-basis: 100%; }
       .detail { grid-template-columns: 1fr; padding: 16px; }
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
       .hero-feature { min-height: 340px; padding: 20px; }
@@ -494,32 +404,21 @@
 
 <body>
 
-<!-- DOPEBOX EXACT HEADER -->
+<!-- HEADER WITH DIRECT SEARCH BAR -->
 <header>
   <div class="top">
     <div class="brand" id="brandHome">
-      <div class="brand-logo">DP</div> Dopebox
+      SUIII<span>_STREAM</span>
     </div>
-    <div class="header-actions">
-      <button type="button" class="icon-btn" id="openSearchBtn" title="Search">🔍</button>
-      <button type="button" class="icon-btn" id="pluginsNavBtn" title="Plugins">⚡</button>
-    </div>
+    <form id="searchForm" role="search">
+      <input id="searchInput" placeholder="Search movies or TV shows..." aria-label="Search titles">
+      <button type="submit">Search</button>
+    </form>
+    <button type="button" class="secondary" id="pluginsNavBtn">
+      ⚡ Plugins
+    </button>
   </div>
 </header>
-
-<!-- SEARCH MODAL POPUP -->
-<div id="searchModal" hidden>
-  <div class="search-modal-inner">
-    <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
-      <button type="button" class="icon-btn" id="closeSearchBtn">✕</button>
-    </div>
-    <div class="search-input-wrap">
-      <span>🔍</span>
-      <input id="modalSearchInput" placeholder="Search movies, shows, people..." autofocus>
-    </div>
-    <div id="modalSearchResults" class="grid" style="margin-top:20px;"></div>
-  </div>
-</div>
 
 <main id="app">
   <!-- DOPEBOX HERO FEATURE BANNER -->
@@ -535,8 +434,7 @@
       </div>
       <p id="heroOverview">When a legendary thief sets his sights on the Mona Lisa, he recruits two young strangers to help him before revealing they are long-lost siblings...</p>
       <div class="hero-actions">
-        <button type="button" id="heroPlayBtn" class="btn-gold">▶ Play</button>
-        <button type="button" id="heroWatchlistBtn" class="btn-dark">🔖 Watchlist</button>
+        <button type="button" id="heroPlayBtn" style="background:var(--accent-gold); color:#000; border:0; border-radius:12px; padding:12px 24px; font-weight:800; cursor:pointer;">▶ Play</button>
       </div>
     </div>
   </section>
@@ -563,16 +461,16 @@
 
   <!-- PLUGINS SECTION -->
   <section id="pluginsSection" hidden>
-    <button type="button" class="btn-dark" id="backToMovies" style="margin-bottom:20px;">
+    <button type="button" class="secondary" id="backToMovies" style="margin-bottom:20px;">
       ← Back to Explore
     </button>
     <div class="section-head">
       <h2>Plugin Center ⚡</h2>
     </div>
-    <div class="status">CloudStream .cs3 plugin catalog fetched from GitHub.</div>
-    <div class="tabs" style="margin:16px 0;">
+    <div class="status">CloudStream .cs3 plugin catalog fetched from GitHub repository.</div>
+    <div class="tabs" style="margin:16px 0; gap:10px;">
       <input id="pluginSearch" type="search" placeholder="Search plugins..." style="flex:1; background:var(--panel); border:1px solid var(--line); color:#fff; padding:12px; border-radius:10px;">
-      <button type="button" id="refreshPlugins" class="btn-gold">Live Refresh</button>
+      <button type="button" id="refreshPlugins" style="background:var(--accent-gold); color:#000; border:0; border-radius:10px; padding:0 20px; font-weight:800; cursor:pointer;">Live Refresh</button>
     </div>
     <div id="pluginStatus" class="status" hidden></div>
     <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
@@ -583,7 +481,7 @@
   © <span id="year"></span> SUIII_STREAM · Created with ❤️ by
   <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a>
   <br>
-  <span style="font-size:.8rem; color:var(--muted);">Inspired by Dopebox UI design. Powered by TMDB API.</span>
+  <span style="font-size:.8rem; color:var(--muted);">Powered by TMDB API.</span>
 </footer>
 
 <script>
@@ -600,6 +498,8 @@
   const resultsSection = document.getElementById("resultsSection");
   const detailSection = document.getElementById("detailSection");
   const heroBanner = document.getElementById("heroBanner");
+  const searchForm = document.getElementById("searchForm");
+  const searchInput = document.getElementById("searchInput");
 
   let currentKind = "all";
   let featuredHeroItem = null;
@@ -607,39 +507,14 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadTrending("all"));
 
-  /* Search Modal Controls */
-  const searchModal = document.getElementById("searchModal");
-  document.getElementById("openSearchBtn").addEventListener("click", () => { searchModal.hidden = false; document.getElementById("modalSearchInput").focus(); });
-  document.getElementById("closeSearchBtn").addEventListener("click", () => { searchModal.hidden = true; });
-
-  document.getElementById("modalSearchInput").addEventListener("input", async (e) => {
-    const q = e.target.value.trim();
-    const modalRes = document.getElementById("modalSearchResults");
-    if (!q) { modalRes.innerHTML = ""; return; }
-    try {
-      const [mRes, tRes] = await Promise.all([
-        api(`/search/movie?query=${encodeURIComponent(q)}`),
-        api(`/search/tv?query=${encodeURIComponent(q)}`)
-      ]);
-      const list = [...(mRes.results||[]).map(x=>({...x, media_type:"movie"})), ...(tRes.results||[]).map(x=>({...x, media_type:"tv"}))];
-      modalRes.innerHTML = list.slice(0, 12).map(item => cardMarkup(item, item.media_type)).join("");
-      modalRes.querySelectorAll(".card").forEach(c => {
-        c.addEventListener("click", () => {
-          searchModal.hidden = true;
-          openDetails(Number(c.dataset.id), c.dataset.kind);
-        });
-      });
-    } catch { modalRes.innerHTML = "<p class='muted'>Search error.</p>"; }
-  });
-
-  /* Plugins page */
+  /* Plugins page controls */
   const pluginsSection = document.getElementById("pluginsSection");
   document.getElementById("pluginsNavBtn").addEventListener("click", () => {
     resultsSection.hidden = true; detailSection.hidden = true; heroBanner.hidden = true; pluginsSection.hidden = false;
     renderPlugins();
   });
   document.getElementById("backToMovies").addEventListener("click", () => {
-    pluginsSection.hidden = false; heroBanner.hidden = false; resultsSection.hidden = false; loadTrending(currentKind);
+    pluginsSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false; loadTrending(currentKind);
   });
 
   const FALLBACK_PLUGINS = [
@@ -739,7 +614,35 @@
     } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
   }
 
-  /* SERVERS LIST FOR PROJECTION ROOM (DOPEBOX STYLE)[span_3](start_span)[span_3](end_span) */
+  async function searchTitles(query) {
+    const q = query.trim();
+    if (!q) return loadTrending(currentKind);
+
+    detailSection.hidden = true; pluginsSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = false;
+    resultsEl.innerHTML = "";
+    resultsTitle.textContent = `Search results for “${q}”`;
+    statusEl.hidden = false; statusEl.textContent = "Searching...";
+
+    try {
+      const [mRes, tRes] = await Promise.all([
+        api(`/search/movie?query=${encodeURIComponent(q)}&include_adult=false`),
+        api(`/search/tv?query=${encodeURIComponent(q)}&include_adult=false`)
+      ]);
+      const list = [...(mRes.results||[]).map(x=>({...x, media_type:"movie"})), ...(tRes.results||[]).map(x=>({...x, media_type:"tv"}))]
+        .sort((a,b)=>(b.popularity||0)-(a.popularity||0));
+
+      if (!list.length) { statusEl.textContent = "No results found."; return; }
+      statusEl.hidden = true;
+      resultsEl.innerHTML = list.slice(0, 30).map(i => cardMarkup(i, i.media_type)).join("");
+    } catch (e) { statusEl.textContent = `Search failed: ${e.message}`; }
+  }
+
+  searchForm.addEventListener("submit", e => {
+    e.preventDefault();
+    searchTitles(searchInput.value);
+  });
+
+  /* SERVERS LIST FOR PROJECTION ROOM */
   const SERVERS = [
     { id: "vidsrc", name: "VidSrcMe", mirror: "Server 1", live: true },
     { id: "vidking", name: "VidKing", mirror: "Mirror 2", live: false },
@@ -772,7 +675,6 @@
     try {
       const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
       const title = titleOf(data, kind);
-      const date = data.release_date || data.first_air_date || "";
       const genres = (data.genres||[]).map(g => `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
       const castList = (data.credits?.cast||[]).slice(0, 8).map(c => `
         <div class="cast-item">
@@ -783,7 +685,7 @@
       `).join("");
 
       detailSection.innerHTML = `
-        <button type="button" class="btn-dark" id="backBtn" style="margin-bottom:20px;">← Back</button>
+        <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px; padding:8px 16px;">← Back</button>
         <div class="detail">
           <div class="poster-wrap">${posterMarkup(data)}</div>
           <div>
@@ -797,13 +699,13 @@
 
             ${kind === "movie" ? `
               <div style="margin-top:20px;">
-                <button type="button" class="btn-gold" id="playMovieBtn">▶ Watch Full Movie</button>
+                <button type="button" id="playMovieBtn" style="background:var(--accent-gold); color:#000; border:0; border-radius:12px; padding:12px 24px; font-weight:800; cursor:pointer;">▶ Watch Full Movie</button>
               </div>
             ` : ""}
           </div>
         </div>
 
-        <!-- PROJECTION ROOM MULTI-SERVER SECTION[span_4](start_span)[span_4](end_span) -->
+        <!-- PROJECTION ROOM MULTI-SERVER SECTION -->
         <div id="projectionBox" class="projection-container" hidden>
           <div class="projection-header">
             <div><strong>PROJECTION ROOM</strong> <span class="muted" style="font-size:.85rem;">· Server room</span></div>
@@ -861,7 +763,6 @@
         });
       }
 
-      /* Server switching */
       document.querySelectorAll(".server-card").forEach(sc => {
         sc.addEventListener("click", () => {
           document.querySelectorAll(".server-card").forEach(x => x.classList.remove("active"));
@@ -883,7 +784,7 @@
           <div class="episode">
             <h4>${escapeHtml(s.name)}</h4>
             <p style="color:var(--muted); font-size:.85rem; margin:4px 0 10px;">${s.episode_count} Episodes</p>
-            <button type="button" class="btn-dark seasonBtn" data-season="${s.season_number}">View Episodes</button>
+            <button type="button" class="secondary seasonBtn" data-season="${s.season_number}" style="padding:6px 14px; font-size:.85rem;">View Episodes</button>
             <div class="seasonContent" id="season-ep-${s.season_number}" style="margin-top:10px;"></div>
           </div>
         `).join("");
@@ -899,7 +800,7 @@
               target.innerHTML = (sData.episodes||[]).map(ep => `
                 <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--line);">
                   <div><strong>E${ep.episode_number}. ${escapeHtml(ep.name)}</strong></div>
-                  <button type="button" class="btn-gold playEpBtn" data-s="${sNum}" data-e="${ep.episode_number}" style="padding:6px 14px; font-size:.8rem;">▶ Play</button>
+                  <button type="button" class="playEpBtn" data-s="${sNum}" data-e="${ep.episode_number}" style="background:var(--accent-gold); color:#000; border:0; border-radius:8px; padding:6px 14px; font-size:.8rem; font-weight:800; cursor:pointer;">▶ Play</button>
                 </div>
               `).join("");
               target.dataset.loaded = "1";
