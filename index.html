@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0e">
-  <title>SUIII_STREAM — Ultimate Movies & Live Football</title>
+  <title>SUIII_STREAM — Ultimate OTT & Live Sports</title>
   <style>
     :root {
       color-scheme: dark;
@@ -19,6 +19,7 @@
       --line: #22222d;
       --card-bg: #131318;
       --football-green: #22c55e;
+      --anime-pink: #ec4899;
     }
 
     * { box-sizing: border-box; }
@@ -34,8 +35,9 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(11, 11, 14, 0.95);
-      backdrop-filter: blur(12px);
+      background: rgba(11, 11, 14, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--line);
     }
 
@@ -110,7 +112,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(12px);
+      backdrop-filter: blur(16px);
       z-index: 9999;
       display: grid;
       place-items: center;
@@ -157,7 +159,6 @@
     .auth-form { display: flex; flex-direction: column; gap: 14px; }
     .auth-form[hidden] { display: none !important; }
 
-    /* PROFILE MODAL */
     .profile-card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -336,19 +337,20 @@
 
     .rating-badge { color: var(--accent-gold); font-weight: 700; }
 
-    /* FOOTBALL MATCH CARDS STYLES */
+    /* FOOTBALL & SPORTS STYLES (TOD / beIN Sports Style) */
     .match-card {
-      background: var(--card-bg);
+      background: linear-gradient(135deg, #141419 0%, #1c1c24 100%);
       border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
-    .match-header { display: flex; justify-content: space-between; font-size: .8rem; color: var(--muted); font-weight: 700; }
-    .match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 1.05rem; }
-    .live-dot { width: 8px; height: 8px; background: var(--football-green); border-radius: 50%; display: inline-block; box-shadow: 0 0 8px var(--football-green); animation: pulse 1.5s infinite; }
+    .match-header { display: flex; justify-content: space-between; font-size: .85rem; color: var(--muted); font-weight: 700; }
+    .match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 1.15rem; }
+    .live-dot { width: 9px; height: 9px; background: var(--football-green); border-radius: 50%; display: inline-block; box-shadow: 0 0 10px var(--football-green); animation: pulse 1.5s infinite; }
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
     .status {
@@ -418,7 +420,7 @@
 
     .servers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 10px;
       padding: 16px;
     }
@@ -432,12 +434,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: .9rem;
+      font-size: .85rem;
       transition: border-color .2s;
     }
     .server-card:hover { border-color: var(--accent-gold); }
     .server-card.active { border-color: var(--accent-gold); background: rgba(245, 197, 24, 0.08); }
-    .server-live { font-size: .75rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+    .server-live { font-size: .7rem; background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
 
     .cast-grid {
       display: grid;
@@ -575,7 +577,7 @@
     </div>
   </section>
 
-  <nav class="tabs" aria-label="Browse categories">
+  <nav class="tabs" id="categoryTabs" aria-label="Browse categories">
     <button data-kind="all" class="active">🔥 Trending</button>
     <button data-kind="movie">🎬 Movies</button>
     <button data-kind="tv">📺 Series</button>
@@ -874,7 +876,6 @@
     if (featuredHeroItem) openDetails(featuredHeroItem.id, featuredHeroItem.media_type || "movie");
   });
 
-  // LIVE FOOTBALL MATCHES DATA
   const FOOTBALL_MATCHES = [
     { id: "match-1", title: "Al Nassr vs Al Hilal", league: "Saudi Pro League (Ronaldo ⚽)", time: "LIVE NOW", live: true, streamUrl: "https://vidsrc.to/embed/movie/550" },
     { id: "match-2", title: "Real Madrid vs Manchester City", league: "UEFA Champions League", time: "Tonight 12:30 AM", live: false, streamUrl: "https://vidsrc.to/embed/movie/551" },
@@ -889,6 +890,22 @@
     detailSection.hidden = true; pluginsSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
     statusEl.hidden = false; statusEl.textContent = "Dalli 💕";
+
+    // Dynamic Theming on Tab Click
+    const root = document.documentElement;
+    if (kind === "anime") {
+      root.style.setProperty("--accent-gold", "#ec4899");
+      root.style.setProperty("--accent-btn", "#ec4899");
+      root.style.setProperty("--accent-btn-hover", "#db2777");
+    } else if (kind === "football") {
+      root.style.setProperty("--accent-gold", "#22c55e");
+      root.style.setProperty("--accent-btn", "#22c55e");
+      root.style.setProperty("--accent-btn-hover", "#16a34a");
+    } else {
+      root.style.setProperty("--accent-gold", "#f5c518");
+      root.style.setProperty("--accent-btn", "#f5c518");
+      root.style.setProperty("--accent-btn-hover", "#e0b010");
+    }
 
     try {
       if (kind === "football") {
@@ -975,11 +992,16 @@
     searchTitles(searchInput.value);
   });
 
+  // 8 STABLE STREAMING SERVERS TO PREVENT 404/SERVER ERRORS
   const SERVERS = [
     { id: "vidsrc", name: "VidSrc Pro", mirror: "Multi-Audio/Subs", live: true },
     { id: "vidsrc-cc", name: "VidSrc.cc", mirror: "Server 2", live: false },
     { id: "multiembed", name: "MultiEmbed", mirror: "Multi-Lang", live: false },
-    { id: "autoembed", name: "AutoEmbed", mirror: "Subtitles", live: false }
+    { id: "autoembed", name: "AutoEmbed", mirror: "Subtitles", live: false },
+    { id: "vidsrc-vip", name: "VidSrc VIP", mirror: "Fast HD", live: false },
+    { id: "embedsu", name: "Embed.su", mirror: "Server 4K", live: false },
+    { id: "2embed", name: "2Embed", mirror: "Alternative", live: false },
+    { id: "smashy", name: "SmashyStream", mirror: "Fast Server", live: false }
   ];
 
   function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
@@ -987,11 +1009,21 @@
       if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
       if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
+      if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
+      if (server === "vidsrc-vip") return `https://vidsrc.vip/embed/movie/${id}`;
+      if (server === "embedsu") return `https://embed.su/embed/movie/${id}`;
+      if (server === "2embed") return `https://www.2embed.cc/embed/${id}`;
+      if (server === "smashy") return `https://player.smashy.stream/movie/${id}`;
       return `https://vidsrc.to/embed/movie/${id}`;
     } else {
       if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
       if (server === "vidsrc-cc") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
+      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
+      if (server === "vidsrc-vip") return `https://vidsrc.vip/embed/tv/${id}/${season}/${ep}`;
+      if (server === "embedsu") return `https://embed.su/embed/tv/${id}/${season}/${ep}`;
+      if (server === "2embed") return `https://www.2embed.cc/embedtv/${id}&s=${season}&e=${ep}`;
+      if (server === "smashy") return `https://player.smashy.stream/tv/${id}?s=${season}&e=${ep}`;
       return `https://vidsrc.to/embed/tv/${id}/${season}/${ep}`;
     }
   }
@@ -1047,7 +1079,7 @@
           <div class="servers-grid" id="serversGrid">
             ${SERVERS.map((s, idx) => `
               <div class="server-card ${idx===0?'active':''}" data-server="${s.id}">
-                <div><strong>0${idx+1}</strong>${s.name} <div style="font-size:.75rem; color:var(--muted);">${s.mirror}</div></div>${s.live ? '<span class="server-live">LIVE</span>' : ''}
+                <div><strong>0${idx+1}</strong>${s.name} <div style="font-size:.7rem; color:var(--muted);">${s.mirror}</div></div>${s.live ? '<span class="server-live">LIVE</span>' : ''}
               </div>
             `).join("")}
           </div>
@@ -1147,7 +1179,6 @@
     } catch (err) { statusEl.textContent = `Could not load: ${err.message}`; }
   }
 
-  // CLICK HANDLER FOR CARDS & FOOTBALL MATCHES
   document.addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (card && card.dataset.id) {
