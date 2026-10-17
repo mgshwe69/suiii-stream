@@ -218,6 +218,34 @@
     .episode h4 { margin: 0 0 5px; }
     .episode p { margin: 0; color: var(--muted); }
 
+    .player-container {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: 0;
+      border-radius: 14px;
+      margin-top: 20px;
+      background: #000;
+    }
+
+    .player-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 14px;
+    }
+
+    .server-tabs {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .server-tabs button {
+      font-size: 0.85rem;
+      padding: 8px 12px;
+    }
+
     .trailer {
       width: 100%;
       aspect-ratio: 16/9;
@@ -355,7 +383,7 @@
 <main id="app">
   <section class="hero">
     <h1>Find your next favorite.</h1>
-    <p>Explore movies and TV shows, discover details, ratings, seasons, episodes, and available trailers.</p>
+    <p>Explore movies and TV shows, discover details, ratings, seasons, episodes, and watch full streams online.</p>
   </section>
 
   <nav class="tabs" aria-label="Browse categories">
@@ -468,7 +496,6 @@
   const pluginLanguage = document.getElementById("pluginLanguage");
   const pluginCount = document.getElementById("pluginCount");
 
-  // Fallback builtin list if network fetch fails
   const FALLBACK_PLUGINS = [
     {
       name: "Bollyflix",
@@ -501,17 +528,6 @@
       authors: ["megix"],
       tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
       url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/MoviesDrive.cs3",
-      repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
-    },
-    {
-      name: "Moviesmod",
-      version: 33,
-      status: 1,
-      language: "",
-      description: "Includes Topmovies",
-      authors: ["megix"],
-      tvTypes: ["TvSeries", "Movie", "AsianDrama", "Anime"],
-      url: "https://raw.githubusercontent.com/SaurabhKaperwan/CSX/builds/Moviesmod.cs3",
       repositoryUrl: "https://github.com/SaurabhKaperwan/CSX"
     },
     {
@@ -609,52 +625,22 @@
         .map(type => `<span class="plugin-badge">${escapeHtml(type)}</span>`)
         .join("");
 
-      const languageNames = {
-        hi: "Hindi",
-        en: "English"
-      };
-
-      const languageName =
-        languageNames[plugin.language] ||
-        (plugin.language ? plugin.language : "Unspecified");
-
+      const languageNames = { hi: "Hindi", en: "English" };
+      const languageName = languageNames[plugin.language] || (plugin.language ? plugin.language : "Unspecified");
       const author = (plugin.authors || []).join(", ") || "Unknown";
-
-      const statusLabel = Number(plugin.status) === 1
-        ? "Listed as active"
-        : "Repository status: " + String(plugin.status ?? "Unknown");
+      const statusLabel = Number(plugin.status) === 1 ? "Listed as active" : "Repository status: " + String(plugin.status ?? "Unknown");
 
       return `
         <article class="plugin-card">
           <h3>${escapeHtml(plugin.name)}</h3>
-
-          <span class="plugin-badge">
-            Version ${escapeHtml(plugin.version)}
-          </span>
-
-          <span class="plugin-badge">
-            ${escapeHtml(statusLabel)}
-          </span>
-
+          <span class="plugin-badge">Version ${escapeHtml(plugin.version)}</span>
+          <span class="plugin-badge">${escapeHtml(statusLabel)}</span>
           <p>${escapeHtml(plugin.description || "No description available.")}</p>
-
           <div>${categories}</div>
-
-          <p>
-            Language: ${escapeHtml(languageName)}<br>
-            Author: ${escapeHtml(author)}
-          </p>
-
+          <p>Language: ${escapeHtml(languageName)}<br>Author: ${escapeHtml(author)}</p>
           <div class="plugin-links">
-            <a href="${escapeHtml(plugin.repositoryUrl || "https://github.com/SaurabhKaperwan/CSX")}"
-               target="_blank" rel="noopener noreferrer">
-              Repository ↗
-            </a>
-
-            <a href="${escapeHtml(plugin.url)}"
-               target="_blank" rel="noopener noreferrer">
-              Plugin source ↗
-            </a>
+            <a href="${escapeHtml(plugin.repositoryUrl || "https://github.com/SaurabhKaperwan/CSX")}" target="_blank" rel="noopener noreferrer">Repository ↗</a>
+            <a href="${escapeHtml(plugin.url)}" target="_blank" rel="noopener noreferrer">Plugin source ↗</a>
           </div>
         </article>
       `;
@@ -662,62 +648,34 @@
   }
 
   pluginsBtn.addEventListener("click", showPluginsPage);
-  document.getElementById("backToMovies")
-    .addEventListener("click", showMoviesPage);
-
+  document.getElementById("backToMovies").addEventListener("click", showMoviesPage);
   pluginSearch.addEventListener("input", renderPlugins);
   pluginCategory.addEventListener("change", renderPlugins);
   pluginLanguage.addEventListener("change", renderPlugins);
+  document.getElementById("refreshPlugins").addEventListener("click", () => fetchLivePlugins());
 
-  document.getElementById("refreshPlugins").addEventListener("click", () => {
-    fetchLivePlugins();
-  });
-
-  // Initial load fetch
   fetchLivePlugins();
 
-  /* ---------- TMDB app ---------- */
+  /* ---------- TMDB app & Player Integration ---------- */
 
   async function api(path) {
-    const response = await fetch(
-      `${API_PROXY}?path=${encodeURIComponent(path)}`
-    );
-
+    const response = await fetch(`${API_PROXY}?path=${encodeURIComponent(path)}`);
     let data;
-
-    try {
-      data = await response.json();
-    } catch {
-      data = {};
-    }
-
+    try { data = await response.json(); } catch { data = {}; }
     if (!response.ok) {
-      throw new Error(
-        data.status_message ||
-        data.error ||
-        `Request failed (${response.status})`
-      );
+      throw new Error(data.status_message || data.error || `Request failed (${response.status})`);
     }
-
     return data;
   }
 
   function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, ch => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
     }[ch]));
   }
 
   function titleOf(item, kind) {
-    return item.title ||
-      item.name ||
-      item.original_title ||
-      item.original_name ||
-      (kind === "movie" ? "Untitled movie" : "Untitled show");
+    return item.title || item.name || item.original_title || item.original_name || (kind === "movie" ? "Untitled movie" : "Untitled show");
   }
 
   function yearOf(item) {
@@ -728,26 +686,14 @@
   function posterMarkup(item) {
     if (item.poster_path) {
       const posterUrl = IMG + item.poster_path;
-
-      return `<img class="poster"
-        loading="lazy"
-        src="${escapeHtml(posterUrl)}"
-        alt="${escapeHtml(titleOf(item))} poster"
-        onerror="this.outerHTML='<div class=&quot;poster-placeholder&quot;>Poster unavailable</div>'">`;
+      return `<img class="poster" loading="lazy" src="${escapeHtml(posterUrl)}" alt="${escapeHtml(titleOf(item))} poster" onerror="this.outerHTML='<div class=&quot;poster-placeholder&quot;>Poster unavailable</div>'">`;
     }
-
     return '<div class="poster-placeholder">Poster unavailable</div>';
   }
 
   function cardMarkup(item, kind) {
     const id = Number(item.id);
-
-    return `<article class="card"
-      tabindex="0"
-      role="button"
-      data-id="${id}"
-      data-kind="${kind}"
-      aria-label="Open ${escapeHtml(titleOf(item, kind))}">
+    return `<article class="card" tabindex="0" role="button" data-id="${id}" data-kind="${kind}" aria-label="Open ${escapeHtml(titleOf(item, kind))}">
       ${posterMarkup(item)}
       <div class="card-info">
         <p class="card-title">${escapeHtml(titleOf(item, kind))}</p>
@@ -769,58 +715,38 @@
     resultsSection.hidden = false;
     resultsEl.innerHTML = "";
 
-    resultsTitle.textContent =
-      kind === "movie" ? "Trending Movies" :
-      kind === "tv" ? "Trending TV Shows" :
-      "Trending This Week";
-
+    resultsTitle.textContent = kind === "movie" ? "Trending Movies" : kind === "tv" ? "Trending TV Shows" : "Trending This Week";
     showStatus("Loading titles…");
 
     try {
       let lists = [];
-
       if (kind === "all") {
         const [movies, shows] = await Promise.all([
           api("/trending/movie/week"),
           api("/trending/tv/week")
         ]);
-
         lists = [
           ...(movies.results || []).map(x => ({ ...x, media_type: "movie" })),
           ...(shows.results || []).map(x => ({ ...x, media_type: "tv" }))
-        ]
-        .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
-        .slice(0, 24);
+        ].sort((a, b) => (b.popularity || 0) - (a.popularity || 0)).slice(0, 24);
       } else {
         const data = await api(`/trending/${kind}/week`);
-
-        lists = (data.results || [])
-          .map(x => ({ ...x, media_type: kind }))
-          .slice(0, 24);
+        lists = (data.results || []).map(x => ({ ...x, media_type: kind })).slice(0, 24);
       }
 
       if (!lists.length) {
         showStatus("No titles found.");
         return;
       }
-
       statusEl.hidden = true;
-
-      resultsEl.innerHTML = lists
-        .map(item => cardMarkup(item, item.media_type || kind))
-        .join("");
-
+      resultsEl.innerHTML = lists.map(item => cardMarkup(item, item.media_type || kind)).join("");
     } catch (error) {
-      showStatus(
-        `Could not load titles: ${error.message}. Check the Netlify function and TMDB_API_KEY setting.`,
-        true
-      );
+      showStatus(`Could not load titles: ${error.message}.`, true);
     }
   }
 
   async function searchTitles(query) {
     const q = query.trim();
-
     if (!q) return loadTrending(currentKind);
 
     detailSection.hidden = true;
@@ -832,40 +758,38 @@
     showStatus("Searching…");
 
     try {
-      const kinds = currentKind === "all"
-        ? ["movie", "tv"]
-        : [currentKind];
-
+      const kinds = currentKind === "all" ? ["movie", "tv"] : [currentKind];
       const data = await Promise.all(
-        kinds.map(kind =>
-          api(`/search/${kind}?query=${encodeURIComponent(q)}&include_adult=false`)
-        )
+        kinds.map(kind => api(`/search/${kind}?query=${encodeURIComponent(q)}&include_adult=false`))
       );
 
-      let lists = data.flatMap((d, i) =>
-        (d.results || []).map(x => ({
-          ...x,
-          media_type: kinds[i]
-        }))
-      );
-
+      let lists = data.flatMap((d, i) => (d.results || []).map(x => ({ ...x, media_type: kinds[i] })));
       lists.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
 
       if (!lists.length) {
         showStatus("No results found. Try another title.");
         return;
       }
-
       statusEl.hidden = true;
-
-      resultsEl.innerHTML = lists
-        .slice(0, 30)
-        .map(item => cardMarkup(item, item.media_type))
-        .join("");
-
+      resultsEl.innerHTML = lists.slice(0, 30).map(item => cardMarkup(item, item.media_type)).join("");
     } catch (error) {
       showStatus(`Search failed: ${error.message}`, true);
     }
+  }
+
+  // --- EMBED PLAYER URL GENERATOR ---
+  function getMoviePlayerUrl(tmdbId, server = "vidsrc") {
+    if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${tmdbId}`;
+    if (server === "superembed") return `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1`;
+    if (server === "2embed") return `https://www.2embed.cc/embed/${tmdbId}`;
+    return `https://vidsrc.to/embed/movie/${tmdbId}`;
+  }
+
+  function getTvPlayerUrl(tmdbId, season, episode, server = "vidsrc") {
+    if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${tmdbId}/${season}/${episode}`;
+    if (server === "superembed") return `https://multiembed.mov/?video_id=${tmdbId}&tmdb=1&s=${season}&e=${episode}`;
+    if (server === "2embed") return `https://www.2embed.cc/embedtv/${tmdbId}&s=${season}&e=${episode}`;
+    return `https://vidsrc.to/embed/tv/${tmdbId}/${season}/${episode}`;
   }
 
   async function openDetails(id, kind) {
@@ -878,22 +802,10 @@
     detailSection.innerHTML = "";
 
     try {
-      const data = await api(
-        `/${kind}/${id}?append_to_response=videos${kind === "tv" ? ",seasons" : ""}`
-      );
-
+      const data = await api(`/${kind}/${id}?append_to_response=videos${kind === "tv" ? ",seasons" : ""}`);
       const title = titleOf(data, kind);
       const date = data.release_date || data.first_air_date || "";
-
-      const genres = (data.genres || [])
-        .map(g => `<span class="chip">${escapeHtml(g.name)}</span>`)
-        .join("");
-
-      const trailer =
-        (data.videos?.results || []).find(
-          v => v.site === "YouTube" && v.type === "Trailer"
-        ) ||
-        (data.videos?.results || []).find(v => v.site === "YouTube");
+      const genres = (data.genres || []).map(g => `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
 
       detailSection.innerHTML = `
         <button class="secondary back" id="backBtn">← Back to titles</button>
@@ -916,30 +828,29 @@
 
             <p>${escapeHtml(data.overview || "No description available yet.")}</p>
 
-            <p class="muted">
-              ${kind === "movie" ? "Release date" : "First air date"}:
-              ${escapeHtml(date || "Unknown")}
-            </p>
-
-            ${data.status ? `<p class="muted">Status: ${escapeHtml(data.status)}</p>` : ""}
-
-            ${trailer ? `
-              <h3>Trailer</h3>
-              <iframe
-                class="trailer"
-                src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(trailer.key)}"
-                title="Trailer for ${escapeHtml(title)}"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-                loading="lazy">
-              </iframe>
+            ${kind === "movie" ? `
+              <div style="margin-top:20px;">
+                <button id="playMovieBtn" style="font-size:1.1rem; padding:12px 20px;">▶ Watch Full Movie</button>
+              </div>
             ` : ""}
+
+            <div id="playerBox" class="player-container" hidden>
+              <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+            </div>
+
+            <div id="serverSelector" class="server-tabs" hidden>
+              <span class="muted" style="align-self:center;">Server:</span>
+              <button class="secondary server-btn active" data-server="vidsrc">Server 1 (VidSrc)</button>
+              <button class="secondary server-btn" data-server="superembed">Server 2 (MultiEmbed)</button>
+              <button class="secondary server-btn" data-server="2embed">Server 3 (2Embed)</button>
+            </div>
+
           </div>
         </div>
 
         ${kind === "tv" ? `
           <section>
-            <div class="section-head"><h2>Seasons & Episodes</h2></div>
+            <div class="section-head"><h2>Seasons & Episodes (Click to Play)</h2></div>
             <div class="episodes" id="episodes"></div>
           </section>
         ` : ""}
@@ -952,28 +863,52 @@
         resultsSection.hidden = false;
       });
 
-      if (kind === "tv") {
-        const seasons = (data.seasons || [])
-          .filter(s => s.season_number > 0);
+      let currentSeason = 1;
+      let currentEpisode = 1;
+      let activeServer = "vidsrc";
 
+      const playerBox = document.getElementById("playerBox");
+      const videoIframe = document.getElementById("videoIframe");
+      const serverSelector = document.getElementById("serverSelector");
+
+      function loadPlayer(url) {
+        videoIframe.src = url;
+        playerBox.hidden = false;
+        serverSelector.hidden = false;
+        playerBox.scrollIntoView({ behavior: 'smooth' });
+      }
+
+      if (kind === "movie") {
+        document.getElementById("playMovieBtn").addEventListener("click", () => {
+          loadPlayer(getMoviePlayerUrl(id, activeServer));
+        });
+      }
+
+      // Server switcher listener
+      document.querySelectorAll(".server-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          activeServer = btn.dataset.server;
+          if (kind === "movie") {
+            loadPlayer(getMoviePlayerUrl(id, activeServer));
+          } else {
+            loadPlayer(getTvPlayerUrl(id, currentSeason, currentEpisode, activeServer));
+          }
+        });
+      });
+
+      if (kind === "tv") {
+        const seasons = (data.seasons || []).filter(s => s.season_number > 0);
         const episodesEl = document.getElementById("episodes");
 
         if (!seasons.length) {
-          episodesEl.innerHTML =
-            '<p class="empty">No season information available.</p>';
+          episodesEl.innerHTML = '<p class="empty">No season information available.</p>';
         } else {
           episodesEl.innerHTML = seasons.map(s => `
             <div class="episode">
               <h4>${escapeHtml(s.name || `Season ${s.season_number}`)}</h4>
-              <p>
-                ${Number(s.episode_count || 0)} episodes
-                ${s.air_date ? ` · ${escapeHtml(s.air_date.slice(0, 4))}` : ""}
-              </p>
-              <button
-                class="secondary seasonBtn"
-                data-season="${Number(s.season_number)}"
-                data-id="${id}">
-                View episodes
+              <p>${Number(s.episode_count || 0)} episodes ${s.air_date ? ` · ${escapeHtml(s.air_date.slice(0, 4))}` : ""}</p>
+              <button class="secondary seasonBtn" data-season="${Number(s.season_number)}" data-id="${id}">
+                View & Play Episodes
               </button>
               <div class="seasonEpisodes" id="season-${Number(s.season_number)}"></div>
             </div>
@@ -987,7 +922,7 @@
               if (target.dataset.loaded === "1") {
                 target.innerHTML = "";
                 target.dataset.loaded = "0";
-                btn.textContent = "View episodes";
+                btn.textContent = "View & Play Episodes";
                 return;
               }
 
@@ -998,25 +933,31 @@
                 const seasonData = await api(`/tv/${id}/season/${season}`);
 
                 target.innerHTML = (seasonData.episodes || []).map(ep => `
-                  <p class="muted">
-                    <strong>
-                      ${Number(ep.episode_number)}.
-                      ${escapeHtml(ep.name || "Untitled episode")}
-                    </strong>
-                    ${ep.air_date ? ` · ${escapeHtml(ep.air_date)}` : ""}
-                    <br>
-                    ${escapeHtml(ep.overview || "No episode description.")}
-                  </p>
+                  <div style="padding: 10px 0; border-bottom: 1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                      <strong>E${Number(ep.episode_number)}. ${escapeHtml(ep.name || "Untitled episode")}</strong>
+                      <div class="muted" style="font-size:0.8rem;">${escapeHtml(ep.overview || "No episode description.")}</div>
+                    </div>
+                    <button class="playEpBtn" data-season="${season}" data-episode="${ep.episode_number}" style="padding:6px 12px; font-size:0.8rem;">
+                      ▶ Play
+                    </button>
+                  </div>
                 `).join("") || '<p class="muted">No episodes listed.</p>';
 
                 target.dataset.loaded = "1";
                 btn.textContent = "Hide episodes";
 
-              } catch (e) {
-                target.innerHTML =
-                  `<p class="muted">Could not load episodes: ${escapeHtml(e.message)}</p>`;
-                btn.textContent = "Retry";
+                target.querySelectorAll(".playEpBtn").forEach(epBtn => {
+                  epBtn.addEventListener("click", () => {
+                    currentSeason = epBtn.dataset.season;
+                    currentEpisode = epBtn.dataset.episode;
+                    loadPlayer(getTvPlayerUrl(id, currentSeason, currentEpisode, activeServer));
+                  });
+                });
 
+              } catch (e) {
+                target.innerHTML = `<p class="muted">Could not load episodes: ${escapeHtml(e.message)}</p>`;
+                btn.textContent = "Retry";
               } finally {
                 btn.disabled = false;
               }
@@ -1030,9 +971,7 @@
         <button class="secondary back" id="backBtn">← Back to titles</button>
         <div class="status">Could not load details: ${escapeHtml(error.message)}</div>
       `;
-
       statusEl.hidden = true;
-
       document.getElementById("backBtn").addEventListener("click", () => {
         detailSection.hidden = true;
         resultsSection.hidden = false;
@@ -1042,15 +981,12 @@
 
   resultsEl.addEventListener("click", e => {
     const card = e.target.closest(".card");
-    if (card) {
-      openDetails(Number(card.dataset.id), card.dataset.kind);
-    }
+    if (card) openDetails(Number(card.dataset.id), card.dataset.kind);
   });
 
   resultsEl.addEventListener("keydown", e => {
     if (e.key === "Enter" || e.key === " ") {
       const card = e.target.closest(".card");
-
       if (card) {
         e.preventDefault();
         openDetails(Number(card.dataset.id), card.dataset.kind);
