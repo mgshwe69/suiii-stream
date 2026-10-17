@@ -153,6 +153,7 @@
     }
 
     .auth-form { display: flex; flex-direction: column; gap: 14px; }
+    .auth-form[hidden] { display: none !important; }
 
     /* PROFILE MODAL */
     .profile-card {
@@ -476,7 +477,7 @@
     <!-- LOGIN FORM -->
     <form id="loginForm" class="auth-form">
       <input type="text" id="loginName" placeholder="Your Name" required>
-      <input type="text" id="loginKey" placeholder="Enter Key (e.g. Suiii-1D-01)" required>
+      <input type="text" id="loginKey" placeholder="Enter Secure Key" required>
       <button type="submit">Enter 🚀</button>
     </form>
 
@@ -485,9 +486,14 @@
       <input type="text" id="signupName" placeholder="Name" required>
       <input type="number" id="signupAge" placeholder="Age" required>
       <input type="text" id="signupCountry" placeholder="Country" required>
-      <a id="askKeyLink" href="https://t.me/MG1SHWE" target="_blank" style="display:block; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-weight:800;">
-        Ask Key 🔑 (@MG1SHWE)
-      </a>
+      <div style="display: flex; gap: 8px; margin-top: 4px;">
+        <a id="askKeyTelegram" href="https://t.me/MG1SHWE" target="_blank" style="flex:1; display:block; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-size:.85rem; font-weight:800;">
+          Telegram 📲
+        </a>
+        <a id="askKeyWhatsapp" href="https://wa.me/910000000000" target="_blank" style="flex:1; display:block; text-align:center; background:#25d366; color:#fff; padding:12px; border-radius:11px; text-decoration:none; font-size:.85rem; font-weight:800;">
+          WhatsApp 💚
+        </a>
+      </div>
     </form>
   </div>
 </div>
@@ -594,24 +600,21 @@
 (() => {
   "use strict";
 
-    // RANDOM LONG KEYS DATABASE
+  // SECURE KEYS DATABASE (1-Day, 7-Day, 15-Day)
   const VALID_KEYS = {
     // 1-Day Keys
     "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1": 1,
     "Suiii-1D-3M71P-8Q2XZ-9LK01-B91W2": 1,
     "Suiii-1D-0A91L-2M98P-4QW11-C82E3": 1,
-
     // 7-Day Keys
     "Suiii-7D-8M92K-1P09Q-7XW88-R91P2": 7,
     "Suiii-7D-4L19P-9M82Z-3QW01-S82L3": 7,
     "Suiii-7D-2Z81L-0M92Q-8P100-T71W4": 7,
-
     // 15-Day Keys
     "Suiii-15D-9M82P-7X10Q-2L091-V82W1": 15,
     "Suiii-15D-4Z19L-0M82P-8QW12-X91L2": 15,
     "Suiii-15D-1P09Q-8M92Z-3XW99-Y71E3": 15
   };
-
 
   const authOverlay = document.getElementById("authOverlay");
   const tabLogin = document.getElementById("tabLogin");
@@ -621,26 +624,33 @@
   const userPill = document.getElementById("userPill");
   const userNameDisplay = document.getElementById("userNameDisplay");
   const profileSection = document.getElementById("profileSection");
-  const askKeyLink = document.getElementById("askKeyLink");
+  const askKeyTelegram = document.getElementById("askKeyTelegram");
+  const askKeyWhatsapp = document.getElementById("askKeyWhatsapp");
 
-  // TAB SWITCHING
+  // SEPARATE TAB SWITCHING (LOGIN VS SIGNUP)
   tabLogin.addEventListener("click", () => {
-    tabLogin.classList.add("active"); tabSignup.classList.remove("active");
-    loginForm.hidden = false; signupForm.hidden = true;
+    tabLogin.classList.add("active"); 
+    tabSignup.classList.remove("active");
+    loginForm.hidden = false; 
+    signupForm.hidden = true;
   });
 
   tabSignup.addEventListener("click", () => {
-    tabSignup.classList.add("active"); tabLogin.classList.remove("active");
-    signupForm.hidden = false; loginForm.hidden = true;
+    tabSignup.classList.add("active"); 
+    tabLogin.classList.remove("active");
+    signupForm.hidden = false; 
+    loginForm.hidden = true;
   });
 
-  // PREPARE DM MESSAGE FOR ASK KEY LINK
+  // PREPARE TELEGRAM & WHATSAPP DM LINKS DYNAMICALLY
   document.getElementById("signupForm").addEventListener("input", () => {
     const name = document.getElementById("signupName").value.trim();
     const age = document.getElementById("signupAge").value.trim();
     const country = document.getElementById("signupCountry").value.trim();
-    const msg = encodeURIComponent(`Hello @MG1SHWE! I want an Access Key for SUIII_STREAM.\n\nName: ${name}\nAge: ${age}\nCountry: ${country}`);
-    askKeyLink.href = `https://t.me/MG1SHWE?text=${msg}`;
+    const textMsg = encodeURIComponent(`Hello @MG1SHWE! I want an Access Key for SUIII_STREAM.\n\nName: ${name}\nAge: ${age}\nCountry: ${country}`);
+    
+    askKeyTelegram.href = `https://t.me/MG1SHWE?text=${textMsg}`;
+    askKeyWhatsapp.href = `https://wa.me/919999999999?text=${textMsg}`; // Apna WhatsApp number yaha daal dena
   });
 
   // LOGIN LOGIC
@@ -650,7 +660,7 @@
     const key = document.getElementById("loginKey").value.trim();
 
     if (!VALID_KEYS[key]) {
-      alert("Invalid or Expired Key! Please request a valid key from @MG1SHWE on Telegram.");
+      alert("Invalid or Expired Key! Please request a valid key via Telegram or WhatsApp.");
       return;
     }
 
@@ -717,7 +727,7 @@
     let list = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
     list = list.filter(x => String(x.id) !== String(item.id));
     list.unshift(item);
-    if (list.length > 10) list.pop(); // Keep top 10
+    if (list.length > 10) list.pop();
     localStorage.setItem("suiii_recent", JSON.stringify(list));
   }
 
@@ -761,7 +771,7 @@
 
   const pluginsSection = document.getElementById("pluginsSection");
   document.getElementById("pluginsNavBtn").addEventListener("click", () => {
-    resultsSection.hidden = true; detailSection.hidden = true; heroBanner.hidden = true; profileSection.hidden = true; pluginsSection.hidden = false;
+    resultsSection.hidden = true; detailSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = true; pluginsSection.hidden = false;
     renderPlugins();
   });
   document.getElementById("backToMovies").addEventListener("click", () => {
@@ -941,7 +951,6 @@
       const data = await api(`/${kind}/${id}?append_to_response=credits,videos${kind==="tv"?",seasons":""}`);
       const title = titleOf(data, kind);
       
-      // SAVE TO RECENT HISTORY
       saveToRecent({...data, media_type: kind});
 
       const genres = (data.genres||[]).map(g => `<span class="chip">${escapeHtml(g.name)}</span>`).join("");
@@ -1085,7 +1094,6 @@
     } catch (err) { statusEl.textContent = `Could not load: ${err.message}`; }
   }
 
-  // EVENT DELEGATION FOR CLICKING CARDS (INCLUDING RECENT WATCHED)
   document.addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (card && card.dataset.id) {
