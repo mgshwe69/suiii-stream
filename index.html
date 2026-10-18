@@ -175,7 +175,6 @@ main{padding:0 12px 35px}
 (() => {
 "use strict";
 
-/* TMDB key: public HTML mein key visible hoti hai. */
 const TMDB_API_KEY = "16b1113a76da76e67da63f74fe3f3e82";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
@@ -656,17 +655,16 @@ async function showDetails(item, request) {
 
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
-        <strong>WATCH PLAYER</strong>
-        <span style="color:var(--muted);font-size:.8rem">Choose an available video source</span>
+        <strong>WATCH PLAYER (MULTI-SERVER)</strong>
+        <span style="color:var(--muted);font-size:.8rem">Choose an available mirror server</span>
       </div>
       <div class="servers" id="servers"></div>
       <div id="playerArea" class="player-message">
         <strong>Ready to watch?</strong>
-        Choose a licensed video source below, or add your own authorized embed URL in the configuration.
+        Select any mirror server above to start streaming instantly.
       </div>
       <div class="notice">
-        Playback works only when the selected source provides a valid, authorized video or embed URL.
-        Some providers block playback inside other websites.
+        Playback is streamed via high-performance multi-language and multi-server embeds.
       </div>
     </div>`;
 
@@ -695,16 +693,67 @@ async function showDetails(item, request) {
 }
 
 function renderServers(item) {
+  const id = item.tmdbId || item.raw?.id || "";
+  const isMovie = item.type === "movie";
+
   const servers = [
-    { id: "source1", name: "Video Source 1", url: "" },
-    { id: "source2", name: "Video Source 2", url: "" },
-    { id: "source3", name: "Video Source 3", url: "" }
+    { 
+      id: "vidsrc", 
+      name: "VidSrc Pro", 
+      url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` 
+    },
+    { 
+      id: "embedsu", 
+      name: "EmbedSu", 
+      url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` 
+    },
+    { 
+      id: "multiembed", 
+      name: "MultiEmbed", 
+      url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` 
+    },
+    { 
+      id: "autoembed", 
+      name: "AutoEmbed", 
+      url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` 
+    },
+    { 
+      id: "vidsrccc", 
+      name: "VidSrc.cc", 
+      url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` 
+    },
+    { 
+      id: "twembed", 
+      name: "2Embed", 
+      url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` 
+    },
+    { 
+      id: "superembed", 
+      name: "SuperEmbed", 
+      url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` 
+    },
+    { 
+      id: "smashystream", 
+      name: "SmashyStream", 
+      url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` 
+    }
   ];
 
   $("servers").innerHTML = servers.map((server, index) => `
     <button class="server ${index === 0 ? "active" : ""}"
       data-server="${server.id}">${server.name}</button>
   `).join("");
+
+  // Default load first server
+  if (servers.length && servers[0].url && id) {
+    $("playerArea").outerHTML = `
+      <iframe id="playerArea" class="player-frame"
+        src="${esc(servers[0].url)}"
+        title="Video player"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  }
 
   $("servers").querySelectorAll("button").forEach(button => {
     button.onclick = () => {
@@ -714,17 +763,10 @@ function renderServers(item) {
 
       const selected = servers.find(server => server.id === button.dataset.server);
 
-      if (!selected.url) {
+      if (!id) {
         $("playerArea").innerHTML = `
-          <strong>Source not configured</strong>
-          Add your own licensed video/embed URL to this server in the JavaScript configuration.`;
-        return;
-      }
-
-      if (!/^https:\/\//i.test(selected.url)) {
-        $("playerArea").innerHTML = `
-          <strong>Invalid source</strong>
-          Use a secure HTTPS URL from a source you are authorized to embed.`;
+          <strong>ID Missing</strong>
+          TMDB ID missing for this title.`;
         return;
       }
 
