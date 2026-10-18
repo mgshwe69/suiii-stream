@@ -3,20 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#100d0b">
-<meta name="description" content="SUIII_STREAM — Apple Liquid Glass VIP OTT Streaming Platform">
-<title>SUIII_STREAM — Liquid Glass OTT Platform</title>
+<meta name="theme-color" content="#0d0b10">
+<meta name="description" content="SUIII_STREAM — Pro Liquid Glass VIP OTT Streaming Platform">
+<title>SUIII_STREAM — Pro Liquid Glass OTT</title>
 <style>
 :root {
   color-scheme: dark;
-  --bg: #0e0b09;
-  --panel: rgba(25, 20, 16, 0.75);
-  --panel-solid: #191512;
-  --panel2: rgba(35, 28, 22, 0.85);
-  --text: #f5eee6;
-  --muted: #a89a8c;
-  --gold: #ffd21c;
-  --gold-glow: rgba(255, 210, 28, 0.25);
+  --bg: #0b090e;
+  --panel: rgba(22, 18, 28, 0.75);
+  --panel-solid: #15111c;
+  --panel2: rgba(30, 24, 38, 0.85);
+  --text: #f5f0fa;
+  --muted: #a095b0;
+  --gold: #e2b024;
+  --cyan: #00e5ff;
+  --accent-glow: rgba(226, 176, 36, 0.25);
   --line: rgba(255, 255, 255, 0.12);
   --glass: blur(25px) saturate(190%);
   --glass-border: 1px solid rgba(255, 255, 255, 0.14);
@@ -29,22 +30,22 @@ body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(255, 210, 28, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(255, 210, 28, 0.03) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(226, 176, 36, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.04) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
 button, input, select { font: inherit; }
 button { cursor: pointer; }
 
-/* APPLE LIQUID GLASS HEADER */
+/* HEADER */
 header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(16, 13, 11, 0.75);
+  background: rgba(13, 11, 16, 0.75);
   backdrop-filter: var(--glass);
   -webkit-backdrop-filter: var(--glass);
   border-bottom: var(--glass-border);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
 .top {
@@ -54,7 +55,6 @@ header {
 
 .header-left { display: flex; align-items: center; gap: 14px; }
 
-/* Hamburger Menu Icon */
 .hamburger-btn {
   background: transparent; border: none; color: var(--text);
   font-size: 1.4rem; display: flex; flex-direction: column; gap: 4px; cursor: pointer;
@@ -64,9 +64,8 @@ header {
   display: block; width: 22px; height: 2.5px; background-color: var(--text); border-radius: 2px;
 }
 
-/* Slide-out Drawer Menu */
 .drawer {
-  position: fixed; inset: 0 0 0 -300px; width: 280px; background: rgba(16, 13, 11, 0.95);
+  position: fixed; inset: 0 0 0 -300px; width: 280px; background: rgba(13, 11, 16, 0.95);
   backdrop-filter: blur(30px); border-right: var(--glass-border); z-index: 1000;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
@@ -80,13 +79,12 @@ header {
   padding: 10px 14px; border-radius: 12px; text-align: left; font-weight: 700; cursor: pointer;
   transition: 0.2s; display: block; text-decoration: none; font-size: 0.9rem;
 }
-.drawer-link:hover { background: rgba(255, 210, 28, 0.15); border-color: var(--gold); color: var(--gold); }
+.drawer-link:hover { background: rgba(226, 176, 36, 0.15); border-color: var(--gold); color: var(--gold); }
 
-/* User Profile Avatar */
 .profile-avatar {
   width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-  border: 2px solid var(--gold); box-shadow: 0 0 10px var(--gold-glow);
-  display: grid; place-items: center; background: #221c16; cursor: pointer;
+  border: 2px solid var(--gold); box-shadow: 0 0 12px var(--accent-glow);
+  display: grid; place-items: center; background: #1a1524; cursor: pointer;
 }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -97,7 +95,7 @@ header {
 }
 .brand-mark {
   color: var(--gold); font-size: 1.35rem;
-  filter: drop-shadow(0 0 8px var(--gold-glow));
+  filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 .brand span:last-child { color: var(--gold); }
 
@@ -105,7 +103,7 @@ header {
 .search-container { display: flex; gap: 8px; max-width: 380px; width: 100%; position: relative; }
 
 input, select {
-  background: rgba(35, 28, 22, 0.4);
+  background: rgba(30, 24, 38, 0.5);
   backdrop-filter: var(--glass);
   color: var(--text); border: var(--glass-border);
   border-radius: 14px; padding: 9px 14px; outline: none; min-width: 0;
@@ -113,13 +111,12 @@ input, select {
 }
 input:focus, select:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 15px var(--gold-glow);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 #searchInput { width: 100%; }
 
-/* Instant Live Search Suggestions Dropdown */
 .search-suggestions {
-  position: absolute; top: 110%; left: 0; right: 0; background: #181310;
+  position: absolute; top: 110%; left: 0; right: 0; background: #15111c;
   border: var(--glass-border); border-radius: 14px; max-height: 350px; overflow-y: auto;
   z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.7);
 }
@@ -127,19 +124,19 @@ input:focus, select:focus {
   display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer;
   border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
 }
-.suggestion-item:hover { background: rgba(255, 210, 28, 0.1); color: var(--gold); }
+.suggestion-item:hover { background: rgba(226, 176, 36, 0.1); color: var(--gold); }
 .suggestion-item img { width: 35px; height: 50px; object-fit: cover; border-radius: 6px; }
 
 .gold-btn {
-  background: linear-gradient(135deg, #ffd21c 0%, #e0b010 100%);
-  color: #120e08; border: 0; border-radius: 30px;
+  background: linear-gradient(135deg, #e2b024 0%, #c49210 100%);
+  color: #0d0b10; border: 0; border-radius: 30px;
   padding: 9px 18px; font-weight: 800; font-size: 0.85rem;
-  box-shadow: 0 4px 20px var(--gold-glow);
+  box-shadow: 0 4px 20px var(--accent-glow);
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .gold-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 25px rgba(255, 210, 28, 0.4);
+  box-shadow: 0 6px 25px rgba(226, 176, 36, 0.4);
 }
 
 .outline-btn {
@@ -149,15 +146,15 @@ input:focus, select:focus {
   border-radius: 30px; padding: 8px 16px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
-.outline-btn:hover { border-color: var(--gold); background: rgba(255, 210, 28, 0.1); }
+.outline-btn:hover { border-color: var(--gold); background: rgba(226, 176, 36, 0.1); }
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
-/* HERO LIQUID GLASS BANNER WITH 4s AUTO SLIDE */
+/* HERO HERO SLIDER */
 .hero {
   margin: 20px 0 30px; min-height: 440px; position: relative;
   overflow: hidden; border-radius: 24px;
-  background: #201913 center 35%/cover no-repeat;
+  background: #191424 center 35%/cover no-repeat;
   display: flex; align-items: flex-end;
   border: var(--glass-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
@@ -165,8 +162,8 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 }
 .hero:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0e0b09 0%, rgba(14, 11, 9, 0.7) 40%, transparent 100%),
-              linear-gradient(90deg, rgba(14, 11, 9, 0.85) 0%, transparent 80%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.7) 40%, transparent 100%),
+              linear-gradient(90deg, rgba(11, 9, 14, 0.85) 0%, transparent 80%);
 }
 .hero-content { position: relative; max-width: 650px; padding: 35px; z-index: 2; }
 .eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
@@ -179,7 +176,6 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-/* CUSTOM LOADING ANIMATION (👑 DALLI💕) */
 .status {
   padding: 40px 10px; text-align: center; color: var(--gold);
 }
@@ -189,45 +185,42 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   animation: dalliGlow 1.2s infinite alternate ease-in-out;
 }
 @keyframes dalliGlow {
-  0% { transform: scale(0.95); opacity: 0.6; filter: drop-shadow(0 0 5px var(--gold-glow)); }
-  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(255, 210, 28, 0.8)); }
+  0% { transform: scale(0.95); opacity: 0.6; filter: drop-shadow(0 0 5px var(--accent-glow)); }
+  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(226, 176, 36, 0.8)); }
 }
 
-/* TABS LIQUID GLASS */
 .tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
 .tabs button {
-  flex: 0 0 auto; background: rgba(35, 28, 22, 0.4);
+  flex: 0 0 auto; background: rgba(30, 24, 38, 0.4);
   backdrop-filter: var(--glass); border: var(--glass-border);
   border-radius: 30px; color: #b7aa9e; padding: 9px 18px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 .tabs button.active {
-  background: var(--gold); color: #120e08; border-color: var(--gold);
-  box-shadow: 0 4px 15px var(--gold-glow);
+  background: var(--gold); color: #0d0b10; border-color: var(--gold);
+  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
-/* CARDS LIQUID GRID */
 .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
 .card { min-width: 0; cursor: pointer; position: relative; }
 .poster-wrap {
   position: relative; overflow: hidden; border-radius: var(--card-radius);
-  background: #1f1914; aspect-ratio: 2/3; border: var(--glass-border);
+  background: #191424; aspect-ratio: 2/3; border: var(--glass-border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease;
 }
 .poster { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-.card:hover .poster-wrap { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 15px 35px var(--gold-glow); }
+.card:hover .poster-wrap { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 15px 35px var(--accent-glow); }
 .card:hover .poster { transform: scale(1.06); }
 .poster-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 60%); }
 .play-dot {
   position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px;
   border-radius: 50%; display: grid; place-items: center; background: var(--gold);
-  color: #120e08; font-size: 0.85rem; box-shadow: 0 4px 12px var(--gold-glow);
+  color: #0d0b10; font-size: 0.85rem; box-shadow: 0 4px 12px var(--accent-glow);
 }
 .card-title { font-size: .9rem; font-weight: 800; margin: 8px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
 
-/* CAST SECTION STYLING */
 .cast-section { margin-top: 25px; }
 .cast-section h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--gold); }
 .cast-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
@@ -237,85 +230,94 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .cast-char { font-size: 0.7rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* SEASONS & EPISODES SELECTOR */
-.season-selector-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(14, 11, 9, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
-.season-selector-bar select { background: #211b16; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
+.episodes-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
+.episodes-bar select { background: #1c1626; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
 
-/* DETAIL & LIQUID PLAYER */
 .detail { margin-top: 25px; }
 .detail-top {
-  min-height: 350px; border-radius: 24px; overflow: hidden; background: #201913 center/cover no-repeat;
+  min-height: 350px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
   position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
 }
 .detail-top:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0e0b09 0%, rgba(14,11,9,0.75) 50%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.75) 50%, transparent 100%);
 }
 .detail-info { position: relative; padding: 30px; max-width: 850px; z-index: 2; }
 .detail-info h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin: 6px 0 10px; font-weight: 800; }
 
-/* PLAYER & MULTI-AUDIO ENGINE */
 .player-box {
   margin-top: 25px; border: var(--glass-border);
-  background: rgba(25, 20, 16, 0.6); backdrop-filter: var(--glass);
+  background: rgba(22, 18, 28, 0.6); backdrop-filter: var(--glass);
   border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 .player-head {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 16px 22px; background: rgba(35, 28, 22, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
+  padding: 16px 22px; background: rgba(30, 24, 38, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
 }
 
 .audio-bar {
   display: flex; gap: 10px; align-items: center; padding: 14px 22px;
-  background: rgba(14, 11, 9, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap;
+  background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap;
 }
 .audio-bar label { font-size: 0.78rem; font-weight: 800; color: var(--gold); text-transform: uppercase; }
 .audio-btn {
   background: rgba(255, 255, 255, 0.05); border: var(--glass-border); color: var(--muted);
   padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;
 }
-.audio-btn.active { background: var(--gold); color: #120e08; border-color: var(--gold); font-weight: 800; }
+.audio-btn.active { background: var(--gold); color: #0d0b10; border-color: var(--gold); font-weight: 800; }
 
 .servers { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 22px; }
 .server {
-  background: rgba(35, 28, 22, 0.5); color: #e8ded4; border: var(--glass-border);
+  background: rgba(30, 24, 38, 0.5); color: #e8ded4; border: var(--glass-border);
   padding: 9px 15px; border-radius: 12px; font-size: .82rem; font-weight: 700; transition: all 0.2s;
 }
-.server.active { border-color: var(--gold); color: var(--gold); background: rgba(255, 210, 28, 0.15); }
+.server.active { border-color: var(--gold); color: var(--gold); background: rgba(226, 176, 36, 0.15); }
 
 .player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
 .notice { font-size: .8rem; color: var(--muted); padding: 12px 22px; border-top: var(--glass-border); }
 
-/* AUTH & PROFILE MODAL */
+/* AUTH MODALS */
 .auth-modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px);
+  position: fixed; inset: 0; background: rgba(0,0,0,0.88); backdrop-filter: blur(20px);
   z-index: 2000; display: grid; place-items: center; padding: 20px;
 }
 .auth-modal {
-  background: #15110e; border: var(--glass-border); border-radius: 24px;
+  background: #14101a; border: var(--glass-border); border-radius: 24px;
   width: 100%; max-width: 440px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
   position: relative;
 }
 .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
 .auth-tab { flex: 1; background: transparent; border: none; color: var(--muted); padding: 10px; font-weight: 800; border-radius: 10px; cursor: pointer; }
-.auth-tab.active { background: var(--gold); color: #120e08; }
+.auth-tab.active { background: var(--gold); color: #0d0b10; }
 .auth-form { display: flex; flex-direction: column; gap: 14px; }
-.auth-form input, .auth-form select { width: 100%; background: #211b16; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
+.auth-form input, .auth-form select { width: 100%; background: #1c1626; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
 .ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
 
+/* ICONIC AVATAR SELECTOR GRID */
+.avatar-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0;
+}
+.avatar-option {
+  width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer; overflow: hidden; transition: 0.2s;
+}
+.avatar-option img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 10px var(--accent-glow); }
+
 /* USER DASHBOARD MODAL */
 .profile-card { text-align: center; }
-.profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px var(--gold-glow); }
+.profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px var(--accent-glow); }
 .profile-card-pfp img { width: 100%; height: 100%; object-fit: cover; }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
 .stat-box { background: rgba(255,255,255,0.04); border: var(--glass-border); padding: 12px; border-radius: 14px; text-align: center; }
-.stat-val { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
+.stat-val { font-size: 1.05rem; font-weight: 900; color: var(--gold); }
 .stat-lbl { font-size: 0.75rem; color: var(--muted); }
 .recent-list { text-align: left; font-size: 0.85rem; margin-top: 15px; background: rgba(255,255,255,0.02); border: var(--glass-border); padding: 12px; border-radius: 14px; }
 
 footer {
   border-top: var(--glass-border); padding: 25px 20px; text-align: center;
-  color: var(--muted); background: rgba(16, 13, 11, 0.8); margin-top: 40px; font-size: 0.85rem;
+  color: var(--muted); background: rgba(13, 11, 16, 0.8); margin-top: 40px; font-size: 0.85rem;
 }
 footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 [hidden] { display: none !important; }
@@ -337,7 +339,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
       <span></span><span></span><span></span>
     </button>
     <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
-      <img id="headerPfp" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Profile">
+      <img id="headerPfp" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Profile">
     </div>
     <div class="brand" id="brandHome" role="button" tabindex="0">
       <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
@@ -352,7 +354,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 </div>
 </header>
 
-<!-- SLIDE-OUT DRAWER MENU -->
+<!-- DRAWER MENU -->
 <div class="drawer" id="navDrawer">
   <div class="drawer-header">
     <span>SUIII_STREAM MENU</span>
@@ -383,7 +385,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     <span id="heroType">VIP OTT</span><span class="dot">•</span>
     <span id="heroRating">★ Verified</span>
   </div>
-  <p id="heroDescription">Stream Hollywood, Bollywood, TV Serials, K-Dramas, and Anime seamlessly.</p>
+  <p id="heroDescription">Stream Hollywood, Bollywood, TV Serials, K-Dramas, Marvel, DC, and Anime seamlessly.</p>
   <div class="hero-actions">
     <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
   </div>
@@ -417,7 +419,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 <section id="detailSection" class="detail" hidden></section>
 </main>
 
-<!-- LOGIN / SIGN UP MODAL FOR 7-DAY CR7 KEY -->
+<!-- LOGIN MODAL -->
 <div class="auth-modal-overlay" id="authModal" hidden>
   <div class="auth-modal">
     <div class="auth-tabs">
@@ -425,25 +427,15 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
       <button class="auth-tab" id="tabSignup">Sign Up</button>
     </div>
     
-    <!-- Login Form -->
     <form class="auth-form" id="loginForm">
       <input type="text" id="loginName" placeholder="Your Name" required>
-      <select id="loginGender">
-        <option value="male">Male (Iconic Male Avatar)</option>
-        <option value="female">Female (Iconic Female Avatar)</option>
-      </select>
       <input type="number" id="loginAge" placeholder="Age" required>
-      <input type="text" id="loginKey" placeholder="Enter 7-Digit Key (e.g. CR70001)" required>
-      <button type="submit" class="gold-btn">Verify 7-Day Access</button>
+      <input type="text" id="loginKey" placeholder="Enter 7-Digit Access Key" required>
+      <button type="submit" class="gold-btn">Verify Access Key</button>
     </form>
 
-    <!-- Sign Up Form -->
     <form class="auth-form" id="signupForm" hidden>
       <input type="text" id="signupName" placeholder="Your Full Name" required>
-      <select id="signupGender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-      </select>
       <input type="text" id="signupCountry" placeholder="Country" required>
       <input type="text" id="signupCity" placeholder="City" required>
       <input type="number" id="signupAge" placeholder="Age" required>
@@ -451,7 +443,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     </form>
 
     <div class="ask-key-box">
-      Need a CR7 7-Day Access Key?<br>
+      Need an Access Key?<br>
       <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
       <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
       <a href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram</a>
@@ -459,21 +451,31 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   </div>
 </div>
 
-<!-- USER PROFILE & DASHBOARD MODAL -->
+<!-- USER PROFILE & DASHBOARD MODAL WITH AVATAR CHANGER -->
 <div class="auth-modal-overlay" id="profileDashboardModal" hidden>
   <div class="auth-modal">
     <button class="drawer-close" id="profileModalClose" style="position:absolute;top:20px;right:20px;">✕</button>
     <div class="profile-card">
       <div class="profile-card-pfp">
-        <img id="dashPfp" src="" alt="Iconic Profile Avatar">
+        <img id="dashPfp" src="" alt="Avatar">
       </div>
       <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
       <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
+      <!-- ICONIC AVATAR SELECTOR -->
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:10px;">SELECT YOUR ICONIC AVATAR:</div>
+      <div class="avatar-grid" id="avatarPicker">
+        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" title="Iron Man"></div>
+        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" title="Batman"></div>
+        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100" title="Barbie"></div>
+        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100" title="Luffy"></div>
+        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100" title="Tanjiro"></div>
+      </div>
+
       <div class="stats-grid">
         <div class="stat-box">
           <div class="stat-val" id="dashDaysLeft">7 Days</div>
-          <div class="stat-lbl">Key Remaining</div>
+          <div class="stat-lbl">Time Remaining</div>
         </div>
         <div class="stat-box">
           <div class="stat-val" id="dashExpiry">Valid</div>
@@ -501,8 +503,9 @@ const TMDB_BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 const BACK = "https://image.tmdb.org/t/p/w1280";
 
-const ICONIC_MALE_PFP = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80";
-const ICONIC_FEMALE_PFP = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80";
+// STRICT 7 ACCESS KEYS SYSTEM
+const PERMANENT_KEYS = ["CR7PERM1", "CR7PERM2", "CR7PERM3"];
+const SEVEN_DAY_KEYS = ["CR70001", "CR70002", "CR70003", "CR70004"];
 
 const $ = id => document.getElementById(id);
 const results = $("results");
@@ -519,6 +522,7 @@ let currentEpisode = 1;
 let heroSlideIndex = 0;
 let heroSlideTimer = null;
 let searchDebounce = null;
+let timerInterval = null;
 
 $("year").textContent = new Date().getFullYear();
 
@@ -544,22 +548,57 @@ $("profileBtn").onclick = () => {
 };
 $("profileModalClose").onclick = () => $("profileDashboardModal").hidden = true;
 
+// Avatar Picker Event
+document.querySelectorAll(".avatar-option").forEach(opt => {
+  opt.onclick = () => {
+    document.querySelectorAll(".avatar-option").forEach(o => o.classList.remove("selected"));
+    opt.classList.add("selected");
+    const newAvatar = opt.dataset.img;
+    localStorage.setItem("suii_user_avatar", newAvatar);
+    $("dashPfp").src = newAvatar;
+    $("headerPfp").src = newAvatar;
+  };
+});
+
 function updateProfileUI() {
   const name = localStorage.getItem("suii_user_name") || "VIP User";
-  const gender = localStorage.getItem("suii_user_gender") || "male";
-  const keyDate = localStorage.getItem("suii_key_time") || Date.now();
+  const avatar = localStorage.getItem("suii_user_avatar") || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80";
+  const userKey = localStorage.getItem("suii_access_key");
+  const keyDate = Number(localStorage.getItem("suii_key_time") || Date.now());
 
   $("dashName").textContent = name;
-  const pfp = gender === "female" ? ICONIC_FEMALE_PFP : ICONIC_MALE_PFP;
-  $("headerPfp").src = pfp;
-  $("dashPfp").src = pfp;
+  $("headerPfp").src = avatar;
+  $("dashPfp").src = avatar;
 
-  const diffTime = Math.abs(Date.now() - Number(keyDate));
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  const remaining = Math.max(0, 7 - diffDays);
-  
-  $("dashDaysLeft").textContent = remaining + " Days";
-  $("dashExpiry").textContent = remaining > 0 ? "Active Key" : "Expired";
+  if (timerInterval) clearInterval(timerInterval);
+
+  if (PERMANENT_KEYS.includes(userKey)) {
+    $("dashDaysLeft").textContent = "LIFETIME VIP";
+    $("dashExpiry").textContent = "Permanent Key";
+  } else {
+    function updateCountdown() {
+      const expiryTime = keyDate + (7 * 24 * 60 * 60 * 1000);
+      const remainingMs = expiryTime - Date.now();
+
+      if (remainingMs <= 0) {
+        $("dashDaysLeft").textContent = "EXPIRED";
+        $("dashExpiry").textContent = "Invalid Key";
+        localStorage.removeItem("suii_access_key");
+        return;
+      }
+
+      const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
+
+      $("dashDaysLeft").textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
+      $("dashExpiry").textContent = "Active 7-Days";
+    }
+
+    updateCountdown();
+    timerInterval = setInterval(updateCountdown, 1000);
+  }
 
   const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed)";
   $("dashRecentTitle").textContent = recent;
@@ -624,11 +663,12 @@ function card(item, index) {
 }
 
 function render(items) {
-  itemsNow = items;
-  results.innerHTML = items.map(card).join("");
-  $("count").textContent = items.length + " titles";
-  status.hidden = !!items.length;
-  if (items.length > 0) startHeroSlider(items);
+  // Strict filter: omit false / unverified items
+  itemsNow = items.filter(x => x && x.title && x.tmdbId);
+  results.innerHTML = itemsNow.map(card).join("");
+  $("count").textContent = itemsNow.length + " titles";
+  status.hidden = !!itemsNow.length;
+  if (itemsNow.length > 0) startHeroSlider(itemsNow);
 }
 
 function startHeroSlider(items) {
@@ -689,7 +729,6 @@ async function loadCatalog(category = "trending") {
   }
 }
 
-// Open Details with Cast and Season Selector Support
 async function openDetails(item) {
   selectedItem = item;
   currentSeason = 1;
@@ -711,7 +750,6 @@ async function openDetails(item) {
     item.overview = detailsData.overview || item.overview;
     item.backdrop = detailsData.backdrop_path || item.backdrop;
 
-    // Cast List Markup
     const castList = (credits.cast || []).slice(0, 12);
     castHTML = `
       <div class="cast-section">
@@ -728,15 +766,16 @@ async function openDetails(item) {
       </div>
     `;
 
-    // Season Selector for TV Shows
     if (item.type === "tv" && detailsData.seasons) {
       const seasons = detailsData.seasons.filter(s => s.season_number > 0);
       seasonsHTML = `
-        <div class="season-selector-bar">
-          <label>SELECT SEASON:</label>
+        <div class="episodes-bar">
+          <label>SEASON:</label>
           <select id="seasonSelect">
-            ${seasons.map(s => `<option value="${s.season_number}">Season ${s.season_number} (${s.episode_count} Eps)</option>`).join('')}
+            ${seasons.map(s => `<option value="${s.season_number}">Season ${s.season_number} (${s.episode_count} Episodes)</option>`).join('')}
           </select>
+          <label>EPISODE:</label>
+          <select id="episodeSelect"></select>
         </div>
       `;
     }
@@ -762,12 +801,11 @@ async function openDetails(item) {
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
         <strong>SUIII VIP MULTI-SERVER STREAM PLAYER</strong>
-        <span style="color:var(--gold);font-size:.85rem;font-weight:800;">AUTO HD EMBED</span>
+        <span style="color:var(--gold);font-size:.85rem;font-weight:800;">PRO EMBED ENGINE</span>
       </div>
       
       ${seasonsHTML}
 
-      <!-- AUDIO LANGUAGE DUBBING SELECTOR -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
         <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
@@ -779,7 +817,7 @@ async function openDetails(item) {
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice" id="audioNotice">Note: Official SUIII_VIP dubbed mirrors loaded. If Hindi audio is unavailable on server, original/English audio plays automatically.</div>
+      <div class="notice" id="audioNotice">Note: Selecting Audio processes stream source via 2Embed / SUIII_VIP Engine.</div>
     </div>
   `;
 
@@ -787,16 +825,34 @@ async function openDetails(item) {
     detail.hidden = true; $("resultsSection").hidden = false; hero.hidden = false;
   };
 
-  // Season Change Event
-  const seasonSelect = $("seasonSelect");
-  if (seasonSelect) {
-    seasonSelect.onchange = (e) => {
-      currentSeason = Number(e.target.value);
-      renderServers(selectedItem);
-    };
+  // Dynamic Season & Episode Population
+  if (item.type === "tv") {
+    async function populateEpisodes(seasonNum) {
+      try {
+        const sData = await tmdb(`/tv/${tmdbId}/season/${seasonNum}`);
+        const epSelect = $("episodeSelect");
+        if (epSelect && sData.episodes) {
+          epSelect.innerHTML = sData.episodes.map(ep => `<option value="${ep.episode_number}">Episode ${ep.episode_number}: ${esc(ep.name)}</option>`).join('');
+          epSelect.onchange = (e) => {
+            currentEpisode = Number(e.target.value);
+            renderServers(selectedItem);
+          };
+        }
+      } catch (e) {}
+    }
+
+    const seasonSelect = $("seasonSelect");
+    if (seasonSelect) {
+      seasonSelect.onchange = (e) => {
+        currentSeason = Number(e.target.value);
+        currentEpisode = 1;
+        populateEpisodes(currentSeason);
+        renderServers(selectedItem);
+      };
+      populateEpisodes(1);
+    }
   }
 
-  // Actor Click Event to view their movies/shows
   detail.querySelectorAll(".cast-card").forEach(cardEl => {
     cardEl.onclick = async () => {
       const personId = cardEl.dataset.personId;
@@ -807,7 +863,7 @@ async function openDetails(item) {
         const pCredits = await tmdb(`/person/${personId}/combined_credits`);
         const pData = (pCredits.cast || []).map(x => normTMDB(x));
         render(pData);
-        $("resultsTitle").textContent = "Filmography Results";
+        $("resultsTitle").textContent = "Actor Filmography Results";
       } catch (err) { status.textContent = "Failed to load actor works."; }
     };
   });
@@ -826,7 +882,7 @@ async function openDetails(item) {
   };
 }
 
-// Instant Live Search Suggestions as user types
+// Search Suggestions
 $("searchInput").oninput = (e) => {
   clearTimeout(searchDebounce);
   const q = e.target.value.trim();
@@ -840,7 +896,7 @@ $("searchInput").oninput = (e) => {
   searchDebounce = setTimeout(async () => {
     try {
       const res = await tmdb("/search/multi", { query: q });
-      const resultsList = (res.results || []).slice(0, 5);
+      const resultsList = (res.results || []).filter(x => x.title || x.name).slice(0, 5);
       if (resultsList.length === 0) {
         suggBox.hidden = true;
         return;
@@ -870,14 +926,13 @@ $("searchInput").oninput = (e) => {
   }, 300);
 };
 
-// Hide suggestion box on outside click
 document.onclick = (e) => {
   if (!e.target.closest(".search-container")) {
     $("searchSuggestions").hidden = true;
   }
 };
 
-// Auth Modal & CR7 Key Verification
+// Auth Modal
 $("tabLogin").onclick = () => {
   $("tabLogin").classList.add("active");
   $("tabSignup").classList.remove("active");
@@ -895,19 +950,17 @@ $("loginForm").onsubmit = (e) => {
   e.preventDefault();
   const key = $("loginKey").value.trim().toUpperCase();
   const name = $("loginName").value.trim();
-  const gender = $("loginGender").value;
 
-  const isCR7Key = /^CR7[A-Z0-9]{4}$/.test(key) && key.length === 7;
+  const isValidKey = PERMANENT_KEYS.includes(key) || SEVEN_DAY_KEYS.includes(key);
 
-  if (isCR7Key) {
+  if (isValidKey) {
     localStorage.setItem("suii_access_key", key);
     localStorage.setItem("suii_user_name", name);
-    localStorage.setItem("suii_user_gender", gender);
     localStorage.setItem("suii_key_time", Date.now());
     
     updateProfileUI();
     $("authModal").hidden = true;
-    alert("CR7 VIP Access Verified Successfully! Valid for 7 Days.");
+    alert("CR7 VIP Access Verified Successfully!");
 
     if (selectedItem) {
       $("playerBox").hidden = false;
@@ -915,13 +968,13 @@ $("loginForm").onsubmit = (e) => {
       renderServers(selectedItem);
     }
   } else {
-    alert("Access Denied! Only 7-digit valid keys starting with CR7 are allowed (e.g., CR70001).");
+    alert("Access Denied! Invalid 7-Digit Key. Only official CR7 VIP keys allowed.");
   }
 };
 
 $("signupForm").onsubmit = (e) => {
   e.preventDefault();
-  alert("Account Registered! Please contact Telegram/Instagram for your CR7 7-Day Key.");
+  alert("Account Registered! Please contact Telegram/Instagram for your CR7 VIP Access Key.");
   $("tabLogin").click();
 };
 
@@ -932,15 +985,15 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
-// Render Servers with Dubbing & Season handling
+// Render Servers with Audio Dubbing Engine Workflow
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
   const SERVERS = [
-    { id: "suii_vip_1", name: "SUIII_VIP 1 (Official Dubbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_1", name: "SUIII_VIP 1 (2Embed Engine)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}` },
     { id: "suii_vip_2", name: "SUIII_VIP 2 (Pro HD)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_3", name: "SUIII_VIP 3 (2Embed)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_3", name: "SUIII_VIP 3 (MultiEmbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
     { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
@@ -954,17 +1007,22 @@ function renderServers(item) {
 
   const iframe = $("videoIframe");
   
-  function updateStream(baseUrl) {
-    if (currentLanguage === "hindi") {
-      iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
-      $("audioNotice").textContent = "Playing via SUIII_VIP Dubbed Engine (Hindi prioritized; falls back to English/Original if unavailable).";
-    } else {
-      iframe.src = baseUrl;
-      $("audioNotice").textContent = "Playing original audio stream.";
-    }
+  function processAudioAndLoad(baseUrl) {
+    iframe.src = "about:blank";
+    $("audioNotice").textContent = "Processing audio stream from 2Embed / SUIII_VIP server...";
+
+    setTimeout(() => {
+      if (currentLanguage === "hindi") {
+        iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
+        $("audioNotice").textContent = "Playing via SUIII_VIP 2Embed Engine (Hindi prioritized). Note: If Hindi audio is not encoded for this title, Only English is available; other languages coming soon.";
+      } else {
+        iframe.src = baseUrl;
+        $("audioNotice").textContent = "Playing original/English audio stream.";
+      }
+    }, 1500);
   }
 
-  updateStream(SERVERS[0].url);
+  processAudioAndLoad(SERVERS[0].url);
 
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
@@ -972,7 +1030,7 @@ function renderServers(item) {
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
       const activeServerBtn = document.querySelector(".server.active");
-      if (activeServerBtn) updateStream(activeServerBtn.dataset.url);
+      if (activeServerBtn) processAudioAndLoad(activeServerBtn.dataset.url);
     };
   });
 
@@ -980,7 +1038,7 @@ function renderServers(item) {
     btn.onclick = () => {
       document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      updateStream(btn.dataset.url);
+      processAudioAndLoad(btn.dataset.url);
     };
   });
 }
