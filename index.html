@@ -465,7 +465,7 @@
 (() => {
   "use strict";
 
-  const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
+  const TMDB_API_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -523,7 +523,8 @@
     };
 
     let data = await fetchWithTimeout(`https://corsproxy.io/?${encodeURIComponent(target)}`);
-    if (data) return data;
+    if (data && data.results) return data;
+    if (data && data.id) return data;
 
     data = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`);
     if (data && data.contents) {
@@ -626,7 +627,6 @@
         ];
       }
       
-      // Remove duplicates
       lists = Array.from(new Set(lists.map(a => a.id))).map(id => lists.find(a => a.id === id));
 
       if (!lists.length) { statusEl.textContent = "No content found."; return; }
