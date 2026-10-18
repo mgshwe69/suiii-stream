@@ -20,316 +20,131 @@
       --card-bg: rgba(19, 19, 24, 0.7);
       --glass-blur: blur(25px);
     }
-
     [data-theme="anime"] { --accent: #ec4899; --accent-hover: #db2777; --bg: #08070c; }
     [data-theme="football"] { --accent: #22c55e; --accent-hover: #16a34a; --bg: #050d08; }
     [data-theme="kdrama"], [data-theme="pakistani"] { --accent: #e50914; --accent-hover: #b9090b; --bg: #0c0808; }
-
     * { box-sizing: border-box; }
-
     body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
+      margin: 0; background: var(--bg); color: var(--text);
       font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      transition: background 0.4s ease;
     }
-
     header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(11, 11, 14, 0.75);
-      backdrop-filter: var(--glass-blur);
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(11, 11, 14, 0.75); backdrop-filter: var(--glass-blur);
       border-bottom: 1px solid var(--line);
     }
-
     .top {
-      max-width: 1300px;
-      margin: auto;
-      padding: 14px 20px;
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      max-width: 1300px; margin: auto; padding: 14px 20px;
+      display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap;
     }
-
     .menu-toggle {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      color: #fff;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 800;
+      background: var(--panel2); border: 1px solid var(--line); color: #fff;
+      padding: 8px 12px; border-radius: 10px; cursor: pointer; font-weight: 800;
     }
-
-    .brand {
-      font-weight: 900;
-      font-size: 1.4rem;
-      color: #fff;
-      cursor: pointer;
-      letter-spacing: .5px;
-    }
+    .brand { font-weight: 900; font-size: 1.4rem; color: #fff; cursor: pointer; }
     .brand span { color: var(--accent); }
-
     .search-container { position: relative; flex: 1; max-width: 450px; }
     form { display: flex; gap: 8px; width: 100%; }
-
     input[type="search"] {
-      min-width: 0;
-      width: 100%;
-      background: var(--panel);
-      border: 1px solid var(--line);
-      color: var(--text);
-      padding: 10px 16px;
-      border-radius: 14px;
-      font: inherit;
-      outline: none;
-      backdrop-filter: var(--glass-blur);
+      width: 100%; background: var(--panel); border: 1px solid var(--line);
+      color: var(--text); padding: 10px 16px; border-radius: 14px; font: inherit; outline: none;
     }
-    input:focus { border-color: var(--accent); }
-
     .suggestions-box {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--panel-solid);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      margin-top: 6px;
-      z-index: 200;
-      max-height: 300px;
-      overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: var(--panel-solid); border: 1px solid var(--line);
+      border-radius: 12px; margin-top: 6px; z-index: 200; max-height: 300px; overflow-y: auto;
     }
     .suggestion-item {
-      padding: 10px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid var(--line);
-      font-size: .9rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 10px 16px; cursor: pointer; border-bottom: 1px solid var(--line);
+      font-size: .9rem; display: flex; justify-content: space-between; align-items: center;
     }
     .suggestion-item:hover { background: var(--panel2); color: var(--accent); }
-
     button {
-      background: var(--accent);
-      color: #000;
-      border: 0;
-      border-radius: 12px;
-      padding: 10px 18px;
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-      transition: background 0.2s;
+      background: var(--accent); color: #000; border: 0; border-radius: 12px;
+      padding: 10px 18px; font: inherit; font-weight: 800; cursor: pointer;
     }
     button:hover { background: var(--accent-hover); }
     button.secondary { background: var(--panel2); color: #fff; border: 1px solid var(--line); }
-
-    /* SIDEBAR DRAWER */
     .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(10px);
-      z-index: 999;
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 999;
     }
     .sidebar-overlay[hidden] { display: none !important; }
-
     .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 300px;
-      background: var(--panel-solid);
-      border-right: 1px solid var(--line);
-      z-index: 1000;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-shadow: 10px 0 40px rgba(0,0,0,0.8);
+      position: fixed; top: 0; left: 0; bottom: 0; width: 300px;
+      background: var(--panel-solid); border-right: 1px solid var(--line);
+      z-index: 1000; padding: 30px 20px; display: flex; flex-direction: column; gap: 20px;
       transition: transform 0.3s ease;
     }
-    .sidebar h3 { margin: 0 0 10px; font-size: 1.3rem; color: var(--accent); }
+    .sidebar h3 { margin: 0 0 10px; color: var(--accent); }
     .sidebar-link {
-      background: var(--panel2);
-      border: 1px solid var(--line);
-      color: #fff;
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      text-align: left;
+      background: var(--panel2); border: 1px solid var(--line); color: #fff;
+      padding: 12px 16px; border-radius: 12px; font-weight: 700; cursor: pointer; text-align: left;
     }
-    .sidebar-link:hover { border-color: var(--accent); }
-
     main { max-width: 1300px; margin: auto; padding: 0 20px 60px; }
-
-    /* AUTH MODAL */
-    .auth-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(25px);
-      z-index: 9999;
-      display: grid;
-      place-items: center;
-      padding: 20px;
-    }
-    .auth-overlay[hidden] { display: none !important; }
-
-    .auth-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 30px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.9);
-      backdrop-filter: var(--glass-blur);
-    }
-    .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.3); padding: 4px; border-radius: 12px; }
-    .auth-tabs button { flex: 1; background: transparent; color: var(--muted); border-radius: 8px; padding: 8px; }
-    .auth-tabs button.active { background: var(--accent); color: #000; }
-    .auth-form { display: flex; flex-direction: column; gap: 14px; }
-    .auth-form input { background: var(--panel); border: 1px solid var(--line); color: var(--text); padding: 11px 16px; border-radius: 12px; outline: none; }
-
-    /* HERO CAROUSEL */
     .hero-feature {
-      margin-top: 24px;
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      min-height: 440px;
-      display: flex;
-      align-items: flex-end;
-      padding: 40px;
-      background-size: cover;
-      background-position: center;
-      border: 1px solid var(--line);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      margin-top: 24px; position: relative; border-radius: 24px; overflow: hidden;
+      min-height: 440px; display: flex; align-items: flex-end; padding: 40px;
+      background-size: cover; background-position: center; border: 1px solid var(--line);
     }
     .hero-overlay {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0;
       background: linear-gradient(180deg, rgba(11,11,14,0.1) 0%, rgba(11,11,14,0.85) 60%, var(--bg) 100%),
                   linear-gradient(90deg, rgba(11,11,14,0.9) 0%, rgba(11,11,14,0.4) 50%, transparent 100%);
     }
     .hero-content { position: relative; z-index: 2; max-width: 650px; }
-    .hero-content h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.1; margin: 0 0 12px; font-weight: 900; }
-
+    .hero-content h1 { font-size: clamp(2.2rem, 4vw, 3.5rem); margin: 0 0 12px; font-weight: 900; }
     .tabs { display: flex; gap: 10px; flex-wrap: wrap; margin: 32px 0 20px; }
-    .tabs button { background: var(--panel); border: 1px solid var(--line); color: var(--muted); border-radius: 14px; padding: 10px 18px; font-weight: 700; backdrop-filter: var(--glass-blur); }
+    .tabs button { background: var(--panel); border: 1px solid var(--line); color: var(--muted); border-radius: 14px; }
     .tabs button.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 20px; }
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform 0.25s, border-color 0.25s;
+      background: var(--card-bg); border: 1px solid var(--line); border-radius: 16px;
+      overflow: hidden; cursor: pointer; transition: transform 0.25s;
     }
     .card:hover { transform: translateY(-6px); border-color: var(--accent); }
     .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: #1a1a24; display: block; }
     .card-info { padding: 12px; }
     .card-title { font-weight: 700; font-size: .92rem; margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    /* MATCH CARDS */
     .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
     .match-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      position: relative;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 20px;
+      overflow: hidden; display: flex; flex-direction: column; position: relative;
     }
     .match-banner { height: 140px; background-size: cover; background-position: center; position: relative; }
     .match-banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, var(--panel-solid) 100%); }
     .match-body { padding: 16px; position: relative; margin-top: -30px; display: flex; flex-direction: column; gap: 12px; }
-    .match-badge { align-self: flex-start; padding: 4px 10px; border-radius: 8px; font-size: .75rem; font-weight: 800; background: var(--panel2); border: 1px solid var(--line); }
+    .match-badge { align-self: flex-start; padding: 4px 10px; border-radius: 8px; font-size: .75rem; font-weight: 800; background: var(--panel2); }
     .match-badge.live { background: #22c55e; color: #000; }
     .match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 1.1rem; }
-
     .status { padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; font-weight: 700; text-align: center; margin: 20px 0; }
-    
     .detail {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 30px;
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: minmax(200px, 280px) 1fr;
-      gap: 30px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 24px;
+      padding: 30px; margin-top: 24px; display: grid; grid-template-columns: minmax(200px, 280px) 1fr; gap: 30px;
     }
     @media (max-width: 768px) { .detail { grid-template-columns: 1fr; } }
     .detail img { width: 100%; border-radius: 16px; }
-
     .projection-container { margin-top: 24px; background: var(--card-bg); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-    .projection-header { padding: 16px 20px; background: var(--panel2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .projection-header { padding: 16px 20px; background: var(--panel2); display: flex; justify-content: space-between; align-items: center; }
     .projection-player { width: 100%; aspect-ratio: 16/9; background: #000; }
     .player-frame { width: 100%; height: 100%; border: 0; }
-
     .servers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 16px; }
     .server-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; text-align: center; font-size: .85rem; font-weight: 700; }
     .server-card.active { border-color: var(--accent); background: rgba(255,255,255,0.08); }
-
     .audio-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
     .audio-btn { background: var(--panel2); border: 1px solid var(--line); color: var(--muted); padding: 6px 14px; border-radius: 8px; font-size: .8rem; font-weight: 700; cursor: pointer; }
     .audio-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
     footer { border-top: 1px solid var(--line); padding: 30px 20px; text-align: center; color: var(--muted); margin-top: 50px; background: var(--panel); }
     footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
   </style>
 </head>
-
 <body data-theme="default">
 
-<!-- AUTH MODAL -->
-<div id="authOverlay" class="auth-overlay">
-  <div class="auth-card">
-    <h2>SUIII_STREAM Access</h2>
-    <p style="color:var(--muted); font-size:.9rem; margin-bottom:20px;">Enter your secure key to access movies and live sports.</p>
-    <div class="auth-tabs">
-      <button type="button" id="tabLogin" class="active">Login</button>
-      <button type="button" id="tabSignup">Sign Up</button>
-    </div>
-    <form id="loginForm" class="auth-form">
-      <input type="text" id="loginName" placeholder="Your Name" required>
-      <input type="text" id="loginKey" placeholder="Enter Key (e.g. Suiii-1D-01)" required>
-      <button type="submit">Enter Platform 🚀</button>
-    </form>
-    <form id="signupForm" class="auth-form" hidden>
-      <input type="text" id="signupName" placeholder="Name" required>
-      <input type="number" id="signupAge" placeholder="Age" required>
-      <input type="text" id="signupCountry" placeholder="Country" required>
-      <div style="display: flex; gap: 8px;">
-        <a href="https://t.me/MG1SHWE" target="_blank" style="flex:1; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">Telegram 📲</a>
-        <a href="https://wa.me/919999999999" target="_blank" style="flex:1; text-align:center; background:#25d366; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">WhatsApp 💚</a>
-      </div>
-    </form>
-  </div>
-</div>
-
-<!-- SIDEBAR DRAWER -->
 <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
 <div id="sidebarDrawer" class="sidebar" style="transform: translateX(-100%);">
   <h3>SUIII_STREAM ⚡</h3>
   <p style="color:var(--muted); font-size:.85rem; margin-top:-5px;">Multi-Theme OTT Hub</p>
-  <button class="sidebar-link" id="drawerProfile">👤 User Profile & Expiry</button>
   <button class="sidebar-link" id="drawerHome">🏠 Explore Home</button>
   <button class="sidebar-link" id="drawerTelegram" onclick="window.open('https://t.me/MG1SHWE', '_blank')">💬 Join Telegram Channel</button>
-  <button class="sidebar-link" id="drawerLogout" style="background:#e11d48; margin-top:auto;">🚪 Logout</button>
 </div>
 
 <header>
@@ -338,42 +153,24 @@
     <div class="brand" id="brandHome">SUIII<span>_STREAM</span></div>
     <div class="search-container">
       <form id="searchForm" role="search" autocomplete="off">
-        <input id="searchInput" type="search" placeholder="Search Movies, Anime, K-Drama, Football..." aria-label="Search">
+        <input id="searchInput" type="search" placeholder="Search Movies, Anime, K-Drama..." aria-label="Search">
       </form>
       <div id="suggestionsBox" class="suggestions-box" hidden></div>
-    </div>
-    <div id="userPill" class="user-pill" hidden style="background:var(--panel2); padding:6px 14px; border-radius:20px; font-size:.85rem; font-weight:700;">
-      <span id="userNameDisplay">👤 Profile</span>
     </div>
   </div>
 </header>
 
 <main id="app">
-  <section id="profileSection" hidden>
-    <div class="auth-card" style="max-width:600px; margin:auto;">
-      <h2>User Profile 👤</h2>
-      <p style="color:var(--muted); margin-bottom:16px;">Key Validity & Recent Activity</p>
-      <div style="background:var(--panel2); padding:16px; border-radius:16px; border:1px solid var(--line); margin-bottom:20px;">
-        <div style="font-size:1.1rem; font-weight:800; color:var(--accent);" id="profName">Name: -</div>
-        <div style="font-size:.9rem; color:var(--muted); margin-top:4px;" id="profKey">Key Used: -</div>
-        <div style="font-size:.9rem; color:#22c55e; margin-top:4px; font-weight:700;" id="profDays">Remaining Time: -</div>
-        <div style="font-size:.8rem; color:var(--muted); margin-top:2px;" id="profExpiry">Expiry Date: -</div>
-      </div>
-      <div class="section-head"><h2>Recently Watched 🕒</h2></div>
-      <div id="recentGrid" class="grid"></div>
-    </div>
-  </section>
-
   <section id="heroBanner" class="hero-feature">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="feature-tag" style="color:var(--accent); font-weight:800; text-transform:uppercase;">TRENDING FEATURE</div>
-      <h1 id="heroTitle">Loading Feature...</h1>
+      <h1 id="heroTitle">Fight Club</h1>
       <div class="hero-meta" style="display:flex; gap:12px; align-items:center; margin-bottom:14px; color:#d1d1d6;">
-        <span id="heroRating" style="color:var(--accent); font-weight:800;">★ 8.5</span>
-        <span id="heroYear">2026</span>
+        <span id="heroRating" style="color:var(--accent); font-weight:800;">★ 8.4</span>
+        <span id="heroYear">1999</span>
       </div>
-      <p id="heroOverview" style="color:var(--muted); margin-bottom:20px;">Loading description...</p>
+      <p id="heroOverview" style="color:var(--muted); margin-bottom:20px;">A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression...</p>
       <button type="button" id="heroPlayBtn">▶ Watch Now</button>
     </div>
   </section>
@@ -388,7 +185,7 @@
     <button data-kind="football">⚽ Live Football</button>
   </nav>
 
-  <div id="status" class="status">Loading streams...</div>
+  <div id="status" class="status" hidden>Loading streams...</div>
 
   <section id="resultsSection">
     <div class="section-head"><h2 id="resultsTitle">Top Trending Today</h2></div>
@@ -406,88 +203,6 @@
 (() => {
   "use strict";
 
-  const VALID_KEYS = {
-    "Suiii-1D-9X82K-L7P1M-4QW09-A82Z1": 1,
-    "Suiii-7D-4L19P-9M82Z-3QW01-S82L3": 7,
-    "Suiii-15D-9M82P-7X10Q-2L091-V82W1": 15
-  };
-
-  const authOverlay = document.getElementById("authOverlay");
-  const tabLogin = document.getElementById("tabLogin");
-  const tabSignup = document.getElementById("tabSignup");
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
-  const userPill = document.getElementById("userPill");
-  const profileSection = document.getElementById("profileSection");
-
-  const sidebarDrawer = document.getElementById("sidebarDrawer");
-  const sidebarOverlay = document.getElementById("sidebarOverlay");
-  document.getElementById("menuToggleBtn").addEventListener("click", () => {
-    sidebarOverlay.hidden = false;
-    sidebarDrawer.style.transform = "translateX(0)";
-  });
-  sidebarOverlay.addEventListener("click", () => {
-    sidebarOverlay.hidden = true;
-    sidebarDrawer.style.transform = "translateX(-100%)";
-  });
-
-  document.getElementById("drawerHome").addEventListener("click", () => {
-    sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
-    profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false; loadContent("all");
-  });
-  document.getElementById("drawerProfile").addEventListener("click", () => {
-    sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
-    renderProfile(); heroBanner.hidden = true; resultsSection.hidden = true; detailSection.hidden = true;
-    profileSection.hidden = false;
-  });
-  document.getElementById("drawerLogout").addEventListener("click", () => {
-    localStorage.removeItem("suiii_user");
-    authOverlay.hidden = false; sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
-  });
-
-  tabLogin.addEventListener("click", () => {
-    tabLogin.classList.add("active"); tabSignup.classList.remove("active");
-    loginForm.hidden = false; signupForm.hidden = true;
-  });
-  tabSignup.addEventListener("click", () => {
-    tabSignup.classList.add("active"); tabLogin.classList.remove("active");
-    signupForm.hidden = false; loginForm.hidden = true;
-  });
-
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = document.getElementById("loginName").value.trim() || "User";
-    const key = document.getElementById("loginKey").value.trim();
-    let durationDays = VALID_KEYS[key] || (key.startsWith("Suiii-") ? 15 : 0);
-    if (!durationDays) { alert("Invalid or Expired Key!"); return; }
-    const expiryTime = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
-    localStorage.setItem("suiii_user", JSON.stringify({ name, key, durationDays, expiryTime }));
-    authOverlay.hidden = true; checkAuth();
-  });
-
-  function renderProfile() {
-    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
-    if (!user) return;
-    document.getElementById("profName").textContent = `Name: ${user.name}`;
-    document.getElementById("profKey").textContent = `Key Used: ${user.key} (${user.durationDays} Days Plan)`;
-    const diff = user.expiryTime - Date.now();
-    document.getElementById("profDays").textContent = diff > 0 ? `Remaining Time: ${(diff/(1000*60*60*24)).toFixed(1)} Days` : "Status: Expired";
-    document.getElementById("profExpiry").textContent = `Expiry: ${new Date(user.expiryTime).toLocaleString()}`;
-    const recent = JSON.parse(localStorage.getItem("suiii_recent") || "[]");
-    document.getElementById("recentGrid").innerHTML = recent.length ? recent.map(i => cardMarkup(i, i.media_type)).join("") : "<p>No recent watches.</p>";
-  }
-
-  function checkAuth() {
-    const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
-    if (user && Date.now() < user.expiryTime) {
-      authOverlay.hidden = true; userPill.hidden = false;
-      document.getElementById("userNameDisplay").textContent = `👤 ${user.name}`;
-    } else {
-      authOverlay.hidden = false; userPill.hidden = true;
-    }
-  }
-  checkAuth();
-
   const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
@@ -501,43 +216,63 @@
   const searchInput = document.getElementById("searchInput");
   const suggestionsBox = document.getElementById("suggestionsBox");
 
+  const sidebarDrawer = document.getElementById("sidebarDrawer");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  document.getElementById("menuToggleBtn").addEventListener("click", () => {
+    sidebarOverlay.hidden = false; sidebarDrawer.style.transform = "translateX(0)";
+  });
+  sidebarOverlay.addEventListener("click", () => {
+    sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
+  });
+  document.getElementById("drawerHome").addEventListener("click", () => {
+    sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
+    detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false; loadContent("all");
+  });
+
   let currentKind = "all";
   let carouselList = [];
-  let carouselIdx = 0;
-
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
-  // ROBUST DUAL CORS API FETCHING
+  // FALLBACK DATA GUARANTEE (INSTANT LOAD IF PROXY BLOCKED)
+  const FALLBACK_MOVIES = [
+    { id: 550, title: "Fight Club", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", backdrop_path: "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg", media_type: "movie", overview: "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression." },
+    { id: 272, title: "Batman Begins", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", backdrop_path: "/scZlM1wVNmZmpcuXCPaDrqM31vQ.jpg", media_type: "movie", overview: "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating corruption." },
+    { id: 155, title: "The Dark Knight", vote_average: 8.5, release_date: "2008-07-16", poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg", backdrop_path: "/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg", media_type: "movie", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
+    { id: 1399, title: "Game of Thrones", name: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", backdrop_path: "/suopoADq0k8YZr4dQXcU6pToj6s.jpg", media_type: "tv", overview: "Seven noble families fight for control of the mythical lands of Westeros." },
+    { id: 66732, title: "Stranger Things", name: "Stranger Things", vote_average: 8.6, first_air_date: "2016-07-15", poster_path: "/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", backdrop_path: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg", media_type: "tv", overview: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments." },
+    { id: 85552, title: "Euphoria", name: "Euphoria", vote_average: 8.3, first_air_date: "2019-06-16", poster_path: "/3Q0hd3BjNojSWiHq616eG5NfV9j.jpg", backdrop_path: "/oKtqiVkw8pS1rRjO5z9bK71Xg58.jpg", media_type: "tv", overview: "A look at life through the eyes of high school students experiencing drugs, sex, and trauma." }
+  ];
+
   async function api(path) {
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
     
-    // Try Proxy 1: corsproxy.io
-    try {
-      const url1 = `https://corsproxy.io/?${encodeURIComponent(target)}`;
-      const res = await fetch(url1);
-      if (res.ok) return await res.json();
-    } catch(err) {}
+    // Quick fetch with 3s timeout controller
+    const fetchWithTimeout = async (url) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 3000);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
+        if (res.ok) return await res.json();
+      } catch(e) {}
+      return null;
+    };
 
-    // Try Proxy 2: allorigins.win
-    try {
-      const url2 = `https://api.allorigins.win/get?url=${encodeURIComponent(target)}`;
-      const res2 = await fetch(url2);
-      if (res2.ok) {
-        const data2 = await res2.json();
-        if (data2.contents) return JSON.parse(data2.contents);
-      }
-    } catch(err) {}
+    // Try Proxy 1
+    let data = await fetchWithTimeout(`https://corsproxy.io/?${encodeURIComponent(target)}`);
+    if (data && data.results) return data;
 
-    // Fallback static data if both proxies fail
-    return { results: [
-      { id: 550, title: "Fight Club", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", media_type: "movie" },
-      { id: 272, title: "Batman Begins", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", media_type: "movie" },
-      { id: 1399, title: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", media_type: "tv" }
-    ]};
+    // Try Proxy 2
+    data = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`);
+    if (data && data.contents) {
+      try { return JSON.parse(data.contents); } catch(e){}
+    }
+
+    return null;
   }
 
-  // LIVE SEARCH & SUGGESTIONS
+  // SEARCH & SUGGESTIONS
   let searchTimeout = null;
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
@@ -545,45 +280,35 @@
     if (!q) { suggestionsBox.hidden = true; suggestionsBox.innerHTML = ""; return; }
 
     searchTimeout = setTimeout(async () => {
-      try {
-        const data = await api(`/search/multi?query=${encodeURIComponent(q)}`);
-        const items = (data.results || []).slice(0, 6);
-        if (items.length === 0) { suggestionsBox.hidden = true; return; }
-
-        suggestionsBox.hidden = false;
-        suggestionsBox.innerHTML = items.map(i => `
-          <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
-            <span>🎬 ${titleOf(i)}</span>
-            <span style="color:var(--muted); font-size:.8rem;">${yearOf(i)}</span>
-          </div>
-        `).join("");
-      } catch(err) { suggestionsBox.hidden = true; }
-    }, 300);
+      const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
+      const items = (res && res.results ? res.results : FALLBACK_MOVIES).slice(0, 6);
+      suggestionsBox.hidden = false;
+      suggestionsBox.innerHTML = items.map(i => `
+        <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
+          <span>🎬 ${titleOf(i)}</span>
+          <span style="color:var(--muted); font-size:.8rem;">${yearOf(i)}</span>
+        </div>
+      `).join("");
+    }, 250);
   });
 
   suggestionsBox.addEventListener("click", (e) => {
     const item = e.target.closest(".suggestion-item");
     if (!item) return;
-    suggestionsBox.hidden = true;
-    searchInput.value = "";
+    suggestionsBox.hidden = true; searchInput.value = "";
     openDetails(Number(item.dataset.id), item.dataset.kind);
   });
 
   document.getElementById("searchForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     suggestionsBox.hidden = true;
-    const query = searchInput.value.trim();
-    if (!query) return;
-    statusEl.hidden = false; statusEl.textContent = `Searching for "${query}"...`;
-    try {
-      const data = await api(`/search/multi?query=${encodeURIComponent(query)}`);
-      statusEl.hidden = true;
-      resultsTitle.textContent = `Search Results: ${query}`;
-      resultsEl.className = "grid";
-      resultsEl.innerHTML = (data.results || []).map(i => cardMarkup(i, i.media_type || "movie")).join("");
-    } catch(err) {
-      statusEl.textContent = "Search failed.";
-    }
+    const q = searchInput.value.trim();
+    if (!q) return;
+    const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
+    const items = res && res.results ? res.results : FALLBACK_MOVIES;
+    resultsTitle.textContent = `Search Results: ${q}`;
+    resultsEl.className = "grid";
+    resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "movie")).join("");
   });
 
   function titleOf(i) { return i.title || i.name || i.original_title || "Untitled"; }
@@ -606,7 +331,6 @@
 
   function setupCarousel(list) {
     carouselList = list.slice(0, 5);
-    carouselIdx = 0;
     const item = carouselList[0];
     if (!item) return;
     heroBanner.style.backgroundImage = `url('${item.backdrop_path ? IMG_ORIG + item.backdrop_path : IMG_ORIG + item.poster_path}')`;
@@ -617,7 +341,7 @@
   }
 
   document.getElementById("heroPlayBtn").addEventListener("click", () => {
-    if (carouselList[carouselIdx]) openDetails(carouselList[carouselIdx].id, carouselList[carouselIdx].media_type || "movie");
+    if (carouselList[0]) openDetails(carouselList[0].id, carouselList[0].media_type || "movie");
   });
 
   const FOOTBALL_MATCHES = [
@@ -629,53 +353,55 @@
   async function loadContent(kind = currentKind) {
     currentKind = kind;
     document.body.setAttribute("data-theme", kind);
-    detailSection.hidden = true; profileSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+    detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === kind));
-    statusEl.hidden = false; statusEl.textContent = "Loading streams...";
 
-    try {
-      if (kind === "football") {
-        heroBanner.hidden = true;
-        resultsTitle.textContent = "⚽ Live & Upcoming Football Matches";
-        statusEl.hidden = true;
-        resultsEl.className = "match-grid";
-        resultsEl.innerHTML = FOOTBALL_MATCHES.map(m => `
-          <div class="match-card" data-furl="${m.url}" data-ftitle="${m.title}">
-            <div class="match-banner" style="background-image:url('${m.bg}')"><div class="match-banner-overlay"></div></div>
-            <div class="match-body">
-              <span class="match-badge ${m.isLive?'live':''}">${m.status}</span>
-              <div style="font-size:.8rem; color:var(--muted);">${m.league}</div>
-              <div class="match-teams"><span>${m.title}</span> <button style="padding:6px 14px; font-size:.8rem;">▶ Watch Live</button></div>
-            </div>
+    if (kind === "football") {
+      heroBanner.hidden = true;
+      resultsTitle.textContent = "⚽ Live & Upcoming Football Matches";
+      resultsEl.className = "match-grid";
+      resultsEl.innerHTML = FOOTBALL_MATCHES.map(m => `
+        <div class="match-card" data-furl="${m.url}" data-ftitle="${m.title}">
+          <div class="match-banner" style="background-image:url('${m.bg}')"><div class="match-banner-overlay"></div></div>
+          <div class="match-body">
+            <span class="match-badge ${m.isLive?'live':''}">${m.status}</span>
+            <div style="font-size:.8rem; color:var(--muted);">${m.league}</div>
+            <div class="match-teams"><span>${m.title}</span> <button style="padding:6px 14px; font-size:.8rem;">▶ Watch Live</button></div>
           </div>
-        `).join("");
-        return;
-      }
-
-      resultsEl.className = "grid";
-      let lists = [];
-      if (kind === "all") {
-        const m = await api("/trending/movie/week");
-        const t = await api("/trending/tv/week");
-        lists = [...(m.results||[]).map(x=>({...x, media_type:"movie"})), ...(t.results||[]).map(x=>({...x, media_type:"tv"}))].slice(0,24);
-      } else if (kind === "movie") {
-        const d = await api("/trending/movie/week"); lists = (d.results||[]).map(x=>({...x, media_type:"movie"}));
-      } else if (kind === "tv") {
-        const d = await api("/trending/tv/week"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
-      } else if (kind === "anime") {
-        const d = await api("/discover/tv?with_genres=16&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
-      } else if (kind === "kdrama") {
-        const d = await api("/discover/tv?with_original_language=ko&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
-      } else if (kind === "pakistani") {
-        const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
-      }
-
-      setupCarousel(lists);
-      statusEl.hidden = true;
-      resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
-    } catch (e) {
-      statusEl.textContent = "Failed to load content. Please check connection.";
+        </div>
+      `).join("");
+      return;
     }
+
+    resultsEl.className = "grid";
+    let lists = [];
+    if (kind === "all") {
+      const m = await api("/trending/movie/week");
+      const t = await api("/trending/tv/week");
+      const mv = m && m.results ? m.results.map(x=>({...x, media_type:"movie"})) : [];
+      const tv = t && t.results ? t.results.map(x=>({...x, media_type:"tv"})) : [];
+      lists = [...mv, ...tv];
+    } else if (kind === "movie") {
+      const d = await api("/trending/movie/week");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"movie"})) : [];
+    } else if (kind === "tv") {
+      const d = await api("/trending/tv/week");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
+    } else if (kind === "anime") {
+      const d = await api("/discover/tv?with_genres=16&sort_by=popularity.desc");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
+    } else if (kind === "kdrama") {
+      const d = await api("/discover/tv?with_original_language=ko&sort_by=popularity.desc");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
+    } else if (kind === "pakistani") {
+      const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
+    }
+
+    if (!lists.length) lists = FALLBACK_MOVIES;
+
+    setupCarousel(lists);
+    resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
   }
 
   const SERVERS = [
@@ -691,7 +417,7 @@
     { id: "dual", name: "⚡ Dual Audio (Hi/Eng)" }
   ];
 
-  function getPlayerUrl(id, kind, server="vidsrc", lang="hindi") {
+  function getPlayerUrl(id, kind, server="vidsrc") {
     if (kind === "movie") {
       if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
@@ -708,90 +434,80 @@
 
   async function openDetails(id, kind) {
     detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true;
-    statusEl.hidden = false; statusEl.textContent = "Loading stream details...";
-
-    try {
-      const data = await api(`/${kind}/${id}`);
-      
-      detailSection.innerHTML = `
-        <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px;">← Back</button>
-        <div class="detail">
-          <img src="${data.poster_path ? IMG + data.poster_path : ''}" alt="">
-          <div>
-            <h1>${titleOf(data)}</h1>
-            <div style="display:flex; gap:10px; margin:10px 0; align-items:center; flex-wrap:wrap;">
-              <span class="chip" style="background:var(--panel2); padding:4px 10px; border-radius:8px; font-size:.85rem; color:var(--accent);">★ ${Number(data.vote_average||0).toFixed(1)}</span>
-              <span style="font-size:.85rem; color:var(--muted);">${yearOf(data)}</span>
+    let data = await api(`/${kind}/${id}`);
+    if (!data || !data.id) {
+      data = FALLBACK_MOVIES.find(x => x.id === id) || FALLBACK_MOVIES[0];
+    }
+    
+    detailSection.innerHTML = `
+      <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px;">← Back</button>
+      <div class="detail">
+        <img src="${data.poster_path ? IMG + data.poster_path : ''}" alt="">
+        <div>
+          <h1>${titleOf(data)}</h1>
+          <div style="display:flex; gap:10px; margin:10px 0; align-items:center; flex-wrap:wrap;">
+            <span style="color:var(--accent); font-weight:700;">★ ${Number(data.vote_average||0).toFixed(1)}</span>
+            <span style="font-size:.85rem; color:var(--muted);">${yearOf(data)}</span>
+          </div>
+          <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description."}</p>
+          <div style="margin-top:16px;">
+            <div style="font-size:.85rem; font-weight:800; color:var(--muted); margin-bottom:6px;">SELECT AUDIO / LANGUAGE:</div>
+            <div class="audio-picker">
+              ${AUDIO_LANGS.map((a, idx) => `<button type="button" class="audio-btn ${idx===0?'active':''}" data-lang="${a.id}">${a.name}</button>`).join("")}
             </div>
-            <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description."}</p>
-            
-            <div style="margin-top:16px;">
-              <div style="font-size:.85rem; font-weight:800; color:var(--muted); margin-bottom:6px;">SELECT AUDIO / LANGUAGE:</div>
-              <div class="audio-picker" id="audioPicker">
-                ${AUDIO_LANGS.map((a, idx) => `<button type="button" class="audio-btn ${idx===0?'active':''}" data-lang="${a.id}">${a.name}</button>`).join("")}
-              </div>
-            </div>
-
-            <button id="playMovieBtn" style="margin-top:16px;">▶ Watch Full Stream</button>
           </div>
+          <button id="playMovieBtn" style="margin-top:16px;">▶ Watch Full Stream</button>
         </div>
-        <div id="projectionBox" class="projection-container" hidden>
-          <div class="projection-header">
-            <strong>STREAM PLAYER (<span id="activeAudioLabel">Hindi Dubbed</span>)</strong>
-          </div>
-          <div class="projection-player"><iframe id="videoIframe" class="player-frame" allowfullscreen></iframe></div>
-          <div class="servers-grid">
-            ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1}<br><span style="font-size:.7rem; color:var(--muted);">${s.name}</span></div>`).join("")}
-          </div>
+      </div>
+      <div id="projectionBox" class="projection-container" hidden>
+        <div class="projection-header"><strong>STREAM PLAYER (<span id="activeAudioLabel">Hindi Dubbed</span>)</strong></div>
+        <div class="projection-player"><iframe id="videoIframe" class="player-frame" allowfullscreen></iframe></div>
+        <div class="servers-grid">
+          ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1}<br><span style="font-size:.7rem; color:var(--muted);">${s.name}</span></div>`).join("")}
         </div>
-      `;
+      </div>
+    `;
 
-      statusEl.hidden = true; detailSection.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    detailSection.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      document.getElementById("backBtn").addEventListener("click", () => {
-        detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+    document.getElementById("backBtn").addEventListener("click", () => {
+      detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+    });
+
+    let activeServer = "vidsrc";
+    const projectionBox = document.getElementById("projectionBox");
+    const videoIframe = document.getElementById("videoIframe");
+
+    function loadPlayer() {
+      videoIframe.src = getPlayerUrl(id, kind, activeServer);
+      projectionBox.hidden = false;
+      projectionBox.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    document.getElementById("playMovieBtn").addEventListener("click", loadPlayer);
+
+    document.querySelectorAll(".audio-btn").forEach(ab => {
+      ab.addEventListener("click", () => {
+        document.querySelectorAll(".audio-btn").forEach(x => x.classList.remove("active"));
+        ab.classList.add("active");
+        document.getElementById("activeAudioLabel").textContent = ab.textContent;
       });
+    });
 
-      let activeServer = "vidsrc";
-      let activeLang = "hindi";
-      const projectionBox = document.getElementById("projectionBox");
-      const videoIframe = document.getElementById("videoIframe");
-
-      function loadPlayer() {
-        videoIframe.src = getPlayerUrl(id, kind, activeServer, activeLang);
-        projectionBox.hidden = false;
-        projectionBox.scrollIntoView({ behavior: 'smooth' });
-      }
-
-      document.getElementById("playMovieBtn").addEventListener("click", loadPlayer);
-
-      document.querySelectorAll(".audio-btn").forEach(ab => {
-        ab.addEventListener("click", () => {
-          document.querySelectorAll(".audio-btn").forEach(x => x.classList.remove("active"));
-          ab.classList.add("active");
-          activeLang = ab.dataset.lang;
-          document.getElementById("activeAudioLabel").textContent = ab.textContent;
-          if (!projectionBox.hidden) loadPlayer();
-        });
+    document.querySelectorAll(".server-card").forEach(sc => {
+      sc.addEventListener("click", () => {
+        document.querySelectorAll(".server-card").forEach(x => x.classList.remove("active"));
+        sc.classList.add("active");
+        activeServer = sc.dataset.server;
+        if (!projectionBox.hidden) loadPlayer();
       });
-
-      document.querySelectorAll(".server-card").forEach(sc => {
-        sc.addEventListener("click", () => {
-          document.querySelectorAll(".server-card").forEach(x => x.classList.remove("active"));
-          sc.classList.add("active");
-          activeServer = sc.dataset.server;
-          if (!projectionBox.hidden) loadPlayer();
-        });
-      });
-
-    } catch (err) { statusEl.textContent = `Failed to load details.`; }
+    });
   }
 
   document.addEventListener("click", e => {
     const card = e.target.closest(".card");
     if (card && card.dataset.id) openDetails(Number(card.dataset.id), card.dataset.kind || "movie");
-
     const matchCard = e.target.closest(".match-card");
     if (matchCard) {
       detailSection.hidden = false; heroBanner.hidden = true; resultsSection.hidden = true;
