@@ -574,6 +574,14 @@
     { id: "f3", title: "Arsenal vs Liverpool", league: "Premier League", status: "Tomorrow 8:00 PM", isLive: false, bg: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/552" }
   ];
 
+  function dummyFallback() {
+    return [
+      { id: 550, title: "Fight Club", overview: "Classic drama film.", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", media_type: "movie" },
+      { id: 272, title: "Batman Begins", overview: "Superhero action film.", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", media_type: "movie" },
+      { id: 1399, title: "Game of Thrones", overview: "Epic fantasy series.", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", media_type: "tv" }
+    ];
+  }
+
   async function loadContent(kind = currentKind) {
     currentKind = kind;
     document.body.setAttribute("data-theme", kind);
@@ -618,14 +626,20 @@
         const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
       }
 
-      if (lists.length > 0) {
-        setupCarousel(lists);
-        statusEl.hidden = true;
-        resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
-      } else {
-        statusEl.textContent = "No content found or check connection.";
+      if (!lists || lists.length === 0) {
+        lists = dummyFallback();
       }
-    } catch (e) { statusEl.textContent = `Error: ${e.message}`; }
+
+      setupCarousel(lists);
+      statusEl.hidden = true;
+      resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
+    } catch (e) {
+      console.error(e);
+      const fallback = dummyFallback();
+      setupCarousel(fallback);
+      statusEl.hidden = true;
+      resultsEl.innerHTML = fallback.map(i => cardMarkup(i, i.media_type)).join("");
+    }
   }
 
   const SERVERS = [
@@ -656,7 +670,10 @@
     statusEl.hidden = false; statusEl.textContent = "Loading stream details...";
 
     try {
-      const data = await api(`/${kind}/${id}`);
+      let data = await api(`/${kind}/${id}`);
+      if (!data || !data.id) {
+        data = { title: "Sample Title", overview: "Offline fallback summary description.", vote_average: 8.0, poster_path: "" };
+      }
       
       detailSection.innerHTML = `
         <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px;">← Back</button>
