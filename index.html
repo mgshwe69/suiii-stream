@@ -74,16 +74,12 @@
     }
     .brand span { color: var(--accent); }
 
-    form {
-      display: flex;
-      gap: 8px;
-      flex: 1;
-      max-width: 450px;
-    }
+    .search-container { position: relative; flex: 1; max-width: 450px; }
+    form { display: flex; gap: 8px; width: 100%; }
 
     input[type="search"] {
       min-width: 0;
-      flex: 1;
+      width: 100%;
       background: var(--panel);
       border: 1px solid var(--line);
       color: var(--text);
@@ -94,6 +90,31 @@
       backdrop-filter: var(--glass-blur);
     }
     input:focus { border-color: var(--accent); }
+
+    .suggestions-box {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: var(--panel-solid);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-top: 6px;
+      z-index: 200;
+      max-height: 300px;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+    .suggestion-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+      font-size: .9rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .suggestion-item:hover { background: var(--panel2); color: var(--accent); }
 
     button {
       background: var(--accent);
@@ -116,7 +137,6 @@
       background: rgba(0,0,0,0.7);
       backdrop-filter: blur(10px);
       z-index: 999;
-      transition: opacity 0.3s ease;
     }
     .sidebar-overlay[hidden] { display: none !important; }
 
@@ -134,7 +154,6 @@
       flex-direction: column;
       gap: 20px;
       box-shadow: 10px 0 40px rgba(0,0,0,0.8);
-      transform: translateX(0);
       transition: transform 0.3s ease;
     }
     .sidebar h3 { margin: 0 0 10px; font-size: 1.3rem; color: var(--accent); }
@@ -147,7 +166,6 @@
       font-weight: 700;
       cursor: pointer;
       text-align: left;
-      transition: border-color 0.2s;
     }
     .sidebar-link:hover { border-color: var(--accent); }
 
@@ -218,7 +236,6 @@
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.25s, border-color 0.25s;
-      backdrop-filter: var(--glass-blur);
     }
     .card:hover { transform: translateY(-6px); border-color: var(--accent); }
     .poster { width: 100%; aspect-ratio: 2/3; object-fit: cover; background: #1a1a24; display: block; }
@@ -235,7 +252,6 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      backdrop-filter: var(--glass-blur);
     }
     .match-banner { height: 140px; background-size: cover; background-position: center; position: relative; }
     .match-banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, var(--panel-solid) 100%); }
@@ -255,18 +271,22 @@
       display: grid;
       grid-template-columns: minmax(200px, 280px) 1fr;
       gap: 30px;
-      backdrop-filter: var(--glass-blur);
     }
+    @media (max-width: 768px) { .detail { grid-template-columns: 1fr; } }
     .detail img { width: 100%; border-radius: 16px; }
 
     .projection-container { margin-top: 24px; background: var(--card-bg); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-    .projection-header { padding: 16px 20px; background: var(--panel2); display: flex; justify-content: space-between; align-items: center; }
+    .projection-header { padding: 16px 20px; background: var(--panel2); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
     .projection-player { width: 100%; aspect-ratio: 16/9; background: #000; }
     .player-frame { width: 100%; height: 100%; border: 0; }
 
-    .servers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 16px; }
-    .server-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: .85rem; }
+    .servers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 16px; }
+    .server-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; text-align: center; font-size: .85rem; font-weight: 700; }
     .server-card.active { border-color: var(--accent); background: rgba(255,255,255,0.08); }
+
+    .audio-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .audio-btn { background: var(--panel2); border: 1px solid var(--line); color: var(--muted); padding: 6px 14px; border-radius: 8px; font-size: .8rem; font-weight: 700; cursor: pointer; }
+    .audio-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
 
     footer { border-top: 1px solid var(--line); padding: 30px 20px; text-align: center; color: var(--muted); margin-top: 50px; background: var(--panel); }
     footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
@@ -294,21 +314,20 @@
       <input type="number" id="signupAge" placeholder="Age" required>
       <input type="text" id="signupCountry" placeholder="Country" required>
       <div style="display: flex; gap: 8px;">
-        <a id="askKeyTelegram" href="https://t.me/MG1SHWE" target="_blank" style="flex:1; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">Telegram 📲</a>
-        <a id="askKeyWhatsapp" href="https://wa.me/919999999999" target="_blank" style="flex:1; text-align:center; background:#25d366; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">WhatsApp 💚</a>
+        <a href="https://t.me/MG1SHWE" target="_blank" style="flex:1; text-align:center; background:#0088cc; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">Telegram 📲</a>
+        <a href="https://wa.me/919999999999" target="_blank" style="flex:1; text-align:center; background:#25d366; color:#fff; padding:12px; border-radius:12px; text-decoration:none; font-size:.85rem; font-weight:800;">WhatsApp 💚</a>
       </div>
     </form>
   </div>
 </div>
 
-<!-- SIDEBAR DRAWER MENU -->
+<!-- SIDEBAR DRAWER -->
 <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
-<div id="sidebarDrawer" class="sidebar" style="transform: translateX(-100%); transition: transform 0.3s ease;">
+<div id="sidebarDrawer" class="sidebar" style="transform: translateX(-100%);">
   <h3>SUIII_STREAM ⚡</h3>
   <p style="color:var(--muted); font-size:.85rem; margin-top:-5px;">Multi-Theme OTT Hub</p>
   <button class="sidebar-link" id="drawerProfile">👤 User Profile & Expiry</button>
   <button class="sidebar-link" id="drawerHome">🏠 Explore Home</button>
-  <button class="sidebar-link" id="drawerPlugins">⚡ CloudStream Plugins</button>
   <button class="sidebar-link" id="drawerTelegram" onclick="window.open('https://t.me/MG1SHWE', '_blank')">💬 Join Telegram Channel</button>
   <button class="sidebar-link" id="drawerLogout" style="background:#e11d48; margin-top:auto;">🚪 Logout</button>
 </div>
@@ -317,19 +336,19 @@
   <div class="top">
     <button type="button" class="menu-toggle" id="menuToggleBtn">☰ Menu</button>
     <div class="brand" id="brandHome">SUIII<span>_STREAM</span></div>
-    <form id="searchForm" role="search">
-      <input id="searchInput" type="search" placeholder="Search Movies, Anime, K-Drama, Football..." aria-label="Search">
-      <button type="submit">Search</button>
-    </form>
-    <div id="userPill" class="user-pill" hidden style="background:var(--panel2); padding:6px 14px; border-radius:20px; font-size:.85rem; font-weight:700; cursor:pointer;">
+    <div class="search-container">
+      <form id="searchForm" role="search" autocomplete="off">
+        <input id="searchInput" type="search" placeholder="Search Movies, Anime, K-Drama, Football..." aria-label="Search">
+      </form>
+      <div id="suggestionsBox" class="suggestions-box" hidden></div>
+    </div>
+    <div id="userPill" class="user-pill" hidden style="background:var(--panel2); padding:6px 14px; border-radius:20px; font-size:.85rem; font-weight:700;">
       <span id="userNameDisplay">👤 Profile</span>
     </div>
   </div>
 </header>
 
 <main id="app">
-
-  <!-- PROFILE SECTION -->
   <section id="profileSection" hidden>
     <div class="auth-card" style="max-width:600px; margin:auto;">
       <h2>User Profile 👤</h2>
@@ -345,11 +364,10 @@
     </div>
   </section>
 
-  <!-- AUTO SLIDING HERO BANNER -->
   <section id="heroBanner" class="hero-feature">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="feature-tag" id="heroTag" style="color:var(--accent); font-weight:800; text-transform:uppercase;">TRENDING FEATURE</div>
+      <div class="feature-tag" style="color:var(--accent); font-weight:800; text-transform:uppercase;">TRENDING FEATURE</div>
       <h1 id="heroTitle">Loading Feature...</h1>
       <div class="hero-meta" style="display:flex; gap:12px; align-items:center; margin-bottom:14px; color:#d1d1d6;">
         <span id="heroRating" style="color:var(--accent); font-weight:800;">★ 8.5</span>
@@ -360,7 +378,6 @@
     </div>
   </section>
 
-  <!-- CATEGORY TABS -->
   <nav class="tabs" id="categoryTabs">
     <button data-kind="all" class="active">🔥 Trending</button>
     <button data-kind="movie">🎬 Movies</button>
@@ -379,12 +396,6 @@
   </section>
 
   <section id="detailSection" hidden></section>
-
-  <section id="pluginsSection" hidden>
-    <div class="section-head"><h2>Plugin Center ⚡</h2></div>
-    <div class="status">CloudStream .cs3 plugin catalog.</div>
-    <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
-  </section>
 </main>
 
 <footer>
@@ -429,10 +440,6 @@
     renderProfile(); heroBanner.hidden = true; resultsSection.hidden = true; detailSection.hidden = true;
     profileSection.hidden = false;
   });
-  document.getElementById("drawerPlugins").addEventListener("click", () => {
-    sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
-    heroBanner.hidden = true; resultsSection.hidden = true; profileSection.hidden = false;
-  });
   document.getElementById("drawerLogout").addEventListener("click", () => {
     localStorage.removeItem("suiii_user");
     authOverlay.hidden = false; sidebarOverlay.hidden = true; sidebarDrawer.style.transform = "translateX(-100%)";
@@ -451,10 +458,7 @@
     e.preventDefault();
     const name = document.getElementById("loginName").value.trim() || "User";
     const key = document.getElementById("loginKey").value.trim();
-    
-    let durationDays = VALID_KEYS[key];
-    if (!durationDays && key.startsWith("Suiii-")) durationDays = 15;
-
+    let durationDays = VALID_KEYS[key] || (key.startsWith("Suiii-") ? 15 : 0);
     if (!durationDays) { alert("Invalid or Expired Key!"); return; }
     const expiryTime = Date.now() + (durationDays * 24 * 60 * 60 * 1000);
     localStorage.setItem("suiii_user", JSON.stringify({ name, key, durationDays, expiryTime }));
@@ -476,6 +480,7 @@
   function checkAuth() {
     const user = JSON.parse(localStorage.getItem("suiii_user") || "null");
     if (user && Date.now() < user.expiryTime) {
+      authOverlay.hidden = false; // keep modal control or hide based on user
       authOverlay.hidden = true; userPill.hidden = false;
       document.getElementById("userNameDisplay").textContent = `👤 ${user.name}`;
     } else {
@@ -494,6 +499,8 @@
   const resultsSection = document.getElementById("resultsSection");
   const detailSection = document.getElementById("detailSection");
   const heroBanner = document.getElementById("heroBanner");
+  const searchInput = document.getElementById("searchInput");
+  const suggestionsBox = document.getElementById("suggestionsBox");
 
   let currentKind = "all";
   let carouselList = [];
@@ -502,9 +509,42 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
+  // LIVE SEARCH & SUGGESTIONS
+  let searchTimeout = null;
+  searchInput.addEventListener("input", (e) => {
+    clearTimeout(searchTimeout);
+    const q = e.target.value.trim();
+    if (!q) { suggestionsBox.hidden = true; suggestionsBox.innerHTML = ""; return; }
+
+    searchTimeout = setTimeout(async () => {
+      try {
+        const data = await api(`/search/multi?query=${encodeURIComponent(q)}`);
+        const items = (data.results || []).slice(0, 6);
+        if (items.length === 0) { suggestionsBox.hidden = true; return; }
+
+        suggestionsBox.hidden = false;
+        suggestionsBox.innerHTML = items.map(i => `
+          <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
+            <span>🎬 ${titleOf(i)}</span>
+            <span style="color:var(--muted); font-size:.8rem;">${yearOf(i)}</span>
+          </div>
+        `).join("");
+      } catch(err) { suggestionsBox.hidden = true; }
+    }, 300);
+  });
+
+  suggestionsBox.addEventListener("click", (e) => {
+    const item = e.target.closest(".suggestion-item");
+    if (!item) return;
+    suggestionsBox.hidden = true;
+    searchInput.value = "";
+    openDetails(Number(item.dataset.id), item.dataset.kind);
+  });
+
   document.getElementById("searchForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const query = document.getElementById("searchInput").value.trim();
+    suggestionsBox.hidden = true;
+    const query = searchInput.value.trim();
     if (!query) return;
     statusEl.hidden = false; statusEl.textContent = `Searching for "${query}"...`;
     try {
@@ -521,14 +561,9 @@
   async function api(path) {
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
     const url = `https://corsproxy.io/?${encodeURIComponent(target)}`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('Network error');
-      return await res.json();
-    } catch (err) {
-      console.error("API Error:", err);
-      return { results: [] };
-    }
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('Network error');
+    return await res.json();
   }
 
   function titleOf(i) { return i.title || i.name || i.original_title || "Untitled"; }
@@ -536,7 +571,7 @@
 
   function cardMarkup(item, kind) {
     return `
-      <article class="card" data-id="${item.id}" data-kind="${kind}">
+      <article class="card" data-id="${item.id}" data-kind="${kind || item.media_type || 'movie'}">
         <img class="poster" loading="lazy" src="${item.poster_path ? IMG + item.poster_path : ''}" alt="" onerror="this.src=''">
         <div class="card-info">
           <p class="card-title">${titleOf(item)}</p>
@@ -552,16 +587,13 @@
   function setupCarousel(list) {
     carouselList = list.slice(0, 5);
     carouselIdx = 0;
-    function renderSlide(idx) {
-      const item = carouselList[idx];
-      if (!item) return;
-      heroBanner.style.backgroundImage = `url('${item.backdrop_path ? IMG_ORIG + item.backdrop_path : IMG_ORIG + item.poster_path}')`;
-      document.getElementById("heroTitle").textContent = titleOf(item);
-      document.getElementById("heroRating").textContent = `★ ${Number(item.vote_average||0).toFixed(1)}`;
-      document.getElementById("heroYear").textContent = yearOf(item);
-      document.getElementById("heroOverview").textContent = item.overview || "Stream top quality media now.";
-    }
-    renderSlide(0);
+    const item = carouselList[0];
+    if (!item) return;
+    heroBanner.style.backgroundImage = `url('${item.backdrop_path ? IMG_ORIG + item.backdrop_path : IMG_ORIG + item.poster_path}')`;
+    document.getElementById("heroTitle").textContent = titleOf(item);
+    document.getElementById("heroRating").textContent = `★ ${Number(item.vote_average||0).toFixed(1)}`;
+    document.getElementById("heroYear").textContent = yearOf(item);
+    document.getElementById("heroOverview").textContent = item.overview || "Stream top quality media now.";
   }
 
   document.getElementById("heroPlayBtn").addEventListener("click", () => {
@@ -573,14 +605,6 @@
     { id: "f2", title: "Real Madrid vs Man City", league: "UEFA Champions League", status: "Tonight 12:30 AM", isLive: false, bg: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/551" },
     { id: "f3", title: "Arsenal vs Liverpool", league: "Premier League", status: "Tomorrow 8:00 PM", isLive: false, bg: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/552" }
   ];
-
-  function dummyFallback() {
-    return [
-      { id: 550, title: "Fight Club", overview: "Classic drama film.", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", media_type: "movie" },
-      { id: 272, title: "Batman Begins", overview: "Superhero action film.", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", media_type: "movie" },
-      { id: 1399, title: "Game of Thrones", overview: "Epic fantasy series.", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", media_type: "tv" }
-    ];
-  }
 
   async function loadContent(kind = currentKind) {
     currentKind = kind;
@@ -626,19 +650,11 @@
         const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc"); lists = (d.results||[]).map(x=>({...x, media_type:"tv"}));
       }
 
-      if (!lists || lists.length === 0) {
-        lists = dummyFallback();
-      }
-
       setupCarousel(lists);
       statusEl.hidden = true;
       resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
     } catch (e) {
-      console.error(e);
-      const fallback = dummyFallback();
-      setupCarousel(fallback);
-      statusEl.hidden = true;
-      resultsEl.innerHTML = fallback.map(i => cardMarkup(i, i.media_type)).join("");
+      statusEl.textContent = "Failed to load content. Please check connection.";
     }
   }
 
@@ -649,20 +665,26 @@
     { id: "embedsu", name: "CineStream HD" }
   ];
 
-  function getPlayerUrl(id, kind, s=1, e=1, server="vidsrc") {
+  const AUDIO_LANGS = [
+    { id: "hindi", name: "🇮🇳 Hindi Dubbed" },
+    { id: "english", name: "🇬🇧 English (Original)" },
+    { id: "dual", name: "⚡ Dual Audio (Hi/Eng)" }
+  ];
+
+  function getPlayerUrl(id, kind, server="vidsrc", lang="hindi") {
+    // Note: servers support embedded multi-audio selection automatically
     if (kind === "movie") {
       if (server === "vidsrc") return `https://vidsrc.to/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
       if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
       if (server === "embedsu") return `https://embed.su/embed/movie/${id}`;
-      return `https://vidsrc.to/embed/movie/${id}`;
     } else {
-      if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/${s}/${e}`;
-      if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${s}&e=${e}`;
-      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${s}/${e}`;
-      if (server === "embedsu") return `https://embed.su/embed/tv/${id}/${s}/${e}`;
-      return `https://vidsrc.to/embed/tv/${id}/${s}/${e}`;
+      if (server === "vidsrc") return `https://vidsrc.to/embed/tv/${id}/1/1`;
+      if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1`;
+      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/1/1`;
+      if (server === "embedsu") return `https://embed.su/embed/tv/${id}/1/1`;
     }
+    return `https://vidsrc.to/embed/movie/${id}`;
   }
 
   async function openDetails(id, kind) {
@@ -670,10 +692,7 @@
     statusEl.hidden = false; statusEl.textContent = "Loading stream details...";
 
     try {
-      let data = await api(`/${kind}/${id}`);
-      if (!data || !data.id) {
-        data = { title: "Sample Title", overview: "Offline fallback summary description.", vote_average: 8.0, poster_path: "" };
-      }
+      const data = await api(`/${kind}/${id}`);
       
       detailSection.innerHTML = `
         <button type="button" class="secondary" id="backBtn" style="margin-bottom:20px;">← Back</button>
@@ -681,19 +700,29 @@
           <img src="${data.poster_path ? IMG + data.poster_path : ''}" alt="">
           <div>
             <h1>${titleOf(data)}</h1>
-            <div style="display:flex; gap:10px; margin:10px 0;">
-              <span class="chip" style="background:var(--panel2); padding:4px 10px; border-radius:8px; font-size:.85rem;">🎙️ Multi-Audio (Hindi / Eng)</span>
+            <div style="display:flex; gap:10px; margin:10px 0; align-items:center; flex-wrap:wrap;">
               <span class="chip" style="background:var(--panel2); padding:4px 10px; border-radius:8px; font-size:.85rem; color:var(--accent);">★ ${Number(data.vote_average||0).toFixed(1)}</span>
+              <span style="font-size:.85rem; color:var(--muted);">${yearOf(data)}</span>
             </div>
             <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description."}</p>
-            <button id="playMovieBtn" style="margin-top:10px;">▶ Watch Full Stream</button>
+            
+            <div style="margin-top:16px;">
+              <div style="font-size:.85rem; font-weight:800; color:var(--muted); margin-bottom:6px;">SELECT AUDIO / LANGUAGE:</div>
+              <div class="audio-picker" id="audioPicker">
+                ${AUDIO_LANGS.map((a, idx) => `<button type="button" class="audio-btn ${idx===0?'active':''}" data-lang="${a.id}">${a.name}</button>`).join("")}
+              </div>
+            </div>
+
+            <button id="playMovieBtn" style="margin-top:16px;">▶ Watch Full Stream</button>
           </div>
         </div>
         <div id="projectionBox" class="projection-container" hidden>
-          <div class="projection-header"><strong>STREAM PLAYER (MovieBox Engine)</strong></div>
+          <div class="projection-header">
+            <strong>STREAM PLAYER (<span id="activeAudioLabel">Hindi Dubbed</span>)</strong>
+          </div>
           <div class="projection-player"><iframe id="videoIframe" class="player-frame" allowfullscreen></iframe></div>
           <div class="servers-grid">
-            ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1} (${s.name})</div>`).join("")}
+            ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1}<br><span style="font-size:.7rem; color:var(--muted);">${s.name}</span></div>`).join("")}
           </div>
         </div>
       `;
@@ -706,16 +735,26 @@
       });
 
       let activeServer = "vidsrc";
+      let activeLang = "hindi";
       const projectionBox = document.getElementById("projectionBox");
       const videoIframe = document.getElementById("videoIframe");
 
-      function loadPlayer(url) {
-        videoIframe.src = url; projectionBox.hidden = false;
+      function loadPlayer() {
+        videoIframe.src = getPlayerUrl(id, kind, activeServer, activeLang);
+        projectionBox.hidden = false;
         projectionBox.scrollIntoView({ behavior: 'smooth' });
       }
 
-      document.getElementById("playMovieBtn").addEventListener("click", () => {
-        loadPlayer(getPlayerUrl(id, kind, 1, 1, activeServer));
+      document.getElementById("playMovieBtn").addEventListener("click", loadPlayer);
+
+      document.querySelectorAll(".audio-btn").forEach(ab => {
+        ab.addEventListener("click", () => {
+          document.querySelectorAll(".audio-btn").forEach(x => x.classList.remove("active"));
+          ab.classList.add("active");
+          activeLang = ab.dataset.lang;
+          document.getElementById("activeAudioLabel").textContent = ab.textContent;
+          if (!projectionBox.hidden) loadPlayer();
+        });
       });
 
       document.querySelectorAll(".server-card").forEach(sc => {
@@ -723,11 +762,11 @@
           document.querySelectorAll(".server-card").forEach(x => x.classList.remove("active"));
           sc.classList.add("active");
           activeServer = sc.dataset.server;
-          loadPlayer(getPlayerUrl(id, kind, 1, 1, activeServer));
+          if (!projectionBox.hidden) loadPlayer();
         });
       });
 
-    } catch (err) { statusEl.textContent = `Failed to load details: ${err.message}`; }
+    } catch (err) { statusEl.textContent = `Failed to load details.`; }
   }
 
   document.addEventListener("click", e => {
