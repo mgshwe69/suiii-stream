@@ -10,9 +10,9 @@
 :root {
   color-scheme: dark;
   --bg: #0e0b09;
-  --panel: rgba(25, 20, 16, 0.55);
+  --panel: rgba(25, 20, 16, 0.75);
   --panel-solid: #191512;
-  --panel2: rgba(35, 28, 22, 0.65);
+  --panel2: rgba(35, 28, 22, 0.85);
   --text: #f5eee6;
   --muted: #a89a8c;
   --gold: #ffd21c;
@@ -40,7 +40,7 @@ button { cursor: pointer; }
 /* APPLE LIQUID GLASS HEADER */
 header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(16, 13, 11, 0.65);
+  background: rgba(16, 13, 11, 0.75);
   backdrop-filter: var(--glass);
   -webkit-backdrop-filter: var(--glass);
   border-bottom: var(--glass-border);
@@ -63,6 +63,24 @@ header {
 .hamburger-btn span {
   display: block; width: 22px; height: 2.5px; background-color: var(--text); border-radius: 2px;
 }
+
+/* Slide-out Drawer Menu */
+.drawer {
+  position: fixed; inset: 0 0 0 -300px; width: 280px; background: rgba(16, 13, 11, 0.95);
+  backdrop-filter: blur(30px); border-right: var(--glass-border); z-index: 1000;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
+}
+.drawer.open { transform: translateX(300px); }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 900; color: var(--gold); border-bottom: var(--glass-border); padding-bottom: 12px; }
+.drawer-close { background: transparent; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+.drawer-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-top: 10px; font-weight: 800; }
+.drawer-link {
+  background: rgba(255, 255, 255, 0.04); border: var(--glass-border); color: var(--text);
+  padding: 10px 14px; border-radius: 12px; text-align: left; font-weight: 700; cursor: pointer;
+  transition: 0.2s; display: block; text-decoration: none; font-size: 0.9rem;
+}
+.drawer-link:hover { background: rgba(255, 210, 28, 0.15); border-color: var(--gold); color: var(--gold); }
 
 /* User Profile Avatar */
 .profile-avatar {
@@ -122,7 +140,7 @@ input:focus, select:focus {
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
-/* HERO LIQUID GLASS BANNER */
+/* HERO LIQUID GLASS BANNER WITH 4s AUTO SLIDE */
 .hero {
   margin: 20px 0 30px; min-height: 440px; position: relative;
   overflow: hidden; border-radius: 24px;
@@ -130,6 +148,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   display: flex; align-items: flex-end;
   border: var(--glass-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  transition: background-image 0.6s ease-in-out;
 }
 .hero:before {
   content: ""; position: absolute; inset: 0;
@@ -147,7 +166,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-/* TABS LIQUID GLASS (Hollywood, Bollywood, etc.) */
+/* TABS LIQUID GLASS */
 .tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
 .tabs button {
   flex: 0 0 auto; background: rgba(35, 28, 22, 0.4);
@@ -226,6 +245,23 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
 .notice { font-size: .8rem; color: var(--muted); padding: 12px 22px; border-top: var(--glass-border); }
 
+/* AUTH MODAL (7-Day Key System) */
+.auth-modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+  z-index: 2000; display: grid; place-items: center; padding: 20px;
+}
+.auth-modal {
+  background: #15110e; border: var(--glass-border); border-radius: 24px;
+  width: 100%; max-width: 420px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+}
+.auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
+.auth-tab { flex: 1; background: transparent; border: none; color: var(--muted); padding: 10px; font-weight: 800; border-radius: 10px; cursor: pointer; }
+.auth-tab.active { background: var(--gold); color: #120e08; }
+.auth-form { display: flex; flex-direction: column; gap: 14px; }
+.auth-form input { width: 100%; background: #211b16; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
+.ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
+.ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
+
 footer {
   border-top: var(--glass-border); padding: 25px 20px; text-align: center;
   color: var(--muted); background: rgba(16, 13, 11, 0.8); margin-top: 40px; font-size: 0.85rem;
@@ -258,38 +294,61 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   </div>
   <div class="header-actions">
     <form class="search-container" id="searchForm">
-      <input id="searchInput" type="search" placeholder="Search movies, serials, anime..." aria-label="Search">
+      <input id="searchInput" type="search" placeholder="Search movies, shows..." aria-label="Search">
       <button class="gold-btn" type="submit">Search</button>
     </form>
   </div>
 </div>
 </header>
 
+<!-- SLIDE-OUT DRAWER MENU -->
+<div class="drawer" id="navDrawer">
+  <div class="drawer-header">
+    <span>SUIII_STREAM MENU</span>
+    <button class="drawer-close" id="drawerClose">✕</button>
+  </div>
+  <div class="drawer-section-title">Navigation</div>
+  <button class="drawer-link" data-cat="trending">🔥 Home</button>
+  <button class="drawer-link" data-cat="serials">📺 TV Show</button>
+  <button class="drawer-link" data-cat="hindiserials">🇮🇳 Hindi Serials</button>
+  <button class="drawer-link" data-cat="pakdrama">🇵🇰 Pakistan Drama</button>
+  <button class="drawer-link" data-cat="kdrama">🇰🇷 K Drama</button>
+  <button class="drawer-link" data-cat="movies">🎬 Movie</button>
+  <button class="drawer-link" data-cat="anime">🌸 Animation</button>
+  <button class="drawer-link" data-cat="cartoon">🧸 Cartoon</button>
+
+  <div class="drawer-section-title">Community</div>
+  <a class="drawer-link" href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram (mg_7hwe)</a>
+  <a class="drawer-link" href="https://t.me/MG1SHWE" target="_blank">Telegram (MG1SHWE)</a>
+</div>
+
 <main>
 <section id="hero" class="hero">
 <div class="hero-content">
-  <div class="eyebrow">LIQUID GLASS FEATURE</div>
+  <div class="eyebrow" id="heroEyebrow">LIQUID GLASS FEATURE</div>
   <h1 id="heroTitle">Discover Unforgettable Content</h1>
   <div class="hero-meta">
     <span id="heroYear">SUIII_STREAM</span><span class="dot">•</span>
-    <span id="heroType">Hollywood · Bollywood · Anime</span><span class="dot">•</span>
-    <span id="heroRating">★ VIP Stream</span>
+    <span id="heroType">VIP OTT</span><span class="dot">•</span>
+    <span id="heroRating">★ Verified</span>
   </div>
-  <p id="heroDescription">Stream Hollywood blockbusters, Bollywood hits, Indian reality shows, TV serials, and anime seamlessly.</p>
+  <p id="heroDescription">Stream Hollywood, Bollywood, TV Serials, K-Dramas, and Anime seamlessly.</p>
   <div class="hero-actions">
     <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
   </div>
 </div>
 </section>
 
-<!-- CATEGORY TABS (Hollywood, Bollywood, etc.) -->
+<!-- CATEGORY TABS -->
 <nav class="tabs" id="tabs" aria-label="Categories">
-<button class="active" data-kind="trending">🔥 All Trending</button>
-<button data-kind="hollywood">🎬 Hollywood</button>
-<button data-kind="bollywood">🇮🇳 Bollywood</button>
-<button data-kind="serials">📺 TV Serials</button>
-<button data-kind="biggboss">👁️ Reality Shows</button>
-<button data-kind="anime">🌸 Anime</button>
+<button class="active" data-kind="trending">🔥 Home</button>
+<button data-kind="serials">TV Show</button>
+<button data-kind="hindiserials">Hindi Serials</button>
+<button data-kind="pakdrama">Pakistan Drama</button>
+<button data-kind="kdrama">K Drama</button>
+<button data-kind="movies">Movie</button>
+<button data-kind="anime">Animation</button>
+<button data-kind="cartoon">Cartoon</button>
 </nav>
 
 <section id="resultsSection" class="section">
@@ -306,6 +365,40 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 
 <section id="detailSection" class="detail" hidden></section>
 </main>
+
+<!-- LOGIN / SIGN UP MODAL FOR 7-DAY ACCESS KEY -->
+<div class="auth-modal-overlay" id="authModal" hidden>
+  <div class="auth-modal">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin">Login</button>
+      <button class="auth-tab" id="tabSignup">Sign Up</button>
+    </div>
+    
+    <!-- Login Form -->
+    <form class="auth-form" id="loginForm">
+      <input type="text" id="loginName" placeholder="Your Name" required>
+      <input type="number" id="loginAge" placeholder="Age" required>
+      <input type="text" id="loginKey" placeholder="Enter 7-Day Access Key" required>
+      <button type="submit" class="gold-btn">Verify & Watch</button>
+    </form>
+
+    <!-- Sign Up Form -->
+    <form class="auth-form" id="signupForm" hidden>
+      <input type="text" id="signupName" placeholder="Your Full Name" required>
+      <input type="text" id="signupCountry" placeholder="Country" required>
+      <input type="text" id="signupCity" placeholder="City" required>
+      <input type="number" id="signupAge" placeholder="Age" required>
+      <button type="submit" class="gold-btn">Register Account</button>
+    </form>
+
+    <div class="ask-key-box">
+      Need an Access Key?<br>
+      <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
+      <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
+      <a href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
 
 <footer>© <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a></footer>
 
@@ -327,9 +420,21 @@ const hero = $("hero");
 let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
-let currentLanguage = "hindi"; // Default Dubbing preference
+let currentLanguage = "hindi";
+let heroSlideIndex = 0;
+let heroSlideTimer = null;
 
 $("year").textContent = new Date().getFullYear();
+
+// Drawer Controls
+$("hamburgerBtn").onclick = () => $("navDrawer").classList.add("open");
+$("drawerClose").onclick = () => $("navDrawer").classList.remove("open");
+document.querySelectorAll(".drawer-link[data-cat]").forEach(btn => {
+  btn.onclick = () => {
+    $("navDrawer").classList.remove("open");
+    loadCatalog(btn.dataset.cat);
+  };
+});
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -425,6 +530,28 @@ function render(items) {
   results.innerHTML = items.map(card).join("");
   $("count").textContent = items.length + " titles";
   status.hidden = !!items.length;
+
+  // Start 4s Hero Slider with items
+  if (items.length > 0) startHeroSlider(items);
+}
+
+function startHeroSlider(items) {
+  if (heroSlideTimer) clearInterval(heroSlideTimer);
+  heroSlideIndex = 0;
+
+  function updateHeroSlide() {
+    if (!items || items.length === 0) return;
+    const item = items[heroSlideIndex % items.length];
+    $("heroTitle").textContent = item.title;
+    $("heroDescription").textContent = item.overview || "Stream exclusive content in high definition.";
+    if (item.backdrop) {
+      hero.style.backgroundImage = `url("${back(item.backdrop)}")`;
+    }
+    heroSlideIndex++;
+  }
+
+  updateHeroSlide();
+  heroSlideTimer = setInterval(updateHeroSlide, 4000); // Change every 4 seconds like cinematic trailer GIF
 }
 
 async function loadCatalog(category = "trending") {
@@ -438,20 +565,26 @@ async function loadCatalog(category = "trending") {
     if (category === "trending") {
       const data = await tmdb("/trending/all/week");
       items = (data.results || []).map(x => normTMDB(x));
-    } else if (category === "hollywood") {
-      const data = await tmdb("/movie/popular", { region: "US" });
-      items = (data.results || []).map(x => normTMDB(x, "movie"));
-    } else if (category === "bollywood") {
-      const data = await tmdb("/discover/movie", { with_original_language: "hi", sort_by: "popularity.desc" });
+    } else if (category === "movies") {
+      const data = await tmdb("/movie/popular");
       items = (data.results || []).map(x => normTMDB(x, "movie"));
     } else if (category === "serials") {
       const data = await tmdb("/tv/popular");
       items = (data.results || []).map(x => normTMDB(x, "tv"));
-    } else if (category === "biggboss") {
-      const data = await tmdb("/search/tv", { query: "Bigg Boss" });
+    } else if (category === "hindiserials") {
+      const data = await tmdb("/discover/tv", { with_original_language: "hi", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "pakdrama") {
+      const data = await tmdb("/search/tv", { query: "Pakistani" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "kdrama") {
+      const data = await tmdb("/discover/tv", { with_original_language: "ko", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "anime") {
       items = await aniListQuery("Demon Slayer");
+    } else if (category === "cartoon") {
+      const data = await tmdb("/search/tv", { query: "Cartoon" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
     }
     render(items);
   } catch (err) {
@@ -506,18 +639,60 @@ async function openDetails(item) {
   };
 
   $("watchBtn").onclick = () => {
-    const box = $("playerBox");
-    box.hidden = false;
-    box.scrollIntoView({ behavior: "smooth" });
-    renderServers(item);
+    // Check 7-Day Access Key Verification
+    const verifiedKey = localStorage.getItem("suii_access_key");
+    if (!verifiedKey) {
+      $("authModal").hidden = false;
+    } else {
+      const box = $("playerBox");
+      box.hidden = false;
+      box.scrollIntoView({ behavior: "smooth" });
+      renderServers(item);
+    }
   };
 }
+
+// Auth Modal Logic (Login / Sign Up & 7-Day Key)
+$("tabLogin").onclick = () => {
+  $("tabLogin").classList.add("active");
+  $("tabSignup").classList.remove("active");
+  $("loginForm").hidden = false;
+  $("signupForm").hidden = true;
+};
+$("tabSignup").onclick = () => {
+  $("tabSignup").classList.add("active");
+  $("tabLogin").classList.remove("active");
+  $("signupForm").hidden = false;
+  $("loginForm").hidden = true;
+};
+
+$("loginForm").onsubmit = (e) => {
+  e.preventDefault();
+  const key = $("loginKey").value.trim();
+  if (key.length >= 4) {
+    localStorage.setItem("suii_access_key", key);
+    $("authModal").hidden = true;
+    alert("Access Verified Successfully!");
+    if (selectedItem) {
+      $("playerBox").hidden = false;
+      $("playerBox").scrollIntoView({ behavior: "smooth" });
+      renderServers(selectedItem);
+    }
+  } else {
+    alert("Please enter a valid 7-day access key!");
+  }
+};
+
+$("signupForm").onsubmit = (e) => {
+  e.preventDefault();
+  alert("Account Registered! Please contact Telegram/WhatsApp/Instagram to get your 7-Day Access Key.");
+  $("tabLogin").click();
+};
 
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
-  // SUIII_VIP+ Server (replaces 2Embed) & other mirrors
   const SERVERS = [
     { id: "vidsrc", name: "VidSrc Pro", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
     { id: "suii_vip", name: "SUIII_VIP+", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
@@ -535,10 +710,8 @@ function renderServers(item) {
 
   const iframe = $("videoIframe");
   
-  // Update stream URL dynamically based on Hindi Dubbed preference
   function updateStream(baseUrl) {
     if (currentLanguage === "hindi") {
-      // Passes audio preference parameter if supported by mirror
       iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
     } else {
       iframe.src = baseUrl;
@@ -547,7 +720,6 @@ function renderServers(item) {
 
   updateStream(SERVERS[0].url);
 
-  // Audio Dubbing Selector Events
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
@@ -558,7 +730,6 @@ function renderServers(item) {
     };
   });
 
-  // Server Selector Events
   document.querySelectorAll(".server").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
@@ -590,10 +761,6 @@ $("searchForm").onsubmit = async (e) => {
 $("tabs").onclick = (e) => {
   const btn = e.target.closest("button[data-kind]");
   if (btn) loadCatalog(btn.dataset.kind);
-};
-
-$("hamburgerBtn").onclick = () => {
-  $("tabs").scrollIntoView({ behavior: "smooth", block: "center" });
 };
 
 $("brandHome").onclick = () => loadCatalog("trending");
