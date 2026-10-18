@@ -48,29 +48,49 @@ header {
 }
 
 .top {
-  max-width: 1320px; margin: auto; padding: 14px 20px;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  max-width: 1320px; margin: auto; padding: 12px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
 }
 
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+/* Hamburger Menu Icon */
+.hamburger-btn {
+  background: transparent; border: none; color: var(--text);
+  font-size: 1.4rem; display: flex; flex-direction: column; gap: 4px; cursor: pointer;
+  padding: 4px; border-radius: 8px; transition: 0.2s;
+}
+.hamburger-btn span {
+  display: block; width: 22px; height: 2.5px; background-color: var(--text); border-radius: 2px;
+}
+
+/* User Profile Avatar */
+.profile-avatar {
+  width: 36px; height: 36px; border-radius: 50%; overflow: hidden;
+  border: 2px solid var(--gold); box-shadow: 0 0 10px var(--gold-glow);
+  display: grid; place-items: center; background: #221c16;
+}
+.profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
 .brand {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 1.25rem; font-weight: 900; letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 6px;
+  font-size: 1.15rem; font-weight: 900; letter-spacing: -0.5px;
   cursor: pointer; white-space: nowrap;
 }
 .brand-mark {
-  color: var(--gold); font-size: 1.5rem;
+  color: var(--gold); font-size: 1.35rem;
   filter: drop-shadow(0 0 8px var(--gold-glow));
 }
 .brand span:last-child { color: var(--gold); }
 
 .header-actions { display: flex; align-items: center; gap: 10px; }
-.search-container { display: flex; gap: 8px; max-width: 450px; width: 100%; }
+.search-container { display: flex; gap: 8px; max-width: 380px; width: 100%; }
 
 input, select {
   background: rgba(35, 28, 22, 0.4);
   backdrop-filter: var(--glass);
   color: var(--text); border: var(--glass-border);
-  border-radius: 14px; padding: 10px 15px; outline: none; min-width: 0;
+  border-radius: 14px; padding: 9px 14px; outline: none; min-width: 0;
   transition: all 0.3s ease;
 }
 input:focus, select:focus {
@@ -82,7 +102,7 @@ input:focus, select:focus {
 .gold-btn {
   background: linear-gradient(135deg, #ffd21c 0%, #e0b010 100%);
   color: #120e08; border: 0; border-radius: 30px;
-  padding: 10px 22px; font-weight: 800;
+  padding: 9px 18px; font-weight: 800; font-size: 0.85rem;
   box-shadow: 0 4px 20px var(--gold-glow);
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
@@ -95,7 +115,7 @@ input:focus, select:focus {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: var(--glass);
   border: var(--glass-border); color: #fff;
-  border-radius: 30px; padding: 9px 18px; font-weight: 700;
+  border-radius: 30px; padding: 8px 16px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 .outline-btn:hover { border-color: var(--gold); background: rgba(255, 210, 28, 0.1); }
@@ -104,7 +124,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
 /* HERO LIQUID GLASS BANNER */
 .hero {
-  margin: 20px 0 35px; min-height: 480px; position: relative;
+  margin: 20px 0 30px; min-height: 440px; position: relative;
   overflow: hidden; border-radius: 24px;
   background: #201913 center 35%/cover no-repeat;
   display: flex; align-items: flex-end;
@@ -116,25 +136,23 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   background: linear-gradient(0deg, #0e0b09 0%, rgba(14, 11, 9, 0.7) 40%, transparent 100%),
               linear-gradient(90deg, rgba(14, 11, 9, 0.85) 0%, transparent 80%);
 }
-.hero-content { position: relative; max-width: 650px; padding: 40px; z-index: 2; }
+.hero-content { position: relative; max-width: 650px; padding: 35px; z-index: 2; }
 .eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
-.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; font-weight: 800; margin: 10px 0; }
-.hero-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .88rem; }
+.hero h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; font-weight: 800; margin: 8px 0; }
+.hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; }
 .dot { color: var(--gold); }
-.hero p { color: #d1c6bb; max-width: 540px; margin: 14px 0 22px; font-size: .95rem; }
-.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 18px; font-size: .92rem; }
 
-.section { margin: 35px 0; }
-.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
-.section-head h2 { font-size: 1.6rem; font-weight: 800; margin: 0; }
-.section-head p { color: var(--muted); margin: 4px 0 0; font-size: .85rem; }
+.section { margin: 30px 0; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
+.section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-/* TABS LIQUID GLASS */
+/* TABS LIQUID GLASS (Hollywood, Bollywood, etc.) */
 .tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
 .tabs button {
   flex: 0 0 auto; background: rgba(35, 28, 22, 0.4);
   backdrop-filter: var(--glass); border: var(--glass-border);
-  border-radius: 30px; color: #b7aa9e; padding: 10px 20px; font-weight: 700;
+  border-radius: 30px; color: #b7aa9e; padding: 9px 18px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 .tabs button.active {
@@ -143,7 +161,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 }
 
 /* CARDS LIQUID GRID */
-.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
 .card { min-width: 0; cursor: pointer; position: relative; }
 .poster-wrap {
   position: relative; overflow: hidden; border-radius: var(--card-radius);
@@ -155,26 +173,26 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .card:hover .poster { transform: scale(1.06); }
 .poster-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 60%); }
 .play-dot {
-  position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px;
+  position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px;
   border-radius: 50%; display: grid; place-items: center; background: var(--gold);
-  color: #120e08; font-size: 0.9rem; box-shadow: 0 4px 12px var(--gold-glow);
+  color: #120e08; font-size: 0.85rem; box-shadow: 0 4px 12px var(--gold-glow);
 }
-.card-title { font-size: .92rem; font-weight: 800; margin: 10px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .78rem; }
+.card-title { font-size: .9rem; font-weight: 800; margin: 8px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
 
 /* DETAIL & LIQUID PLAYER */
 .detail { margin-top: 25px; }
 .detail-top {
-  min-height: 360px; border-radius: 24px; overflow: hidden; background: #201913 center/cover no-repeat;
+  min-height: 350px; border-radius: 24px; overflow: hidden; background: #201913 center/cover no-repeat;
   position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
 }
 .detail-top:before {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(0deg, #0e0b09 0%, rgba(14,11,9,0.75) 50%, transparent 100%);
 }
-.detail-info { position: relative; padding: 32px; max-width: 850px; z-index: 2; }
-.detail-info h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); margin: 8px 0 12px; font-weight: 800; }
+.detail-info { position: relative; padding: 30px; max-width: 850px; z-index: 2; }
+.detail-info h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin: 6px 0 10px; font-weight: 800; }
 
 /* PLAYER & MULTI-AUDIO ENGINE */
 .player-box {
@@ -184,42 +202,42 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 }
 .player-head {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 18px 24px; background: rgba(35, 28, 22, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
+  padding: 16px 22px; background: rgba(35, 28, 22, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
 }
 
 .audio-bar {
-  display: flex; gap: 10px; align-items: center; padding: 14px 24px;
+  display: flex; gap: 10px; align-items: center; padding: 14px 22px;
   background: rgba(14, 11, 9, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap;
 }
-.audio-bar label { font-size: 0.8rem; font-weight: 800; color: var(--gold); text-transform: uppercase; }
+.audio-bar label { font-size: 0.78rem; font-weight: 800; color: var(--gold); text-transform: uppercase; }
 .audio-btn {
   background: rgba(255, 255, 255, 0.05); border: var(--glass-border); color: var(--muted);
-  padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; transition: all 0.2s;
+  padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;
 }
 .audio-btn.active { background: var(--gold); color: #120e08; border-color: var(--gold); font-weight: 800; }
 
-.servers { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 24px; }
+.servers { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 22px; }
 .server {
   background: rgba(35, 28, 22, 0.5); color: #e8ded4; border: var(--glass-border);
-  padding: 10px 16px; border-radius: 12px; font-size: .85rem; font-weight: 700; transition: all 0.2s;
+  padding: 9px 15px; border-radius: 12px; font-size: .82rem; font-weight: 700; transition: all 0.2s;
 }
 .server.active { border-color: var(--gold); color: var(--gold); background: rgba(255, 210, 28, 0.15); }
 
 .player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
-.notice { font-size: .82rem; color: var(--muted); padding: 14px 24px; border-top: var(--glass-border); }
+.notice { font-size: .8rem; color: var(--muted); padding: 12px 22px; border-top: var(--glass-border); }
 
 footer {
-  border-top: var(--glass-border); padding: 30px 20px; text-align: center;
-  color: var(--muted); background: rgba(16, 13, 11, 0.8); margin-top: 50px;
+  border-top: var(--glass-border); padding: 25px 20px; text-align: center;
+  color: var(--muted); background: rgba(16, 13, 11, 0.8); margin-top: 40px; font-size: 0.85rem;
 }
 footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 [hidden] { display: none !important; }
 
 @media(max-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media(max-width: 650px) {
-  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  .top { flex-wrap: wrap; } .search-container { max-width: none; flex: 1; }
-  .hero-content { padding: 24px; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .top { flex-wrap: wrap; padding: 10px 14px; } .search-container { max-width: none; flex: 1; }
+  .hero-content { padding: 22px; }
 }
 </style>
 </head>
@@ -227,8 +245,16 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 
 <header>
 <div class="top">
-  <div class="brand" id="brandHome" role="button" tabindex="0">
-    <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
+  <div class="header-left">
+    <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="profile-avatar" title="SUIII VIP User">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Profile">
+    </div>
+    <div class="brand" id="brandHome" role="button" tabindex="0">
+      <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
+    </div>
   </div>
   <div class="header-actions">
     <form class="search-container" id="searchForm">
@@ -246,29 +272,31 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   <h1 id="heroTitle">Discover Unforgettable Content</h1>
   <div class="hero-meta">
     <span id="heroYear">SUIII_STREAM</span><span class="dot">•</span>
-    <span id="heroType">Movies · Serials · Anime</span><span class="dot">•</span>
-    <span id="heroRating">★ Featured</span>
+    <span id="heroType">Hollywood · Bollywood · Anime</span><span class="dot">•</span>
+    <span id="heroRating">★ VIP Stream</span>
   </div>
-  <p id="heroDescription">Stream full movies, Indian reality shows, popular TV serials, and anime seamlessly.</p>
+  <p id="heroDescription">Stream Hollywood blockbusters, Bollywood hits, Indian reality shows, TV serials, and anime seamlessly.</p>
   <div class="hero-actions">
     <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
   </div>
 </div>
 </section>
 
+<!-- CATEGORY TABS (Hollywood, Bollywood, etc.) -->
 <nav class="tabs" id="tabs" aria-label="Categories">
-<button class="active" data-kind="trending">🔥 Trending</button>
-<button data-kind="movies">🎬 Movies</button>
+<button class="active" data-kind="trending">🔥 All Trending</button>
+<button data-kind="hollywood">🎬 Hollywood</button>
+<button data-kind="bollywood">🇮🇳 Bollywood</button>
 <button data-kind="serials">📺 TV Serials</button>
 <button data-kind="biggboss">👁️ Reality Shows</button>
-<button data-kind="anime">🌸 Anime (AniList)</button>
+<button data-kind="anime">🌸 Anime</button>
 </nav>
 
 <section id="resultsSection" class="section">
   <div class="section-head">
     <div>
-      <div class="eyebrow">TOP PICKS</div>
-      <h2 id="resultsTitle">Top Content Today</h2>
+      <div class="eyebrow">CATALOG</div>
+      <h2 id="resultsTitle">Featured Selection</h2>
     </div>
     <span id="count" style="color:var(--muted);font-size:.85rem"></span>
   </div>
@@ -298,9 +326,8 @@ const hero = $("hero");
 
 let itemsNow = [];
 let currentCategory = "trending";
-let token = 0;
 let selectedItem = null;
-let currentLanguage = "hindi"; // Default audio language
+let currentLanguage = "hindi"; // Default Dubbing preference
 
 $("year").textContent = new Date().getFullYear();
 
@@ -334,7 +361,6 @@ async function tmdb(path, params = {}) {
   return getJSON(url.toString());
 }
 
-/* ANILIST DIRECT GRAPHQL INTEGRATION */
 async function aniListQuery(query) {
   const gql = `
     query ($search: String) {
@@ -345,23 +371,25 @@ async function aniListQuery(query) {
         }
       }
     }`;
-  const data = await getJSON("https://graphql.anilist.co", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query: gql, variables: { search: query } })
-  });
-  return (data.data?.Page?.media || []).map(item => ({
-    id: "anilist-" + item.id,
-    externalId: item.id,
-    title: item.title?.english || item.title?.romaji || "Anime",
-    year: item.seasonYear || "2026",
-    overview: (item.description || "No description available.").replace(/<[^>]*>/g, ""),
-    poster: item.coverImage?.large || "",
-    backdrop: item.bannerImage || "",
-    rating: item.averageScore ? item.averageScore / 10 : 8.0,
-    type: "anime",
-    provider: "AniList GraphQL"
-  }));
+  try {
+    const data = await getJSON("https://graphql.anilist.co", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query: gql, variables: { search: query } })
+    });
+    return (data.data?.Page?.media || []).map(item => ({
+      id: "anilist-" + item.id,
+      externalId: item.id,
+      title: item.title?.english || item.title?.romaji || "Anime",
+      year: item.seasonYear || "2026",
+      overview: (item.description || "No description available.").replace(/<[^>]*>/g, ""),
+      poster: item.coverImage?.large || "",
+      backdrop: item.bannerImage || "",
+      rating: item.averageScore ? item.averageScore / 10 : 8.0,
+      type: "anime",
+      provider: "AniList"
+    }));
+  } catch(e) { return []; }
 }
 
 function normTMDB(item, forcedType) {
@@ -404,14 +432,17 @@ async function loadCatalog(category = "trending") {
   detail.hidden = true; hero.hidden = false;
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
 
-  status.hidden = false; status.textContent = "Loading Glass Engine...";
+  status.hidden = false; status.textContent = "Loading catalog...";
   try {
     let items = [];
     if (category === "trending") {
       const data = await tmdb("/trending/all/week");
       items = (data.results || []).map(x => normTMDB(x));
-    } else if (category === "movies") {
-      const data = await tmdb("/movie/popular");
+    } else if (category === "hollywood") {
+      const data = await tmdb("/movie/popular", { region: "US" });
+      items = (data.results || []).map(x => normTMDB(x, "movie"));
+    } else if (category === "bollywood") {
+      const data = await tmdb("/discover/movie", { with_original_language: "hi", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "movie"));
     } else if (category === "serials") {
       const data = await tmdb("/tv/popular");
@@ -450,23 +481,23 @@ async function openDetails(item) {
 
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
-        <strong>LIQUID MULTI-SERVER STREAM PLAYER</strong>
+        <strong>SUIII VIP MULTI-SERVER STREAM PLAYER</strong>
         <span style="color:var(--gold);font-size:.85rem;font-weight:800;">AUTO HD EMBED</span>
       </div>
       
-      <!-- MULTI-LANGUAGE DUBBED SELECTOR -->
+      <!-- HINDI DUBBED / MULTI-AUDIO SELECTOR -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
-        <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed / Multi</button>
-        <button class="audio-btn" data-lang="english">🇬🇧 English Audio</button>
-        <button class="audio-btn" data-lang="dual">⚡ Dual Audio (Original)</button>
+        <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
+        <button class="audio-btn" data-lang="english">🇬🇧 English Original</button>
+        <button class="audio-btn" data-lang="dual">⚡ Dual Audio</button>
       </div>
 
       <div class="servers" id="servers"></div>
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice">Note: Language availability depends on active mirror server stream encoding.</div>
+      <div class="notice">Note: Selecting Hindi Dubbed will prioritize multi-language dubbed source mirrors.</div>
     </div>
   `;
 
@@ -486,13 +517,14 @@ function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
+  // SUIII_VIP+ Server (replaces 2Embed) & other mirrors
   const SERVERS = [
     { id: "vidsrc", name: "VidSrc Pro", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
-    { id: "embedsu", name: "EmbedSu HD", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
+    { id: "suii_vip", name: "SUIII_VIP+", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
     { id: "multiembed", name: "MultiEmbed (Dubbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` },
+    { id: "embedsu", name: "EmbedSu HD", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
     { id: "autoembed", name: "AutoEmbed VIP", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` },
     { id: "vidsrccc", name: "VidSrc.cc", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` },
-    { id: "2embed", name: "2Embed", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
     { id: "superembed", name: "SuperEmbed", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` },
     { id: "smashystream", name: "SmashyStream", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` }
   ];
@@ -502,16 +534,27 @@ function renderServers(item) {
   `).join("");
 
   const iframe = $("videoIframe");
-  iframe.src = SERVERS[0].url;
+  
+  // Update stream URL dynamically based on Hindi Dubbed preference
+  function updateStream(baseUrl) {
+    if (currentLanguage === "hindi") {
+      // Passes audio preference parameter if supported by mirror
+      iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
+    } else {
+      iframe.src = baseUrl;
+    }
+  }
 
-  // Audio Language Selector Events
+  updateStream(SERVERS[0].url);
+
+  // Audio Dubbing Selector Events
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      // Reload stream URL with active mirror
-      iframe.src = iframe.src; 
+      const activeServerBtn = document.querySelector(".server.active");
+      if (activeServerBtn) updateStream(activeServerBtn.dataset.url);
     };
   });
 
@@ -520,7 +563,7 @@ function renderServers(item) {
     btn.onclick = () => {
       document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
-      iframe.src = btn.dataset.url;
+      updateStream(btn.dataset.url);
     };
   });
 }
@@ -536,10 +579,8 @@ $("searchForm").onsubmit = async (e) => {
   try {
     const tmdbRes = await tmdb("/search/multi", { query: q });
     let items = (tmdbRes.results || []).map(x => normTMDB(x));
-
     const animeItems = await aniListQuery(q);
     items = [...items, ...animeItems];
-
     render(items);
   } catch(err) {
     status.textContent = "Search failed.";
@@ -549,6 +590,10 @@ $("searchForm").onsubmit = async (e) => {
 $("tabs").onclick = (e) => {
   const btn = e.target.closest("button[data-kind]");
   if (btn) loadCatalog(btn.dataset.kind);
+};
+
+$("hamburgerBtn").onclick = () => {
+  $("tabs").scrollIntoView({ behavior: "smooth", block: "center" });
 };
 
 $("brandHome").onclick = () => loadCatalog("trending");
