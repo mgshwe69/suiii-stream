@@ -150,35 +150,46 @@ input:focus, select:focus {
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
-/* HERO */
+/* CINEMATIC REFERENCE VIDEO HERO STYLE */
 .hero {
-  margin: 20px 0 30px; min-height: 440px; position: relative;
+  margin: 20px 0 30px; min-height: 480px; position: relative;
   overflow: hidden; border-radius: 24px;
   background: #191424 center 35%/cover no-repeat;
   display: flex; align-items: flex-end;
   border: var(--glass-border);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
   transition: background-image 0.6s ease-in-out;
 }
 .hero:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.7) 40%, transparent 100%),
-              linear-gradient(90deg, rgba(11, 9, 14, 0.85) 0%, transparent 80%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.65) 45%, rgba(11,9,14,0.3) 100%),
+              linear-gradient(90deg, rgba(11, 9, 14, 0.9) 0%, rgba(11,9,14,0.4) 70%, transparent 100%);
 }
-.hero-content { position: relative; max-width: 650px; padding: 35px; z-index: 2; }
+.hero-content { position: relative; max-width: 680px; padding: 40px; z-index: 2; }
 .eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
-.hero h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; font-weight: 800; margin: 8px 0; }
-.hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; font-weight: 900; margin: 8px 0; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+.hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; font-weight: 700; }
 .dot { color: var(--gold); }
-.hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 18px; font-size: .92rem; }
+.hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 20px; font-size: .95srem; }
 
-.section { margin: 30px 0; }
+/* REFERENCE VIDEO EPISODE THUMBNAILS CAROUSEL IN HERO */
+.hero-episodes-preview {
+  display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 5px; scrollbar-width: none; margin-top: 15px;
+}
+.hero-ep-thumb {
+  flex: 0 0 130px; height: 75px; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);
+  cursor: pointer; position: relative; transition: 0.3s; background: #000;
+}
+.hero-ep-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+.hero-ep-thumb:hover, .hero-ep-thumb.active { border-color: var(--gold); transform: scale(1.05); }
+.hero-ep-thumb:hover img, .hero-ep-thumb.active img { opacity: 1; }
+.hero-ep-label { position: absolute; bottom: 4px; left: 6px; font-size: 0.7rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
+
+.section { margin: 35px 0; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-.status {
-  padding: 40px 10px; text-align: center; color: var(--gold);
-}
+.status { padding: 40px 10px; text-align: center; color: var(--gold); }
 .dalli-loading {
   font-size: 1.8rem; font-weight: 900; letter-spacing: 2px;
   display: inline-block;
@@ -229,28 +240,29 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
 
-.cast-section { margin-top: 25px; }
-.cast-section h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--gold); }
-.cast-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.cast-section { margin-top: 30px; }
+.cast-section h3 { font-size: 1.15rem; margin-bottom: 14px; color: var(--gold); }
+.cast-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
 .cast-card { flex: 0 0 100px; text-align: center; cursor: pointer; }
-.cast-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; }
-.cast-name { font-size: 0.78rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cast-char { font-size: 0.7rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; box-shadow: 0 4px 15px var(--accent-glow); }
+.cast-name { font-size: 0.8rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-char { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .episodes-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
 .episodes-bar select { background: #1c1626; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
 
 .detail { margin-top: 25px; }
 .detail-top {
-  min-height: 350px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
+  min-height: 400px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
   position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 .detail-top:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.75) 50%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.7) 50%, transparent 100%);
 }
-.detail-info { position: relative; padding: 30px; max-width: 850px; z-index: 2; }
-.detail-info h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin: 6px 0 10px; font-weight: 800; }
+.detail-info { position: relative; padding: 35px; max-width: 850px; z-index: 2; }
+.detail-info h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); margin: 6px 0 10px; font-weight: 900; }
 
 .player-box {
   margin-top: 25px; border: var(--glass-border);
@@ -382,18 +394,29 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 </div>
 
 <main>
+<!-- REFERENCE VIDEO CINEMATIC HERO STYLE -->
 <section id="hero" class="hero">
 <div class="hero-content">
-  <div class="eyebrow" id="heroEyebrow">LIQUID GLASS FEATURE</div>
-  <h1 id="heroTitle">Discover Unforgettable Content</h1>
+  <div class="eyebrow" id="heroEyebrow">VIP STREAMING PREMIERE</div>
+  <h1 id="heroTitle">Game of Thrones</h1>
   <div class="hero-meta">
-    <span id="heroYear">SUIII_STREAM</span><span class="dot">•</span>
-    <span id="heroType">VIP OTT</span><span class="dot">•</span>
-    <span id="heroRating">★ Verified</span>
+    <span id="heroRating" style="color:var(--gold);">98% Match</span><span class="dot">•</span>
+    <span id="heroYear">2011-2019</span><span class="dot">•</span>
+    <span>18+</span>
   </div>
-  <p id="heroDescription">Stream Hollywood, Bollywood, TV Serials, K-Dramas, Marvel, DC, and Anime seamlessly.</p>
-  <div class="hero-actions">
-    <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
+  <p id="heroDescription">Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.</p>
+  <div style="display:flex;gap:12px;align-items:center;">
+    <button class="gold-btn" id="heroPlay" type="button">▶ Resume</button>
+    <button class="outline-btn" id="heroAddList" type="button">+ My List</button>
+  </div>
+
+  <!-- REFERENCE VIDEO STYLE EPISODE SCROLLER -->
+  <div class="hero-episodes-preview" id="heroEpScroller">
+    <div class="hero-ep-thumb active" data-ep="1"><img src="https://image.tmdb.org/t/p/w300/suopoADq0k8YZr4dQXcU6pToj6s.jpg"><span class="hero-ep-label">Trailer</span></div>
+    <div class="hero-ep-thumb" data-ep="2"><img src="https://image.tmdb.org/t/p/w300/zMeIkxyEvUNSTogUaP3WJ45Q7Y3.jpg"><span class="hero-ep-label">01 Dragonstone</span></div>
+    <div class="hero-ep-thumb" data-ep="3"><img src="https://image.tmdb.org/t/p/w300/o7qi2v4uWQ8bZ1tW3KI0Mth2oSx.jpg"><span class="hero-ep-label">02 Stormborn</span></div>
+    <div class="hero-ep-thumb" data-ep="4"><img src="https://image.tmdb.org/t/p/w300/7aPrv2HFvVvO3v418c3b4N4bJ5u.jpg"><span class="hero-ep-label">03 The Queen's</span></div>
+    <div class="hero-ep-thumb" data-ep="5"><img src="https://image.tmdb.org/t/p/w300/z0Iptpx2W8lgDWX8z2E4rF9E01z.jpg"><span class="hero-ep-label">04 Spoils</span></div>
   </div>
 </div>
 </section>
@@ -512,7 +535,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 
       <div class="recent-list">
         <strong>Recent Watched / Resume:</strong>
-        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (Resumed)</div>
+        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Game of Thrones (Resumed)</div>
       </div>
       <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
@@ -627,7 +650,7 @@ function updateProfileUI() {
     timerInterval = setInterval(updateCountdown, 1000);
   }
 
-  const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed)";
+  const recent = localStorage.getItem("suii_recent_watch") || "Game of Thrones (Resumed)";
   $("dashRecentTitle").textContent = recent;
 }
 
@@ -754,6 +777,14 @@ function startHeroSlider(items) {
   heroSlideTimer = setInterval(updateHeroSlide, 4000);
 }
 
+// Reference Video Episode Thumbnail Selector interactive binding
+document.querySelectorAll(".hero-ep-thumb").forEach(thumb => {
+  thumb.onclick = () => {
+    document.querySelectorAll(".hero-ep-thumb").forEach(t => t.classList.remove("active"));
+    thumb.classList.add("active");
+  };
+});
+
 async function loadCatalog(category = "trending") {
   currentCategory = category;
   detail.hidden = true; hero.hidden = false;
@@ -870,7 +901,7 @@ async function openDetails(item) {
       
       ${seasonsHTML}
 
-      <!-- AUDIO SELECTION BAR (ORIGINAL IS FIRST AND DEFAULT) -->
+      <!-- AUDIO SELECTION BAR -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
         <button class="audio-btn active" data-lang="original">⚡ Original / Universal (All Servers)</button>
@@ -1061,7 +1092,7 @@ function renderServers(item) {
     { id: "suii_vip_3", name: "SUIII_VIP 3 (VidSrc Pro)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "suii_vip_7", name: "SUIII_VIP 7 (Cinedrive Fast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=${currentSeason}&e=${currentEpisode}` },
     { id: "suii_vip_8", name: "SUIII_VIP 8 (SmashyStream)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=${currentSeason}&e=${currentEpisode}` }
   ];
