@@ -112,7 +112,7 @@
 </header>
 
 <main id="app">
-  <section id="heroBanner" class="hero-feature">
+  <section id="heroBanner" class="hero-feature" style="background-image: url('https://m.media-amazon.com/images/M/MV5BNTIxZDgwOWItMzRmYS00NDk3LWEyNTctYjU3YjMyNDU4ZDViXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg');">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="feature-tag" style="color:var(--accent); font-weight:800;">TOP FEATURED</div>
@@ -205,54 +205,19 @@
     openDetails("tt32832804", "tv", "Bigg Boss Season 18");
   });
 
-  // FAST TVMAZE & JIKAN LIVE SEARCH INTEGRATION (NO API KEY, NO CORS ERROR)
-  document.getElementById("searchForm").addEventListener("submit", async (e) => {
+  // INSTANT LOCAL SEARCH (0 ERROR, 0 DELAY)
+  document.getElementById("searchForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const query = searchInput.value.trim();
+    const query = searchInput.value.trim().toLowerCase();
     if (!query) return;
 
-    resultsTitle.textContent = `Search Results: ${query}`;
-    resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Searching global TVmaze & Anime servers...</p>";
+    resultsTitle.textContent = `Search Results: ${searchInput.value}`;
+    const filtered = MASTER_DATABASE.filter(i => i.title.toLowerCase().includes(query));
 
-    try {
-      // Fetch from TVmaze API (for TV Shows, Serials, Reality Shows)
-      const tvRes = await fetch(`https://api.tvmaze.com/search/shows?q=${encodeURIComponent(query)}`);
-      const tvData = await tvRes.json();
-
-      let resultsHtml = "";
-      if (tvData && tvData.length > 0) {
-        resultsHtml += tvData.map(item => {
-          const show = item.show;
-          const imdbId = show.externals?.imdb || "tt32832804";
-          const poster = show.image?.medium || "https://via.placeholder.com/300x450?text=No+Poster";
-          return `
-            <article class="card" data-id="${imdbId}" data-type="tv">
-              <img class="poster" loading="lazy" src="${poster}" alt="">
-              <div class="card-info">
-                <p class="card-title">${show.name}</p>
-                <div style="display:flex; justify-content:space-between; font-size:.8rem; color:var(--muted);">
-                  <span>${show.premiered ? show.premiered.slice(0,4) : '2026'}</span>
-                  <span style="color:var(--accent); font-weight:700;">★ ${show.rating?.average || '8.0'}</span>
-                </div>
-              </div>
-            </article>
-          `;
-        }).join("");
-      }
-
-      // Also check local database matching
-      const localMatch = MASTER_DATABASE.filter(i => i.title.toLowerCase().includes(query.toLowerCase()));
-      if (localMatch.length > 0) {
-        resultsHtml += localMatch.map(cardMarkup).join("");
-      }
-
-      if (resultsHtml) {
-        resultsEl.innerHTML = resultsHtml;
-      } else {
-        resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No content found.</p>";
-      }
-    } catch(err) {
-      resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Search network busy. Try again.</p>";
+    if (filtered.length > 0) {
+      resultsEl.innerHTML = filtered.map(cardMarkup).join("");
+    } else {
+      resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No matching content found.</p>";
     }
   });
 
@@ -314,7 +279,7 @@
     const card = e.target.closest(".card");
     if (card && card.dataset.id) {
       const title = card.querySelector(".card-title") ? card.querySelector(".card-title").textContent : "";
-      openDetails(card.dataset.id, card.dataset.type || "tv", title);
+      openDetails(card.dataset.id, card.dataset.type || "movie", title);
     }
   });
 
