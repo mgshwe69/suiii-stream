@@ -160,40 +160,22 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadCatalog("trending"));
 
-  // NATIVE RELIABLE DATA COLLECTION (NO KEY REQUIRED, NO CORS FAILURE)
-  const CATALOG = {
-    trending: [
-      { id: "tt32832804", title: "Bigg Boss", year: "2025", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BNTIxZDgwOWItMzRmYS00NDk3LWEyNTctYjU3YjMyNDU4ZDViXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt0407362", title: "Khatron Ke Khiladi", year: "2025", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BZmM0Y2Y0YmMtZjAxYi00YTMxLWE2NWYtYTFkOWUxYTU1NDJhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt10874608", title: "Pushpa 2: The Rule", year: "2024", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BNGFiMDFjNDAtOWM5NC00ZGE4LWI4OTAtOTJkM2I5MGFmOTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt15239678", title: "Dune: Part Two", year: "2024", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt9362722", title: "Spider-Man: Across the Spider-Verse", year: "2023", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BMzI0NmJjNDgtNGExMS00NGRjLTg3NzAtYWFiZjdhNTRkYTNlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt0944947", title: "Game of Thrones", year: "2011", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5MDExMDgwMGMtZjA4OS00MDgxLTlhMTQtYmNmYmNhMDI2Mjc5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
-    ],
-    biggboss: [
-      { id: "tt32832804", title: "Bigg Boss Season 18", year: "2025", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BNTIxZDgwOWItMzRmYS00NDk3LWEyNTctYjU3YjMyNDU4ZDViXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt0407362", title: "Khatron Ke Khiladi", year: "2025", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BZmM0Y2Y0YmMtZjAxYi00YTMxLWE2NWYtYTFkOWUxYTU1NDJhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt10323382", title: "Lock Upp", year: "2022", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BNGU5YTAzZGEtZDJkMy00ZGI2LWEwZjItY2I3Y2E2NmI1YTA1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt20242530", title: "Roadies", year: "2023", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BZDA4YmJhMDUtZDliYS00Mzg3LWE4NDgtYTU2YzE1MmJkNTM3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
-    ],
-    serials: [
-      { id: "tt2221650", title: "Anupamaa", year: "2020", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BYzA2ZDk1NDgtNDRiMC00YzY5LTljNzgtM2U5NDcyNzA5MmM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt10086884", title: "Yeh Rishta Kya Kehlata Hai", year: "2009", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BN2EwYTI5N2MtZGI0My00ZTg3LWIyNDAtYTA5ZDQ2NDNmZmNkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt3863552", title: "Taarak Mehta Ka Ooltah Chashmah", year: "2008", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BMjA3OTI2N2MtMmYzMC00NDU4LWE0MzMtYjE3NTA2YWEzZmYxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt2083658", title: "Ghum Hai Kisikey Pyaar Meiin", year: "2020", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BZDFiN2UxNWUtMWE5NC00ZGE4LWI4NDItZTI5YjJkYzc5MWM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
-    ],
-    movies: [
-      { id: "tt10874608", title: "Pushpa 2: The Rule", year: "2024", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BNGFiMDFjNDAtOWM5NC00ZGE4LWI4OTAtOTJkM2I5MGFmOTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt1160419", title: "Dune", year: "2021", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt6751668", title: "Parasite", year: "2019", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt0816692", title: "Interstellar", year: "2014", type: "movie", poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
-    ],
-    anime: [
-      { id: "tt9335498", title: "Demon Slayer: Kimetsu no Yaiba", year: "2019", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BZjZjNzI5MDctY2Y4YS00NmM4LTljMmItZTFkOTExNGI3ODRhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt2560140", title: "Attack on Titan", year: "2013", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BMTY5ODk1NzUyMl5BMl5BanBnXkFtZTgwMjUyNjgwODE@._V1_FMjpg_UX1000_.jpg" },
-      { id: "tt12343534", title: "Jujutsu Kaisen", year: "2020", type: "tv", poster: "https://m.media-amazon.com/images/M/MV5BNGY4MTg3NjgtMmFkIN00NTg5LWE3MDItNDUxNDkyNjA2NDIwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" }
-    ]
-  };
+  const MASTER_DATABASE = [
+    { id: "tt32832804", title: "Bigg Boss", year: "2025", type: "tv", category: "biggboss", poster: "https://m.media-amazon.com/images/M/MV5BNTIxZDgwOWItMzRmYS00NDk3LWEyNTctYjU3YjMyNDU4ZDViXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt0407362", title: "Khatron Ke Khiladi", year: "2025", type: "tv", category: "biggboss", poster: "https://m.media-amazon.com/images/M/MV5BZmM0Y2Y0YmMtZjAxYi00YTMxLWE2NWYtYTFkOWUxYTU1NDJhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt10323382", title: "Lock Upp", year: "2022", type: "tv", category: "biggboss", poster: "https://m.media-amazon.com/images/M/MV5BNGU5YTAzZGEtZDJkMy00ZGI2LWEwZjItY2I3Y2E2NmI1YTA1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt20242530", title: "MTV Roadies", year: "2023", type: "tv", category: "biggboss", poster: "https://m.media-amazon.com/images/M/MV5BZDA4YmJhMDUtZDliYS00Mzg3LWE4NDgtYTU2YzE1MmJkNTM3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt2221650", title: "Anupamaa", year: "2020", type: "tv", category: "serials", poster: "https://m.media-amazon.com/images/M/MV5BYzA2ZDk1NDgtNDRiMC00YzY5LTljNzgtM2U5NDcyNzA5MmM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt10086884", title: "Yeh Rishta Kya Kehlata Hai", year: "2009", type: "tv", category: "serials", poster: "https://m.media-amazon.com/images/M/MV5BN2EwYTI5N2MtZGI0My00ZTg3LWIyNDAtYTA5ZDQ2NDNmZmNkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt3863552", title: "Taarak Mehta Ka Ooltah Chashmah", year: "2008", type: "tv", category: "serials", poster: "https://m.media-amazon.com/images/M/MV5BMjA3OTI2N2MtMmYzMC00NDU4LWE0MzMtYjE3NTA2YWEzZmYxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt2083658", title: "Ghum Hai Kisikey Pyaar Meiin", year: "2020", type: "tv", category: "serials", poster: "https://m.media-amazon.com/images/M/MV5BZDFiN2UxNWUtMWE5NC00ZGE4LWI4NDItZTI5YjJkYzc5MWM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt10874608", title: "Pushpa 2: The Rule", year: "2024", type: "movie", category: "movies", poster: "https://m.media-amazon.com/images/M/MV5BNGFiMDFjNDAtOWM5NC00ZGE4LWI4OTAtOTJkM2I5MGFmOTU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt15239678", title: "Dune: Part Two", year: "2024", type: "movie", category: "movies", poster: "https://m.media-amazon.com/images/M/MV5BN2QyZGU4ZDctOWMzMy00NTc5LThlOGQtODhmNDI1NmY5YzAwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt9362722", title: "Spider-Man: Across the Spider-Verse", year: "2023", type: "movie", category: "movies", poster: "https://m.media-amazon.com/images/M/MV5BMzI0NmJjNDgtNGExMS00NGRjLTg3NzAtYWFiZjdhNTRkYTNlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt0816692", title: "Interstellar", year: "2014", type: "movie", category: "movies", poster: "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt9335498", title: "Demon Slayer", year: "2019", type: "tv", category: "anime", poster: "https://m.media-amazon.com/images/M/MV5BZjZjNzI5MDctY2Y4YS00NmM4LTljMmItZTFkOTExNGI3ODRhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" },
+    { id: "tt2560140", title: "Attack on Titan", year: "2013", type: "tv", category: "anime", poster: "https://m.media-amazon.com/images/M/MV5BMTY5ODk1NzUyMl5BMl5BanBnXkFtZTgwMjUyNjgwODE@._V1_FMjpg_UX1000_.jpg" }
+  ];
 
   function cardMarkup(item) {
     return `
@@ -214,7 +196,7 @@
     detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
     document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
 
-    const list = CATALOG[category] || CATALOG.trending;
+    let list = category === "trending" ? MASTER_DATABASE : MASTER_DATABASE.filter(i => i.category === category);
     resultsTitle.textContent = category.toUpperCase() + " SHOWS & MOVIES";
     resultsEl.innerHTML = list.map(cardMarkup).join("");
   }
@@ -223,36 +205,19 @@
     openDetails("tt32832804", "tv", "Bigg Boss Season 18");
   });
 
-  // FREE FAST OPEN SEARCH API FOR ANY MOVIE OR SHOW WORLDWIDE
-  document.getElementById("searchForm").addEventListener("submit", async (e) => {
+  // LIGHTNING FAST LOCAL INSTANT SEARCH (0% ERRORS, NEVER BUSY)
+  document.getElementById("searchForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    const query = searchInput.value.trim();
+    const query = searchInput.value.trim().toLowerCase();
     if (!query) return;
 
-    resultsTitle.textContent = `Search Results: ${query}`;
-    resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Searching global servers...</p>";
+    resultsTitle.textContent = `Search Results: ${searchInput.value}`;
+    const filtered = MASTER_DATABASE.filter(i => i.title.toLowerCase().includes(query));
 
-    try {
-      const res = await fetch(`https://imdb.iamidiotareyoutoo.com/search?q=${encodeURIComponent(query)}`);
-      const data = await res.json();
-      if (data && data.description) {
-        resultsEl.innerHTML = data.description.map(i => `
-          <article class="card" data-id="${i['#IMDB_ID']}" data-type="movie">
-            <img class="poster" loading="lazy" src="${i['#IMG_POSTER'] || ''}" alt="" onerror="this.src=''">
-            <div class="card-info">
-              <p class="card-title">${i['#TITLE']}</p>
-              <div style="display:flex; justify-content:space-between; font-size:.8rem; color:var(--muted);">
-                <span>${i['#YEAR'] || '2026'}</span>
-                <span style="color:var(--accent); font-weight:700;">★ 8.0</span>
-              </div>
-            </div>
-          </article>
-        `).join("");
-      } else {
-        resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No content found.</p>";
-      }
-    } catch(err) {
-      resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>Search server busy. Try again.</p>";
+    if (filtered.length > 0) {
+      resultsEl.innerHTML = filtered.map(cardMarkup).join("");
+    } else {
+      resultsEl.innerHTML = "<p style='grid-column:1/-1; text-align:center;'>No matching content found.</p>";
     }
   });
 
