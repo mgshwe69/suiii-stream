@@ -101,8 +101,8 @@ header {
 }
 .brand span:last-child { color: var(--gold); }
 
-.header-actions { display: flex; align-items: center; gap: 10px; }
-.search-container { display: flex; gap: 8px; max-width: 380px; width: 100%; }
+.header-actions { display: flex; align-items: center; gap: 10px; position: relative; }
+.search-container { display: flex; gap: 8px; max-width: 380px; width: 100%; position: relative; }
 
 input, select {
   background: rgba(35, 28, 22, 0.4);
@@ -116,6 +116,19 @@ input:focus, select:focus {
   box-shadow: 0 0 15px var(--gold-glow);
 }
 #searchInput { width: 100%; }
+
+/* Instant Live Search Suggestions Dropdown */
+.search-suggestions {
+  position: absolute; top: 110%; left: 0; right: 0; background: #181310;
+  border: var(--glass-border); border-radius: 14px; max-height: 350px; overflow-y: auto;
+  z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+}
+.suggestion-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer;
+  border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
+}
+.suggestion-item:hover { background: rgba(255, 210, 28, 0.1); color: var(--gold); }
+.suggestion-item img { width: 35px; height: 50px; object-fit: cover; border-radius: 6px; }
 
 .gold-btn {
   background: linear-gradient(135deg, #ffd21c 0%, #e0b010 100%);
@@ -166,6 +179,20 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
+/* CUSTOM LOADING ANIMATION (👑 DALLI💕) */
+.status {
+  padding: 40px 10px; text-align: center; color: var(--gold);
+}
+.dalli-loading {
+  font-size: 1.8rem; font-weight: 900; letter-spacing: 2px;
+  display: inline-block;
+  animation: dalliGlow 1.2s infinite alternate ease-in-out;
+}
+@keyframes dalliGlow {
+  0% { transform: scale(0.95); opacity: 0.6; filter: drop-shadow(0 0 5px var(--gold-glow)); }
+  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(255, 210, 28, 0.8)); }
+}
+
 /* TABS LIQUID GLASS */
 .tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
 .tabs button {
@@ -199,6 +226,19 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .card-title { font-size: .9rem; font-weight: 800; margin: 8px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
+
+/* CAST SECTION STYLING */
+.cast-section { margin-top: 25px; }
+.cast-section h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--gold); }
+.cast-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.cast-card { flex: 0 0 100px; text-align: center; cursor: pointer; }
+.cast-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; }
+.cast-name { font-size: 0.78rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-char { font-size: 0.7rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* SEASONS & EPISODES SELECTOR */
+.season-selector-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(14, 11, 9, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
+.season-selector-bar select { background: #211b16; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
 
 /* DETAIL & LIQUID PLAYER */
 .detail { margin-top: 25px; }
@@ -304,10 +344,10 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     </div>
   </div>
   <div class="header-actions">
-    <form class="search-container" id="searchForm">
-      <input id="searchInput" type="search" placeholder="Search movies, shows..." aria-label="Search">
-      <button class="gold-btn" type="submit">Search</button>
-    </form>
+    <div class="search-container">
+      <input id="searchInput" type="search" placeholder="Search movies, shows, actors..." aria-label="Search" autocomplete="off">
+      <div id="searchSuggestions" class="search-suggestions" hidden></div>
+    </div>
   </div>
 </div>
 </header>
@@ -370,14 +410,14 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     </div>
     <span id="count" style="color:var(--muted);font-size:.85rem"></span>
   </div>
-  <div id="status" class="status">Loading catalog…</div>
+  <div id="status" class="status"><span class="dalli-loading">👑 DALLI💕</span></div>
   <div id="results" class="grid"></div>
 </section>
 
 <section id="detailSection" class="detail" hidden></section>
 </main>
 
-<!-- LOGIN / SIGN UP MODAL FOR 7-DAY ACCESS KEY -->
+<!-- LOGIN / SIGN UP MODAL FOR 7-DAY CR7 KEY -->
 <div class="auth-modal-overlay" id="authModal" hidden>
   <div class="auth-modal">
     <div class="auth-tabs">
@@ -443,7 +483,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 
       <div class="recent-list">
         <strong>Recent Watched / Resume:</strong>
-        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (00:45:10 - Resumed)</div>
+        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (Resumed)</div>
       </div>
       <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
@@ -461,9 +501,8 @@ const TMDB_BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 const BACK = "https://image.tmdb.org/t/p/w1280";
 
-// Iconic Character Avatars
-const ICONIC_MALE_PFP = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"; // Iconic Character Avatar
-const ICONIC_FEMALE_PFP = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80"; // Iconic Female Avatar
+const ICONIC_MALE_PFP = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80";
+const ICONIC_FEMALE_PFP = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80";
 
 const $ = id => document.getElementById(id);
 const results = $("results");
@@ -475,8 +514,11 @@ let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
 let currentLanguage = "hindi";
+let currentSeason = 1;
+let currentEpisode = 1;
 let heroSlideIndex = 0;
 let heroSlideTimer = null;
+let searchDebounce = null;
 
 $("year").textContent = new Date().getFullYear();
 
@@ -512,7 +554,6 @@ function updateProfileUI() {
   $("headerPfp").src = pfp;
   $("dashPfp").src = pfp;
 
-  // Calculate Days Remaining
   const diffTime = Math.abs(Date.now() - Number(keyDate));
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   const remaining = Math.max(0, 7 - diffDays);
@@ -520,7 +561,7 @@ function updateProfileUI() {
   $("dashDaysLeft").textContent = remaining + " Days";
   $("dashExpiry").textContent = remaining > 0 ? "Active Key" : "Expired";
 
-  const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed from 32m)";
+  const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed)";
   $("dashRecentTitle").textContent = recent;
 }
 
@@ -552,37 +593,6 @@ async function tmdb(path, params = {}) {
   url.searchParams.set("language", "en-US");
   Object.entries(params).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
   return getJSON(url.toString());
-}
-
-async function aniListQuery(query) {
-  const gql = `
-    query ($search: String) {
-      Page(page: 1, perPage: 20) {
-        media(search: $search, type: ANIME, isAdult: false) {
-          id title { english romaji } description(asHtml: false)
-          seasonYear averageScore coverImage { large } bannerImage
-        }
-      }
-    }`;
-  try {
-    const data = await getJSON("https://graphql.anilist.co", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: gql, variables: { search: query } })
-    });
-    return (data.data?.Page?.media || []).map(item => ({
-      id: "anilist-" + item.id,
-      externalId: item.id,
-      title: item.title?.english || item.title?.romaji || "Anime",
-      year: item.seasonYear || "2026",
-      overview: (item.description || "No description available.").replace(/<[^>]*>/g, ""),
-      poster: item.coverImage?.large || "",
-      backdrop: item.bannerImage || "",
-      rating: item.averageScore ? item.averageScore / 10 : 8.0,
-      type: "anime",
-      provider: "AniList"
-    }));
-  } catch(e) { return []; }
 }
 
 function normTMDB(item, forcedType) {
@@ -618,7 +628,6 @@ function render(items) {
   results.innerHTML = items.map(card).join("");
   $("count").textContent = items.length + " titles";
   status.hidden = !!items.length;
-
   if (items.length > 0) startHeroSlider(items);
 }
 
@@ -646,7 +655,7 @@ async function loadCatalog(category = "trending") {
   detail.hidden = true; hero.hidden = false;
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
 
-  status.hidden = false; status.textContent = "Loading catalog...";
+  status.hidden = false; status.innerHTML = '<span class="dalli-loading">👑 DALLI💕</span>';
   try {
     let items = [];
     if (category === "trending") {
@@ -668,7 +677,8 @@ async function loadCatalog(category = "trending") {
       const data = await tmdb("/discover/tv", { with_original_language: "ko", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "anime") {
-      items = await aniListQuery("Demon Slayer");
+      const data = await tmdb("/search/tv", { query: "Anime" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "cartoon") {
       const data = await tmdb("/search/tv", { query: "Cartoon" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
@@ -679,10 +689,58 @@ async function loadCatalog(category = "trending") {
   }
 }
 
+// Open Details with Cast and Season Selector Support
 async function openDetails(item) {
   selectedItem = item;
+  currentSeason = 1;
+  currentEpisode = 1;
   hero.hidden = true; $("resultsSection").hidden = true; detail.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
+
+  detail.innerHTML = `<div class="status"><span class="dalli-loading">👑 DALLI💕</span></div>`;
+
+  let castHTML = "";
+  let seasonsHTML = "";
+  let tmdbId = item.tmdbId;
+  let typePath = item.type === "movie" ? "movie" : "tv";
+
+  try {
+    const credits = await tmdb(`/${typePath}/${tmdbId}/credits`);
+    const detailsData = await tmdb(`/${typePath}/${tmdbId}`);
+
+    item.overview = detailsData.overview || item.overview;
+    item.backdrop = detailsData.backdrop_path || item.backdrop;
+
+    // Cast List Markup
+    const castList = (credits.cast || []).slice(0, 12);
+    castHTML = `
+      <div class="cast-section">
+        <h3>Top Cast</h3>
+        <div class="cast-scroll">
+          ${castList.map(actor => `
+            <div class="cast-card" data-person-id="${actor.id}">
+              <img class="cast-img" src="${poster(actor.profile_path)}" alt="${esc(actor.name)}" onerror="this.src='https://via.placeholder.com/90?text=Actor'">
+              <div class="cast-name">${esc(actor.name)}</div>
+              <div class="cast-char">${esc(actor.character || '')}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    // Season Selector for TV Shows
+    if (item.type === "tv" && detailsData.seasons) {
+      const seasons = detailsData.seasons.filter(s => s.season_number > 0);
+      seasonsHTML = `
+        <div class="season-selector-bar">
+          <label>SELECT SEASON:</label>
+          <select id="seasonSelect">
+            ${seasons.map(s => `<option value="${s.season_number}">Season ${s.season_number} (${s.episode_count} Eps)</option>`).join('')}
+          </select>
+        </div>
+      `;
+    }
+  } catch (e) { console.warn("Cast load error", e); }
 
   detail.innerHTML = `
     <button class="outline-btn" id="backBtn" style="margin-bottom:20px;">← Back to Discover</button>
@@ -699,13 +757,17 @@ async function openDetails(item) {
       </div>
     </section>
 
+    ${castHTML}
+
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
         <strong>SUIII VIP MULTI-SERVER STREAM PLAYER</strong>
         <span style="color:var(--gold);font-size:.85rem;font-weight:800;">AUTO HD EMBED</span>
       </div>
       
-      <!-- HINDI DUBBED / MULTI-AUDIO SELECTOR -->
+      ${seasonsHTML}
+
+      <!-- AUDIO LANGUAGE DUBBING SELECTOR -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
         <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
@@ -717,7 +779,7 @@ async function openDetails(item) {
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice">Note: Selecting Hindi Dubbed will prioritize official SUIII_VIP dubbed stream mirrors.</div>
+      <div class="notice" id="audioNotice">Note: Official SUIII_VIP dubbed mirrors loaded. If Hindi audio is unavailable on server, original/English audio plays automatically.</div>
     </div>
   `;
 
@@ -725,8 +787,32 @@ async function openDetails(item) {
     detail.hidden = true; $("resultsSection").hidden = false; hero.hidden = false;
   };
 
+  // Season Change Event
+  const seasonSelect = $("seasonSelect");
+  if (seasonSelect) {
+    seasonSelect.onchange = (e) => {
+      currentSeason = Number(e.target.value);
+      renderServers(selectedItem);
+    };
+  }
+
+  // Actor Click Event to view their movies/shows
+  detail.querySelectorAll(".cast-card").forEach(cardEl => {
+    cardEl.onclick = async () => {
+      const personId = cardEl.dataset.personId;
+      status.hidden = false; status.innerHTML = '<span class="dalli-loading">👑 DALLI💕</span>';
+      detail.hidden = true; hero.hidden = true; $("resultsSection").hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      try {
+        const pCredits = await tmdb(`/person/${personId}/combined_credits`);
+        const pData = (pCredits.cast || []).map(x => normTMDB(x));
+        render(pData);
+        $("resultsTitle").textContent = "Filmography Results";
+      } catch (err) { status.textContent = "Failed to load actor works."; }
+    };
+  });
+
   $("watchBtn").onclick = () => {
-    // Check 7-Day CR7 Access Key Verification
     const verifiedKey = localStorage.getItem("suii_access_key");
     if (!verifiedKey) {
       $("authModal").hidden = false;
@@ -740,7 +826,58 @@ async function openDetails(item) {
   };
 }
 
-// Auth Modal Logic (CR7 7-Digit Key System)
+// Instant Live Search Suggestions as user types
+$("searchInput").oninput = (e) => {
+  clearTimeout(searchDebounce);
+  const q = e.target.value.trim();
+  const suggBox = $("searchSuggestions");
+
+  if (!q) {
+    suggBox.hidden = true;
+    return;
+  }
+
+  searchDebounce = setTimeout(async () => {
+    try {
+      const res = await tmdb("/search/multi", { query: q });
+      const resultsList = (res.results || []).slice(0, 5);
+      if (resultsList.length === 0) {
+        suggBox.hidden = true;
+        return;
+      }
+      suggBox.innerHTML = resultsList.map(item => `
+        <div class="suggestion-item" data-id="${item.id}" data-type="${item.media_type || 'movie'}">
+          <img src="${poster(item.poster_path)}" alt="">
+          <div>
+            <div style="font-weight:800;font-size:0.85rem;">${esc(item.title || item.name)}</div>
+            <div style="font-size:0.7rem;color:var(--muted);">${(item.release_date || item.first_air_date || '').slice(0,4)} · ${(item.media_type || 'movie').toUpperCase()}</div>
+          </div>
+        </div>
+      `).join('');
+      suggBox.hidden = false;
+
+      suggBox.querySelectorAll(".suggestion-item").forEach(el => {
+        el.onclick = async () => {
+          suggBox.hidden = true;
+          $("searchInput").value = "";
+          const clickedId = el.dataset.id;
+          const clickedType = el.dataset.type;
+          const fullItem = await tmdb(`/${clickedType}/${clickedId}`);
+          openDetails(normTMDB(fullItem, clickedType));
+        };
+      });
+    } catch (err) { suggBox.hidden = true; }
+  }, 300);
+};
+
+// Hide suggestion box on outside click
+document.onclick = (e) => {
+  if (!e.target.closest(".search-container")) {
+    $("searchSuggestions").hidden = true;
+  }
+};
+
+// Auth Modal & CR7 Key Verification
 $("tabLogin").onclick = () => {
   $("tabLogin").classList.add("active");
   $("tabSignup").classList.remove("active");
@@ -760,7 +897,6 @@ $("loginForm").onsubmit = (e) => {
   const name = $("loginName").value.trim();
   const gender = $("loginGender").value;
 
-  // STRICT 7-DIGIT KEY STARTING WITH CR7
   const isCR7Key = /^CR7[A-Z0-9]{4}$/.test(key) && key.length === 7;
 
   if (isCR7Key) {
@@ -779,13 +915,13 @@ $("loginForm").onsubmit = (e) => {
       renderServers(selectedItem);
     }
   } else {
-    alert("Access Denied! Only 7-digit valid keys starting with CR7 are allowed (e.g., CR70001). Please ask on Telegram/Instagram.");
+    alert("Access Denied! Only 7-digit valid keys starting with CR7 are allowed (e.g., CR70001).");
   }
 };
 
 $("signupForm").onsubmit = (e) => {
   e.preventDefault();
-  alert("Account Registered! Please contact Telegram/Instagram to get your CR7 7-Day Access Key.");
+  alert("Account Registered! Please contact Telegram/Instagram for your CR7 7-Day Key.");
   $("tabLogin").click();
 };
 
@@ -796,20 +932,20 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
+// Render Servers with Dubbing & Season handling
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
-  // Renamed Servers as requested: SUIII_VIP 1, SUIII_VIP 2, SUIII_VIP 3...
   const SERVERS = [
-    { id: "suii_vip_1", name: "SUIII_VIP 1 (Official)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` },
-    { id: "suii_vip_2", name: "SUIII_VIP 2 (Pro HD)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
-    { id: "suii_vip_3", name: "SUIII_VIP 3 (2Embed)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
-    { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
-    { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` },
-    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` },
-    { id: "suii_vip_7", name: "SUIII_VIP 7 (SuperFast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` },
-    { id: "suii_vip_8", name: "SUIII_VIP 8 (LowData)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` }
+    { id: "suii_vip_1", name: "SUIII_VIP 1 (Official Dubbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_2", name: "SUIII_VIP 2 (Pro HD)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_3", name: "SUIII_VIP 3 (2Embed)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_7", name: "SUIII_VIP 7 (SuperFast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_8", name: "SUIII_VIP 8 (LowData)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=${currentSeason}&e=${currentEpisode}` }
   ];
 
   $("servers").innerHTML = SERVERS.map((s, idx) => `
@@ -821,8 +957,10 @@ function renderServers(item) {
   function updateStream(baseUrl) {
     if (currentLanguage === "hindi") {
       iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
+      $("audioNotice").textContent = "Playing via SUIII_VIP Dubbed Engine (Hindi prioritized; falls back to English/Original if unavailable).";
     } else {
       iframe.src = baseUrl;
+      $("audioNotice").textContent = "Playing original audio stream.";
     }
   }
 
@@ -833,13 +971,8 @@ function renderServers(item) {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      // Auto-switch to SUIII_VIP 1 Official Dubbing server
-      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
-      const vipOfficial = document.querySelector(".server");
-      if (vipOfficial) {
-        vipOfficial.classList.add("active");
-        updateStream(SERVERS[0].url);
-      }
+      const activeServerBtn = document.querySelector(".server.active");
+      if (activeServerBtn) updateStream(activeServerBtn.dataset.url);
     };
   });
 
@@ -852,25 +985,6 @@ function renderServers(item) {
   });
 }
 
-$("searchForm").onsubmit = async (e) => {
-  e.preventDefault();
-  const q = $("searchInput").value.trim();
-  if (!q) return;
-
-  status.hidden = false; status.textContent = "Searching Glass Data...";
-  hero.hidden = true; detail.hidden = true; $("resultsSection").hidden = false;
-
-  try {
-    const tmdbRes = await tmdb("/search/multi", { query: q });
-    let items = (tmdbRes.results || []).map(x => normTMDB(x));
-    const animeItems = await aniListQuery(q);
-    items = [...items, ...animeItems];
-    render(items);
-  } catch(err) {
-    status.textContent = "Search failed.";
-  }
-};
-
 $("tabs").onclick = (e) => {
   const btn = e.target.closest("button[data-kind]");
   if (btn) loadCatalog(btn.dataset.kind);
@@ -882,7 +996,6 @@ results.onclick = (e) => {
   if (card && itemsNow[card.dataset.index]) openDetails(itemsNow[card.dataset.index]);
 };
 
-// Initialize Profile PFP
 if (localStorage.getItem("suii_access_key")) {
   updateProfileUI();
 }
