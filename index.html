@@ -1,218 +1,108 @@
-
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0b0e">
-<title>SUIII_STREAM — Ultimate OTT Platform</title>
-
+<meta name="description" content="SUIII_STREAM — discover movies, TV shows, reality shows and anime.">
+<title>SUIII_STREAM — Movies, Serials & Anime</title>
 <style>
-:root {
-  color-scheme:dark;
-  --bg:#0b0b0e;
-  --panel:rgba(24,24,31,.86);
-  --panel2:#202029;
-  --text:#f3f3f6;
-  --muted:#9999a8;
-  --accent:#f5c518;
-  --line:rgba(255,255,255,.09);
-}
-*{box-sizing:border-box}
-body{
-  margin:0;background:var(--bg);color:var(--text);
-  font:16px/1.5 system-ui,-apple-system,Segoe UI,Arial,sans-serif
-}
-button,input{font:inherit}
-button{cursor:pointer}
-header{
-  position:sticky;top:0;z-index:20;
-  background:rgba(11,11,14,.9);
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--line)
-}
-.top{
-  max-width:1350px;margin:auto;padding:14px 20px;
-  display:flex;gap:16px;align-items:center;
-  justify-content:space-between;flex-wrap:wrap
-}
-.brand{font-size:1.4rem;font-weight:900;cursor:pointer}
-.brand span{color:var(--accent)}
-.search-container{flex:1;max-width:550px}
-form{display:flex;gap:8px}
-input{
-  min-width:0;width:100%;background:var(--panel);
-  border:1px solid var(--line);color:white;
-  padding:11px 14px;border-radius:12px;outline:none
-}
-input:focus{border-color:var(--accent)}
-button.primary{
-  background:var(--accent);color:#111;border:0;
-  padding:10px 17px;border-radius:10px;font-weight:800
-}
-button.secondary{
-  background:var(--panel2);color:white;
-  border:1px solid var(--line);padding:10px 15px;
-  border-radius:10px
-}
+:root{color-scheme:dark;--bg:#0b0b0e;--panel:rgba(20,20,25,.9);--panel-solid:#141419;--panel2:rgba(28,28,36,.95);--text:#f3f3f6;--muted:#9595a6;--accent:#f5c518;--accent-hover:#e0b010;--line:rgba(255,255,255,.08);--card-bg:rgba(19,19,24,.8);--glass-blur:blur(20px)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{position:sticky;top:0;z-index:100;background:rgba(11,11,14,.88);backdrop-filter:var(--glass-blur);border-bottom:1px solid var(--line)}
+.top{max-width:1350px;margin:auto;padding:14px 20px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:900;font-size:1.4rem;color:#fff;cursor:pointer;white-space:nowrap}.brand span{color:var(--accent)}
+.search-container{position:relative;flex:1;max-width:600px}form{display:flex;gap:8px;width:100%}
+input[type=search],select{min-width:0;width:100%;background:var(--panel);border:1px solid var(--line);color:var(--text);padding:10px 14px;border-radius:12px;font:inherit;outline:none}
+input:focus,select:focus{border-color:var(--accent)}button{background:var(--accent);color:#000;border:0;border-radius:10px;padding:10px 16px;font:inherit;font-weight:800;cursor:pointer}button:hover{background:var(--accent-hover)}button:disabled{opacity:.5;cursor:wait}button.secondary{background:var(--panel2);color:#fff;border:1px solid var(--line)}button.secondary:hover{border-color:var(--accent)}
 main{max-width:1350px;margin:auto;padding:0 20px 60px}
-.hero{
-  margin-top:24px;min-height:390px;position:relative;
-  overflow:hidden;border-radius:20px;border:1px solid var(--line);
-  display:flex;align-items:flex-end;padding:35px;
-  background:#191921 center/cover no-repeat
-}
-.hero:before{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(0deg,#0b0b0e 0%,rgba(11,11,14,.7) 35%,transparent 100%),
-  linear-gradient(90deg,rgba(11,11,14,.6),transparent)
-}
-.hero-content{position:relative;max-width:650px}
-.hero h1{font-size:clamp(2rem,5vw,3.3rem);line-height:1.1;margin:8px 0}
-.gold{color:var(--accent);font-weight:800}
-.muted{color:var(--muted)}
-.tabs{display:flex;gap:9px;flex-wrap:wrap;margin:28px 0 20px}
-.tabs button{
-  background:var(--panel);border:1px solid var(--line);
-  color:var(--muted);border-radius:11px;padding:10px 14px;
-  font-weight:700
-}
-.tabs button.active{background:var(--accent);color:#111}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.section-head h2{font-size:1.3rem}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
-  gap:17px
-}
-.card{
-  min-width:0;background:var(--panel);border:1px solid var(--line);
-  border-radius:14px;overflow:hidden;cursor:pointer;
-  transition:transform .2s,border-color .2s
-}
-.card:hover{transform:translateY(-4px);border-color:var(--accent)}
-.poster{
-  display:block;width:100%;aspect-ratio:2/3;object-fit:cover;
-  background:#191921
-}
-.card-info{padding:11px}
-.card-title{font-size:.92rem;font-weight:750;margin:0 0 5px}
-.card-meta{font-size:.78rem;color:var(--muted)}
-.source{font-size:.72rem;color:var(--accent);margin-top:6px}
-.detail{
-  margin-top:24px;padding:25px;background:var(--panel);
-  border:1px solid var(--line);border-radius:18px
-}
-.detail-top{
-  display:grid;grid-template-columns:minmax(150px,230px) 1fr;
-  gap:25px
-}
-.detail-poster{width:100%;border-radius:13px}
-.detail h1{margin-top:5px}
-.player{
-  margin-top:25px;border:1px solid var(--line);
-  border-radius:16px;overflow:hidden
-}
-.player-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;padding:15px;background:var(--panel2);flex-wrap:wrap
-}
-.player-frame{width:100%;aspect-ratio:16/9;background:#000}
-.player-frame iframe{width:100%;height:100%;border:0}
-.servers{display:flex;gap:8px;flex-wrap:wrap;padding:14px}
-.server.active{border-color:var(--accent);color:var(--accent)}
-.notice{
-  background:rgba(245,197,24,.07);border:1px solid var(--line);
-  border-radius:12px;padding:13px;margin-top:15px;color:var(--muted);
-  font-size:.9rem
-}
-.status{padding:25px 5px;color:var(--muted)}
-footer{
-  border-top:1px solid var(--line);padding:30px 20px;
-  text-align:center;color:var(--muted);background:var(--panel)
-}
-footer a{color:var(--accent);text-decoration:none}
-[hidden]{display:none!important}
-@media(max-width:650px){
-  .top{padding:12px}
-  main{padding:0 12px 40px}
-  .hero{min-height:330px;padding:23px}
-  .detail{padding:15px}
-  .detail-top{grid-template-columns:110px 1fr;gap:14px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .card-info{padding:9px}
-}
+.hero-feature{margin-top:24px;position:relative;border-radius:20px;overflow:hidden;min-height:400px;display:flex;align-items:flex-end;padding:40px;background:#17171d center/cover no-repeat;border:1px solid var(--line)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,14,.05),rgba(11,11,14,.78) 65%,var(--bg)),linear-gradient(90deg,rgba(11,11,14,.8),rgba(11,11,14,.2) 65%,transparent)}
+.hero-content{position:relative;z-index:2;max-width:650px}.hero-content h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.12;margin:8px 0 12px;font-weight:900}.hero-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px;color:#d1d1d6}.gold{color:var(--accent);font-weight:800}
+.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 20px}.tabs button{background:var(--panel);border:1px solid var(--line);color:var(--muted);border-radius:12px;padding:10px 15px;font-weight:700}.tabs button.active{background:var(--accent);color:#000;border-color:var(--accent)}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 16px}.toolbar select{width:auto;max-width:190px}.toolbar .secondary{font-size:.9rem}
+.section-head{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.section-head h2{font-size:1.3rem;margin:8px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:20px}
+.card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .2s,border-color .2s;min-width:0}.card:hover,.card:focus{transform:translateY(-4px);border-color:var(--accent);outline:none}
+.poster{width:100%;aspect-ratio:2/3;object-fit:cover;background:#1a1a24;display:block}.card-info{padding:12px}.card-title{font-weight:750;font-size:.92rem;margin:0 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card-meta{display:flex;justify-content:space-between;gap:6px;font-size:.8rem;color:var(--muted)}.rating{color:var(--accent);font-weight:800}.source{font-size:.72rem;color:var(--muted);margin-top:6px}
+.status{padding:25px 5px;color:var(--muted)}.status.error{color:#ffb0a9}.status a{color:var(--accent)}
+.detail{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:30px;margin-top:24px}.detail-layout{display:grid;grid-template-columns:minmax(180px,280px) 1fr;gap:30px}.detail-poster{width:100%;border-radius:16px;display:block;background:#17171d;aspect-ratio:2/3;object-fit:cover}.detail h1{margin:5px 0 12px;line-height:1.15}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.detail-actions a{color:var(--accent);text-decoration:none;border:1px solid var(--line);padding:8px 11px;border-radius:9px}.detail-actions a:hover{border-color:var(--accent)}.projection-container{margin-top:24px;background:var(--card-bg);border:1px solid var(--line);border-radius:20px;overflow:hidden}.projection-header{padding:16px 20px;background:var(--panel2);display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.projection-player{width:100%;aspect-ratio:16/9;background:#000;display:grid;place-items:center;text-align:center;padding:20px}.player-frame{width:100%;height:100%;border:0}.servers-grid{display:flex;gap:10px;flex-wrap:wrap;padding:16px}.server-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;cursor:pointer;text-align:center;font-size:.85rem;font-weight:700;color:var(--text)}.server-card.active{border-color:var(--accent);color:var(--accent)}.notice{padding:13px 15px;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:.9rem;margin-top:14px}.notice a{color:var(--accent)}
+footer{border-top:1px solid var(--line);padding:30px 20px;text-align:center;color:var(--muted);margin-top:50px;background:var(--panel)}footer a{color:var(--accent);text-decoration:none;font-weight:700}[hidden]{display:none!important}
+@media(max-width:768px){.detail-layout{grid-template-columns:1fr}.detail-poster{max-width:230px}.detail{padding:20px}.hero-feature{min-height:350px;padding:25px}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}}
+@media(max-width:480px){.top{padding:12px}.brand{font-size:1.2rem}.search-container{flex-basis:100%;max-width:none}main{padding:0 12px 40px}.hero-feature{min-height:320px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card-info{padding:9px}.tabs{margin-top:22px}.detail{padding:14px}}
 </style>
 </head>
-
 <body>
 <header>
   <div class="top">
-    <div class="brand" id="brandHome">SUIII<span>_STREAM</span></div>
+    <div class="brand" id="brandHome" role="button" tabindex="0">SUIII<span>_STREAM</span></div>
     <div class="search-container">
-      <form id="searchForm">
-        <input id="searchInput" type="search"
-          placeholder="Search movies, serials, anime..."
-          aria-label="Search content">
-        <button class="primary" type="submit">Search</button>
+      <form id="searchForm" autocomplete="off">
+        <input id="searchInput" type="search" placeholder="Search Bigg Boss, serials, movies, anime..." aria-label="Search titles">
+        <button id="searchButton" type="submit">Search</button>
       </form>
     </div>
   </div>
 </header>
 
-<main>
-  <section id="heroBanner" class="hero">
+<main id="app">
+  <section id="heroBanner" class="hero-feature">
+    <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="gold">YOUR ENTERTAINMENT HUB</div>
-      <h1 id="heroTitle">Discover your next favourite</h1>
-      <p class="muted" id="heroDescription">
-        Movies, television shows and anime in one place.
-      </p>
-      <button id="heroExplore" class="primary">Explore Now</button>
+      <div class="gold">SUIII_STREAM · DISCOVER</div>
+      <h1 id="heroTitle">Find your next favourite</h1>
+      <div class="hero-meta"><span class="gold" id="heroRating">Movies · TV · Anime</span><span id="heroYear">Updated discovery</span></div>
+      <p id="heroDescription" style="color:var(--muted);margin-bottom:20px">Discover popular movies, Indian reality shows, TV serials and anime.</p>
+      <button type="button" id="heroPlayBtn">Explore Trending</button>
     </div>
   </section>
 
-  <nav class="tabs" id="categoryTabs">
-    <button class="active" data-kind="trending">🔥 Trending</button>
-    <button data-kind="biggboss">👁️ Reality Shows</button>
-    <button data-kind="serials">📺 TV Shows</button>
+  <nav class="tabs" id="categoryTabs" aria-label="Content categories">
+    <button data-kind="trending" class="active">🔥 Trending</button>
+    <button data-kind="biggboss">👁️ Bigg Boss & Reality</button>
+    <button data-kind="serials">📺 TV Serials</button>
     <button data-kind="movies">🎬 Movies</button>
     <button data-kind="anime">🌸 Anime</button>
   </nav>
 
+  <div class="toolbar">
+    <label for="sourceFilter" class="muted">Search source:</label>
+    <select id="sourceFilter" aria-label="Search source">
+      <option value="all">All supported sources</option>
+      <option value="tmdb">TMDB</option>
+      <option value="tvmaze">TVmaze</option>
+      <option value="anime">Anime databases</option>
+    </select>
+    <button id="retryButton" class="secondary" type="button">↻ Refresh</button>
+  </div>
+
   <section id="resultsSection">
-    <div class="section-head">
-      <h2 id="resultsTitle">Trending Now</h2>
-      <span class="muted" id="resultCount"></span>
-    </div>
-    <div id="status" class="status">Loading content...</div>
+    <div class="section-head"><h2 id="resultsTitle">Top Trending Content</h2><span id="resultCount" class="muted"></span></div>
+    <div id="status" class="status">Preparing catalog...</div>
     <div id="results" class="grid"></div>
+    <div id="pagination" style="display:flex;justify-content:center;gap:10px;margin-top:22px" hidden>
+      <button id="prevPage" class="secondary" type="button">← Previous</button>
+      <span id="pageLabel" class="muted" style="align-self:center"></span>
+      <button id="nextPage" class="secondary" type="button">Next →</button>
+    </div>
   </section>
 
   <section id="detailSection" hidden></section>
 </main>
 
-<footer>
-  © <span id="year"></span> SUIII_STREAM · Created with ❤️ by
-  <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener noreferrer">@MG1SHWE</a>
-</footer>
+<footer>© <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener noreferrer">@MG1SHWE</a></footer>
 
 <script>
 (() => {
 "use strict";
 
-/* ==================================================
-   CONFIGURATION
-   Replace this value with your own TMDB API key.
-   Never commit a private API key to a public repository.
-   ================================================== */
+/* Paste your TMDB API key below. For a public GitHub repo, a backend proxy is safer. */
 const TMDB_API_KEY = "16b1113a76da76e67da63f74fe3f3e82";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const TMDB_IMAGE = "https://image.tmdb.org/t/p/w500";
 const TMDB_BACKDROP = "https://image.tmdb.org/t/p/w1280";
 
 const $ = id => document.getElementById(id);
-
 const resultsEl = $("results");
 const resultsTitle = $("resultsTitle");
 const resultsSection = $("resultsSection");
@@ -220,614 +110,339 @@ const detailSection = $("detailSection");
 const heroBanner = $("heroBanner");
 const statusEl = $("status");
 const searchInput = $("searchInput");
+const sourceFilter = $("sourceFilter");
 
 let currentItems = [];
-let currentRequest = 0;
 let currentCategory = "trending";
-let activeItem = null;
-let activeServer = "official";
-
+let currentQuery = "";
+let currentPage = 1;
+let currentMode = "catalog";
+let requestToken = 0;
 const cache = new Map();
 
 $("year").textContent = new Date().getFullYear();
 
-/* All data providers are used only for metadata/search.
-   Playback availability depends on each title and provider. */
-
 function escapeHTML(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&":"&amp;", "<":"&lt;", ">":"&gt;",
-    '"':"&quot;", "'":"&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   })[ch]);
 }
-
-function imageURL(path) {
-  return path ? TMDB_IMAGE + path : "";
+function imageURL(path) { return path ? TMDB_IMAGE + path : ""; }
+function backdropURL(path) { return path ? TMDB_BACKDROP + path : ""; }
+function hasTMDBKey() {
+  return TMDB_API_KEY && TMDB_API_KEY !== "YOUR_TMDB_API_KEY";
 }
-
-function backdropURL(path) {
-  return path ? TMDB_BACKDROP + path : "";
-}
-
-function tmdbReady() {
-  return TMDB_API_KEY &&
-    TMDB_API_KEY !== "YOUR_TMDB_API_KEY";
-}
-
 async function fetchJSON(url, options = {}) {
   const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error("Request failed (" + response.status + ")");
-  }
+  if (!response.ok) throw new Error("Request failed (" + response.status + ")");
   return response.json();
 }
-
 async function tmdb(path, params = {}) {
-  if (!tmdbReady()) {
-    throw new Error("Add your TMDB API key in the configuration first.");
-  }
-
+  if (!hasTMDBKey()) throw new Error("Add your TMDB API key in the script configuration first.");
   const url = new URL(TMDB_BASE + path);
   url.searchParams.set("api_key", TMDB_API_KEY);
   url.searchParams.set("language", "en-US");
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== "") {
-      url.searchParams.set(key, value);
-    }
+  Object.entries(params).forEach(([k,v]) => {
+    if (v !== undefined && v !== null && v !== "") url.searchParams.set(k, v);
   });
-
   return fetchJSON(url.toString());
 }
-
 async function cached(key, fn) {
   if (cache.has(key)) return cache.get(key);
   const result = await fn();
   cache.set(key, result);
   return result;
 }
-
-/* Normalize every provider into one card format. */
-function normalizeTMDB(item) {
-  const isMovie = item.media_type === "movie" ||
-    (!item.media_type && item.title);
-
+function normalizeTMDB(item, forcedType) {
+  const type = forcedType || item.media_type ||
+    (item.title ? "movie" : "tv");
   return {
-    id: String(item.id),
-    tmdbId: item.id,
-    imdbId: item.imdb_id || null,
+    id: "tmdb-" + item.id, tmdbId: item.id, imdbId: item.imdb_id || null,
     title: item.title || item.name || "Untitled",
-    year: (item.release_date || item.first_air_date || "").slice(0, 4),
+    year: (item.release_date || item.first_air_date || "").slice(0,4),
     overview: item.overview || "No description available.",
-    poster: imageURL(item.poster_path),
-    backdrop: backdropURL(item.backdrop_path),
-    rating: item.vote_average,
-    type: isMovie ? "movie" : "tv",
-    provider: "TMDB",
-    category: isMovie ? "movies" : "serials",
-    raw: item
+    poster: imageURL(item.poster_path), backdrop: backdropURL(item.backdrop_path),
+    rating: item.vote_average || 0, type, provider: "TMDB",
+    category: type === "movie" ? "movies" : "serials", raw: item
   };
 }
-
 function normalizeTVmaze(item) {
   const show = item.show || item;
   return {
-    id: "tvmaze-" + show.id,
-    externalId: show.id,
+    id: "tvmaze-" + show.id, externalId: show.id,
     title: show.name || "Untitled",
-    year: (show.premiered || "").slice(0, 4),
-    overview: (show.summary || "No description available.")
-      .replace(/<[^>]*>/g, " "),
-    poster: show.image?.medium || show.image?.original || "",
-    backdrop: "",
-    rating: show.rating?.average || 0,
-    type: "tv",
-    provider: "TVmaze",
-    category: "serials",
-    raw: show
+    year: (show.premiered || "").slice(0,4),
+    overview: (show.summary || "No description available.").replace(/<[^>]*>/g," "),
+    poster: show.image?.original || show.image?.medium || "", backdrop: "",
+    rating: show.rating?.average || 0, type: "tv", provider: "TVmaze",
+    category: "serials", raw: show
   };
 }
-
 function normalizeJikan(item) {
   return {
-    id: "jikan-" + item.mal_id,
-    externalId: item.mal_id,
+    id: "jikan-" + item.mal_id, externalId: item.mal_id,
     title: item.title || "Untitled Anime",
     year: item.year || item.aired?.prop?.from?.year || "",
     overview: item.synopsis || "No description available.",
-    poster: item.images?.jpg?.large_image_url ||
-      item.images?.jpg?.image_url || "",
-    backdrop: "",
-    rating: item.score || 0,
-    type: "anime",
-    provider: "Jikan",
-    category: "anime",
-    raw: item
+    poster: item.images?.jpg?.large_image_url || item.images?.jpg?.image_url || "",
+    backdrop: "", rating: item.score || 0, type: "anime",
+    provider: "Jikan", category: "anime", raw: item
   };
 }
-
 function normalizeAniList(item) {
   return {
-    id: "anilist-" + item.id,
-    externalId: item.id,
-    title: item.title?.english ||
-      item.title?.romaji || "Untitled Anime",
-    year: item.seasonYear || "",
-    overview: (item.description || "No description available.")
-      .replace(/<[^>]*>/g, " "),
-    poster: item.coverImage?.large || "",
-    backdrop: item.bannerImage || "",
+    id: "anilist-" + item.id, externalId: item.id,
+    title: item.title?.english || item.title?.romaji || "Untitled Anime",
+    year: item.seasonYear || "", overview: (item.description || "No description available.").replace(/<[^>]*>/g," "),
+    poster: item.coverImage?.large || "", backdrop: item.bannerImage || "",
     rating: item.averageScore ? item.averageScore / 10 : 0,
-    type: "anime",
-    provider: "AniList",
-    category: "anime",
-    raw: item
+    type: "anime", provider: "AniList", category: "anime", raw: item
   };
 }
-
 function dedupe(items) {
   const seen = new Set();
   return items.filter(item => {
-    const key = item.title.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const key = item.title.toLowerCase().replace(/[^a-z0-9]/g,"");
     if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
+    seen.add(key); return true;
   });
 }
-
 function cardMarkup(item, index) {
-  const safeTitle = escapeHTML(item.title);
+  const title = escapeHTML(item.title);
   const poster = escapeHTML(item.poster || "");
-  const rating = Number(item.rating) > 0
-    ? "★ " + Number(item.rating).toFixed(1)
-    : "Rating N/A";
-
-  return `
-    <article class="card" data-index="${index}" tabindex="0"
-      role="button" aria-label="View ${safeTitle}">
-      <img class="poster" loading="lazy"
-        src="${poster}"
-        alt="${safeTitle} poster"
-        onerror="this.onerror=null;this.style.visibility='hidden'">
-      <div class="card-info">
-        <p class="card-title">${safeTitle}</p>
-        <div class="card-meta">
-          ${escapeHTML(item.year || "Year N/A")} · ${escapeHTML(rating)}
-        </div>
-        <div class="source">${escapeHTML(item.provider)}</div>
-      </div>
-    </article>
-  `;
+  const rating = Number(item.rating) > 0 ? "★ " + Number(item.rating).toFixed(1) : "Rating N/A";
+  const fallback = "https://placehold.co/500x750/17171d/f5c518?text=No+Poster";
+  return `<article class="card" data-index="${index}" tabindex="0" role="button" aria-label="Details for ${title}">
+    <img class="poster" loading="lazy" src="${poster || fallback}" alt="${title} poster" onerror="this.onerror=null;this.src='${fallback}'">
+    <div class="card-info"><p class="card-title">${title}</p>
+    <div class="card-meta"><span>${escapeHTML(item.year || "Year N/A")}</span><span class="rating">${escapeHTML(rating)}</span></div>
+    <div class="source">${escapeHTML(item.provider)}</div></div></article>`;
 }
-
 function renderItems(items) {
   currentItems = items;
   resultsEl.innerHTML = items.map(cardMarkup).join("");
-  $("resultCount").textContent = items.length
-    ? items.length + " results" : "";
-
+  $("resultCount").textContent = items.length ? items.length + " results" : "";
   statusEl.hidden = items.length > 0;
-  statusEl.textContent = items.length
-    ? "" : "No results found. Try another search.";
+  statusEl.classList.remove("error");
+  statusEl.textContent = items.length ? "" : "No results found. Try another title or source.";
+  $("pagination").hidden = true;
 }
-
-function setLoading(message = "Searching...") {
+function setLoading(message) {
   resultsEl.innerHTML = "";
   $("resultCount").textContent = "";
-  statusEl.hidden = false;
+  statusEl.hidden = false; statusEl.classList.remove("error");
   statusEl.textContent = message;
+  $("pagination").hidden = true;
 }
-
 function setError(message) {
   resultsEl.innerHTML = "";
-  statusEl.hidden = false;
+  statusEl.hidden = false; statusEl.classList.add("error");
   statusEl.textContent = message;
 }
-
-/* ---------------- Provider searches ---------------- */
-
-async function searchTMDB(query) {
-  const data = await tmdb("/search/multi", {
-    query,
-    include_adult: "false",
-    page: 1
-  });
-
-  return (data.results || [])
-    .filter(x => ["movie", "tv"].includes(x.media_type))
-    .map(normalizeTMDB);
+async function searchTMDB(query, category = "all", page = 1) {
+  let data;
+  if (category === "movies") data = await tmdb("/search/movie", {query, page, include_adult:"false"});
+  else if (category === "serials" || category === "biggboss") data = await tmdb("/search/tv", {query, page});
+  else data = await tmdb("/search/multi", {query, page, include_adult:"false"});
+  return (data.results || []).filter(x => {
+    const type = x.media_type || (x.title ? "movie" : "tv");
+    return ["movie","tv"].includes(type);
+  }).map(x => normalizeTMDB(x, category === "movies" ? "movie" : category === "serials" || category === "biggboss" ? "tv" : undefined));
 }
-
 async function searchTVmaze(query) {
-  const data = await fetchJSON(
-    "https://api.tvmaze.com/search/shows?q=" +
-    encodeURIComponent(query)
-  );
+  const data = await fetchJSON("https://api.tvmaze.com/search/shows?q=" + encodeURIComponent(query));
   return data.map(normalizeTVmaze);
 }
-
 async function searchJikan(query) {
-  const data = await fetchJSON(
-    "https://api.jikan.moe/v4/anime?q=" +
-    encodeURIComponent(query) + "&limit=12&sfw=true"
-  );
+  const data = await fetchJSON("https://api.jikan.moe/v4/anime?q=" + encodeURIComponent(query) + "&limit=15&sfw=true");
   return (data.data || []).map(normalizeJikan);
 }
-
 async function searchAniList(query) {
-  const graphql = `
-    query ($search: String) {
-      Page(page: 1, perPage: 12) {
-        media(search: $search, type: ANIME, isAdult: false) {
-          id
-          title { english romaji }
-          description(asHtml: false)
-          seasonYear
-          averageScore
-          coverImage { large }
-          bannerImage
-        }
-      }
-    }
-  `;
-
+  const queryText = `query ($search: String) { Page(page:1,perPage:15) { media(search:$search,type:ANIME,isAdult:false) { id title { english romaji } description(asHtml:false) seasonYear averageScore coverImage { large } bannerImage } } }`;
   const data = await fetchJSON("https://graphql.anilist.co", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: graphql,
-      variables: { search: query }
-    })
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({query:queryText,variables:{search:query}})
   });
-
-  if (data.errors?.length) {
-    throw new Error("AniList search unavailable.");
-  }
-
+  if (data.errors?.length) throw new Error("AniList search unavailable");
   return (data.data?.Page?.media || []).map(normalizeAniList);
 }
-
-async function searchAll(query, category = "all") {
+async function runSearch(query, category) {
+  const source = sourceFilter.value;
   const jobs = [];
-
-  if (category === "all" || category === "movies" ||
-      category === "serials" || category === "biggboss") {
-    jobs.push(searchTMDB(query));
+  if ((source === "all" || source === "tmdb") &&
+      ["all","movies","serials","biggboss"].includes(category)) jobs.push(searchTMDB(query,category));
+  if ((source === "all" || source === "tvmaze") &&
+      ["all","serials","biggboss"].includes(category)) jobs.push(searchTVmaze(query));
+  if ((source === "all" || source === "anime") &&
+      ["all","anime"].includes(category)) {
+    jobs.push(searchJikan(query)); jobs.push(searchAniList(query));
   }
-
-  if (category === "all" || category === "serials" ||
-      category === "biggboss") {
-    jobs.push(searchTVmaze(query));
-  }
-
-  if (category === "all" || category === "anime") {
-    jobs.push(searchJikan(query));
-    jobs.push(searchAniList(query));
-  }
-
   const settled = await Promise.allSettled(jobs);
-  const items = settled
-    .filter(result => result.status === "fulfilled")
-    .flatMap(result => result.value);
-
-  const unique = dedupe(items);
-
-  if (category === "movies") {
-    return unique.filter(x => x.type === "movie");
+  const results = settled.filter(x => x.status === "fulfilled").flatMap(x => x.value);
+  if (!results.length && settled.every(x => x.status === "rejected")) {
+    throw new Error("All selected sources failed. Check your connection, API key or try another source.");
   }
-  if (category === "serials" || category === "biggboss") {
-    return unique.filter(x => x.type === "tv");
-  }
-  if (category === "anime") {
-    return unique.filter(x => x.category === "anime");
-  }
-
-  return unique;
+  let items = dedupe(results);
+  if (category === "movies") items = items.filter(x => x.type === "movie");
+  if (category === "serials" || category === "biggboss") items = items.filter(x => x.type === "tv");
+  if (category === "anime") items = items.filter(x => x.type === "anime");
+  return items;
 }
-
-/* ---------------- Live category catalog ---------------- */
-
 async function loadCatalog(category = "trending") {
-  currentCategory = category;
-  currentRequest++;
-
-  const requestId = currentRequest;
-  detailSection.hidden = true;
-  heroBanner.hidden = false;
-  resultsSection.hidden = false;
-
-  document.querySelectorAll("#categoryTabs button")
-    .forEach(button => {
-      button.classList.toggle(
-        "active", button.dataset.kind === category
-      );
-    });
-
-  const labels = {
-    trending: "Trending Now",
-    biggboss: "Reality Shows",
-    serials: "Popular TV Shows",
-    movies: "Popular Movies",
-    anime: "Popular Anime"
-  };
-
+  currentCategory = category; currentMode = "catalog"; currentQuery = ""; currentPage = 1;
+  const token = ++requestToken;
+  detailSection.hidden = true; heroBanner.hidden = false; resultsSection.hidden = false;
+  document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.toggle("active",b.dataset.kind === category));
+  const labels = {trending:"Top Trending Content",biggboss:"Bigg Boss & Reality",serials:"Popular TV Serials",movies:"Popular Movies",anime:"Popular Anime"};
   resultsTitle.textContent = labels[category] || "Discover";
-  setLoading("Loading live content...");
-
+  setLoading("Loading live catalog...");
   try {
     let items = [];
-
     if (category === "trending") {
-      const data = await cached("trending", () =>
-        tmdb("/trending/all/week", { page: 1 })
-      );
-      items = (data.results || [])
-        .filter(x => ["movie", "tv"].includes(x.media_type))
-        .map(normalizeTMDB);
+      const data = await cached("trending-week", () => tmdb("/trending/all/week",{page:1}));
+      items = (data.results || []).filter(x => ["movie","tv"].includes(x.media_type)).map(x => normalizeTMDB(x));
+    } else if (category === "movies") {
+      const data = await cached("popular-movies", () => tmdb("/movie/popular",{page:1}));
+      items = (data.results || []).map(x => normalizeTMDB(x,"movie"));
+    } else if (category === "serials") {
+      const data = await cached("popular-tv", () => tmdb("/tv/popular",{page:1}));
+      items = (data.results || []).map(x => normalizeTMDB(x,"tv"));
+    } else if (category === "anime") {
+      const settled = await Promise.allSettled([searchJikan("popular"),searchAniList("popular")]);
+      items = dedupe(settled.filter(x=>x.status==="fulfilled").flatMap(x=>x.value));
+      if (!items.length) throw new Error("Anime sources are temporarily unavailable.");
+    } else if (category === "biggboss") {
+      const settled = await Promise.allSettled([searchTMDB("Bigg Boss","biggboss"),searchTVmaze("Bigg Boss"),searchTMDB("reality show","serials")]);
+      items = dedupe(settled.filter(x=>x.status==="fulfilled").flatMap(x=>x.value));
+      if (!items.length) throw new Error("Reality-show sources are temporarily unavailable.");
     }
-
-    if (category === "movies") {
-      const data = await tmdb("/movie/popular", { page: 1 });
-      items = (data.results || []).map(x =>
-        normalizeTMDB({ ...x, media_type: "movie" })
-      );
-    }
-
-    if (category === "serials") {
-      const data = await tmdb("/tv/popular", { page: 1 });
-      items = (data.results || []).map(x =>
-        normalizeTMDB({ ...x, media_type: "tv" })
-      );
-    }
-
-    if (category === "biggboss") {
-      items = await searchAll("Bigg Boss", "biggboss");
-      if (!items.length) {
-        const data = await tmdb("/search/tv", {
-          query: "reality",
-          page: 1
-        });
-        items = (data.results || []).map(x =>
-          normalizeTMDB({ ...x, media_type: "tv" })
-        );
-      }
-    }
-
-    if (category === "anime") {
-      const results = await Promise.allSettled([
-        searchJikan("popular"),
-        searchAniList("popular")
-      ]);
-      items = results
-        .filter(x => x.status === "fulfilled")
-        .flatMap(x => x.value);
-      items = dedupe(items);
-    }
-
-    if (requestId !== currentRequest) return;
-
+    if (token !== requestToken) return;
     renderItems(items);
   } catch (error) {
-    if (requestId !== currentRequest) return;
-
-    console.error("Catalog error:", error);
-    setError(
-      "Could not load content. Check your TMDB API key and internet connection, then try again."
-    );
+    if (token !== requestToken) return;
+    console.error(error);
+    setError(error.message || "Could not load catalog. Check your connection and settings.");
   }
 }
-
-/* ---------------- Search ---------------- */
-
-$("searchForm").addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const query = searchInput.value.trim();
+async function submitSearch(query, category = "all") {
+  query = query.trim();
   if (!query) return;
-
-  currentRequest++;
-  const requestId = currentRequest;
-
-  heroBanner.hidden = true;
-  detailSection.hidden = true;
-  resultsSection.hidden = false;
-  resultsTitle.textContent = 'Search: "' + query + '"';
-
-  document.querySelectorAll("#categoryTabs button")
-    .forEach(button => button.classList.remove("active"));
-
-  setLoading("Searching TMDB, TVmaze and anime databases...");
-
+  currentMode = "search"; currentQuery = query; currentCategory = category; currentPage = 1;
+  const token = ++requestToken;
+  heroBanner.hidden = true; detailSection.hidden = true; resultsSection.hidden = false;
+  document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.toggle("active",b.dataset.kind === category));
+  resultsTitle.textContent = 'Search Results: "' + query + '"';
+  setLoading("Searching selected metadata sources...");
   try {
-    const items = await searchAll(query);
-
-    if (requestId !== currentRequest) return;
-
+    const items = await runSearch(query,category);
+    if (token !== requestToken) return;
     renderItems(items);
-
-    if (!items.length) {
-      statusEl.textContent =
-        "No results found. Check your spelling or try another title.";
-    }
+    if (!items.length) statusEl.textContent = "No matches found. Try a shorter title or change the source filter.";
   } catch (error) {
-    if (requestId !== currentRequest) return;
-    console.error("Search error:", error);
-    setError("Search failed. Please check your API key and internet connection.");
+    if (token !== requestToken) return;
+    console.error(error); setError(error.message || "Search failed. Please try again.");
   }
-});
-
-/* ---------------- Details and external links ---------------- */
-
+}
+function externalLinks(item, imdbId) {
+  const q = encodeURIComponent(item.title);
+  const links = [];
+  if (item.tmdbId) links.push(["TMDB","https://www.themoviedb.org/"+(item.type==="movie"?"movie/":"tv/")+encodeURIComponent(item.tmdbId)]);
+  links.push(["IMDb",imdbId ? "https://www.imdb.com/title/"+encodeURIComponent(imdbId)+"/" : "https://www.imdb.com/find/?q="+q]);
+  links.push(["JustWatch","https://www.justwatch.com/us/search?q="+q]);
+  links.push(["Trakt","https://trakt.tv/search?query="+q]);
+  links.push(["Letterboxd","https://letterboxd.com/search/"+q+"/"]);
+  links.push(["Rotten Tomatoes","https://www.rottentomatoes.com/search?search="+q]);
+  links.push(["Metacritic","https://www.metacritic.com/search/"+q+"/"]);
+  return links.map(([label,url])=>`<a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`).join("");
+}
 async function openDetails(item) {
-  activeItem = item;
-  activeServer = "official";
-
-  heroBanner.hidden = true;
-  resultsSection.hidden = true;
-  detailSection.hidden = false;
-  detailSection.innerHTML =
-    '<div class="status">Loading title details...</div>';
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
-
+  const token = ++requestToken;
+  heroBanner.hidden = true; resultsSection.hidden = true; detailSection.hidden = false;
+  detailSection.innerHTML = '<div class="status">Loading title details...</div>';
+  window.scrollTo({top:0,behavior:"smooth"});
   let imdbId = item.imdbId || null;
-  let details = item.raw || {};
-
   if (item.provider === "TMDB" && item.tmdbId) {
     try {
-      const endpoint = item.type === "movie"
-        ? "/movie/" + item.tmdbId
-        : "/tv/" + item.tmdbId;
-
-      const data = await tmdb(endpoint, {
-        append_to_response: "external_ids"
-      });
-
-      details = data;
-      imdbId = data.imdb_id ||
-        data.external_ids?.imdb_id || null;
-
+      const endpoint = item.type === "movie" ? "/movie/"+item.tmdbId : "/tv/"+item.tmdbId;
+      const data = await tmdb(endpoint,{append_to_response:"external_ids"});
+      if (token !== requestToken) return;
+      imdbId = data.imdb_id || data.external_ids?.imdb_id || imdbId;
       item.overview = data.overview || item.overview;
       item.backdrop = backdropURL(data.backdrop_path) || item.backdrop;
-    } catch (error) {
-      console.warn("Could not load extra details:", error);
-    }
+      item.raw = data;
+    } catch (error) { console.warn("Extra metadata unavailable:",error); }
   }
-
-  const safeTitle = escapeHTML(item.title);
-  const safeOverview = escapeHTML(item.overview);
+  if (token !== requestToken) return;
+  const title = escapeHTML(item.title);
   const poster = escapeHTML(item.poster || "");
-  const year = escapeHTML(item.year || "Unknown");
-  const rating = Number(item.rating) > 0
-    ? Number(item.rating).toFixed(1) : "N/A";
-
-  const tmdbLink = item.tmdbId
-    ? "https://www.themoviedb.org/" +
-      (item.type === "movie" ? "movie/" : "tv/") +
-      encodeURIComponent(item.tmdbId)
-    : "";
-
-  const imdbLink = imdbId
-    ? "https://www.imdb.com/title/" + encodeURIComponent(imdbId) + "/"
-    : "https://www.imdb.com/find/?q=" + encodeURIComponent(item.title);
-
-  const justWatchLink =
-    "https://www.justwatch.com/us/search?q=" +
-    encodeURIComponent(item.title);
-
-  const traktLink =
-    "https://trakt.tv/search?query=" + encodeURIComponent(item.title);
-
-  const letterboxdLink =
-    "https://letterboxd.com/search/" + encodeURIComponent(item.title) + "/";
-
-  const links = [
-    tmdbLink ? `<a href="${tmdbLink}" target="_blank" rel="noopener noreferrer">TMDB</a>` : "",
-    `<a href="${imdbLink}" target="_blank" rel="noopener noreferrer">IMDb</a>`,
-    `<a href="${justWatchLink}" target="_blank" rel="noopener noreferrer">JustWatch</a>`,
-    `<a href="${traktLink}" target="_blank" rel="noopener noreferrer">Trakt</a>`,
-    `<a href="${letterboxdLink}" target="_blank" rel="noopener noreferrer">Letterboxd</a>`
-  ].filter(Boolean).join(" · ");
-
+  const overview = escapeHTML(item.overview || "No description available.");
+  const year = escapeHTML(item.year || "Year unavailable");
+  const rating = Number(item.rating)>0 ? Number(item.rating).toFixed(1) : "N/A";
+  const backdrop = item.backdrop ? `style="background-image:linear-gradient(0deg,#141419,transparent),url('${escapeHTML(item.backdrop)}');background-size:cover;background-position:center"` : "";
   detailSection.innerHTML = `
-    <button id="backBtn" class="secondary">← Back to results</button>
-
-    <div class="detail">
-      <div class="detail-top">
+    <button type="button" class="secondary" id="backBtn">← Back to results</button>
+    <div class="detail" ${backdrop}>
+      <div class="detail-layout">
+        <div><img class="detail-poster" src="${poster || "https://placehold.co/500x750/17171d/f5c518?text=No+Poster"}" alt="${title} poster" onerror="this.onerror=null;this.src='https://placehold.co/500x750/17171d/f5c518?text=No+Poster'"></div>
         <div>
-          ${poster
-            ? `<img class="detail-poster" src="${poster}" alt="${safeTitle} poster">`
-            : `<div class="detail-poster"></div>`}
-        </div>
-        <div>
-          <div class="gold">${escapeHTML(item.provider)}</div>
-          <h1>${safeTitle}</h1>
-          <p class="muted">${year} · ${escapeHTML(item.type.toUpperCase())}</p>
-          <p class="gold">★ ${rating}</p>
-          <p>${safeOverview}</p>
-          <p class="muted">Find this title:</p>
-          <div>${links}</div>
+          <div class="gold">${escapeHTML(item.provider)} · ${escapeHTML(item.type.toUpperCase())}</div>
+          <h1>${title}</h1>
+          <div class="hero-meta"><span>${year}</span><span class="rating">★ ${rating}</span></div>
+          <p>${overview}</p>
+          <div class="detail-actions">${externalLinks(item,imdbId)}</div>
+          <div class="notice">These links help you find metadata and legal viewing options. Availability varies by country and provider.</div>
         </div>
       </div>
-
-      <div class="notice">
-        Streaming availability depends on your country and the service.
-        Use the official provider links above to check where this title
-        can be watched. External availability is not guaranteed.
-      </div>
-
-      <div class="player">
-        <div class="player-head">
-          <strong>WATCH OPTIONS</strong>
-          <span class="muted">Official sources</span>
+      <div class="projection-container">
+        <div class="projection-header"><strong>WATCH OPTIONS</strong><span class="muted">Official provider search</span></div>
+        <div class="projection-player">
+          <div><div style="font-size:1.15rem;font-weight:800">Find where to watch</div>
+          <p class="muted">Choose a service below to check availability for this title.</p>
+          <a href="https://www.justwatch.com/us/search?q=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent)">Search JustWatch ↗</a></div>
         </div>
-        <div class="servers">
-          <button class="secondary server active" data-server="official">
-            Find streaming options
-          </button>
-        </div>
-        <div class="notice" style="margin:0;border:0">
-          <a href="${justWatchLink}" target="_blank"
-             rel="noopener noreferrer" style="color:var(--accent)">
-             Check streaming services on JustWatch ↗
-          </a>
-          <p>Search results and availability are provided by the linked service.</p>
+        <div class="servers-grid">
+          <a class="server-card" href="https://www.justwatch.com/us/search?q=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer">JustWatch</a>
+          <a class="server-card" href="https://www.netflix.com/search?q=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer">Netflix search</a>
+          <a class="server-card" href="https://www.primevideo.com/search/ref=atv_nb_sr?phrase=${encodeURIComponent(item.title)}" target="_blank" rel="noopener noreferrer">Prime Video search</a>
         </div>
       </div>
-    </div>
-  `;
-
+    </div>`;
   $("backBtn").addEventListener("click", () => {
-    detailSection.hidden = true;
-    resultsSection.hidden = false;
-    heroBanner.hidden = currentCategory !== "trending";
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    detailSection.hidden = true; resultsSection.hidden = false;
+    heroBanner.hidden = currentMode === "search";
+    window.scrollTo({top:0,behavior:"smooth"});
   });
 }
-
-/* ---------------- Events ---------------- */
-
-resultsEl.addEventListener("click", event => {
-  const card = event.target.closest(".card");
-  if (!card) return;
-
-  const index = Number(card.dataset.index);
-  if (currentItems[index]) openDetails(currentItems[index]);
+$("searchForm").addEventListener("submit",event=>{event.preventDefault();submitSearch(searchInput.value,"all");});
+$("categoryTabs").addEventListener("click",event=>{
+  const button=event.target.closest("button[data-kind]");
+  if(!button)return;
+  const category=button.dataset.kind;
+  if(searchInput.value.trim() && category !== "trending") submitSearch(searchInput.value,category);
+  else loadCatalog(category);
 });
-
-resultsEl.addEventListener("keydown", event => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  const card = event.target.closest(".card");
-  if (!card) return;
-
-  event.preventDefault();
-  const index = Number(card.dataset.index);
-  if (currentItems[index]) openDetails(currentItems[index]);
+$("brandHome").addEventListener("click",()=>{searchInput.value="";sourceFilter.value="all";loadCatalog("trending");});
+$("brandHome").addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();$("brandHome").click();}});
+$("heroPlayBtn").addEventListener("click",()=>loadCatalog("trending"));
+$("retryButton").addEventListener("click",()=>currentMode==="search" ? submitSearch(currentQuery,currentCategory) : loadCatalog(currentCategory));
+resultsEl.addEventListener("click",event=>{
+  const card=event.target.closest(".card");if(!card)return;
+  const item=currentItems[Number(card.dataset.index)];if(item)openDetails(item);
 });
-
-$("categoryTabs").addEventListener("click", event => {
-  const button = event.target.closest("button[data-kind]");
-  if (button) loadCatalog(button.dataset.kind);
+resultsEl.addEventListener("keydown",event=>{
+  if(event.key!=="Enter"&&event.key!==" ")return;
+  const card=event.target.closest(".card");if(!card)return;
+  event.preventDefault();const item=currentItems[Number(card.dataset.index)];if(item)openDetails(item);
 });
-
-$("brandHome").addEventListener("click", () => {
-  searchInput.value = "";
-  loadCatalog("trending");
+sourceFilter.addEventListener("change",()=>{
+  if(currentMode==="search"&&currentQuery)submitSearch(currentQuery,currentCategory);
 });
-
-$("heroExplore").addEventListener("click", () => {
-  $("categoryTabs").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-});
-
-if (!tmdbReady()) {
-  setError("Add your TMDB API key in the configuration to start.");
+if(!hasTMDBKey()){
+  setError("Setup needed: open index.html and replace YOUR_TMDB_API_KEY with your TMDB API key. Anime searches can work independently.");
+  $("heroTitle").textContent="Your entertainment hub";
 } else {
   loadCatalog("trending");
 }
-
 })();
 </script>
 </body>
