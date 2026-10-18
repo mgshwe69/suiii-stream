@@ -433,7 +433,7 @@
 
   <section id="resultsSection">
     <div class="section-head">
-      <h2 id="resultsTitle">Top 10 Today</h2>
+      <h2 id="resultsTitle">Top Content Today</h2>
     </div>
     <div id="results" class="grid"></div>
   </section>
@@ -465,8 +465,7 @@
 (() => {
   "use strict";
 
-  // DIRECT PUBLIC TMDB API FETCH (No Serverless Functions Needed for Vercel/Static Hosting)
-  const TMDB_API_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
+  const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -510,7 +509,6 @@
     `).join("");
   }
 
-  // DIRECT TMDB API FETCHER WITH CORS PROXY BACKUP FOR VERCEL
   async function api(path) {
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
     const fetchWithTimeout = async (url) => {
@@ -594,17 +592,47 @@
     try {
       let lists = [];
       if (kind === "all") {
-        const [m, t] = await Promise.all([api("/trending/movie/week"), api("/trending/tv/week")]);
-        lists = [...(m.results||[]).map(x=>({...x, media_type:"movie"})), ...(t.results||[]).map(x=>({...x, media_type:"tv"}))]
-          .sort((a,b)=>(b.popularity||0)-(a.popularity||0)).slice(0, 24);
+        const [m1, m2, t1, t2] = await Promise.all([
+          api("/trending/movie/week?page=1"),
+          api("/trending/movie/week?page=2"),
+          api("/trending/tv/week?page=1"),
+          api("/movie/popular?page=1")
+        ]);
+        lists = [
+          ...(m1.results||[]).map(x=>({...x, media_type:"movie"})),
+          ...(m2.results||[]).map(x=>({...x, media_type:"movie"})),
+          ...(t1.results||[]).map(x=>({...x, media_type:"tv"})),
+          ...(t2.results||[]).map(x=>({...x, media_type:"movie"}))
+        ];
+      } else if (kind === "movie") {
+        const [p1, p2, p3] = await Promise.all([
+          api("/movie/popular?page=1"),
+          api("/movie/top_rated?page=1"),
+          api("/movie/upcoming?page=1")
+        ]);
+        lists = [
+          ...(p1.results||[]).map(x=>({...x, media_type:"movie"})),
+          ...(p2.results||[]).map(x=>({...x, media_type:"movie"})),
+          ...(p3.results||[]).map(x=>({...x, media_type:"movie"}))
+        ];
       } else {
-        const d = await api(`/trending/${kind}/week`);
-        lists = (d.results||[]).map(x=>({...x, media_type:kind})).slice(0, 24);
+        const [t1, t2] = await Promise.all([
+          api(`/tv/popular?page=1`),
+          api(`/tv/top_rated?page=1`)
+        ]);
+        lists = [
+          ...(t1.results||[]).map(x=>({...x, media_type:"tv"})),
+          ...(t2.results||[]).map(x=>({...x, media_type:"tv"}))
+        ];
       }
+      
+      // Remove duplicates
+      lists = Array.from(new Set(lists.map(a => a.id))).map(id => lists.find(a => a.id === id));
+
       if (!lists.length) { statusEl.textContent = "No content found."; return; }
       updateHero(lists[0]);
       statusEl.hidden = true;
-      resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || kind)).join("");
+      resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || (kind === 'tv' ? 'tv' : 'movie'))).join("");
     } catch (e) { statusEl.textContent = `Error loading: ${e.message}`; }
   }
 
@@ -632,7 +660,7 @@
         return;
       }
       statusEl.hidden = true;
-      resultsEl.innerHTML = list.slice(0, 30).map(i => cardMarkup(i, i.media_type)).join("");
+      resultsEl.innerHTML = list.map(i => cardMarkup(i, i.media_type)).join("");
     } catch (e) {
       statusEl.hidden = false;
       statusEl.textContent = `Search failed: ${e.message}`;
