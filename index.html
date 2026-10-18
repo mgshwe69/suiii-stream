@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#100d0b">
-<meta name="description" content="SUIII_STREAM — Apple Liquid Glass OTT Streaming Platform">
+<meta name="description" content="SUIII_STREAM — Apple Liquid Glass VIP OTT Streaming Platform">
 <title>SUIII_STREAM — Liquid Glass OTT Platform</title>
 <style>
 :root {
@@ -84,9 +84,9 @@ header {
 
 /* User Profile Avatar */
 .profile-avatar {
-  width: 36px; height: 36px; border-radius: 50%; overflow: hidden;
+  width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
   border: 2px solid var(--gold); box-shadow: 0 0 10px var(--gold-glow);
-  display: grid; place-items: center; background: #221c16;
+  display: grid; place-items: center; background: #221c16; cursor: pointer;
 }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -245,22 +245,33 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
 .notice { font-size: .8rem; color: var(--muted); padding: 12px 22px; border-top: var(--glass-border); }
 
-/* AUTH MODAL (7-Day Key System) */
+/* AUTH & PROFILE MODAL */
 .auth-modal-overlay {
-  position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+  position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px);
   z-index: 2000; display: grid; place-items: center; padding: 20px;
 }
 .auth-modal {
   background: #15110e; border: var(--glass-border); border-radius: 24px;
-  width: 100%; max-width: 420px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+  width: 100%; max-width: 440px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+  position: relative;
 }
 .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
 .auth-tab { flex: 1; background: transparent; border: none; color: var(--muted); padding: 10px; font-weight: 800; border-radius: 10px; cursor: pointer; }
 .auth-tab.active { background: var(--gold); color: #120e08; }
 .auth-form { display: flex; flex-direction: column; gap: 14px; }
-.auth-form input { width: 100%; background: #211b16; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
+.auth-form input, .auth-form select { width: 100%; background: #211b16; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
 .ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
+
+/* USER DASHBOARD MODAL */
+.profile-card { text-align: center; }
+.profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px var(--gold-glow); }
+.profile-card-pfp img { width: 100%; height: 100%; object-fit: cover; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+.stat-box { background: rgba(255,255,255,0.04); border: var(--glass-border); padding: 12px; border-radius: 14px; text-align: center; }
+.stat-val { font-size: 1.1rem; font-weight: 900; color: var(--gold); }
+.stat-lbl { font-size: 0.75rem; color: var(--muted); }
+.recent-list { text-align: left; font-size: 0.85rem; margin-top: 15px; background: rgba(255,255,255,0.02); border: var(--glass-border); padding: 12px; border-radius: 14px; }
 
 footer {
   border-top: var(--glass-border); padding: 25px 20px; text-align: center;
@@ -285,8 +296,8 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="profile-avatar" title="SUIII VIP User">
-      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Profile">
+    <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
+      <img id="headerPfp" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80" alt="Profile">
     </div>
     <div class="brand" id="brandHome" role="button" tabindex="0">
       <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
@@ -318,8 +329,8 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   <button class="drawer-link" data-cat="cartoon">🧸 Cartoon</button>
 
   <div class="drawer-section-title">Community</div>
-  <a class="drawer-link" href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram (mg_7hwe)</a>
-  <a class="drawer-link" href="https://t.me/MG1SHWE" target="_blank">Telegram (MG1SHWE)</a>
+  <a class="drawer-link" href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram (@mg_7hwe)</a>
+  <a class="drawer-link" href="https://t.me/MG1SHWE" target="_blank">Telegram (@MG1SHWE)</a>
 </div>
 
 <main>
@@ -377,14 +388,22 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     <!-- Login Form -->
     <form class="auth-form" id="loginForm">
       <input type="text" id="loginName" placeholder="Your Name" required>
+      <select id="loginGender">
+        <option value="male">Male (Iconic Male Avatar)</option>
+        <option value="female">Female (Iconic Female Avatar)</option>
+      </select>
       <input type="number" id="loginAge" placeholder="Age" required>
-      <input type="text" id="loginKey" placeholder="Enter 7-Day Access Key" required>
-      <button type="submit" class="gold-btn">Verify & Watch</button>
+      <input type="text" id="loginKey" placeholder="Enter 7-Digit Key (e.g. CR70001)" required>
+      <button type="submit" class="gold-btn">Verify 7-Day Access</button>
     </form>
 
     <!-- Sign Up Form -->
     <form class="auth-form" id="signupForm" hidden>
       <input type="text" id="signupName" placeholder="Your Full Name" required>
+      <select id="signupGender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
       <input type="text" id="signupCountry" placeholder="Country" required>
       <input type="text" id="signupCity" placeholder="City" required>
       <input type="number" id="signupAge" placeholder="Age" required>
@@ -392,10 +411,41 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     </form>
 
     <div class="ask-key-box">
-      Need an Access Key?<br>
+      Need a CR7 7-Day Access Key?<br>
       <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
       <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
       <a href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<!-- USER PROFILE & DASHBOARD MODAL -->
+<div class="auth-modal-overlay" id="profileDashboardModal" hidden>
+  <div class="auth-modal">
+    <button class="drawer-close" id="profileModalClose" style="position:absolute;top:20px;right:20px;">✕</button>
+    <div class="profile-card">
+      <div class="profile-card-pfp">
+        <img id="dashPfp" src="" alt="Iconic Profile Avatar">
+      </div>
+      <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
+      <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-val" id="dashDaysLeft">7 Days</div>
+          <div class="stat-lbl">Key Remaining</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val" id="dashExpiry">Valid</div>
+          <div class="stat-lbl">Key Status</div>
+        </div>
+      </div>
+
+      <div class="recent-list">
+        <strong>Recent Watched / Resume:</strong>
+        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (00:45:10 - Resumed)</div>
+      </div>
+      <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
   </div>
 </div>
@@ -410,6 +460,10 @@ const TMDB_API_KEY = "16b1113a76da76e67da63f74fe3f3e82";
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 const BACK = "https://image.tmdb.org/t/p/w1280";
+
+// Iconic Character Avatars
+const ICONIC_MALE_PFP = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"; // Iconic Character Avatar
+const ICONIC_FEMALE_PFP = "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80"; // Iconic Female Avatar
 
 const $ = id => document.getElementById(id);
 const results = $("results");
@@ -435,6 +489,40 @@ document.querySelectorAll(".drawer-link[data-cat]").forEach(btn => {
     loadCatalog(btn.dataset.cat);
   };
 });
+
+// Profile Modal Controls
+$("profileBtn").onclick = () => {
+  const userKey = localStorage.getItem("suii_access_key");
+  if (!userKey) {
+    $("authModal").hidden = false;
+  } else {
+    updateProfileUI();
+    $("profileDashboardModal").hidden = false;
+  }
+};
+$("profileModalClose").onclick = () => $("profileDashboardModal").hidden = true;
+
+function updateProfileUI() {
+  const name = localStorage.getItem("suii_user_name") || "VIP User";
+  const gender = localStorage.getItem("suii_user_gender") || "male";
+  const keyDate = localStorage.getItem("suii_key_time") || Date.now();
+
+  $("dashName").textContent = name;
+  const pfp = gender === "female" ? ICONIC_FEMALE_PFP : ICONIC_MALE_PFP;
+  $("headerPfp").src = pfp;
+  $("dashPfp").src = pfp;
+
+  // Calculate Days Remaining
+  const diffTime = Math.abs(Date.now() - Number(keyDate));
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const remaining = Math.max(0, 7 - diffDays);
+  
+  $("dashDaysLeft").textContent = remaining + " Days";
+  $("dashExpiry").textContent = remaining > 0 ? "Active Key" : "Expired";
+
+  const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed from 32m)";
+  $("dashRecentTitle").textContent = recent;
+}
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
@@ -531,7 +619,6 @@ function render(items) {
   $("count").textContent = items.length + " titles";
   status.hidden = !!items.length;
 
-  // Start 4s Hero Slider with items
   if (items.length > 0) startHeroSlider(items);
 }
 
@@ -551,7 +638,7 @@ function startHeroSlider(items) {
   }
 
   updateHeroSlide();
-  heroSlideTimer = setInterval(updateHeroSlide, 4000); // Change every 4 seconds like cinematic trailer GIF
+  heroSlideTimer = setInterval(updateHeroSlide, 4000);
 }
 
 async function loadCatalog(category = "trending") {
@@ -630,7 +717,7 @@ async function openDetails(item) {
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice">Note: Selecting Hindi Dubbed will prioritize multi-language dubbed source mirrors.</div>
+      <div class="notice">Note: Selecting Hindi Dubbed will prioritize official SUIII_VIP dubbed stream mirrors.</div>
     </div>
   `;
 
@@ -639,7 +726,7 @@ async function openDetails(item) {
   };
 
   $("watchBtn").onclick = () => {
-    // Check 7-Day Access Key Verification
+    // Check 7-Day CR7 Access Key Verification
     const verifiedKey = localStorage.getItem("suii_access_key");
     if (!verifiedKey) {
       $("authModal").hidden = false;
@@ -647,12 +734,13 @@ async function openDetails(item) {
       const box = $("playerBox");
       box.hidden = false;
       box.scrollIntoView({ behavior: "smooth" });
+      localStorage.setItem("suii_recent_watch", item.title + " (Resumed)");
       renderServers(item);
     }
   };
 }
 
-// Auth Modal Logic (Login / Sign Up & 7-Day Key)
+// Auth Modal Logic (CR7 7-Digit Key System)
 $("tabLogin").onclick = () => {
   $("tabLogin").classList.add("active");
   $("tabSignup").classList.remove("active");
@@ -668,40 +756,60 @@ $("tabSignup").onclick = () => {
 
 $("loginForm").onsubmit = (e) => {
   e.preventDefault();
-  const key = $("loginKey").value.trim();
-  if (key.length >= 4) {
+  const key = $("loginKey").value.trim().toUpperCase();
+  const name = $("loginName").value.trim();
+  const gender = $("loginGender").value;
+
+  // STRICT 7-DIGIT KEY STARTING WITH CR7
+  const isCR7Key = /^CR7[A-Z0-9]{4}$/.test(key) && key.length === 7;
+
+  if (isCR7Key) {
     localStorage.setItem("suii_access_key", key);
+    localStorage.setItem("suii_user_name", name);
+    localStorage.setItem("suii_user_gender", gender);
+    localStorage.setItem("suii_key_time", Date.now());
+    
+    updateProfileUI();
     $("authModal").hidden = true;
-    alert("Access Verified Successfully!");
+    alert("CR7 VIP Access Verified Successfully! Valid for 7 Days.");
+
     if (selectedItem) {
       $("playerBox").hidden = false;
       $("playerBox").scrollIntoView({ behavior: "smooth" });
       renderServers(selectedItem);
     }
   } else {
-    alert("Please enter a valid 7-day access key!");
+    alert("Access Denied! Only 7-digit valid keys starting with CR7 are allowed (e.g., CR70001). Please ask on Telegram/Instagram.");
   }
 };
 
 $("signupForm").onsubmit = (e) => {
   e.preventDefault();
-  alert("Account Registered! Please contact Telegram/WhatsApp/Instagram to get your 7-Day Access Key.");
+  alert("Account Registered! Please contact Telegram/Instagram to get your CR7 7-Day Access Key.");
   $("tabLogin").click();
+};
+
+$("logoutBtn").onclick = () => {
+  localStorage.removeItem("suii_access_key");
+  $("profileDashboardModal").hidden = true;
+  alert("Logged out successfully!");
+  location.reload();
 };
 
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
+  // Renamed Servers as requested: SUIII_VIP 1, SUIII_VIP 2, SUIII_VIP 3...
   const SERVERS = [
-    { id: "vidsrc", name: "VidSrc Pro", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
-    { id: "suii_vip", name: "SUIII_VIP+", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
-    { id: "multiembed", name: "MultiEmbed (Dubbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` },
-    { id: "embedsu", name: "EmbedSu HD", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
-    { id: "autoembed", name: "AutoEmbed VIP", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` },
-    { id: "vidsrccc", name: "VidSrc.cc", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` },
-    { id: "superembed", name: "SuperEmbed", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` },
-    { id: "smashystream", name: "SmashyStream", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` }
+    { id: "suii_vip_1", name: "SUIII_VIP 1 (Official)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` },
+    { id: "suii_vip_2", name: "SUIII_VIP 2 (Pro HD)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
+    { id: "suii_vip_3", name: "SUIII_VIP 3 (2Embed)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
+    { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
+    { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` },
+    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` },
+    { id: "suii_vip_7", name: "SUIII_VIP 7 (SuperFast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` },
+    { id: "suii_vip_8", name: "SUIII_VIP 8 (LowData)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` }
   ];
 
   $("servers").innerHTML = SERVERS.map((s, idx) => `
@@ -725,8 +833,13 @@ function renderServers(item) {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      const activeServerBtn = document.querySelector(".server.active");
-      if (activeServerBtn) updateStream(activeServerBtn.dataset.url);
+      // Auto-switch to SUIII_VIP 1 Official Dubbing server
+      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
+      const vipOfficial = document.querySelector(".server");
+      if (vipOfficial) {
+        vipOfficial.classList.add("active");
+        updateStream(SERVERS[0].url);
+      }
     };
   });
 
@@ -768,6 +881,11 @@ results.onclick = (e) => {
   const card = e.target.closest(".card");
   if (card && itemsNow[card.dataset.index]) openDetails(itemsNow[card.dataset.index]);
 };
+
+// Initialize Profile PFP
+if (localStorage.getItem("suii_access_key")) {
+  updateProfileUI();
+}
 
 loadCatalog("trending");
 })();
