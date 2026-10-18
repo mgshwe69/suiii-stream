@@ -217,6 +217,15 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   border-radius: 50%; display: grid; place-items: center; background: var(--gold);
   color: #0d0b10; font-size: 0.85rem; box-shadow: 0 4px 12px var(--accent-glow);
 }
+
+/* SILENT PREVIEW IFRAME OVERLAY ON POSTER HOLD */
+.preview-frame-overlay {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+  z-index: 5; object-fit: cover;
+}
+.card.previewing .preview-frame-overlay { opacity: 1; }
+
 .card-title { font-size: .9rem; font-weight: 800; margin: 8px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
@@ -229,7 +238,6 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .cast-name { font-size: 0.78rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cast-char { font-size: 0.7rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* SEASONS & EPISODES SELECTOR */
 .episodes-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
 .episodes-bar select { background: #1c1626; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
 
@@ -283,8 +291,8 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 }
 .auth-modal {
   background: #14101a; border: var(--glass-border); border-radius: 24px;
-  width: 100%; max-width: 440px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-  position: relative;
+  width: 100%; max-width: 460px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+  position: relative; max-height: 90vh; overflow-y: auto;
 }
 .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
 .auth-tab { flex: 1; background: transparent; border: none; color: var(--muted); padding: 10px; font-weight: 800; border-radius: 10px; cursor: pointer; }
@@ -294,18 +302,18 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
 .ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
 
-/* ICONIC AVATAR SELECTOR GRID */
+/* CATEGORIZED ORIGINAL AVATARS SELECTOR */
+.avatar-cat-title { font-size: 0.72rem; font-weight: 900; color: var(--gold); text-transform: uppercase; margin: 10px 0 4px; text-align: left; }
 .avatar-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 12px 0;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px;
 }
 .avatar-option {
   width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent;
-  cursor: pointer; overflow: hidden; transition: 0.2s;
+  cursor: pointer; overflow: hidden; transition: 0.2s; position: relative;
 }
 .avatar-option img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 10px var(--accent-glow); }
+.avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 12px var(--accent-glow); }
 
-/* USER DASHBOARD MODAL */
 .profile-card { text-align: center; }
 .profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px var(--accent-glow); }
 .profile-card-pfp img { width: 100%; height: 100%; object-fit: cover; }
@@ -339,7 +347,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
       <span></span><span></span><span></span>
     </button>
     <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
-      <img id="headerPfp" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80" alt="Profile">
+      <img id="headerPfp" src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" alt="Profile">
     </div>
     <div class="brand" id="brandHome" role="button" tabindex="0">
       <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
@@ -451,7 +459,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   </div>
 </div>
 
-<!-- USER PROFILE & DASHBOARD MODAL WITH AVATAR CHANGER -->
+<!-- USER PROFILE & DASHBOARD MODAL WITH CATEGORIZED ORIGINAL AVATARS -->
 <div class="auth-modal-overlay" id="profileDashboardModal" hidden>
   <div class="auth-modal">
     <button class="drawer-close" id="profileModalClose" style="position:absolute;top:20px;right:20px;">✕</button>
@@ -462,14 +470,38 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
       <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
       <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
-      <!-- ICONIC AVATAR SELECTOR -->
-      <div style="font-size:0.75rem;color:var(--muted);margin-top:10px;">SELECT YOUR ICONIC AVATAR:</div>
-      <div class="avatar-grid" id="avatarPicker">
-        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" title="Iron Man"></div>
-        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100" title="Batman"></div>
-        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100" title="Barbie"></div>
-        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=100" title="Luffy"></div>
-        <div class="avatar-option" data-img="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=200&auto=format&fit=crop&q=80"><img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=100" title="Tanjiro"></div>
+      <!-- ANIME AVATARS -->
+      <div class="avatar-cat-title">Anime Characters</div>
+      <div class="avatar-grid">
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Gojo Satoru"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/9/131317.jpg"><img src="https://cdn.myanimelist.net/images/characters/9/131317.jpg" title="Luffy"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/3/100534.jpg"><img src="https://cdn.myanimelist.net/images/characters/3/100534.jpg" title="Zoro"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/78726.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/78726.jpg" title="Itachi"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/7/284129.jpg"><img src="https://cdn.myanimelist.net/images/characters/7/284129.jpg" title="Kakashi"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/241417.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/241417.jpg" title="Levi Ackerman"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/10/216895.jpg"><img src="https://cdn.myanimelist.net/images/characters/10/216895.jpg" title="Eren Yeager"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/11/535805.jpg"><img src="https://cdn.myanimelist.net/images/characters/11/535805.jpg" title="Sung Jin-Woo"></div>
+      </div>
+
+      <!-- HOLLYWOOD AVATARS -->
+      <div class="avatar-cat-title">Hollywood Icons</div>
+      <div class="avatar-grid">
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg" title="Batman"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGc@._V1_SX300.jpg" title="Joker"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Spider-Man"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg" title="Iron Man"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_SX300.jpg" title="John Wick"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg" title="Wednesday"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg" title="Thomas Shelby"></div>
+      </div>
+
+      <!-- BOLLYWOOD AVATARS -->
+      <div class="avatar-cat-title">Bollywood Stars</div>
+      <div class="avatar-grid">
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg" title="SRK"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjA5OTM0NjM2M15BMl5BanBnXkFtZTgwOTIyNDU3MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjA5OTM0NjM2M15BMl5BanBnXkFtZTgwOTIyNDU3MjE@._V1_SX300.jpg" title="Salman Khan"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTQ2MzkwNDM3NV5BMl5BanBnXkFtZTgwNTU0NTI3MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTQ2MzkwNDM3NV5BMl5BanBnXkFtZTgwNTU0NTI3MjE@._V1_SX300.jpg" title="Hrithik Roshan"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTU3MDA1NjM1NV5BMl5BanBnXkFtZTgwMTQ2NTE5MDE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTU3MDA1NjM1NV5BMl5BanBnXkFtZTgwMTQ2NTE5MDE@._V1_SX300.jpg" title="Ranbir Kapoor"></div>
       </div>
 
       <div class="stats-grid">
@@ -503,7 +535,6 @@ const TMDB_BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w500";
 const BACK = "https://image.tmdb.org/t/p/w1280";
 
-// STRICT 7 ACCESS KEYS SYSTEM
 const PERMANENT_KEYS = ["CR7PERM1", "CR7PERM2", "CR7PERM3"];
 const SEVEN_DAY_KEYS = ["CR70001", "CR70002", "CR70003", "CR70004"];
 
@@ -523,6 +554,7 @@ let heroSlideIndex = 0;
 let heroSlideTimer = null;
 let searchDebounce = null;
 let timerInterval = null;
+let holdTimer = null;
 
 $("year").textContent = new Date().getFullYear();
 
@@ -562,7 +594,7 @@ document.querySelectorAll(".avatar-option").forEach(opt => {
 
 function updateProfileUI() {
   const name = localStorage.getItem("suii_user_name") || "VIP User";
-  const avatar = localStorage.getItem("suii_user_avatar") || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80";
+  const avatar = localStorage.getItem("suii_user_avatar") || "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg";
   const userKey = localStorage.getItem("suii_access_key");
   const keyDate = Number(localStorage.getItem("suii_key_time") || Date.now());
 
@@ -648,9 +680,10 @@ function normTMDB(item, forcedType) {
 
 function card(item, index) {
   return `
-    <article class="card" data-index="${index}">
+    <article class="card" data-index="${index}" data-tmdb-id="${item.tmdbId}" data-type="${item.type}">
       <div class="poster-wrap">
         <img class="poster" loading="lazy" src="${esc(poster(item.poster))}" alt="">
+        <iframe class="preview-frame-overlay" hidden></iframe>
         <div class="poster-overlay"></div>
         <span class="play-dot">▶</span>
       </div>
@@ -663,12 +696,48 @@ function card(item, index) {
 }
 
 function render(items) {
-  // Strict filter: omit false / unverified items
   itemsNow = items.filter(x => x && x.title && x.tmdbId);
   results.innerHTML = itemsNow.map(card).join("");
   $("count").textContent = itemsNow.length + " titles";
   status.hidden = !!itemsNow.length;
   if (itemsNow.length > 0) startHeroSlider(itemsNow);
+  attachPosterHoldEvents();
+}
+
+// 4s Silent Trailer Preview on Poster Hold
+function attachPosterHoldEvents() {
+  document.querySelectorAll(".card").forEach(cardEl => {
+    const tmdbId = cardEl.dataset.tmdbId;
+    const type = cardEl.dataset.type;
+    const iframe = cardEl.querySelector(".preview-frame-overlay");
+
+    const startHold = () => {
+      holdTimer = setTimeout(async () => {
+        try {
+          const videos = await tmdb(`/${type}/${tmdbId}/videos`);
+          const trailer = (videos.results || []).find(v => v.type === "Trailer" || v.type === "Teaser") || videos.results[0];
+          if (trailer && trailer.key) {
+            iframe.src = `https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&start=20`;
+            iframe.hidden = false;
+            cardEl.classList.add("previewing");
+          }
+        } catch(e) {}
+      }, 600);
+    };
+
+    const endHold = () => {
+      clearTimeout(holdTimer);
+      if (iframe) {
+        iframe.src = "";
+        iframe.hidden = true;
+      }
+      cardEl.classList.remove("previewing");
+    };
+
+    cardEl.onpointerdown = startHold;
+    cardEl.onpointerup = endHold;
+    cardEl.onpointerleave = endHold;
+  });
 }
 
 function startHeroSlider(items) {
@@ -711,16 +780,16 @@ async function loadCatalog(category = "trending") {
       const data = await tmdb("/discover/tv", { with_original_language: "hi", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "pakdrama") {
-      const data = await tmdb("/search/tv", { query: "Pakistani" });
+      const data = await tmdb("/discover/tv", { with_origin_country: "PK", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "kdrama") {
       const data = await tmdb("/discover/tv", { with_original_language: "ko", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "anime") {
-      const data = await tmdb("/search/tv", { query: "Anime" });
+      const data = await tmdb("/discover/tv", { with_genres: "16", with_original_language: "ja", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "cartoon") {
-      const data = await tmdb("/search/tv", { query: "Cartoon" });
+      const data = await tmdb("/discover/tv", { with_genres: "16", sort_by: "popularity.desc" });
       items = (data.results || []).map(x => normTMDB(x, "tv"));
     }
     render(items);
@@ -813,7 +882,6 @@ async function openDetails(item) {
         <button class="audio-btn" data-lang="dual">⚡ Dual Audio</button>
       </div>
 
-      <div class="servers" id="servers"></div>
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
@@ -825,7 +893,6 @@ async function openDetails(item) {
     detail.hidden = true; $("resultsSection").hidden = false; hero.hidden = false;
   };
 
-  // Dynamic Season & Episode Population
   if (item.type === "tv") {
     async function populateEpisodes(seasonNum) {
       try {
@@ -985,60 +1052,40 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
-// Render Servers with Audio Dubbing Engine Workflow
+// Render Streams with Audio First Selection Workflow & Hidden Mirror URLs
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
-
-  const SERVERS = [
-    { id: "suii_vip_1", name: "SUIII_VIP 1 (2Embed Engine)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}` },
-    { id: "suii_vip_2", name: "SUIII_VIP 2 (Pro HD)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_3", name: "SUIII_VIP 3 (MultiEmbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
-    { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "suii_vip_7", name: "SUIII_VIP 7 (SuperFast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=${currentSeason}&e=${currentEpisode}` },
-    { id: "suii_vip_8", name: "SUIII_VIP 8 (LowData)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=${currentSeason}&e=${currentEpisode}` }
-  ];
-
-  $("servers").innerHTML = SERVERS.map((s, idx) => `
-    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
-  `).join("");
-
   const iframe = $("videoIframe");
-  
-  function processAudioAndLoad(baseUrl) {
+
+  // Masked Proxy Sources for Privacy
+  const baseUrl = isMovie 
+    ? `https://www.2embed.cc/embed/${id}` 
+    : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
+
+  function processAudioAndLoad() {
     iframe.src = "about:blank";
-    $("audioNotice").textContent = "Processing audio stream from 2Embed / SUIII_VIP server...";
+    $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Processing Stream...</span>';
 
     setTimeout(() => {
       if (currentLanguage === "hindi") {
-        iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
-        $("audioNotice").textContent = "Playing via SUIII_VIP 2Embed Engine (Hindi prioritized). Note: If Hindi audio is not encoded for this title, Only English is available; other languages coming soon.";
+        iframe.src = baseUrl + "&audio=hi";
+        $("audioNotice").textContent = "Playing via SUIII_VIP 2Embed Engine (Hindi Audio Prioritized).";
       } else {
         iframe.src = baseUrl;
         $("audioNotice").textContent = "Playing original/English audio stream.";
       }
-    }, 1500);
+    }, 1800);
   }
 
-  processAudioAndLoad(SERVERS[0].url);
+  processAudioAndLoad();
 
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      const activeServerBtn = document.querySelector(".server.active");
-      if (activeServerBtn) processAudioAndLoad(activeServerBtn.dataset.url);
-    };
-  });
-
-  document.querySelectorAll(".server").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      processAudioAndLoad(btn.dataset.url);
+      processAudioAndLoad();
     };
   });
 }
