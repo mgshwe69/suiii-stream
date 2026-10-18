@@ -153,7 +153,7 @@
     <div class="brand" id="brandHome">SUIII<span>_STREAM</span></div>
     <div class="search-container">
       <form id="searchForm" role="search" autocomplete="off">
-        <input id="searchInput" type="search" placeholder="Search Old, New, Anime, K-Drama..." aria-label="Search">
+        <input id="searchInput" type="search" placeholder="Search Movies, Anime, Series..." aria-label="Search">
       </form>
       <div id="suggestionsBox" class="suggestions-box" hidden></div>
     </div>
@@ -233,16 +233,36 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
-  const MASSIVE_FALLBACK = [
-    { id: 550, title: "Fight Club", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", backdrop_path: "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg", media_type: "movie", overview: "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression." },
-    { id: 272, title: "Batman Begins", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", backdrop_path: "/scZlM1wVNmZmpcuXCPaDrqM31vQ.jpg", media_type: "movie", overview: "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating corruption." },
-    { id: 155, title: "The Dark Knight", vote_average: 8.5, release_date: "2008-07-16", poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg", backdrop_path: "/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg", media_type: "movie", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
-    { id: 1399, title: "Game of Thrones", name: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", backdrop_path: "/suopoADq0k8YZr4dQXcU6pToj6s.jpg", media_type: "tv", overview: "Seven noble families fight for control of the mythical lands of Westeros." },
-    { id: 66732, title: "Stranger Things", name: "Stranger Things", vote_average: 8.6, first_air_date: "2016-07-15", poster_path: "/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", backdrop_path: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg", media_type: "tv", overview: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments." },
-    { id: 85552, title: "Euphoria", name: "Euphoria", vote_average: 8.3, first_air_date: "2019-06-16", poster_path: "/3Q0hd3BjNojSWiHq616eG5NfV9j.jpg", backdrop_path: "/oKtqiVkw8pS1rRjO5z9bK71Xg58.jpg", media_type: "tv", overview: "A look at life through the eyes of high school students experiencing drugs, sex, and trauma." },
-    { id: 238, title: "The Godfather", vote_average: 8.7, release_date: "1972-03-14", poster_path: "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", backdrop_path: "/tmU7GeKVybMWFButWEGl2M4GeiP.jpg", media_type: "movie", overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son." },
-    { id: 278, title: "The Shawshank Redemption", vote_average: 8.7, release_date: "1994-09-23", poster_path: "/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg", backdrop_path: "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg", media_type: "movie", overview: "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life at the Shawshank prison." }
-  ];
+  // CATEGORY-SPECIFIC FALLBACK LISTS SO EVERY TAB LOOKS DIFFERENT
+  const FALLBACKS = {
+    all: [
+      { id: 550, title: "Fight Club", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", backdrop_path: "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg", media_type: "movie", overview: "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker." },
+      { id: 272, title: "Batman Begins", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", backdrop_path: "/scZlM1wVNmZmpcuXCPaDrqM31vQ.jpg", media_type: "movie", overview: "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating corruption." },
+      { id: 155, title: "The Dark Knight", vote_average: 8.5, release_date: "2008-07-16", poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg", backdrop_path: "/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg", media_type: "movie", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
+      { id: 1399, title: "Game of Thrones", name: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", backdrop_path: "/suopoADq0k8YZr4dQXcU6pToj6s.jpg", media_type: "tv", overview: "Seven noble families fight for control of the mythical lands of Westeros." }
+    ],
+    movie: [
+      { id: 238, title: "The Godfather", vote_average: 8.7, release_date: "1972-03-14", poster_path: "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", backdrop_path: "/tmU7GeKVybMWFButWEGl2M4GeiP.jpg", media_type: "movie", overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son." },
+      { id: 278, title: "The Shawshank Redemption", vote_average: 8.7, release_date: "1994-09-23", poster_path: "/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg", backdrop_path: "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg", media_type: "movie", overview: "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life." },
+      { id: 424, title: "Schindler's List", vote_average: 8.6, release_date: "1993-12-15", poster_path: "/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg", backdrop_path: "/loRmRzQXZeqG78TqZuyvSlEQfZb.jpg", media_type: "movie", overview: "The true story of how businessman Oskar Schindler saved over a thousand Jewish lives during the Holocaust." }
+    ],
+    tv: [
+      { id: 1399, title: "Game of Thrones", name: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", backdrop_path: "/suopoADq0k8YZr4dQXcU6pToj6s.jpg", media_type: "tv", overview: "Seven noble families fight for control of the mythical lands of Westeros." },
+      { id: 66732, title: "Stranger Things", name: "Stranger Things", vote_average: 8.6, first_air_date: "2016-07-15", poster_path: "/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", backdrop_path: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg", media_type: "tv", overview: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments." },
+      { id: 1396, title: "Breaking Bad", name: "Breaking Bad", vote_average: 8.9, first_air_date: "2008-01-20", poster_path: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", backdrop_path: "/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg", media_type: "tv", overview: "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine." }
+    ],
+    anime: [
+      { id: 37854, title: "One Piece", name: "One Piece", vote_average: 8.7, first_air_date: "1999-10-20", poster_path: "/cTv2NnMTQ5bfDyDJ4Lp5uYgXjAU.jpg", backdrop_path: "/2rmK7iiUDCioYwR0XNqjZ7rO7Hh.jpg", media_type: "tv", overview: "Monkey D. Luffy sets off on an adventure with his pirate crew in order to find the legendary treasure One Piece." },
+      { id: 1429, title: "Attack on Titan", name: "Attack on Titan", vote_average: 8.7, first_air_date: "2013-04-07", poster_path: "/hTP1DtLGFamjfu8WqjnuQdP1n4i.jpg", backdrop_path: "/y2caWb2s2l013N2a1c0NffCq00x.jpg", media_type: "tv", overview: "After his hometown is destroyed and his mother is killed, young Eren Jaeger vows to cleanse the earth of the giant humanoid Titans." }
+    ],
+    kdrama: [
+      { id: 93405, title: "Squid Game", name: "Squid Game", vote_average: 7.8, first_air_date: "2021-09-17", poster_path: "/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg", backdrop_path: "/oaGxy9TVsXgrA7dY9J6309Hj0u6.jpg", media_type: "tv", overview: "Hundreds of cash-strapped players accept a strange invitation to compete in children's games." },
+      { id: 110492, title: "All of Us Are Dead", name: "All of Us Are Dead", vote_average: 8.4, first_air_date: "2022-01-28", poster_path: "/pTEFpuYNliGB7gE9v8f4Y2o18A2.jpg", backdrop_path: "/mvtibXx1xM3d7xY9K0UaPzVq770.jpg", media_type: "tv", overview: "A high school becomes ground zero for a zombie virus outbreak." }
+    ],
+    pakistani: [
+      { id: 215438, title: "Tere Bin", name: "Tere Bin", vote_average: 8.0, first_air_date: "2022-12-28", poster_path: "/r1xXoTjPz73k2F3W8zXm1Vb1Z4e.jpg", backdrop_path: "/r1xXoTjPz73k2F3W8zXm1Vb1Z4e.jpg", media_type: "tv", overview: "A romantic and intense drama about love, ego, and misunderstandings." }
+    ]
+  };
 
   async function api(path) {
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
@@ -275,7 +295,7 @@
 
     searchTimeout = setTimeout(async () => {
       const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
-      const items = (res && res.results ? res.results : MASSIVE_FALLBACK).slice(0, 6);
+      const items = (res && res.results && res.results.length ? res.results : FALLBACKS.all).slice(0, 6);
       suggestionsBox.hidden = false;
       suggestionsBox.innerHTML = items.map(i => `
         <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
@@ -299,7 +319,7 @@
     const q = searchInput.value.trim();
     if (!q) return;
     const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
-    const items = res && res.results ? res.results : MASSIVE_FALLBACK;
+    const items = res && res.results && res.results.length ? res.results : FALLBACKS.all;
     resultsTitle.textContent = `Search Results: ${q}`;
     resultsEl.className = "grid";
     resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "movie")).join("");
@@ -369,26 +389,18 @@
 
     resultsEl.className = "grid";
     let lists = [];
+
     if (kind === "all") {
-      const [m1, m2, t1] = await Promise.all([
-        api("/trending/movie/week"),
-        api("/movie/popular"),
-        api("/trending/tv/week")
-      ]);
+      const [m1, m2] = await Promise.all([api("/trending/movie/week"), api("/movie/popular")]);
       const mv1 = m1 && m1.results ? m1.results.map(x=>({...x, media_type:"movie"})) : [];
       const mv2 = m2 && m2.results ? m2.results.map(x=>({...x, media_type:"movie"})) : [];
-      const tv1 = t1 && t1.results ? t1.results.map(x=>({...x, media_type:"tv"})) : [];
-      lists = [...mv1, ...mv2, ...tv1];
+      lists = [...mv1, ...mv2];
     } else if (kind === "movie") {
-      const [d1, d2] = await Promise.all([api("/movie/popular"), api("/movie/top_rated")]);
-      const arr1 = d1 && d1.results ? d1.results.map(x=>({...x, media_type:"movie"})) : [];
-      const arr2 = d2 && d2.results ? d2.results.map(x=>({...x, media_type:"movie"})) : [];
-      lists = [...arr1, ...arr2];
+      const d = await api("/movie/top_rated");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"movie"})) : [];
     } else if (kind === "tv") {
-      const [d1, d2] = await Promise.all([api("/tv/popular"), api("/tv/top_rated")]);
-      const arr1 = d1 && d1.results ? d1.results.map(x=>({...x, media_type:"tv"})) : [];
-      const arr2 = d2 && d2.results ? d2.results.map(x=>({...x, media_type:"tv"})) : [];
-      lists = [...arr1, ...arr2];
+      const d = await api("/tv/popular");
+      lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
     } else if (kind === "anime") {
       const d = await api("/discover/tv?with_genres=16&sort_by=popularity.desc");
       lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
@@ -400,10 +412,12 @@
       lists = d && d.results ? d.results.map(x=>({...x, media_type:"tv"})) : [];
     }
 
-    if (!lists.length) lists = MASSIVE_FALLBACK;
+    if (!lists.length) {
+      lists = FALLBACKS[kind] || FALLBACKS.all;
+    }
 
     setupCarousel(lists);
-    resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || "movie")).join("");
+    resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || (kind === 'movie' ? 'movie' : 'tv'))).join("");
   }
 
   const SERVERS = [
@@ -438,7 +452,8 @@
     detailSection.hidden = true; heroBanner.hidden = true; resultsSection.hidden = true;
     let data = await api(`/${kind}/${id}`);
     if (!data || !data.id) {
-      data = MASSIVE_FALLBACK.find(x => x.id === id) || MASSIVE_FALLBACK[0];
+      const allFallbackList = [...FALLBACKS.all, ...FALLBACKS.movie, ...FALLBACKS.tv, ...FALLBACKS.anime, ...FALLBACKS.kdrama, ...FALLBACKS.pakistani];
+      data = allFallbackList.find(x => x.id === id) || FALLBACKS.all[0];
     }
     
     detailSection.innerHTML = `
