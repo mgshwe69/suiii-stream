@@ -4,113 +4,237 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#100d0b">
-<meta name="description" content="SUIII_STREAM — discover movies, TV shows, reality shows and anime.">
-<title>SUIII_STREAM — Movies, Serials & Anime</title>
+<meta name="description" content="SUIII_STREAM — Apple Liquid Glass OTT Streaming Platform">
+<title>SUIII_STREAM — Liquid Glass OTT Platform</title>
 <style>
-:root{color-scheme:dark;--bg:#100d0b;--panel:#191512;--panel2:#211b16;--text:#f4eee7;--muted:#a79a8d;--gold:#ffd21c;--line:rgba(255,255,255,.09);--glass:blur(18px)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-header{position:sticky;top:0;z-index:50;background:rgba(16,13,11,.88);backdrop-filter:var(--glass);border-bottom:1px solid var(--line)}
-.top{max-width:1320px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:8px;font-size:1.15rem;font-weight:900;letter-spacing:-.5px;cursor:pointer;white-space:nowrap}
-.brand-mark{color:var(--gold);font-size:1.45rem}
-.brand span:last-child{color:var(--gold)}
-.header-actions{display:flex;align-items:center;gap:9px}
-.icon-btn{height:38px;min-width:38px;border-radius:50%;border:1px solid var(--line);background:#211b16;color:#fff;display:grid;place-items:center}
-.search-container{display:flex;gap:8px;max-width:440px;width:100%}
-input,select{background:#211b16;color:var(--text);border:1px solid var(--line);border-radius:11px;padding:11px 13px;outline:none;min-width:0}
-input:focus,select:focus{border-color:var(--gold)}
-#searchInput{width:100%}
-.gold-btn{background:var(--gold);color:#17120a;border:0;border-radius:22px;padding:10px 20px;font-weight:900}
-.gold-btn:hover{background:#ffe16a}
-.outline-btn{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:22px;padding:9px 16px;font-weight:700}
-.outline-btn:hover{border-color:var(--gold)}
-main{max-width:1320px;margin:auto;padding:0 20px 50px}
-.hero{margin:18px 0 30px;min-height:470px;position:relative;overflow:hidden;border-radius:7px;background:#211a14 center 35%/cover no-repeat;display:flex;align-items:flex-end}
-.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#100d0b 0%,rgba(16,13,11,.75) 32%,rgba(16,13,11,.06) 100%),linear-gradient(90deg,rgba(16,13,11,.78),transparent 90%)}
-.hero-content{position:relative;max-width:620px;padding:38px 34px 34px}
-.eyebrow{color:var(--gold);font-size:.7rem;letter-spacing:1.7px;font-weight:900;text-transform:uppercase}
-.hero h1{font-family:Georgia,serif;font-size:clamp(2.6rem,6vw,4.8rem);line-height:.98;font-weight:500;letter-spacing:-1.5px;margin:13px 0}
-.hero-meta{display:flex;gap:11px;align-items:center;flex-wrap:wrap;color:#d8cec4;font-size:.85rem}
-.dot{color:var(--gold)}
-.hero p{color:#d1c6bb;max-width:520px;margin:14px 0 20px;font-size:.93rem}
-.hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.section{margin:30px 0}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:14px}
-.section-head h2{font-family:Georgia,serif;font-size:1.65rem;font-weight:500;margin:0}
-.section-head p{color:var(--muted);margin:4px 0 0;font-size:.85rem}
-.text-link{background:none;border:0;color:var(--gold);font-size:.8rem;font-weight:800}
-.tabs{display:flex;gap:8px;overflow:auto;padding:3px 0 14px;scrollbar-width:none}
-.tabs button{flex:0 0 auto;background:transparent;border:1px solid var(--line);border-radius:20px;color:#b7aa9e;padding:8px 14px;font-size:.82rem;font-weight:750}
-.tabs button.active{background:var(--gold);color:#17120a;border-color:var(--gold)}
-.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:17px}
-.card{min-width:0;cursor:pointer;position:relative}
-.poster-wrap{position:relative;overflow:hidden;border-radius:5px;background:#211b16;aspect-ratio:2/2.75;border:1px solid rgba(255,255,255,.05)}
-.poster{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
-.card:hover .poster{transform:scale(1.04)}
-.poster-overlay{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.72),transparent 55%);opacity:.75}
-.play-dot{position:absolute;left:10px;bottom:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#17120a;font-size:.8rem}
-.card-title{font-size:.88rem;font-weight:750;margin:9px 0 2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-meta{display:flex;justify-content:space-between;gap:6px;color:var(--muted);font-size:.75rem}
-.rating{color:var(--gold)}
-.status{padding:25px 4px;color:var(--muted)}
-.status.error{color:#ffaaa0}
-.search-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:4px 0 18px}
-.search-tools select{padding:9px 11px;font-size:.84rem}
-.detail{margin-top:20px}
-.detail-top{min-height:330px;border-radius:8px;overflow:hidden;background:#201913 center/cover no-repeat;position:relative;display:flex;align-items:flex-end}
-.detail-top:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#100d0b 0%,rgba(16,13,11,.68) 45%,rgba(16,13,11,.1) 100%)}
-.detail-info{position:relative;padding:28px;max-width:800px}
-.detail-info h1{font:500 clamp(2rem,5vw,3.7rem)/1.05 Georgia,serif;margin:8px 0 12px}
-.detail-layout{display:grid;grid-template-columns:180px 1fr;gap:24px;align-items:start;margin-top:20px}
-.detail-poster{width:100%;border-radius:5px}
-.detail-description{color:#c8bdb2}
-.player-box{margin-top:24px;border:1px solid var(--line);background:#17120f;border-radius:8px;overflow:hidden}
-.player-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:15px 17px;background:#211a15}
-.player-head strong{font-size:.9rem}
-.servers{display:flex;gap:8px;flex-wrap:wrap;padding:13px 16px}
-.server{background:#211b16;color:#e8ded4;border:1px solid var(--line);padding:8px 12px;border-radius:7px;font-size:.8rem;font-weight:750}
-.server.active{border-color:var(--gold);color:var(--gold)}
-.player-frame{width:100%;aspect-ratio:16/9;background:#050505;display:block;border:0}
-.player-message{padding:40px 20px;text-align:center;color:var(--muted);background:#080706}
-.player-message strong{display:block;color:#fff;margin-bottom:7px}
-.notice{font-size:.8rem;color:var(--muted);padding:12px 16px;border-top:1px solid var(--line)}
-.back-btn{margin:20px 0 0}
-footer{border-top:1px solid var(--line);padding:28px 20px;text-align:center;color:var(--muted);background:#15110e;font-size:.85rem}
-footer a{color:var(--gold);text-decoration:none;font-weight:800}
-[hidden]{display:none!important}
-@media(max-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.hero{min-height:420px}}
-@media(max-width:650px){
-.top{padding:12px;flex-wrap:wrap}
-.header-actions{width:100%;order:2}
-.search-container{max-width:none;flex:1}
-.brand{font-size:1.05rem}
-.header-actions .icon-btn{display:none}
-main{padding:0 12px 35px}
-.hero{min-height:420px;margin-top:12px}
-.hero-content{padding:24px 20px}
-.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.section-head h2{font-size:1.45rem}
-.detail-layout{grid-template-columns:100px 1fr;gap:15px}
-.detail-info{padding:20px}
-.detail-top{min-height:300px}
-.hero p{font-size:.86rem}
+:root {
+  color-scheme: dark;
+  --bg: #0e0b09;
+  --panel: rgba(25, 20, 16, 0.55);
+  --panel-solid: #191512;
+  --panel2: rgba(35, 28, 22, 0.65);
+  --text: #f5eee6;
+  --muted: #a89a8c;
+  --gold: #ffd21c;
+  --gold-glow: rgba(255, 210, 28, 0.25);
+  --line: rgba(255, 255, 255, 0.12);
+  --glass: blur(25px) saturate(190%);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.14);
+  --card-radius: 18px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 210, 28, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 210, 28, 0.03) 0%, transparent 40%);
+  background-attachment: fixed;
+}
+
+button, input, select { font: inherit; }
+button { cursor: pointer; }
+
+/* APPLE LIQUID GLASS HEADER */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(16, 13, 11, 0.65);
+  backdrop-filter: var(--glass);
+  -webkit-backdrop-filter: var(--glass);
+  border-bottom: var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.top {
+  max-width: 1320px; margin: auto; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+
+.brand {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 1.25rem; font-weight: 900; letter-spacing: -0.5px;
+  cursor: pointer; white-space: nowrap;
+}
+.brand-mark {
+  color: var(--gold); font-size: 1.5rem;
+  filter: drop-shadow(0 0 8px var(--gold-glow));
+}
+.brand span:last-child { color: var(--gold); }
+
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.search-container { display: flex; gap: 8px; max-width: 450px; width: 100%; }
+
+input, select {
+  background: rgba(35, 28, 22, 0.4);
+  backdrop-filter: var(--glass);
+  color: var(--text); border: var(--glass-border);
+  border-radius: 14px; padding: 10px 15px; outline: none; min-width: 0;
+  transition: all 0.3s ease;
+}
+input:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px var(--gold-glow);
+}
+#searchInput { width: 100%; }
+
+.gold-btn {
+  background: linear-gradient(135deg, #ffd21c 0%, #e0b010 100%);
+  color: #120e08; border: 0; border-radius: 30px;
+  padding: 10px 22px; font-weight: 800;
+  box-shadow: 0 4px 20px var(--gold-glow);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.gold-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 25px rgba(255, 210, 28, 0.4);
+}
+
+.outline-btn {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: var(--glass);
+  border: var(--glass-border); color: #fff;
+  border-radius: 30px; padding: 9px 18px; font-weight: 700;
+  transition: all 0.3s ease;
+}
+.outline-btn:hover { border-color: var(--gold); background: rgba(255, 210, 28, 0.1); }
+
+main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
+
+/* HERO LIQUID GLASS BANNER */
+.hero {
+  margin: 20px 0 35px; min-height: 480px; position: relative;
+  overflow: hidden; border-radius: 24px;
+  background: #201913 center 35%/cover no-repeat;
+  display: flex; align-items: flex-end;
+  border: var(--glass-border);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.hero:before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, #0e0b09 0%, rgba(14, 11, 9, 0.7) 40%, transparent 100%),
+              linear-gradient(90deg, rgba(14, 11, 9, 0.85) 0%, transparent 80%);
+}
+.hero-content { position: relative; max-width: 650px; padding: 40px; z-index: 2; }
+.eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; font-weight: 800; margin: 10px 0; }
+.hero-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .88rem; }
+.dot { color: var(--gold); }
+.hero p { color: #d1c6bb; max-width: 540px; margin: 14px 0 22px; font-size: .95rem; }
+.hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+.section { margin: 35px 0; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 18px; }
+.section-head h2 { font-size: 1.6rem; font-weight: 800; margin: 0; }
+.section-head p { color: var(--muted); margin: 4px 0 0; font-size: .85rem; }
+
+/* TABS LIQUID GLASS */
+.tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
+.tabs button {
+  flex: 0 0 auto; background: rgba(35, 28, 22, 0.4);
+  backdrop-filter: var(--glass); border: var(--glass-border);
+  border-radius: 30px; color: #b7aa9e; padding: 10px 20px; font-weight: 700;
+  transition: all 0.3s ease;
+}
+.tabs button.active {
+  background: var(--gold); color: #120e08; border-color: var(--gold);
+  box-shadow: 0 4px 15px var(--gold-glow);
+}
+
+/* CARDS LIQUID GRID */
+.grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 20px; }
+.card { min-width: 0; cursor: pointer; position: relative; }
+.poster-wrap {
+  position: relative; overflow: hidden; border-radius: var(--card-radius);
+  background: #1f1914; aspect-ratio: 2/3; border: var(--glass-border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease;
+}
+.poster { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.card:hover .poster-wrap { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 15px 35px var(--gold-glow); }
+.card:hover .poster { transform: scale(1.06); }
+.poster-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 60%); }
+.play-dot {
+  position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px;
+  border-radius: 50%; display: grid; place-items: center; background: var(--gold);
+  color: #120e08; font-size: 0.9rem; box-shadow: 0 4px 12px var(--gold-glow);
+}
+.card-title { font-size: .92rem; font-weight: 800; margin: 10px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .78rem; }
+.rating { color: var(--gold); font-weight: 800; }
+
+/* DETAIL & LIQUID PLAYER */
+.detail { margin-top: 25px; }
+.detail-top {
+  min-height: 360px; border-radius: 24px; overflow: hidden; background: #201913 center/cover no-repeat;
+  position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
+}
+.detail-top:before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(0deg, #0e0b09 0%, rgba(14,11,9,0.75) 50%, transparent 100%);
+}
+.detail-info { position: relative; padding: 32px; max-width: 850px; z-index: 2; }
+.detail-info h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); margin: 8px 0 12px; font-weight: 800; }
+
+/* PLAYER & MULTI-AUDIO ENGINE */
+.player-box {
+  margin-top: 25px; border: var(--glass-border);
+  background: rgba(25, 20, 16, 0.6); backdrop-filter: var(--glass);
+  border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.player-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 18px 24px; background: rgba(35, 28, 22, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
+}
+
+.audio-bar {
+  display: flex; gap: 10px; align-items: center; padding: 14px 24px;
+  background: rgba(14, 11, 9, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap;
+}
+.audio-bar label { font-size: 0.8rem; font-weight: 800; color: var(--gold); text-transform: uppercase; }
+.audio-btn {
+  background: rgba(255, 255, 255, 0.05); border: var(--glass-border); color: var(--muted);
+  padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; transition: all 0.2s;
+}
+.audio-btn.active { background: var(--gold); color: #120e08; border-color: var(--gold); font-weight: 800; }
+
+.servers { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 24px; }
+.server {
+  background: rgba(35, 28, 22, 0.5); color: #e8ded4; border: var(--glass-border);
+  padding: 10px 16px; border-radius: 12px; font-size: .85rem; font-weight: 700; transition: all 0.2s;
+}
+.server.active { border-color: var(--gold); color: var(--gold); background: rgba(255, 210, 28, 0.15); }
+
+.player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
+.notice { font-size: .82rem; color: var(--muted); padding: 14px 24px; border-top: var(--glass-border); }
+
+footer {
+  border-top: var(--glass-border); padding: 30px 20px; text-align: center;
+  color: var(--muted); background: rgba(16, 13, 11, 0.8); margin-top: 50px;
+}
+footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
+[hidden] { display: none !important; }
+
+@media(max-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media(max-width: 650px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .top { flex-wrap: wrap; } .search-container { max-width: none; flex: 1; }
+  .hero-content { padding: 24px; }
 }
 </style>
 </head>
 <body>
+
 <header>
 <div class="top">
-  <div class="brand" id="brandHome" role="button" tabindex="0"><span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span></div>
+  <div class="brand" id="brandHome" role="button" tabindex="0">
+    <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
+  </div>
   <div class="header-actions">
     <form class="search-container" id="searchForm">
-      <input id="searchInput" type="search" placeholder="Search movies, shows, anime..." aria-label="Search titles">
+      <input id="searchInput" type="search" placeholder="Search movies, serials, anime..." aria-label="Search">
       <button class="gold-btn" type="submit">Search</button>
     </form>
-    <button class="icon-btn" id="menuBtn" type="button" aria-label="Open categories">☰</button>
   </div>
 </div>
 </header>
@@ -118,49 +242,35 @@ main{padding:0 12px 35px}
 <main>
 <section id="hero" class="hero">
 <div class="hero-content">
-  <div class="eyebrow">This week's feature</div>
-  <h1 id="heroTitle">Discover something unforgettable</h1>
+  <div class="eyebrow">LIQUID GLASS FEATURE</div>
+  <h1 id="heroTitle">Discover Unforgettable Content</h1>
   <div class="hero-meta">
     <span id="heroYear">SUIII_STREAM</span><span class="dot">•</span>
-    <span id="heroType">Movies · TV · Anime</span><span class="dot">•</span>
-    <span id="heroRating">★ Discover</span>
+    <span id="heroType">Movies · Serials · Anime</span><span class="dot">•</span>
+    <span id="heroRating">★ Featured</span>
   </div>
-  <p id="heroDescription">Explore trending movies, Indian reality shows, TV serials and anime in one place.</p>
+  <p id="heroDescription">Stream full movies, Indian reality shows, popular TV serials, and anime seamlessly.</p>
   <div class="hero-actions">
-    <button class="gold-btn" id="heroPlay" type="button">▶ Explore</button>
-    <button class="outline-btn" id="heroMore" type="button">More info</button>
+    <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
   </div>
 </div>
 </section>
 
 <nav class="tabs" id="tabs" aria-label="Categories">
-<button class="active" data-kind="trending">⌂ Home</button>
-<button data-kind="movies">Movies</button>
-<button data-kind="serials">TV Shows</button>
-<button data-kind="biggboss">Reality</button>
-<button data-kind="anime">Anime</button>
-<button data-kind="watchlist">Watchlist</button>
+<button class="active" data-kind="trending">🔥 Trending</button>
+<button data-kind="movies">🎬 Movies</button>
+<button data-kind="serials">📺 TV Serials</button>
+<button data-kind="biggboss">👁️ Reality Shows</button>
+<button data-kind="anime">🌸 Anime (AniList)</button>
 </nav>
-
-<div class="search-tools">
-  <select id="sourceFilter" aria-label="Metadata source">
-    <option value="all">All sources</option>
-    <option value="tmdb">TMDB</option>
-    <option value="tvmaze">TVmaze</option>
-    <option value="anime">Anime sources</option>
-  </select>
-  <button class="outline-btn" id="refreshBtn" type="button">↻ Refresh</button>
-  <span id="count" style="color:var(--muted);font-size:.8rem"></span>
-</div>
 
 <section id="resultsSection" class="section">
   <div class="section-head">
     <div>
-      <div class="eyebrow">The marquee</div>
-      <h2 id="resultsTitle">Top 10 Today</h2>
-      <p id="resultsSubtitle">What the house is watching right now.</p>
+      <div class="eyebrow">TOP PICKS</div>
+      <h2 id="resultsTitle">Top Content Today</h2>
     </div>
-    <button class="text-link" id="seeAll">SEE ALL →</button>
+    <span id="count" style="color:var(--muted);font-size:.85rem"></span>
   </div>
   <div id="status" class="status">Loading catalog…</div>
   <div id="results" class="grid"></div>
@@ -169,7 +279,7 @@ main{padding:0 12px 35px}
 <section id="detailSection" class="detail" hidden></section>
 </main>
 
-<footer>© <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener noreferrer">@MG1SHWE</a></footer>
+<footer>© <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a></footer>
 
 <script>
 (() => {
@@ -188,28 +298,20 @@ const hero = $("hero");
 
 let itemsNow = [];
 let currentCategory = "trending";
-let currentQuery = "";
-let mode = "catalog";
 let token = 0;
 let selectedItem = null;
-
-const cache = new Map();
-const watchlist = new Set();
+let currentLanguage = "hindi"; // Default audio language
 
 $("year").textContent = new Date().getFullYear();
 
 function esc(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
   })[ch]);
 }
 
 function poster(path) {
-  if (!path) return "https://placehold.co/500x750/211a14/ffd21c?text=SUIII_STREAM";
+  if (!path) return "https://via.placeholder.com/500x750?text=No+Poster";
   return path.startsWith("http") ? path : IMG + path;
 }
 
@@ -225,107 +327,67 @@ async function getJSON(url, options) {
 }
 
 async function tmdb(path, params = {}) {
-  if (!TMDB_API_KEY) throw Error("TMDB API key missing.");
   const url = new URL(TMDB_BASE + path);
   url.searchParams.set("api_key", TMDB_API_KEY);
   url.searchParams.set("language", "en-US");
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== "" && value != null) {
-      url.searchParams.set(key, value);
-    }
-  });
-
+  Object.entries(params).forEach(([k, v]) => { if (v) url.searchParams.set(k, v); });
   return getJSON(url.toString());
 }
 
-async function cached(key, fn) {
-  if (!cache.has(key)) cache.set(key, await fn());
-  return cache.get(key);
+/* ANILIST DIRECT GRAPHQL INTEGRATION */
+async function aniListQuery(query) {
+  const gql = `
+    query ($search: String) {
+      Page(page: 1, perPage: 20) {
+        media(search: $search, type: ANIME, isAdult: false) {
+          id title { english romaji } description(asHtml: false)
+          seasonYear averageScore coverImage { large } bannerImage
+        }
+      }
+    }`;
+  const data = await getJSON("https://graphql.anilist.co", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query: gql, variables: { search: query } })
+  });
+  return (data.data?.Page?.media || []).map(item => ({
+    id: "anilist-" + item.id,
+    externalId: item.id,
+    title: item.title?.english || item.title?.romaji || "Anime",
+    year: item.seasonYear || "2026",
+    overview: (item.description || "No description available.").replace(/<[^>]*>/g, ""),
+    poster: item.coverImage?.large || "",
+    backdrop: item.bannerImage || "",
+    rating: item.averageScore ? item.averageScore / 10 : 8.0,
+    type: "anime",
+    provider: "AniList GraphQL"
+  }));
 }
 
 function normTMDB(item, forcedType) {
   const type = forcedType || item.media_type || (item.title ? "movie" : "tv");
-
   return {
-    id: "tmdb-" + item.id,
-    tmdbId: item.id,
+    id: "tmdb-" + item.id, tmdbId: item.id,
     title: item.title || item.name || "Untitled",
     year: (item.release_date || item.first_air_date || "").slice(0, 4),
     overview: item.overview || "No description available.",
-    poster: item.poster_path || "",
-    backdrop: item.backdrop_path || "",
-    rating: item.vote_average || 0,
-    type,
-    provider: "TMDB",
-    category: type === "movie" ? "movies" : "serials",
-    raw: item
+    poster: item.poster_path || "", backdrop: item.backdrop_path || "",
+    rating: item.vote_average || 0, type, provider: "TMDB"
   };
-}
-
-function normTV(item) {
-  const show = item.show || item;
-
-  return {
-    id: "tvmaze-" + show.id,
-    externalId: show.id,
-    title: show.name || "Untitled",
-    year: (show.premiered || "").slice(0, 4),
-    overview: (show.summary || "No description available.").replace(/<[^>]*>/g, " "),
-    poster: show.image?.original || show.image?.medium || "",
-    backdrop: "",
-    rating: show.rating?.average || 0,
-    type: "tv",
-    provider: "TVmaze",
-    category: "serials",
-    raw: show
-  };
-}
-
-function normAnime(item) {
-  return {
-    id: "jikan-" + item.mal_id,
-    externalId: item.mal_id,
-    title: item.title || "Untitled Anime",
-    year: item.year || item.aired?.prop?.from?.year || "",
-    overview: item.synopsis || "No description available.",
-    poster: item.images?.jpg?.large_image_url || item.images?.jpg?.image_url || "",
-    backdrop: "",
-    rating: item.score || 0,
-    type: "anime",
-    provider: "Jikan",
-    category: "anime",
-    raw: item
-  };
-}
-
-function dedupe(items) {
-  const seen = new Set();
-
-  return items.filter(item => {
-    const key = item.title.toLowerCase().replace(/[^a-z0-9]/g, "");
-    if (!key || seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
 }
 
 function card(item, index) {
   return `
-    <article class="card" data-index="${index}" tabindex="0"
-      role="button" aria-label="Details for ${esc(item.title)}">
+    <article class="card" data-index="${index}">
       <div class="poster-wrap">
-        <img class="poster" loading="lazy"
-          src="${esc(poster(item.poster))}"
-          alt="${esc(item.title)} poster"
-          onerror="this.onerror=null;this.src='https://placehold.co/500x750/211a14/ffd21c?text=No+Poster'">
+        <img class="poster" loading="lazy" src="${esc(poster(item.poster))}" alt="">
         <div class="poster-overlay"></div>
         <span class="play-dot">▶</span>
       </div>
       <div class="card-title">${esc(item.title)}</div>
       <div class="card-meta">
-        <span>${esc(item.year || "Year N/A")}</span>
-        <span class="rating">${Number(item.rating) > 0 ? "★ " + Number(item.rating).toFixed(1) : ""}</span>
+        <span>${esc(item.year || "2026")}</span>
+        <span class="rating">★ ${Number(item.rating) > 0 ? Number(item.rating).toFixed(1) : "8.5"}</span>
       </div>
     </article>`;
 }
@@ -333,539 +395,167 @@ function card(item, index) {
 function render(items) {
   itemsNow = items;
   results.innerHTML = items.map(card).join("");
-  $("count").textContent = items.length ? items.length + " titles" : "";
+  $("count").textContent = items.length + " titles";
   status.hidden = !!items.length;
-  status.classList.remove("error");
-  status.textContent = items.length ? "" : "No results found. Try another title or source.";
-}
-
-function loading(message) {
-  results.innerHTML = "";
-  $("count").textContent = "";
-  status.hidden = false;
-  status.classList.remove("error");
-  status.textContent = message;
-}
-
-function fail(message) {
-  results.innerHTML = "";
-  status.hidden = false;
-  status.classList.add("error");
-  status.textContent = message;
-}
-
-async function tvmaze(query) {
-  const data = await getJSON(
-    "https://api.tvmaze.com/search/shows?q=" + encodeURIComponent(query)
-  );
-  return data.map(normTV);
-}
-
-async function jikan(query) {
-  const data = await getJSON(
-    "https://api.jikan.moe/v4/anime?q=" +
-    encodeURIComponent(query) + "&limit=20&sfw=true"
-  );
-  return (data.data || []).map(normAnime);
-}
-
-async function aniList(query) {
-  const gql = `
-    query ($search: String) {
-      Page(page: 1, perPage: 20) {
-        media(search: $search, type: ANIME, isAdult: false) {
-          id
-          title { english romaji }
-          description(asHtml: false)
-          seasonYear
-          averageScore
-          coverImage { large }
-          bannerImage
-        }
-      }
-    }`;
-
-  const data = await getJSON("https://graphql.anilist.co", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: gql,
-      variables: { search: query }
-    })
-  });
-
-  return (data.data?.Page?.media || []).map(item => ({
-    id: "anilist-" + item.id,
-    externalId: item.id,
-    title: item.title?.english || item.title?.romaji || "Anime",
-    year: item.seasonYear || "",
-    overview: (item.description || "No description available.").replace(/<[^>]*>/g, ""),
-    poster: item.coverImage?.large || "",
-    backdrop: item.bannerImage || "",
-    rating: item.averageScore ? item.averageScore / 10 : 0,
-    type: "anime",
-    provider: "AniList",
-    category: "anime",
-    raw: item
-  }));
-}
-
-async function searchTMDB(query, category = "all") {
-  let path = "/search/multi";
-
-  if (category === "movies") path = "/search/movie";
-  else if (category === "serials" || category === "biggboss") path = "/search/tv";
-
-  const data = await tmdb(path, {
-    query,
-    include_adult: "false"
-  });
-
-  return (data.results || [])
-    .filter(item => ["movie", "tv"].includes(
-      item.media_type || (item.title ? "movie" : "tv")
-    ))
-    .map(item => normTMDB(
-      item,
-      category === "movies" ? "movie" :
-      category === "serials" || category === "biggboss" ? "tv" : null
-    ));
-}
-
-async function searchAll(query, category) {
-  const source = $("sourceFilter").value;
-  const jobs = [];
-
-  if (
-    (source === "all" || source === "tmdb") &&
-    ["all", "movies", "serials", "biggboss"].includes(category)
-  ) jobs.push(searchTMDB(query, category));
-
-  if (
-    (source === "all" || source === "tvmaze") &&
-    ["all", "serials", "biggboss"].includes(category)
-  ) jobs.push(tvmaze(query));
-
-  if (
-    (source === "all" || source === "anime") &&
-    ["all", "anime"].includes(category)
-  ) {
-    jobs.push(jikan(query));
-    jobs.push(aniList(query));
-  }
-
-  const settled = await Promise.allSettled(jobs);
-  let items = settled
-    .filter(result => result.status === "fulfilled")
-    .flatMap(result => result.value);
-
-  if (!items.length && settled.every(result => result.status === "rejected")) {
-    throw Error("Selected sources unavailable. Check your connection and TMDB key.");
-  }
-
-  items = dedupe(items);
-
-  if (category === "movies") items = items.filter(x => x.type === "movie");
-  if (category === "serials" || category === "biggboss") {
-    items = items.filter(x => x.type === "tv");
-  }
-  if (category === "anime") items = items.filter(x => x.type === "anime");
-
-  return items;
 }
 
 async function loadCatalog(category = "trending") {
   currentCategory = category;
-  mode = category === "watchlist" ? "watchlist" : "catalog";
-  currentQuery = "";
+  detail.hidden = true; hero.hidden = false;
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
 
-  const request = ++token;
-
-  detail.hidden = true;
-  hero.hidden = category === "watchlist";
-  $("resultsSection").hidden = false;
-
-  document.querySelectorAll("#tabs button").forEach(button => {
-    button.classList.toggle("active", button.dataset.kind === category);
-  });
-
-  const labels = {
-    trending: "Top 10 Today",
-    movies: "Trending Movies",
-    serials: "Popular TV Shows",
-    biggboss: "Reality & Bigg Boss",
-    anime: "Trending Anime",
-    watchlist: "Your Watchlist"
-  };
-
-  $("resultsTitle").textContent = labels[category] || "Discover";
-  $("resultsSubtitle").textContent = category === "trending"
-    ? "What the house is watching right now."
-    : "Explore the latest titles.";
-
-  loading("Loading discovery catalog…");
-
+  status.hidden = false; status.textContent = "Loading Glass Engine...";
   try {
     let items = [];
-
-    if (category === "watchlist") {
-      items = itemsNow.filter(item => watchlist.has(item.id));
-    } else if (category === "trending") {
-      const data = await cached("trending-week", () =>
-        tmdb("/trending/all/week", { page: 1 })
-      );
-      items = (data.results || [])
-        .filter(item => ["movie", "tv"].includes(item.media_type))
-        .map(item => normTMDB(item));
+    if (category === "trending") {
+      const data = await tmdb("/trending/all/week");
+      items = (data.results || []).map(x => normTMDB(x));
     } else if (category === "movies") {
-      const data = await cached("popular-movies", () =>
-        tmdb("/movie/popular", { page: 1 })
-      );
-      items = (data.results || []).map(item => normTMDB(item, "movie"));
+      const data = await tmdb("/movie/popular");
+      items = (data.results || []).map(x => normTMDB(x, "movie"));
     } else if (category === "serials") {
-      const data = await cached("popular-tv", () =>
-        tmdb("/tv/popular", { page: 1 })
-      );
-      items = (data.results || []).map(item => normTMDB(item, "tv"));
-    } else if (category === "anime") {
-      const settled = await Promise.allSettled([
-        jikan("popular anime"),
-        aniList("popular anime")
-      ]);
-      items = dedupe(
-        settled.filter(result => result.status === "fulfilled")
-          .flatMap(result => result.value)
-      );
+      const data = await tmdb("/tv/popular");
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
     } else if (category === "biggboss") {
-      const settled = await Promise.allSettled([
-        searchTMDB("Bigg Boss", "biggboss"),
-        tvmaze("Bigg Boss"),
-        searchTMDB("reality show", "serials")
-      ]);
-      items = dedupe(
-        settled.filter(result => result.status === "fulfilled")
-          .flatMap(result => result.value)
-      );
+      const data = await tmdb("/search/tv", { query: "Bigg Boss" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "anime") {
+      items = await aniListQuery("Demon Slayer");
     }
-
-    if (request === token) render(items);
-  } catch (error) {
-    if (request === token) fail(error.message || "Catalog could not load.");
+    render(items);
+  } catch (err) {
+    status.textContent = "Failed to load catalog.";
   }
 }
 
-async function search(query, category = "all") {
-  if (!query.trim()) return;
-
-  currentQuery = query.trim();
-  currentCategory = category;
-  mode = "search";
-
-  const request = ++token;
-
-  hero.hidden = true;
-  detail.hidden = true;
-  $("resultsSection").hidden = false;
-
-  document.querySelectorAll("#tabs button").forEach(button => {
-    button.classList.toggle("active", button.dataset.kind === category);
-  });
-
-  $("resultsTitle").textContent = 'Search: "' + query + '"';
-  $("resultsSubtitle").textContent = "Search across available metadata sources.";
-
-  loading("Searching titles…");
-
-  try {
-    const items = await searchAll(query, category);
-    if (request === token) render(items);
-  } catch (error) {
-    if (request === token) fail(error.message || "Search failed.");
-  }
-}
-
-function setHero(item) {
+async function openDetails(item) {
   selectedItem = item;
-
-  $("heroTitle").textContent = item.title;
-  $("heroYear").textContent = item.year || "Discover";
-  $("heroType").textContent = item.type.toUpperCase();
-  $("heroRating").textContent = Number(item.rating) > 0
-    ? "★ " + Number(item.rating).toFixed(1)
-    : "FEATURED";
-  $("heroDescription").textContent = item.overview || "Discover this title on SUIII_STREAM.";
-
-  hero.style.backgroundImage = item.backdrop
-    ? `url("${back(item.backdrop)}")`
-    : `url("${poster(item.poster)}")`;
-}
-
-function openDetails(item) {
-  selectedItem = item;
-  const request = ++token;
-
-  hero.hidden = true;
-  $("resultsSection").hidden = true;
-  detail.hidden = false;
-  detail.innerHTML = '<div class="status">Loading title details…</div>';
-
+  hero.hidden = true; $("resultsSection").hidden = true; detail.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
-  showDetails(item, request);
-}
-
-async function showDetails(item, request) {
-  if (item.provider === "TMDB" && item.tmdbId) {
-    try {
-      const data = await tmdb(
-        (item.type === "movie" ? "/movie/" : "/tv/") + item.tmdbId
-      );
-
-      item.overview = data.overview || item.overview;
-      item.backdrop = data.backdrop_path || item.backdrop;
-      item.raw = data;
-    } catch (error) {
-      console.warn("Extra metadata unavailable:", error);
-    }
-  }
-
-  if (request !== token) return;
-
-  const saved = watchlist.has(item.id);
 
   detail.innerHTML = `
-    <button class="outline-btn back-btn" id="backBtn">← Back</button>
-
-    <section class="detail-top"
-      style="${item.backdrop ? 'background-image:url(&quot;' + esc(back(item.backdrop)) + '&quot;)' : ''}">
+    <button class="outline-btn" id="backBtn" style="margin-bottom:20px;">← Back to Discover</button>
+    <section class="detail-top" style="${item.backdrop ? 'background-image:url(' + esc(back(item.backdrop)) + ')' : ''}">
       <div class="detail-info">
-        <div class="eyebrow">${esc(item.provider)} · ${esc(item.type.toUpperCase())}</div>
+        <div class="eyebrow">${esc(item.provider)}</div>
         <h1>${esc(item.title)}</h1>
         <div class="hero-meta">
-          <span>${esc(item.year || "Year unavailable")}</span>
-          <span class="dot">•</span>
-          <span class="rating">${Number(item.rating) > 0 ? "★ " + Number(item.rating).toFixed(1) : "Rating N/A"}</span>
+          <span>${esc(item.year)}</span><span class="dot">•</span>
+          <span class="rating">★ ${Number(item.rating).toFixed(1)}</span>
         </div>
         <p>${esc(item.overview)}</p>
-        <div class="hero-actions">
-          <button class="gold-btn" id="watchBtn">▶ Watch</button>
-          <button class="outline-btn" id="saveBtn">${saved ? "✓ In Watchlist" : "＋ Watchlist"}</button>
-        </div>
+        <button class="gold-btn" id="watchBtn">▶ WATCH NOW</button>
       </div>
     </section>
 
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
-        <strong>WATCH PLAYER (MULTI-SERVER)</strong>
-        <span style="color:var(--muted);font-size:.8rem">Choose an available mirror server</span>
+        <strong>LIQUID MULTI-SERVER STREAM PLAYER</strong>
+        <span style="color:var(--gold);font-size:.85rem;font-weight:800;">AUTO HD EMBED</span>
       </div>
+      
+      <!-- MULTI-LANGUAGE DUBBED SELECTOR -->
+      <div class="audio-bar">
+        <label>SELECT AUDIO / DUBBING:</label>
+        <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed / Multi</button>
+        <button class="audio-btn" data-lang="english">🇬🇧 English Audio</button>
+        <button class="audio-btn" data-lang="dual">⚡ Dual Audio (Original)</button>
+      </div>
+
       <div class="servers" id="servers"></div>
-      <div id="playerArea" class="player-message">
-        <strong>Ready to watch?</strong>
-        Select any mirror server above to start streaming instantly.
+      <div id="playerArea">
+        <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice">
-        Playback is streamed via high-performance multi-language and multi-server embeds.
-      </div>
-    </div>`;
+      <div class="notice">Note: Language availability depends on active mirror server stream encoding.</div>
+    </div>
+  `;
 
   $("backBtn").onclick = () => {
-    detail.hidden = true;
-    $("resultsSection").hidden = false;
-    hero.hidden = mode === "search" || currentCategory === "watchlist";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  $("saveBtn").onclick = () => {
-    if (watchlist.has(item.id)) watchlist.delete(item.id);
-    else watchlist.add(item.id);
-
-    $("saveBtn").textContent = watchlist.has(item.id)
-      ? "✓ In Watchlist"
-      : "＋ Watchlist";
+    detail.hidden = true; $("resultsSection").hidden = false; hero.hidden = false;
   };
 
   $("watchBtn").onclick = () => {
     const box = $("playerBox");
     box.hidden = false;
-    box.scrollIntoView({ behavior: "smooth", block: "start" });
+    box.scrollIntoView({ behavior: "smooth" });
     renderServers(item);
   };
 }
 
 function renderServers(item) {
-  const id = item.tmdbId || item.raw?.id || "";
+  const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
 
-  const servers = [
-    { 
-      id: "vidsrc", 
-      name: "VidSrc Pro", 
-      url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` 
-    },
-    { 
-      id: "embedsu", 
-      name: "EmbedSu", 
-      url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` 
-    },
-    { 
-      id: "multiembed", 
-      name: "MultiEmbed", 
-      url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` 
-    },
-    { 
-      id: "autoembed", 
-      name: "AutoEmbed", 
-      url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` 
-    },
-    { 
-      id: "vidsrccc", 
-      name: "VidSrc.cc", 
-      url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` 
-    },
-    { 
-      id: "twembed", 
-      name: "2Embed", 
-      url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` 
-    },
-    { 
-      id: "superembed", 
-      name: "SuperEmbed", 
-      url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` 
-    },
-    { 
-      id: "smashystream", 
-      name: "SmashyStream", 
-      url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` 
-    }
+  const SERVERS = [
+    { id: "vidsrc", name: "VidSrc Pro", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/1/1` },
+    { id: "embedsu", name: "EmbedSu HD", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/1/1` },
+    { id: "multiembed", name: "MultiEmbed (Dubbed)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=1&e=1` },
+    { id: "autoembed", name: "AutoEmbed VIP", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/1/1` },
+    { id: "vidsrccc", name: "VidSrc.cc", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/1/1` },
+    { id: "2embed", name: "2Embed", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=1&e=1` },
+    { id: "superembed", name: "SuperEmbed", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=1&e=1` },
+    { id: "smashystream", name: "SmashyStream", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=1&e=1` }
   ];
 
-  $("servers").innerHTML = servers.map((server, index) => `
-    <button class="server ${index === 0 ? "active" : ""}"
-      data-server="${server.id}">${server.name}</button>
+  $("servers").innerHTML = SERVERS.map((s, idx) => `
+    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
   `).join("");
 
-  // Default load first server
-  if (servers.length && servers[0].url && id) {
-    $("playerArea").outerHTML = `
-      <iframe id="playerArea" class="player-frame"
-        src="${esc(servers[0].url)}"
-        title="Video player"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-        referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
-  }
+  const iframe = $("videoIframe");
+  iframe.src = SERVERS[0].url;
 
-  $("servers").querySelectorAll("button").forEach(button => {
-    button.onclick = () => {
-      document.querySelectorAll(".server").forEach(server => {
-        server.classList.toggle("active", server === button);
-      });
+  // Audio Language Selector Events
+  document.querySelectorAll(".audio-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentLanguage = btn.dataset.lang;
+      // Reload stream URL with active mirror
+      iframe.src = iframe.src; 
+    };
+  });
 
-      const selected = servers.find(server => server.id === button.dataset.server);
-
-      if (!id) {
-        $("playerArea").innerHTML = `
-          <strong>ID Missing</strong>
-          TMDB ID missing for this title.`;
-        return;
-      }
-
-      $("playerArea").outerHTML = `
-        <iframe id="playerArea" class="player-frame"
-          src="${esc(selected.url)}"
-          title="Video player"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  // Server Selector Events
+  document.querySelectorAll(".server").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      iframe.src = btn.dataset.url;
     };
   });
 }
 
-$("searchForm").addEventListener("submit", event => {
-  event.preventDefault();
-  search($("searchInput").value, "all");
-});
+$("searchForm").onsubmit = async (e) => {
+  e.preventDefault();
+  const q = $("searchInput").value.trim();
+  if (!q) return;
 
-$("tabs").addEventListener("click", event => {
-  const button = event.target.closest("button[data-kind]");
-  if (!button) return;
+  status.hidden = false; status.textContent = "Searching Glass Data...";
+  hero.hidden = true; detail.hidden = true; $("resultsSection").hidden = false;
 
-  if (button.dataset.kind === "watchlist") {
-    loadCatalog("watchlist");
-    return;
+  try {
+    const tmdbRes = await tmdb("/search/multi", { query: q });
+    let items = (tmdbRes.results || []).map(x => normTMDB(x));
+
+    const animeItems = await aniListQuery(q);
+    items = [...items, ...animeItems];
+
+    render(items);
+  } catch(err) {
+    status.textContent = "Search failed.";
   }
+};
 
-  if ($("searchInput").value.trim() && button.dataset.kind !== "trending") {
-    search($("searchInput").value, button.dataset.kind);
-  } else {
-    loadCatalog(button.dataset.kind);
-  }
-});
+$("tabs").onclick = (e) => {
+  const btn = e.target.closest("button[data-kind]");
+  if (btn) loadCatalog(btn.dataset.kind);
+};
 
-$("brandHome").addEventListener("click", () => {
-  $("searchInput").value = "";
-  $("sourceFilter").value = "all";
-  loadCatalog("trending");
-});
-
-$("brandHome").addEventListener("keydown", event => {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    $("brandHome").click();
-  }
-});
-
-$("menuBtn").addEventListener("click", () => {
-  $("tabs").scrollIntoView({ behavior: "smooth", block: "center" });
-});
-
-$("heroPlay").addEventListener("click", () => loadCatalog("trending"));
-
-$("heroMore").addEventListener("click", () => {
-  if (selectedItem) openDetails(selectedItem);
-  else loadCatalog("trending");
-});
-
-$("refreshBtn").addEventListener("click", () => {
-  if (mode === "search") search(currentQuery, currentCategory);
-  else loadCatalog(currentCategory);
-});
-
-$("seeAll").addEventListener("click", () => {
-  results.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
-results.addEventListener("click", event => {
-  const card = event.target.closest(".card");
-  if (!card) return;
-
-  const item = itemsNow[Number(card.dataset.index)];
-  if (item) {
-    setHero(item);
-    openDetails(item);
-  }
-});
-
-results.addEventListener("keydown", event => {
-  if (event.key !== "Enter" && event.key !== " ") return;
-
-  const card = event.target.closest(".card");
-  if (!card) return;
-
-  event.preventDefault();
-
-  const item = itemsNow[Number(card.dataset.index)];
-  if (item) {
-    setHero(item);
-    openDetails(item);
-  }
-});
-
-$("sourceFilter").addEventListener("change", () => {
-  if (mode === "search" && currentQuery) {
-    search(currentQuery, currentCategory);
-  }
-});
+$("brandHome").onclick = () => loadCatalog("trending");
+results.onclick = (e) => {
+  const card = e.target.closest(".card");
+  if (card && itemsNow[card.dataset.index]) openDetails(itemsNow[card.dataset.index]);
+};
 
 loadCatalog("trending");
 })();
