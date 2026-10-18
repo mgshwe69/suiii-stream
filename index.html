@@ -233,12 +233,15 @@
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
 
+  // MASSIVE EXPANDED DATABASE TO ENSURE RICH CONTENT ACROSS ALL GENRES & SEARCH
   const MASSIVE_DATABASE = [
     { id: 550, title: "Fight Club", vote_average: 8.4, release_date: "1999-10-15", poster_path: "/pB8BM7pdSpENMPT6ZrypK2zXPrO.jpg", backdrop_path: "/hZkgoQYus5vegHoetLkCJzb17zJ.jpg", media_type: "movie", overview: "An insomniac office worker looking for a way to change his life crosses paths with a devil-may-care soap maker." },
     { id: 272, title: "Batman Begins", vote_average: 8.2, release_date: "2005-06-15", poster_path: "/8VxWaYivoxNVXkCWcJABkUMvmtn.jpg", backdrop_path: "/scZlM1wVNmZmpcuXCPaDrqM31vQ.jpg", media_type: "movie", overview: "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating corruption." },
     { id: 155, title: "The Dark Knight", vote_average: 8.5, release_date: "2008-07-16", poster_path: "/qJ2tW6WMUDux911r6m7haRef0WH.jpg", backdrop_path: "/nMKdUUepR0i5zn0y1T4CsSB5chy.jpg", media_type: "movie", overview: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham." },
     { id: 238, title: "The Godfather", vote_average: 8.7, release_date: "1972-03-14", poster_path: "/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", backdrop_path: "/tmU7GeKVybMWFButWEGl2M4GeiP.jpg", media_type: "movie", overview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son." },
     { id: 278, title: "The Shawshank Redemption", vote_average: 8.7, release_date: "1994-09-23", poster_path: "/9cqNxx0GxF0bflZmeSMuL5tnGzr.jpg", backdrop_path: "/kXfqcdQKsToO0OUXHcrrNCHDBzO.jpg", media_type: "movie", overview: "Framed in the 1940s for the double murder of his wife and her lover, upstanding banker Andy Dufresne begins a new life." },
+    { id: 680, title: "Pulp Fiction", vote_average: 8.5, release_date: "1994-09-10", poster_path: "/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg", backdrop_path: "/suaEOtk1N1sgg2MTM7oZd2cfVp3.jpg", media_type: "movie", overview: "The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence and redemption." },
+    { id: 13, title: "Forrest Gump", vote_average: 8.5, release_date: "1994-07-06", poster_path: "/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg", backdrop_path: "/7c9UVPPiTPltouxRVY6N9uugaVA.jpg", media_type: "movie", overview: "A man with a low IQ has accomplished great things in his life and been present during significant historical events." },
     { id: 1399, title: "Game of Thrones", name: "Game of Thrones", vote_average: 8.4, first_air_date: "2011-04-17", poster_path: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", backdrop_path: "/suopoADq0k8YZr4dQXcU6pToj6s.jpg", media_type: "tv", overview: "Seven noble families fight for control of the mythical lands of Westeros." },
     { id: 66732, title: "Stranger Things", name: "Stranger Things", vote_average: 8.6, first_air_date: "2016-07-15", poster_path: "/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", backdrop_path: "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg", media_type: "tv", overview: "When a young boy vanishes, a small town uncovers a mystery involving secret experiments." },
     { id: 1396, title: "Breaking Bad", name: "Breaking Bad", vote_average: 8.9, first_air_date: "2008-01-20", poster_path: "/ztkUQFLlC19CCMYHW9o1zWhJRNq.jpg", backdrop_path: "/tsRy63Mu5cu8etL1X7ZLyf7UP1M.jpg", media_type: "tv", overview: "A chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine." },
@@ -252,7 +255,7 @@
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
     const fetchWithTimeout = async (url) => {
       const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 3000);
+      const id = setTimeout(() => controller.abort(), 3500);
       try {
         const res = await fetch(url, { signal: controller.signal });
         clearTimeout(id);
@@ -274,14 +277,24 @@
   let searchTimeout = null;
   searchInput.addEventListener("input", (e) => {
     clearTimeout(searchTimeout);
-    const q = e.target.value.trim();
+    const q = e.target.value.trim().toLowerCase();
     if (!q) { suggestionsBox.hidden = true; suggestionsBox.innerHTML = ""; return; }
 
     searchTimeout = setTimeout(async () => {
       const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
-      const items = (res && res.results && res.results.length ? res.results : MASSIVE_DATABASE).slice(0, 6);
+      let items = res && res.results && res.results.length ? res.results : [];
+      // Local filter match from database if API is restricted
+      const localMatches = MASSIVE_DATABASE.filter(x => titleOf(x).toLowerCase().includes(q));
+      items = [...items, ...localMatches];
+      
+      const uniqueItems = Array.from(new Set(items.map(a => a.id)))
+        .map(id => items.find(a => a.id === id))
+        .slice(0, 6);
+
+      if (uniqueItems.length === 0) { suggestionsBox.hidden = true; return; }
+
       suggestionsBox.hidden = false;
-      suggestionsBox.innerHTML = items.map(i => `
+      suggestionsBox.innerHTML = uniqueItems.map(i => `
         <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
           <span>🎬 ${titleOf(i)}</span>
           <span style="color:var(--muted); font-size:.8rem;">${yearOf(i)}</span>
@@ -303,10 +316,15 @@
     const q = searchInput.value.trim();
     if (!q) return;
     const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
-    const items = res && res.results && res.results.length ? res.results : MASSIVE_DATABASE;
+    let items = res && res.results && res.results.length ? res.results : [];
+    const localMatches = MASSIVE_DATABASE.filter(x => titleOf(x).toLowerCase().includes(q.toLowerCase()));
+    items = [...items, ...localMatches];
+    
+    const uniqueItems = Array.from(new Set(items.map(a => a.id))).map(id => items.find(a => a.id === id));
+
     resultsTitle.textContent = `Search Results: ${q}`;
     resultsEl.className = "grid";
-    resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "movie")).join("");
+    resultsEl.innerHTML = uniqueItems.map(i => cardMarkup(i, i.media_type || "movie")).join("");
   });
 
   function titleOf(i) { return i.title || i.name || i.original_title || "Untitled"; }
@@ -403,7 +421,7 @@
     resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || (kind === 'movie' ? 'movie' : 'tv'))).join("");
   }
 
-  // 100% WORKING WORKING STREAMING SERVERS (MULTI-SOURCE EMBED)
+  // 100% WORKING EMBED PLAYERS (MULTIPLE SERVERS)
   const SERVERS = [
     { id: "vidsrc", name: "VegaMovies Mirror 1" },
     { id: "multiembed", name: "MovieBox Pro" },
