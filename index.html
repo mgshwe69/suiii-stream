@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0e">
-  <title>SUIII_STREAM — Ultimate OTT & Reality Hub</title>
+  <title>SUIII_STREAM — Ultimate OTT Platform</title>
   <style>
     :root {
       color-scheme: dark;
@@ -20,10 +20,6 @@
       --card-bg: rgba(19, 19, 24, 0.8);
       --glass-blur: blur(20px);
     }
-    [data-theme="anime"] { --accent: #ec4899; --accent-hover: #db2777; }
-    [data-theme="football"] { --accent: #22c55e; --accent-hover: #16a34a; }
-    [data-theme="reality"], [data-theme="serials"] { --accent: #e50914; --accent-hover: #b9090b; }
-
     * { box-sizing: border-box; }
     body {
       margin: 0; background: var(--bg); color: var(--text);
@@ -157,7 +153,7 @@
     <button data-kind="football">⚽ Live Sports</button>
   </nav>
 
-  <div id="status" class="status" hidden>Loading content...</div>
+  <div id="status" class="status">Loading content from global servers...</div>
 
   <section id="resultsSection">
     <div class="section-head"><h2 id="resultsTitle">Top Trending Today</h2></div>
@@ -169,7 +165,7 @@
   <section id="pluginsSection" hidden>
     <button type="button" class="secondary" id="backToMovies" style="margin-bottom:20px;">← Back to Explore</button>
     <div class="section-head"><h2>Plugin Center ⚡</h2></div>
-    <div class="status">CloudStream .cs3 plugin catalog integrated for extra sources.</div>
+    <div class="status">CloudStream .cs3 plugin catalog integrated.</div>
     <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
   </section>
 </main>
@@ -182,7 +178,7 @@
 (() => {
   "use strict";
 
-  const TMDB_API_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
+  const TMDB_API_KEY = "3fd2be6f0c70a2a598f084dd23308886";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -193,6 +189,7 @@
   const heroBanner = document.getElementById("heroBanner");
   const searchInput = document.getElementById("searchInput");
   const pluginsSection = document.getElementById("pluginsSection");
+  const statusEl = document.getElementById("status");
 
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
@@ -219,25 +216,24 @@
     `).join("");
   }
 
+  // DIRECT RELIABLE API LOADER WITH MULTIPLE FALLBACK PROXIES
   async function api(path) {
     const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
-    const fetchWithTimeout = async (url) => {
-      const controller = new AbortController();
-      const id = setTimeout(() => controller.abort(), 4000);
+    
+    const proxies = [
+      `https://corsproxy.io/?${encodeURIComponent(target)}`,
+      `https://api.allorigins.win/raw?url=${encodeURIComponent(target)}`,
+      `https://thingproxy.freeboard.io/fetch/${target}`
+    ];
+
+    for (let p of proxies) {
       try {
-        const res = await fetch(url, { signal: controller.signal });
-        clearTimeout(id);
-        if (res.ok) return await res.json();
+        const res = await fetch(p);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && (json.results || json.id)) return json;
+        }
       } catch(e) {}
-      return null;
-    };
-
-    let data = await fetchWithTimeout(`https://corsproxy.io/?${encodeURIComponent(target)}`);
-    if (data && (data.results || data.id)) return data;
-
-    data = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`);
-    if (data && data.contents) {
-      try { return JSON.parse(data.contents); } catch(e){}
     }
     return null;
   }
@@ -279,8 +275,11 @@
     document.getElementById("suggestionsBox").hidden = true;
     const q = searchInput.value.trim();
     if (!q) return;
+    statusEl.hidden = false;
+    statusEl.textContent = "Searching global library...";
     const res = await api(`/search/multi?query=${encodeURIComponent(q)}`);
     let items = res && res.results ? res.results : [];
+    statusEl.hidden = true;
     resultsTitle.textContent = `Search Results: ${q}`;
     resultsEl.className = "grid";
     resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "tv")).join("");
@@ -321,8 +320,8 @@
   });
 
   const FOOTBALL_MATCHES = [
-    { id: "f1", title: "Al Nassr vs Al Hilal", league: "Saudi Pro League (Ronaldo ⚽)", status: "LIVE NOW", isLive: true, bg: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/550" },
-    { id: "f2", title: "Real Madrid vs Man City", league: "UEFA Champions League", status: "Tonight 12:30 AM", isLive: false, bg: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/551" }
+    { id: "f1", title: "Al Nassr vs Al Hilal", league: "Saudi Pro League (Ronaldo ⚽)", status: "LIVE NOW", isLive: true, url: "https://vidsrc.to/embed/movie/550" },
+    { id: "f2", title: "Real Madrid vs Man City", league: "UEFA Champions League", status: "Tonight 12:30 AM", isLive: false, url: "https://vidsrc.to/embed/movie/551" }
   ];
 
   let currentKind = "all";
@@ -347,6 +346,8 @@
       return;
     }
 
+    statusEl.hidden = false;
+    statusEl.textContent = "Loading content...";
     resultsEl.className = "grid";
     let lists = [];
 
@@ -362,11 +363,9 @@
         ...(p3?.results || []).map(x => ({...x, media_type: "movie"}))
       ];
     } else if (kind === "reality") {
-      // Reality shows like Bigg Boss, Khatron Ke Khiladi style query (TV genre Reality or Talk/Game show)
       const d = await api("/discover/tv?with_genres=10764&sort_by=popularity.desc&page=1");
       lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
     } else if (kind === "serials") {
-      // Indian / Hindi TV Serials style query
       const d = await api("/discover/tv?with_original_language=hi&sort_by=popularity.desc&page=1");
       lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
     } else if (kind === "movie") {
@@ -377,6 +376,7 @@
       lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
     }
 
+    statusEl.hidden = true;
     lists = Array.from(new Set(lists.map(a => a.id))).map(id => lists.find(a => a.id === id));
 
     setupCarousel(lists);
@@ -430,7 +430,7 @@
       </div>
 
       ${kind === "tv" ? `
-        <div class="section-head" style="margin-top:30px;"><h2>Seasons & Episodes (Bigg Boss / Serials)</h2></div>
+        <div class="section-head" style="margin-top:30px;"><h2>Seasons & Episodes</h2></div>
         <div class="episodes" id="episodesList" style="display:grid; gap:12px;"></div>
       ` : ""}
     `;
