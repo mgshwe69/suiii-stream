@@ -465,7 +465,8 @@
 (() => {
   "use strict";
 
-  const API_PROXY = "/.netlify/functions/tmdb";
+  // DIRECT PUBLIC TMDB API FETCH (No Serverless Functions Needed for Vercel/Static Hosting)
+  const TMDB_API_KEY = "9a7e3f3e6a931bd2767890396e3352d5";
   const IMG = "https://image.tmdb.org/t/p/w500";
   const IMG_ORIG = "https://image.tmdb.org/t/p/original";
 
@@ -509,20 +510,28 @@
     `).join("");
   }
 
+  // DIRECT TMDB API FETCHER WITH CORS PROXY BACKUP FOR VERCEL
   async function api(path) {
-    const parts = path.split("?");
-    const route = parts[0];
-    const query = parts.slice(1).join("?");
-    
-    let url = `${API_PROXY}?path=${encodeURIComponent(route)}`;
-    if (query) {
-      url += `&${query}`;
-    }
+    const target = `https://api.themoviedb.org/3${path}${path.includes('?') ? '&' : '?'}api_key=${TMDB_API_KEY}`;
+    const fetchWithTimeout = async (url) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 4000);
+      try {
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(id);
+        if (res.ok) return await res.json();
+      } catch(e) {}
+      return null;
+    };
 
-    const res = await fetch(url);
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.error || `Failed`);
-    return data;
+    let data = await fetchWithTimeout(`https://corsproxy.io/?${encodeURIComponent(target)}`);
+    if (data) return data;
+
+    data = await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(target)}`);
+    if (data && data.contents) {
+      try { return JSON.parse(data.contents); } catch(e){}
+    }
+    return {};
   }
 
   function escapeHtml(v) {
