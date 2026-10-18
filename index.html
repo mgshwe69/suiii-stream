@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0e">
-  <title>SUIII_STREAM — Ultimate OTT Platform</title>
+  <title>SUIII_STREAM — Ultimate OTT & Reality Hub</title>
   <style>
     :root {
       color-scheme: dark;
@@ -22,7 +22,7 @@
     }
     [data-theme="anime"] { --accent: #ec4899; --accent-hover: #db2777; }
     [data-theme="football"] { --accent: #22c55e; --accent-hover: #16a34a; }
-    [data-theme="kdrama"], [data-theme="pakistani"] { --accent: #e50914; --accent-hover: #b9090b; }
+    [data-theme="reality"], [data-theme="serials"] { --accent: #e50914; --accent-hover: #b9090b; }
 
     * { box-sizing: border-box; }
     body {
@@ -96,18 +96,6 @@
     .card-info { padding: 12px; }
     .card-title { font-weight: 700; font-size: .92rem; margin: 0 0 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .match-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-    .match-card {
-      background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
-      overflow: hidden; display: flex; flex-direction: column; position: relative;
-    }
-    .match-banner { height: 140px; background-size: cover; background-position: center; position: relative; }
-    .match-banner-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, var(--panel-solid) 100%); }
-    .match-body { padding: 16px; position: relative; margin-top: -30px; display: flex; flex-direction: column; gap: 12px; }
-    .match-badge { align-self: flex-start; padding: 4px 10px; border-radius: 8px; font-size: .75rem; font-weight: 800; background: var(--panel2); }
-    .match-badge.live { background: #22c55e; color: #000; }
-    .match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 900; font-size: 1.1rem; }
-
     .status { padding: 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; font-weight: 700; text-align: center; margin: 20px 0; }
     
     .detail {
@@ -126,10 +114,6 @@
     .server-card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; cursor: pointer; text-align: center; font-size: .85rem; font-weight: 700; }
     .server-card.active { border-color: var(--accent); background: rgba(255,255,255,0.08); }
 
-    .audio-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-    .audio-btn { background: var(--panel2); border: 1px solid var(--line); color: var(--muted); padding: 6px 14px; border-radius: 8px; font-size: .8rem; font-weight: 700; cursor: pointer; }
-    .audio-btn.active { background: var(--accent); color: #000; border-color: var(--accent); }
-
     footer { border-top: 1px solid var(--line); padding: 30px 20px; text-align: center; color: var(--muted); margin-top: 50px; background: var(--panel); }
     footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
   </style>
@@ -141,7 +125,7 @@
     <button type="button" class="menu-toggle" id="brandHome">SUIII<span>_STREAM</span></button>
     <div class="search-container">
       <form id="searchForm" role="search" autocomplete="off">
-        <input id="searchInput" type="search" placeholder="Search Movies, Anime, K-Drama, Series..." aria-label="Search">
+        <input id="searchInput" type="search" placeholder="Search Bigg Boss, Serials, Movies..." aria-label="Search">
       </form>
       <div id="suggestionsBox" class="suggestions-box" hidden></div>
     </div>
@@ -153,10 +137,10 @@
   <section id="heroBanner" class="hero-feature">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <div class="feature-tag" style="color:var(--accent); font-weight:800;">TRENDING FEATURE</div>
+      <div class="feature-tag" style="color:var(--accent); font-weight:800;">FEATURED BLOCKBUSTER</div>
       <h1 id="heroTitle">Loading...</h1>
       <div class="hero-meta" style="display:flex; gap:12px; align-items:center; margin-bottom:14px; color:#d1d1d6;">
-        <span id="heroRating" style="color:var(--accent); font-weight:800;">★ 8.5</span>
+        <span id="heroRating" style="color:var(--accent); font-weight:800;">★ 8.8</span>
         <span id="heroYear">2026</span>
       </div>
       <p id="heroOverview" style="color:var(--muted); margin-bottom:20px;">Loading overview...</p>
@@ -166,11 +150,10 @@
 
   <nav class="tabs" id="categoryTabs">
     <button data-kind="all" class="active">🔥 Trending</button>
+    <button data-kind="reality">👁️ Bigg Boss & Reality</button>
+    <button data-kind="serials">📺 TV Serials</button>
     <button data-kind="movie">🎬 Movies</button>
-    <button data-kind="tv">📺 Series</button>
     <button data-kind="anime">🌸 Anime</button>
-    <button data-kind="kdrama">🇰🇷 K-Drama</button>
-    <button data-kind="pakistani">🇵🇰 Pakistani</button>
     <button data-kind="football">⚽ Live Sports</button>
   </nav>
 
@@ -186,7 +169,7 @@
   <section id="pluginsSection" hidden>
     <button type="button" class="secondary" id="backToMovies" style="margin-bottom:20px;">← Back to Explore</button>
     <div class="section-head"><h2>Plugin Center ⚡</h2></div>
-    <div class="status">CloudStream .cs3 plugin catalog integrated.</div>
+    <div class="status">CloudStream .cs3 plugin catalog integrated for extra sources.</div>
     <div id="pluginResults" class="grid" style="margin-top:20px;"></div>
   </section>
 </main>
@@ -210,7 +193,6 @@
   const heroBanner = document.getElementById("heroBanner");
   const searchInput = document.getElementById("searchInput");
   const pluginsSection = document.getElementById("pluginsSection");
-  const statusEl = document.getElementById("status");
 
   document.getElementById("year").textContent = new Date().getFullYear();
   document.getElementById("brandHome").addEventListener("click", () => loadContent("all"));
@@ -275,7 +257,7 @@
 
       suggestionsBox.hidden = false;
       suggestionsBox.innerHTML = items.slice(0, 8).map(i => `
-        <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'movie'}">
+        <div class="suggestion-item" data-id="${i.id}" data-kind="${i.media_type || 'tv'}">
           <span>🎬 ${titleOf(i)}</span>
           <span style="color:var(--muted); font-size:.8rem;">${yearOf(i)}</span>
         </div>
@@ -301,7 +283,7 @@
     let items = res && res.results ? res.results : [];
     resultsTitle.textContent = `Search Results: ${q}`;
     resultsEl.className = "grid";
-    resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "movie")).join("");
+    resultsEl.innerHTML = items.map(i => cardMarkup(i, i.media_type || "tv")).join("");
   });
 
   function titleOf(i) { return i.title || i.name || i.original_title || "Untitled"; }
@@ -309,7 +291,7 @@
 
   function cardMarkup(item, kind) {
     return `
-      <article class="card" data-id="${item.id}" data-kind="${kind || item.media_type || 'movie'}">
+      <article class="card" data-id="${item.id}" data-kind="${kind || item.media_type || 'tv'}">
         <img class="poster" loading="lazy" src="${item.poster_path ? IMG + item.poster_path : ''}" alt="" onerror="this.src=''">
         <div class="card-info">
           <p class="card-title">${titleOf(item)}</p>
@@ -331,17 +313,16 @@
     document.getElementById("heroTitle").textContent = titleOf(item);
     document.getElementById("heroRating").textContent = `★ ${Number(item.vote_average||0).toFixed(1)}`;
     document.getElementById("heroYear").textContent = yearOf(item);
-    document.getElementById("heroOverview").textContent = item.overview || "Stream top quality media now.";
+    document.getElementById("heroOverview").textContent = item.overview || "Stream top reality shows and serials now.";
   }
 
   document.getElementById("heroPlayBtn").addEventListener("click", () => {
-    if (carouselList[0]) openDetails(carouselList[0].id, carouselList[0].media_type || "movie");
+    if (carouselList[0]) openDetails(carouselList[0].id, carouselList[0].media_type || "tv");
   });
 
   const FOOTBALL_MATCHES = [
     { id: "f1", title: "Al Nassr vs Al Hilal", league: "Saudi Pro League (Ronaldo ⚽)", status: "LIVE NOW", isLive: true, bg: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/550" },
-    { id: "f2", title: "Real Madrid vs Man City", league: "UEFA Champions League", status: "Tonight 12:30 AM", isLive: false, bg: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/551" },
-    { id: "f3", title: "Arsenal vs Liverpool", league: "Premier League", status: "Tomorrow 8:00 PM", isLive: false, bg: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/552" }
+    { id: "f2", title: "Real Madrid vs Man City", league: "UEFA Champions League", status: "Tonight 12:30 AM", isLive: false, bg: "https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80", url: "https://vidsrc.to/embed/movie/551" }
   ];
 
   let currentKind = "all";
@@ -353,16 +334,14 @@
 
     if (kind === "football") {
       heroBanner.hidden = true;
-      resultsTitle.textContent = "⚽ Live & Upcoming Football Matches";
-      resultsEl.className = "match-grid";
+      resultsTitle.textContent = "⚽ Live Sports & Tournaments";
+      resultsEl.className = "grid";
       resultsEl.innerHTML = FOOTBALL_MATCHES.map(m => `
-        <div class="match-card" data-furl="${m.url}" data-ftitle="${m.title}">
-          <div class="match-banner" style="background-image:url('${m.bg}')"><div class="match-banner-overlay"></div></div>
-          <div class="match-body">
-            <span class="match-badge ${m.isLive?'live':''}">${m.status}</span>
-            <div style="font-size:.8rem; color:var(--muted);">${m.league}</div>
-            <div class="match-teams"><span>${m.title}</span> <button style="padding:6px 14px; font-size:.8rem;">▶ Watch Live</button></div>
-          </div>
+        <div class="card" data-furl="${m.url}" data-ftitle="${m.title}" style="padding:16px;">
+          <span style="color:var(--accent); font-size:.75rem; font-weight:800;">${m.status}</span>
+          <h3 style="margin:8px 0; font-size:1rem;">${m.title}</h3>
+          <p style="color:var(--muted); font-size:.8rem;">${m.league}</p>
+          <button style="width:100%; margin-top:10px; font-size:.85rem;">▶ Watch Live</button>
         </div>
       `).join("");
       return;
@@ -372,95 +351,54 @@
     let lists = [];
 
     if (kind === "all") {
-      const [p1, p2, p3, p4] = await Promise.all([
-        api("/trending/movie/week?page=1"),
-        api("/trending/movie/week?page=2"),
+      const [p1, p2, p3] = await Promise.all([
         api("/trending/tv/week?page=1"),
-        api("/movie/popular?page=1")
-      ]);
-      lists = [
-        ...(p1?.results || []).map(x => ({...x, media_type: "movie"})),
-        ...(p2?.results || []).map(x => ({...x, media_type: "movie"})),
-        ...(p3?.results || []).map(x => ({...x, media_type: "tv"})),
-        ...(p4?.results || []).map(x => ({...x, media_type: "movie"}))
-      ];
-    } else if (kind === "movie") {
-      const [p1, p2, p3] = await Promise.all([
-        api("/movie/popular?page=1"),
-        api("/movie/top_rated?page=1"),
-        api("/movie/upcoming?page=1")
-      ]);
-      lists = [
-        ...(p1?.results || []).map(x => ({...x, media_type: "movie"})),
-        ...(p2?.results || []).map(x => ({...x, media_type: "movie"})),
-        ...(p3?.results || []).map(x => ({...x, media_type: "movie"}))
-      ];
-    } else if (kind === "tv") {
-      const [p1, p2, p3] = await Promise.all([
-        api("/tv/popular?page=1"),
-        api("/tv/top_rated?page=1"),
-        api("/tv/on_the_air?page=1")
+        api("/trending/tv/week?page=2"),
+        api("/trending/movie/week?page=1")
       ]);
       lists = [
         ...(p1?.results || []).map(x => ({...x, media_type: "tv"})),
         ...(p2?.results || []).map(x => ({...x, media_type: "tv"})),
-        ...(p3?.results || []).map(x => ({...x, media_type: "tv"}))
+        ...(p3?.results || []).map(x => ({...x, media_type: "movie"}))
       ];
+    } else if (kind === "reality") {
+      // Reality shows like Bigg Boss, Khatron Ke Khiladi style query (TV genre Reality or Talk/Game show)
+      const d = await api("/discover/tv?with_genres=10764&sort_by=popularity.desc&page=1");
+      lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
+    } else if (kind === "serials") {
+      // Indian / Hindi TV Serials style query
+      const d = await api("/discover/tv?with_original_language=hi&sort_by=popularity.desc&page=1");
+      lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
+    } else if (kind === "movie") {
+      const d = await api("/movie/popular?page=1");
+      lists = (d?.results || []).map(x => ({...x, media_type: "movie"}));
     } else if (kind === "anime") {
-      const [p1, p2] = await Promise.all([
-        api("/discover/tv?with_genres=16&sort_by=popularity.desc&page=1"),
-        api("/discover/tv?with_genres=16&sort_by=popularity.desc&page=2")
-      ]);
-      lists = [
-        ...(p1?.results || []).map(x => ({...x, media_type: "tv"})),
-        ...(p2?.results || []).map(x => ({...x, media_type: "tv"}))
-      ];
-    } else if (kind === "kdrama") {
-      const [p1, p2] = await Promise.all([
-        api("/discover/tv?with_original_language=ko&sort_by=popularity.desc&page=1"),
-        api("/discover/tv?with_original_language=ko&sort_by=popularity.desc&page=2")
-      ]);
-      lists = [
-        ...(p1?.results || []).map(x => ({...x, media_type: "tv"})),
-        ...(p2?.results || []).map(x => ({...x, media_type: "tv"}))
-      ];
-    } else if (kind === "pakistani") {
-      const d = await api("/discover/tv?with_original_language=ur&sort_by=popularity.desc&page=1");
+      const d = await api("/discover/tv?with_genres=16&sort_by=popularity.desc&page=1");
       lists = (d?.results || []).map(x => ({...x, media_type: "tv"}));
     }
 
     lists = Array.from(new Set(lists.map(a => a.id))).map(id => lists.find(a => a.id === id));
 
     setupCarousel(lists);
-    resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || (kind === 'movie' ? 'movie' : 'tv'))).join("");
+    resultsEl.innerHTML = lists.map(i => cardMarkup(i, i.media_type || 'tv')).join("");
   }
 
   const SERVERS = [
-    { id: "vidsrc", name: "SUIII Mirror 1" },
-    { id: "multiembed", name: "MovieBox HD" },
-    { id: "autoembed", name: "FlixHQ Mirror" },
-    { id: "embedsu", name: "CineStream HD" }
-  ];
-
-  const AUDIO_LANGS = [
-    { id: "hindi", name: "🇮🇳 Hindi Dubbed" },
-    { id: "english", name: "🇬🇧 English (Original)" },
-    { id: "dual", name: "⚡ Dual Audio (Hi/Eng)" }
+    { id: "vidsrc", name: "Hungama HD Mirror 1" },
+    { id: "multiembed", name: "Reality Server 2" },
+    { id: "autoembed", name: "VIP Express 3" }
   ];
 
   function getPlayerUrl(id, kind, season=1, ep=1, server="vidsrc") {
     if (kind === "movie") {
       if (server === "vidsrc") return `https://vidsrc.cc/v2/embed/movie/${id}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1`;
-      if (server === "autoembed") return `https://player.autoembed.cc/embed/movie/${id}`;
-      if (server === "embedsu") return `https://embed.su/embed/movie/${id}`;
+      return `https://player.autoembed.cc/embed/movie/${id}`;
     } else {
       if (server === "vidsrc") return `https://vidsrc.cc/v2/embed/tv/${id}/${season}/${ep}`;
       if (server === "multiembed") return `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${season}&e=${ep}`;
-      if (server === "autoembed") return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
-      if (server === "embedsu") return `https://embed.su/embed/tv/${id}/${season}/${ep}`;
+      return `https://player.autoembed.cc/embed/tv/${id}/${season}/${ep}`;
     }
-    return `https://vidsrc.cc/v2/embed/movie/${id}`;
   }
 
   async function openDetails(id, kind) {
@@ -478,27 +416,21 @@
             <span style="color:var(--accent); font-weight:700;">★ ${Number(data.vote_average||0).toFixed(1)}</span>
             <span style="font-size:.85rem; color:var(--muted);">${yearOf(data)}</span>
           </div>
-          <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description."}</p>
-          <div style="margin-top:16px;">
-            <div style="font-size:.85rem; font-weight:800; color:var(--muted); margin-bottom:6px;">SELECT AUDIO / LANGUAGE:</div>
-            <div class="audio-picker">
-              ${AUDIO_LANGS.map((a, idx) => `<button type="button" class="audio-btn ${idx===0?'active':''}" data-lang="${a.id}">${a.name}</button>`).join("")}
-            </div>
-          </div>
+          <p style="color:var(--muted); line-height:1.6;">${data.overview||"No description available."}</p>
           ${kind === "movie" ? `<button id="playMovieBtn" style="margin-top:16px;">▶ Watch Full Stream</button>` : ""}
         </div>
       </div>
 
       <div id="projectionBox" class="projection-container" ${kind === 'movie' ? 'hidden' : ''}>
-        <div class="projection-header"><strong>STREAM PLAYER (<span id="activeAudioLabel">Hindi Dubbed</span>)</strong></div>
+        <div class="projection-header"><strong>STREAM PLAYER (HD QUALITY)</strong></div>
         <div class="projection-player"><iframe id="videoIframe" class="player-frame" allowfullscreen></iframe></div>
         <div class="servers-grid">
-          ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">Server 0${idx+1}<br><span style="font-size:.7rem; color:var(--muted);">${s.name}</span></div>`).join("")}
+          ${SERVERS.map((s, idx) => `<div class="server-card ${idx===0?'active':''}" data-server="${s.id}">${s.name}</div>`).join("")}
         </div>
       </div>
 
       ${kind === "tv" ? `
-        <div class="section-head" style="margin-top:30px;"><h2>Seasons & Episodes</h2></div>
+        <div class="section-head" style="margin-top:30px;"><h2>Seasons & Episodes (Bigg Boss / Serials)</h2></div>
         <div class="episodes" id="episodesList" style="display:grid; gap:12px;"></div>
       ` : ""}
     `;
@@ -524,17 +456,8 @@
     if (kind === "movie") {
       document.getElementById("playMovieBtn").addEventListener("click", loadPlayer);
     } else {
-      // Auto load first episode for TV shows
       loadPlayer();
     }
-
-    document.querySelectorAll(".audio-btn").forEach(ab => {
-      ab.addEventListener("click", () => {
-        document.querySelectorAll(".audio-btn").forEach(x => x.classList.remove("active"));
-        ab.classList.add("active");
-        document.getElementById("activeAudioLabel").textContent = ab.textContent;
-      });
-    });
 
     document.querySelectorAll(".server-card").forEach(sc => {
       sc.addEventListener("click", () => {
@@ -546,12 +469,12 @@
     });
 
     if (kind === "tv" && data.seasons) {
-      const seasons = data.seasons.filter(s => s.season_number > 0);
+      const seasons = data.seasons.filter(s => s.season_number >= 0);
       const epContainer = document.getElementById("episodesList");
       epContainer.innerHTML = seasons.map(s => `
         <div class="card" style="padding:16px;">
           <h4>${s.name}</h4>
-          <p style="color:var(--muted); font-size:.85rem; margin:4px 0 10px;">${s.episode_count} Episodes</p>
+          <p style="color:var(--muted); font-size:.85rem; margin:4px 0 10px;">${s.episode_count || 'Multiple'} Episodes</p>
           <button type="button" class="secondary seasonBtn" data-season="${s.season_number}" style="padding:6px 14px; font-size:.85rem;">View Episodes</button>
           <div class="seasonContent" id="season-ep-${s.season_number}" style="margin-top:10px;"></div>
         </div>
@@ -588,16 +511,16 @@
 
   document.addEventListener("click", e => {
     const card = e.target.closest(".card");
-    if (card && card.dataset.id) openDetails(Number(card.dataset.id), card.dataset.kind || "movie");
+    if (card && card.dataset.id) openDetails(Number(card.dataset.id), card.dataset.kind || "tv");
     
-    const matchCard = e.target.closest(".match-card");
-    if (matchCard) {
+    const cardMatch = e.target.closest("[data-furl]");
+    if (cardMatch) {
       detailSection.hidden = false; heroBanner.hidden = true; resultsSection.hidden = true; pluginsSection.hidden = true;
       detailSection.innerHTML = `
         <button class="secondary" id="backMatchBtn" style="margin-bottom:20px;">← Back</button>
-        <h2>⚽ ${matchCard.dataset.ftitle}</h2>
+        <h2>⚽ ${cardMatch.dataset.ftitle}</h2>
         <div class="projection-container">
-          <div class="projection-player"><iframe src="${matchCard.dataset.furl}" class="player-frame" allowfullscreen></iframe></div>
+          <div class="projection-player"><iframe src="${cardMatch.dataset.furl}" class="player-frame" allowfullscreen></iframe></div>
         </div>
       `;
       document.getElementById("backMatchBtn").addEventListener("click", () => {
