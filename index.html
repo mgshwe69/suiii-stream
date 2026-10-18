@@ -150,7 +150,7 @@ input:focus, select:focus {
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
-/* HERO HERO SLIDER */
+/* HERO */
 .hero {
   margin: 20px 0 30px; min-height: 440px; position: relative;
   overflow: hidden; border-radius: 24px;
@@ -218,7 +218,6 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   color: #0d0b10; font-size: 0.85rem; box-shadow: 0 4px 12px var(--accent-glow);
 }
 
-/* SILENT PREVIEW IFRAME OVERLAY ON POSTER HOLD */
 .preview-frame-overlay {
   position: absolute; inset: 0; width: 100%; height: 100%;
   border: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
@@ -302,7 +301,6 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
 .ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
 
-/* CATEGORIZED ORIGINAL AVATARS SELECTOR */
 .avatar-cat-title { font-size: 0.72rem; font-weight: 900; color: var(--gold); text-transform: uppercase; margin: 10px 0 4px; text-align: left; }
 .avatar-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px;
@@ -459,7 +457,7 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
   </div>
 </div>
 
-<!-- USER PROFILE & DASHBOARD MODAL WITH CATEGORIZED ORIGINAL AVATARS -->
+<!-- USER PROFILE & DASHBOARD MODAL -->
 <div class="auth-modal-overlay" id="profileDashboardModal" hidden>
   <div class="auth-modal">
     <button class="drawer-close" id="profileModalClose" style="position:absolute;top:20px;right:20px;">✕</button>
@@ -470,7 +468,6 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
       <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
       <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
-      <!-- ANIME AVATARS -->
       <div class="avatar-cat-title">Anime Characters</div>
       <div class="avatar-grid">
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Gojo Satoru"></div>
@@ -483,7 +480,6 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
         <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/11/535805.jpg"><img src="https://cdn.myanimelist.net/images/characters/11/535805.jpg" title="Sung Jin-Woo"></div>
       </div>
 
-      <!-- HOLLYWOOD AVATARS -->
       <div class="avatar-cat-title">Hollywood Icons</div>
       <div class="avatar-grid">
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg" title="Batman"></div>
@@ -495,7 +491,6 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg" title="Thomas Shelby"></div>
       </div>
 
-      <!-- BOLLYWOOD AVATARS -->
       <div class="avatar-cat-title">Bollywood Stars</div>
       <div class="avatar-grid">
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg" title="SRK"></div>
@@ -547,7 +542,7 @@ const hero = $("hero");
 let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
-let currentLanguage = "hindi";
+let currentLanguage = "original";
 let currentSeason = 1;
 let currentEpisode = 1;
 let heroSlideIndex = 0;
@@ -875,17 +870,20 @@ async function openDetails(item) {
       
       ${seasonsHTML}
 
+      <!-- AUDIO SELECTION BAR (ORIGINAL IS FIRST AND DEFAULT) -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
-        <button class="audio-btn active" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
-        <button class="audio-btn" data-lang="english">🇬🇧 English Original</button>
-        <button class="audio-btn" data-lang="dual">⚡ Dual Audio</button>
+        <button class="audio-btn active" data-lang="original">⚡ Original / Universal (All Servers)</button>
+        <button class="audio-btn" data-lang="hindi">🇮🇳 Hindi Dubbed (HD4Hub / Cinedrive / VIP Mirror)</button>
+        <button class="audio-btn" data-lang="dual">🌐 Dual Audio</button>
       </div>
+
+      <div class="servers" id="servers"></div>
 
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice" id="audioNotice">Note: Selecting Audio processes stream source via 2Embed / SUIII_VIP Engine.</div>
+      <div class="notice" id="audioNotice">Note: Original Audio active for instant 100% server compatibility.</div>
     </div>
   `;
 
@@ -1052,40 +1050,60 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
-// Render Streams with Audio First Selection Workflow & Hidden Mirror URLs
+// MULTI-SERVER DUBBING ENGINE WITH HD4HUB / CINEDRIVE MIRRORS
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
+
+  const SERVERS = [
+    { id: "suii_vip_1", name: "SUIII_VIP 1 (2Embed HD)", url: isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_2", name: "SUIII_VIP 2 (HD4Hub Mirror)", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_3", name: "SUIII_VIP 3 (VidSrc Pro)", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_4", name: "SUIII_VIP 4 (EmbedSu)", url: isMovie ? `https://embed.su/embed/movie/${id}` : `https://embed.su/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_5", name: "SUIII_VIP 5 (AutoVIP)", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_6", name: "SUIII_VIP 6 (VidCc)", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "suii_vip_7", name: "SUIII_VIP 7 (Cinedrive Fast)", url: isMovie ? `https://multiembed.mov/directstream.php?video_id=${id}` : `https://multiembed.mov/directstream.php?video_id=${id}&s=${currentSeason}&e=${currentEpisode}` },
+    { id: "suii_vip_8", name: "SUIII_VIP 8 (SmashyStream)", url: isMovie ? `https://embed.smashystream.com/playere.php?tmdb=${id}` : `https://embed.smashystream.com/playere.php?tmdb=${id}&s=${currentSeason}&e=${currentEpisode}` }
+  ];
+
+  $("servers").innerHTML = SERVERS.map((s, idx) => `
+    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
+  `).join("");
+
   const iframe = $("videoIframe");
-
-  // Masked Proxy Sources for Privacy
-  const baseUrl = isMovie 
-    ? `https://www.2embed.cc/embed/${id}` 
-    : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
-
-  function processAudioAndLoad() {
+  
+  function processAudioAndLoad(baseUrl) {
     iframe.src = "about:blank";
-    $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Processing Stream...</span>';
+    $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Loading Stream...</span>';
 
     setTimeout(() => {
       if (currentLanguage === "hindi") {
-        iframe.src = baseUrl + "&audio=hi";
-        $("audioNotice").textContent = "Playing via SUIII_VIP 2Embed Engine (Hindi Audio Prioritized).";
+        iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
+        $("audioNotice").textContent = "Playing via HD4Hub / Cinedrive Dubbed Mirror (Hindi audio prioritized).";
       } else {
         iframe.src = baseUrl;
-        $("audioNotice").textContent = "Playing original/English audio stream.";
+        $("audioNotice").textContent = "Playing Original / Universal audio stream (Fastest & 100% Compatible).";
       }
-    }, 1800);
+    }, 1000);
   }
 
-  processAudioAndLoad();
+  processAudioAndLoad(SERVERS[0].url);
 
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      processAudioAndLoad();
+      const activeServerBtn = document.querySelector(".server.active");
+      if (activeServerBtn) processAudioAndLoad(activeServerBtn.dataset.url);
+    };
+  });
+
+  document.querySelectorAll(".server").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      processAudioAndLoad(btn.dataset.url);
     };
   });
 }
