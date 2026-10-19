@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080f0c">
-<meta name="description" content="Suiii_Stream x TOUCHLINE — Cinematic Football & OTT Streaming Platform">
-<title>Suiii_Stream — TOUCHLINE Cinematic Football & OTT</title>
+<meta name="theme-color" content="#0d0b10">
+<meta name="description" content="SUIII_STREAM — Pro Liquid Glass VIP OTT & Touchline Football Platform">
+<title>SUIII_STREAM — Pro Liquid Glass OTT & Touchline</title>
 <style>
 :root {
   color-scheme: dark;
-  --bg: #080f0c;
-  --panel: rgba(14, 26, 20, 0.85);
-  --panel-solid: #0e1a14;
-  --text: #f0f7f4;
-  --muted: #8fa89b;
+  --bg: #0b090e;
+  --panel: rgba(22, 18, 28, 0.75);
+  --panel-solid: #15111c;
+  --text: #f5f0fa;
+  --muted: #a095b0;
   --gold: #e2b024;
   --emerald: #10b981;
-  --emerald-glow: rgba(16, 185, 129, 0.25);
-  --line: rgba(255, 255, 255, 0.12);
+  --accent-glow: rgba(226, 176, 36, 0.25);
+  --emerald-glow: rgba(16, 185, 129, 0.3);
   --glass: blur(25px) saturate(190%);
   --glass-border: 1px solid rgba(255, 255, 255, 0.14);
   --card-radius: 18px;
@@ -29,8 +29,8 @@ body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-image: 
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(226, 176, 36, 0.05) 0%, transparent 40%);
+    radial-gradient(circle at 10% 20%, rgba(226, 176, 36, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
   background-attachment: fixed;
 }
 
@@ -40,7 +40,7 @@ button { cursor: pointer; }
 /* HEADER */
 header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(8, 15, 12, 0.85);
+  background: rgba(13, 11, 16, 0.85);
   backdrop-filter: var(--glass);
   -webkit-backdrop-filter: var(--glass);
   border-bottom: var(--glass-border);
@@ -64,13 +64,13 @@ header {
 }
 
 .drawer {
-  position: fixed; inset: 0 0 0 -300px; width: 280px; background: rgba(8, 15, 12, 0.96);
+  position: fixed; inset: 0 0 0 -300px; width: 280px; background: rgba(13, 11, 16, 0.95);
   backdrop-filter: blur(30px); border-right: var(--glass-border); z-index: 1000;
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   padding: 24px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto;
 }
 .drawer.open { transform: translateX(300px); }
-.drawer-header { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 900; color: var(--emerald); border-bottom: var(--glass-border); padding-bottom: 12px; }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 900; color: var(--gold); border-bottom: var(--glass-border); padding-bottom: 12px; }
 .drawer-close { background: transparent; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
 .drawer-section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-top: 10px; font-weight: 800; }
 .drawer-link {
@@ -78,11 +78,11 @@ header {
   padding: 10px 14px; border-radius: 12px; text-align: left; font-weight: 700; cursor: pointer;
   transition: 0.2s; display: block; text-decoration: none; font-size: 0.9rem;
 }
-.drawer-link:hover { background: rgba(16, 185, 129, 0.15); border-color: var(--emerald); color: var(--emerald); }
+.drawer-link:hover { background: rgba(226, 176, 36, 0.15); border-color: var(--gold); color: var(--gold); }
 
 .profile-avatar {
   width: 38px; height: 38px; border-radius: 50%; overflow: hidden;
-  border: 2px solid var(--gold); box-shadow: 0 0 12px rgba(226,176,36,0.3);
+  border: 2px solid var(--gold); box-shadow: 0 0 12px var(--accent-glow);
   display: grid; place-items: center; background: #1a1524; cursor: pointer;
 }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -93,29 +93,37 @@ header {
   cursor: pointer; white-space: nowrap;
 }
 .brand-mark {
-  color: var(--emerald); font-size: 1.35rem;
-  filter: drop-shadow(0 0 8px var(--emerald-glow));
+  color: var(--gold); font-size: 1.35rem;
+  filter: drop-shadow(0 0 8px var(--accent-glow));
 }
 .brand span:last-child { color: var(--gold); }
+
+.quick-toggles { display: flex; gap: 8px; align-items: center; margin-left: 10px; }
+.quick-btn {
+  background: rgba(255,255,255,0.06); border: var(--glass-border); border-radius: 50%;
+  width: 34px; height: 34px; display: grid; place-items: center; cursor: pointer;
+  font-size: 1rem; transition: 0.2s;
+}
+.quick-btn:hover { border-color: var(--gold); transform: scale(1.1); }
 
 .header-actions { display: flex; align-items: center; gap: 10px; position: relative; }
 .search-container { display: flex; gap: 8px; max-width: 380px; width: 100%; position: relative; }
 
 input, select {
-  background: rgba(14, 26, 20, 0.6);
+  background: rgba(30, 24, 38, 0.5);
   backdrop-filter: var(--glass);
   color: var(--text); border: var(--glass-border);
   border-radius: 14px; padding: 9px 14px; outline: none; min-width: 0;
   transition: all 0.3s ease;
 }
 input:focus, select:focus {
-  border-color: var(--emerald);
-  box-shadow: 0 0 15px var(--emerald-glow);
+  border-color: var(--gold);
+  box-shadow: 0 0 15px var(--accent-glow);
 }
 #searchInput { width: 100%; }
 
 .search-suggestions {
-  position: absolute; top: 110%; left: 0; right: 0; background: var(--panel-solid);
+  position: absolute; top: 110%; left: 0; right: 0; background: #15111c;
   border: var(--glass-border); border-radius: 14px; max-height: 350px; overflow-y: auto;
   z-index: 1000; box-shadow: 0 15px 30px rgba(0,0,0,0.7);
 }
@@ -123,19 +131,19 @@ input:focus, select:focus {
   display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer;
   border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.2s;
 }
-.suggestion-item:hover { background: rgba(16, 185, 129, 0.1); color: var(--emerald); }
+.suggestion-item:hover { background: rgba(226, 176, 36, 0.1); color: var(--gold); }
 .suggestion-item img { width: 35px; height: 50px; object-fit: cover; border-radius: 6px; }
 
 .gold-btn {
-  background: linear-gradient(135deg, var(--emerald) 0%, #059669 100%);
-  color: #fff; border: 0; border-radius: 30px;
+  background: linear-gradient(135deg, #e2b024 0%, #c49210 100%);
+  color: #0d0b10; border: 0; border-radius: 30px;
   padding: 9px 18px; font-weight: 800; font-size: 0.85rem;
-  box-shadow: 0 4px 20px var(--emerald-glow);
+  box-shadow: 0 4px 20px var(--accent-glow);
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .gold-btn:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+  box-shadow: 0 6px 25px rgba(226, 176, 36, 0.4);
 }
 
 .outline-btn {
@@ -145,31 +153,15 @@ input:focus, select:focus {
   border-radius: 30px; padding: 8px 16px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
-.outline-btn:hover { border-color: var(--emerald); background: rgba(16, 185, 129, 0.1); }
+.outline-btn:hover { border-color: var(--gold); background: rgba(226, 176, 36, 0.1); }
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
-
-/* TOUCHLINE STADIUM HERO TOGGLE BANNER */
-.touchline-toggle-bar {
-  background: linear-gradient(135deg, rgba(14,26,20,0.95), rgba(6,75,49,0.4));
-  border: 1px solid rgba(16,185,129,0.3);
-  border-radius: 16px;
-  padding: 14px 20px;
-  margin: 20px 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-.touchline-info h3 { margin: 0; font-size: 1.1rem; color: var(--emerald); font-weight: 900; }
-.touchline-info p { margin: 4px 0 0; font-size: 0.82rem; color: var(--muted); }
 
 /* HERO */
 .hero {
   margin: 20px 0 30px; min-height: 480px; position: relative;
   overflow: hidden; border-radius: 24px;
-  background: #0b1712 center 35%/cover no-repeat;
+  background: #191424 center 35%/cover no-repeat;
   display: flex; align-items: flex-end;
   border: var(--glass-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.6);
@@ -177,110 +169,169 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 }
 .hero:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #080f0c 0%, rgba(8, 15, 12, 0.7) 45%, rgba(8,15,12,0.3) 100%),
-              linear-gradient(90deg, rgba(8, 15, 12, 0.9) 0%, rgba(8,15,12,0.4) 70%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.65) 45%, rgba(11,9,14,0.3) 100%),
+              linear-gradient(90deg, rgba(11, 9, 14, 0.9) 0%, rgba(11,9,14,0.4) 70%, transparent 100%);
 }
 .hero-content { position: relative; max-width: 680px; padding: 40px; z-index: 2; }
-.eyebrow { color: var(--emerald); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
+.eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
 .hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; font-weight: 900; margin: 8px 0; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
 .hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; font-weight: 700; }
-.dot { color: var(--emerald); }
+.dot { color: var(--gold); }
 .hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 20px; font-size: .95rem; }
+
+.hero-episodes-preview {
+  display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 5px; scrollbar-width: none; margin-top: 15px;
+}
+.hero-ep-thumb {
+  flex: 0 0 130px; height: 75px; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);
+  cursor: pointer; position: relative; transition: 0.3s; background: #000;
+}
+.hero-ep-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+.hero-ep-thumb:hover, .hero-ep-thumb.active { border-color: var(--gold); transform: scale(1.05); }
+.hero-ep-thumb:hover img, .hero-ep-thumb.active img { opacity: 1; }
+.hero-ep-label { position: absolute; bottom: 4px; left: 6px; font-size: 0.7rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
 
 .section { margin: 35px 0; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-.status { padding: 40px 10px; text-align: center; color: var(--emerald); }
+.status { padding: 40px 10px; text-align: center; color: var(--gold); }
 .dalli-loading {
   font-size: 1.8rem; font-weight: 900; letter-spacing: 2px;
   display: inline-block;
   animation: dalliGlow 1.2s infinite alternate ease-in-out;
 }
 @keyframes dalliGlow {
-  0% { transform: scale(0.95); opacity: 0.6; filter: drop-shadow(0 0 5px var(--emerald-glow)); }
-  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.8)); }
+  0% { transform: scale(0.95); opacity: 0.6; filter: drop-shadow(0 0 5px var(--accent-glow)); }
+  100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 25px rgba(226, 176, 36, 0.8)); }
 }
 
 .tabs { display: flex; gap: 10px; overflow: auto; padding: 5px 0 15px; scrollbar-width: none; }
 .tabs button {
-  flex: 0 0 auto; background: rgba(14, 26, 20, 0.5);
+  flex: 0 0 auto; background: rgba(30, 24, 38, 0.4);
   backdrop-filter: var(--glass); border: var(--glass-border);
   border-radius: 30px; color: #b7aa9e; padding: 9px 18px; font-weight: 700; font-size: 0.85rem;
   transition: all 0.3s ease;
 }
 .tabs button.active {
-  background: var(--emerald); color: #fff; border-color: var(--emerald);
-  box-shadow: 0 4px 15px var(--emerald-glow);
+  background: var(--gold); color: #0d0b10; border-color: var(--gold);
+  box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 18px; }
 .card { min-width: 0; cursor: pointer; position: relative; }
 .poster-wrap {
   position: relative; overflow: hidden; border-radius: var(--card-radius);
-  background: #0f1c16; aspect-ratio: 2/3; border: var(--glass-border);
+  background: #191424; aspect-ratio: 2/3; border: var(--glass-border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease;
 }
 .poster { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-.card:hover .poster-wrap { transform: translateY(-6px); border-color: var(--emerald); box-shadow: 0 15px 35px var(--emerald-glow); }
+.card:hover .poster-wrap { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0 15px 35px var(--accent-glow); }
 .card:hover .poster { transform: scale(1.06); }
 .poster-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 60%); }
 .play-dot {
   position: absolute; right: 10px; bottom: 10px; width: 34px; height: 34px;
-  border-radius: 50%; display: grid; place-items: center; background: var(--emerald);
-  color: #fff; font-size: 0.85rem; box-shadow: 0 4px 12px var(--emerald-glow);
+  border-radius: 50%; display: grid; place-items: center; background: var(--gold);
+  color: #0d0b10; font-size: 0.85rem; box-shadow: 0 4px 12px var(--accent-glow);
 }
+
+.preview-frame-overlay {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  border: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+  z-index: 5; object-fit: cover;
+}
+.card.previewing .preview-frame-overlay { opacity: 1; }
 
 .card-title { font-size: .9rem; font-weight: 800; margin: 8px 0 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
 
-/* MATCH CENTRE / TOUCHLINE FIXTURES LIST */
+/* TOUCHLINE STADIUM & MATCH CENTRE */
+.touchline-hero-slider {
+  position: relative; border-radius: 20px; overflow: hidden; margin-bottom: 25px;
+  background: linear-gradient(135deg, #081a12 0%, #042416 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  min-height: 240px; display: flex; align-items: center; padding: 30px;
+}
+.touchline-slide-content { max-width: 600px; z-index: 2; }
+.touchline-slide-content h2 { font-size: 1.8rem; margin: 5px 0 10px; color: #fff; font-weight: 900; }
 .match-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 .match-card {
-  background: rgba(14,26,20,0.6);
-  border: var(--glass-border);
-  border-radius: 16px;
-  padding: 16px;
-  cursor: pointer;
-  transition: 0.25s;
+  background: rgba(14, 26, 20, 0.75); border: 1px solid rgba(16,185,129,0.25); border-radius: 16px; padding: 18px; cursor: pointer; transition: 0.25s;
+  display: flex; flex-direction: column; gap: 12px;
 }
-.match-card:hover { border-color: var(--emerald); transform: translateY(-2px); }
-.match-header { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; font-weight: 700; text-transform: uppercase; }
-.match-teams { display: flex; justify-content: space-between; align-items: center; font-weight: 800; font-size: 1rem; margin: 10px 0; }
-.match-score { background: rgba(16,185,129,0.15); color: var(--emerald); padding: 4px 10px; border-radius: 8px; font-size: 1.1rem; }
+.match-card:hover { border-color: var(--emerald); transform: translateY(-2px); box-shadow: 0 10px 30px var(--emerald-glow); }
+.match-top-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+.match-teams-row { display: flex; justify-content: space-between; align-items: center; }
+.team-box { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 0.95rem; width: 40%; }
+.team-box.away { justify-content: flex-end; text-align: right; }
+.team-logo { width: 32px; height: 32px; object-fit: contain; }
+.match-score-badge { background: rgba(16, 185, 129, 0.2); color: var(--emerald); padding: 6px 12px; border-radius: 10px; font-size: 1.1rem; font-weight: 900; }
 .match-status-live { color: #ef4444; animation: pulseLive 1.5s infinite; font-weight: 900; }
 @keyframes pulseLive { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
+/* MATCH 1v1 BEST PLAYERS VIEW */
+.match-detail-arena {
+  background: linear-gradient(180deg, rgba(8,26,18,0.9) 0%, rgba(13,11,16,0.95) 100%);
+  border: 1px solid rgba(16,185,129,0.3); border-radius: 20px; padding: 25px; margin-bottom: 25px;
+}
+.arena-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px; }
+.players-comparison { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; text-align: center; }
+.player-showcase { background: rgba(255,255,255,0.03); border: var(--glass-border); padding: 20px; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.player-avatar-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--emerald); box-shadow: 0 0 20px var(--emerald-glow); }
+.vs-badge { font-size: 1.5rem; font-weight: 900; color: var(--gold); }
+
+.cast-section { margin-top: 30px; }
+.cast-section h3 { font-size: 1.15rem; margin-bottom: 14px; color: var(--gold); }
+.cast-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.cast-card { flex: 0 0 100px; text-align: center; cursor: pointer; }
+.cast-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; box-shadow: 0 4px 15px var(--accent-glow); }
+.cast-name { font-size: 0.8rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-char { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.episodes-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
+.episodes-bar select { background: #1c1626; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
+
 .detail { margin-top: 25px; }
 .detail-top {
-  min-height: 400px; border-radius: 24px; overflow: hidden; background: #0f1c16 center/cover no-repeat;
+  min-height: 400px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
   position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
   box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 .detail-top:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #080f0c 0%, rgba(8,15,12,0.7) 50%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.7) 50%, transparent 100%);
 }
 .detail-info { position: relative; padding: 35px; max-width: 850px; z-index: 2; }
 .detail-info h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); margin: 6px 0 10px; font-weight: 900; }
 
 .player-box {
   margin-top: 25px; border: var(--glass-border);
-  background: rgba(14, 26, 20, 0.7); backdrop-filter: var(--glass);
+  background: rgba(22, 18, 28, 0.6); backdrop-filter: var(--glass);
   border-radius: 24px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 .player-head {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 16px 22px; background: rgba(6, 75, 49, 0.4); border-bottom: var(--glass-border); flex-wrap: wrap;
+  padding: 16px 22px; background: rgba(30, 24, 38, 0.7); border-bottom: var(--glass-border); flex-wrap: wrap;
 }
+
+.audio-bar {
+  display: flex; gap: 10px; align-items: center; padding: 14px 22px;
+  background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap;
+}
+.audio-bar label { font-size: 0.78rem; font-weight: 800; color: var(--gold); text-transform: uppercase; }
+.audio-btn {
+  background: rgba(255, 255, 255, 0.05); border: var(--glass-border); color: var(--muted);
+  padding: 6px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; transition: all 0.2s;
+}
+.audio-btn.active { background: var(--gold); color: #0d0b10; border-color: var(--gold); font-weight: 800; }
 
 .servers { display: flex; gap: 10px; flex-wrap: wrap; padding: 16px 22px; }
 .server {
-  background: rgba(20, 36, 28, 0.8); color: #e8ded4; border: var(--glass-border);
+  background: rgba(30, 24, 38, 0.5); color: #e8ded4; border: var(--glass-border);
   padding: 9px 15px; border-radius: 12px; font-size: .82rem; font-weight: 700; transition: all 0.2s;
 }
-.server.active { border-color: var(--emerald); color: var(--emerald); background: rgba(16, 185, 129, 0.2); }
+.server.active { border-color: var(--gold); color: var(--gold); background: rgba(226, 176, 36, 0.15); }
 
 .player-frame { width: 100%; aspect-ratio: 16/9; background: #000; display: block; border: 0; }
 .notice { font-size: .8rem; color: var(--muted); padding: 12px 22px; border-top: var(--glass-border); }
@@ -291,26 +342,26 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   z-index: 2000; display: grid; place-items: center; padding: 20px;
 }
 .auth-modal {
-  background: #0e1a14; border: var(--glass-border); border-radius: 24px;
+  background: #14101a; border: var(--glass-border); border-radius: 24px;
   width: 100%; max-width: 460px; padding: 30px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
   position: relative; max-height: 90vh; overflow-y: auto;
 }
 .auth-tabs { display: flex; gap: 10px; margin-bottom: 20px; background: rgba(255,255,255,0.05); padding: 5px; border-radius: 14px; }
 .auth-tab { flex: 1; background: transparent; border: none; color: var(--muted); padding: 10px; font-weight: 800; border-radius: 10px; cursor: pointer; }
-.auth-tab.active { background: var(--emerald); color: #fff; }
+.auth-tab.active { background: var(--gold); color: #0d0b10; }
 .auth-form { display: flex; flex-direction: column; gap: 14px; }
-.auth-form input { width: 100%; background: #14241c; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
+.auth-form input, .auth-form select { width: 100%; background: #1c1626; border: var(--glass-border); padding: 12px 16px; border-radius: 12px; color: var(--text); }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
-.ask-key-box a { color: var(--emerald); font-weight: 800; text-decoration: none; margin: 0 5px; }
+.ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
 
-.avatar-cat-title { font-size: 0.72rem; font-weight: 900; color: var(--emerald); text-transform: uppercase; margin: 10px 0 4px; text-align: left; }
+.avatar-cat-title { font-size: 0.72rem; font-weight: 900; color: var(--gold); text-transform: uppercase; margin: 10px 0 4px; text-align: left; }
 .avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
 .avatar-option { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; cursor: pointer; overflow: hidden; transition: 0.2s; position: relative; }
 .avatar-option img { width: 100%; height: 100%; object-fit: cover; }
-.avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 12px rgba(226,176,36,0.5); }
+.avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 12px var(--accent-glow); }
 
 .profile-card { text-align: center; }
-.profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px rgba(226,176,36,0.4); }
+.profile-card-pfp { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); margin: 0 auto 12px; overflow: hidden; box-shadow: 0 0 20px var(--accent-glow); }
 .profile-card-pfp img { width: 100%; height: 100%; object-fit: cover; }
 .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
 .stat-box { background: rgba(255,255,255,0.04); border: var(--glass-border); padding: 12px; border-radius: 14px; text-align: center; }
@@ -319,12 +370,12 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
 footer {
   border-top: var(--glass-border); padding: 25px 20px; text-align: center;
-  color: var(--muted); background: rgba(8, 15, 12, 0.8); margin-top: 40px; font-size: 0.85rem;
+  color: var(--muted); background: rgba(13, 11, 16, 0.8); margin-top: 40px; font-size: 0.85rem;
 }
-footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
+footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 [hidden] { display: none !important; }
 
-@media(max-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .match-list { grid-template-columns: 1fr; } }
+@media(max-width: 900px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .match-list { grid-template-columns: 1fr; } .players-comparison { grid-template-columns: 1fr; } }
 @media(max-width: 650px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .top { flex-wrap: wrap; padding: 10px 14px; } .search-container { max-width: none; flex: 1; }
@@ -340,16 +391,21 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
     <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
-    <div class="profile-avatar" id="profileBtn" title="Suiii_Stream VIP Profile & Dashboard">
+    <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
       <img id="headerPfp" src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" alt="Profile">
     </div>
-    <div class="brand" id="brandHome" role="button" tabindex="0">
-      <span class="brand-mark">⚽</span><span>Suiii_Stream<span>_©®7</span></span>
+    <div class="brand" id="brandHome" role="button" tabindex="0" title="Click to go back to Suiii_Stream OTT">
+      <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
+    </div>
+    <!-- QUICK BALL & PROJECTOR TOGGLES -->
+    <div class="quick-toggles">
+      <button class="quick-btn" id="quickFootballBtn" title="Open Touchline Football Matches">⚽</button>
+      <button class="quick-btn" id="quickMovieBtn" title="Back to Suiii_Stream OTT">📽️</button>
     </div>
   </div>
   <div class="header-actions">
     <div class="search-container">
-      <input id="searchInput" type="search" placeholder="Search movies, shows, football matches..." aria-label="Search" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="Search movies, shows, football..." aria-label="Search" autocomplete="off">
       <div id="searchSuggestions" class="search-suggestions" hidden></div>
     </div>
   </div>
@@ -362,29 +418,25 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
     <span>SUIII_STREAM MENU</span>
     <button class="drawer-close" id="drawerClose">✕</button>
   </div>
-  <div class="drawer-section-title">Streaming Hub</div>
-  <button class="drawer-link" data-cat="trending">🔥 Trending Movies & Shows</button>
-  <button class="drawer-link" data-cat="movies">🎬 Hollywood Movies</button>
-  <button class="drawer-link" data-cat="serials">📺 TV Shows / Anime</button>
+  <div class="drawer-section-title">Navigation</div>
+  <button class="drawer-link" data-cat="trending">🔥 Home</button>
+  <button class="drawer-link" data-cat="serials">📺 TV Show</button>
+  <button class="drawer-link" data-cat="hindiserials">🇮🇳 Hindi Serials</button>
+  <button class="drawer-link" data-cat="pakdrama">🇵🇰 Pakistan Drama</button>
+  <button class="drawer-link" data-cat="kdrama">🇰🇷 K Drama</button>
+  <button class="drawer-link" data-cat="movies">🎬 Movie</button>
+  <button class="drawer-link" data-cat="anime">🌸 Animation</button>
+  <button class="drawer-link" data-cat="cartoon">🧸 Cartoon</button>
   
-  <div class="drawer-section-title">TOUCHLINE Football</div>
-  <button class="drawer-link" data-view="matchcentre">🟢 Live Match Centre</button>
-  <button class="drawer-link" data-view="fixtures">⚽ Today's Fixtures</button>
+  <div class="drawer-section-title">Touchline Football</div>
+  <button class="drawer-link" id="drawerFootballBtn">⚽ Live Match Centre</button>
 
   <div class="drawer-section-title">Community</div>
+  <a class="drawer-link" href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram (@mg_7hwe)</a>
   <a class="drawer-link" href="https://t.me/MG1SHWE" target="_blank">Telegram (@MG1SHWE)</a>
 </div>
 
 <main>
-<!-- TOUCHLINE FOOTBALL STADIUM TOGGLE BAR -->
-<div class="touchline-toggle-bar">
-  <div class="touchline-info">
-    <h3>🟢 TOUCHLINE: Cinematic Football Stadium Mode</h3>
-    <p>Live matches, 2Embed global servers, fixtures & real-time updates.</p>
-  </div>
-  <button class="gold-btn" id="toggleTouchlineBtn" type="button">⚽ Open Match Centre</button>
-</div>
-
 <!-- CINEMATIC HERO STYLE -->
 <section id="hero" class="hero">
 <div class="hero-content">
@@ -392,13 +444,22 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
   <h1 id="heroTitle">Game of Thrones</h1>
   <div class="hero-meta">
     <span id="heroRating" style="color:var(--gold);">98% Match</span><span class="dot">•</span>
-    <span id="heroYear">2026</span><span class="dot">•</span>
-    <span>Suiii_Stream ©®7</span>
+    <span id="heroYear">2011-2019</span><span class="dot">•</span>
+    <span>18+</span>
   </div>
-  <p id="heroDescription">Find the story or match you didn't know you were looking for. Powered by Suiii_Stream VIP Engine.</p>
+  <p id="heroDescription">Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.</p>
   <div style="display:flex;gap:12px;align-items:center;">
     <button class="gold-btn" id="heroPlay" type="button">▶ Resume</button>
     <button class="outline-btn" id="heroAddList" type="button">+ My List</button>
+  </div>
+
+  <!-- EPISODE SCROLLER -->
+  <div class="hero-episodes-preview" id="heroEpScroller">
+    <div class="hero-ep-thumb active" data-ep="1"><img src="https://image.tmdb.org/t/p/w300/suopoADq0k8YZr4dQXcU6pToj6s.jpg"><span class="hero-ep-label">Trailer</span></div>
+    <div class="hero-ep-thumb" data-ep="2"><img src="https://image.tmdb.org/t/p/w300/zMeIkxyEvUNSTogUaP3WJ45Q7Y3.jpg"><span class="hero-ep-label">01 Dragonstone</span></div>
+    <div class="hero-ep-thumb" data-ep="3"><img src="https://image.tmdb.org/t/p/w300/o7qi2v4uWQ8bZ1tW3KI0Mth2oSx.jpg"><span class="hero-ep-label">02 Stormborn</span></div>
+    <div class="hero-ep-thumb" data-ep="4"><img src="https://image.tmdb.org/t/p/w300/7aPrv2HFvVvO3v418c3b4N4bJ5u.jpg"><span class="hero-ep-label">03 The Queen's</span></div>
+    <div class="hero-ep-thumb" data-ep="5"><img src="https://image.tmdb.org/t/p/w300/z0Iptpx2W8lgDWX8z2E4rF9E01z.jpg"><span class="hero-ep-label">04 Spoils</span></div>
   </div>
 </div>
 </section>
@@ -406,9 +467,13 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
 <!-- CATEGORY TABS -->
 <nav class="tabs" id="tabs" aria-label="Categories">
 <button class="active" data-kind="trending">🔥 Home</button>
+<button data-kind="serials">TV Show</button>
+<button data-kind="hindiserials">Hindi Serials</button>
+<button data-kind="pakdrama">Pakistan Drama</button>
+<button data-kind="kdrama">K Drama</button>
 <button data-kind="movies">Movie</button>
-<button data-kind="serials">Series & Anime</button>
-<button data-kind="football" id="tabFootball">🟢 Touchline Football</button>
+<button data-kind="anime">Animation</button>
+<button data-kind="cartoon">Cartoon</button>
 </nav>
 
 <section id="resultsSection" class="section">
@@ -451,7 +516,8 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
 
     <div class="ask-key-box">
       Need an Access Key?<br>
-      <a href="https://t.me/MG1SHWE" target="_blank">Telegram (@MG1SHWE)</a>
+      <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
+      <a href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram</a>
     </div>
   </div>
 </div>
@@ -464,8 +530,8 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
       <div class="profile-card-pfp">
         <img id="dashPfp" src="" alt="Avatar">
       </div>
-      <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">Suiii VIP User</h3>
-      <span style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER (@MG1SHWE)</span>
+      <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
+      <span style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
       <div class="avatar-cat-title">Anime Characters</div>
       <div class="avatar-grid">
@@ -475,7 +541,7 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
         <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/78726.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/78726.jpg"></div>
       </div>
 
-      <div class="avatar-cat-title">Football Legends (CR7 & Icons)</div>
+      <div class="avatar-cat-title">Hollywood & Football Legends</div>
       <div class="avatar-grid">
         <div class="avatar-option" data-img="https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg"><img src="https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg"></div>
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"></div>
@@ -491,12 +557,13 @@ footer a { color: var(--emerald); text-decoration: none; font-weight: 800; }
           <div class="stat-lbl">Key Status</div>
         </div>
       </div>
-      <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;background:#c42b2b;">Logout Account</button>
+
+      <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
   </div>
 </div>
 
-<footer>© 2026 Suiii_Stream ©®7 · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a></footer>
+<footer>© <span id="year"></span> SUIII_STREAM · Created with ❤️ by <a href="https://t.me/MG1SHWE" target="_blank" rel="noopener">@MG1SHWE</a></footer>
 
 <script>
 (() => {
@@ -519,10 +586,17 @@ const hero = $("hero");
 let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
+let currentLanguage = "original";
 let currentSeason = 1;
 let currentEpisode = 1;
+let heroSlideIndex = 0;
+let heroSlideTimer = null;
+let touchlineSlideTimer = null;
 let searchDebounce = null;
 let timerInterval = null;
+let holdTimer = null;
+
+$("year").textContent = new Date().getFullYear();
 
 $("hamburgerBtn").onclick = () => $("navDrawer").classList.add("open");
 $("drawerClose").onclick = () => $("navDrawer").classList.remove("open");
@@ -532,15 +606,14 @@ document.querySelectorAll(".drawer-link[data-cat]").forEach(btn => {
     loadCatalog(btn.dataset.cat);
   };
 });
-document.querySelectorAll(".drawer-link[data-view]").forEach(btn => {
-  btn.onclick = () => {
-    $("navDrawer").classList.remove("open");
-    loadTouchlineMatches();
-  };
-});
+$("drawerFootballBtn").onclick = () => {
+  $("navDrawer").classList.remove("open");
+  loadTouchlineMatches();
+};
 
-$("toggleTouchlineBtn").onclick = () => loadTouchlineMatches();
-$("tabFootball").onclick = () => loadTouchlineMatches();
+$("quickFootballBtn").onclick = () => loadTouchlineMatches();
+$("quickMovieBtn").onclick = () => loadCatalog("trending");
+$("brandHome").onclick = () => loadCatalog("trending");
 
 $("profileBtn").onclick = () => {
   const userKey = localStorage.getItem("suii_access_key");
@@ -610,6 +683,11 @@ function poster(path) {
   return path.startsWith("http") ? path : IMG + path;
 }
 
+function back(path) {
+  if (!path) return "";
+  return path.startsWith("http") ? path : BACK + path;
+}
+
 async function getJSON(url) {
   const response = await fetch(url);
   if (!response.ok) throw Error("Request failed");
@@ -632,7 +710,7 @@ function normTMDB(item, forcedType) {
     year: (item.release_date || item.first_air_date || "").slice(0, 4),
     overview: item.overview || "No description available.",
     poster: item.poster_path || "", backdrop: item.backdrop_path || "",
-    rating: item.vote_average || 0, type, provider: "Suiii_Stream ©®7"
+    rating: item.vote_average || 0, type, provider: "TMDB"
   };
 }
 
@@ -641,6 +719,7 @@ function card(item, index) {
     <article class="card" data-index="${index}" data-tmdb-id="${item.tmdbId}" data-type="${item.type}">
       <div class="poster-wrap">
         <img class="poster" loading="lazy" src="${esc(poster(item.poster))}" alt="">
+        <iframe class="preview-frame-overlay" hidden></iframe>
         <div class="poster-overlay"></div>
         <span class="play-dot">▶</span>
       </div>
@@ -657,9 +736,66 @@ function render(items) {
   results.innerHTML = itemsNow.map(card).join("");
   $("count").textContent = itemsNow.length + " titles";
   status.hidden = !!itemsNow.length;
+  if (itemsNow.length > 0) startHeroSlider(itemsNow);
+  attachPosterHoldEvents();
 }
 
+function attachPosterHoldEvents() {
+  document.querySelectorAll(".card").forEach(cardEl => {
+    const tmdbId = cardEl.dataset.tmdbId;
+    const type = cardEl.dataset.type;
+    const iframe = cardEl.querySelector(".preview-frame-overlay");
+
+    const startHold = () => {
+      holdTimer = setTimeout(async () => {
+        try {
+          const videos = await tmdb(`/${type}/${tmdbId}/videos`);
+          const trailer = (videos.results || []).find(v => v.type === "Trailer" || v.type === "Teaser") || videos.results[0];
+          if (trailer && trailer.key) {
+            iframe.src = `https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&start=20`;
+            iframe.hidden = false;
+            cardEl.classList.add("previewing");
+          }
+        } catch(e) {}
+      }, 600);
+    };
+
+    const endHold = () => {
+      clearTimeout(holdTimer);
+      if (iframe) { iframe.src = ""; iframe.hidden = true; }
+      cardEl.classList.remove("previewing");
+    };
+
+    cardEl.onpointerdown = startHold;
+    cardEl.onpointerup = endHold;
+    cardEl.onpointerleave = endHold;
+  });
+}
+
+function startHeroSlider(items) {
+  if (heroSlideTimer) clearInterval(heroSlideTimer);
+  heroSlideIndex = 0;
+  function updateHeroSlide() {
+    if (!items || items.length === 0) return;
+    const item = items[heroSlideIndex % items.length];
+    $("heroTitle").textContent = item.title;
+    $("heroDescription").textContent = item.overview || "Stream exclusive content in high definition.";
+    if (item.backdrop) { hero.style.backgroundImage = `url("${back(item.backdrop)}")`; }
+    heroSlideIndex++;
+  }
+  updateHeroSlide();
+  heroSlideTimer = setInterval(updateHeroSlide, 4000);
+}
+
+document.querySelectorAll(".hero-ep-thumb").forEach(thumb => {
+  thumb.onclick = () => {
+    document.querySelectorAll(".hero-ep-thumb").forEach(t => t.classList.remove("active"));
+    thumb.classList.add("active");
+  };
+});
+
 async function loadCatalog(category = "trending") {
+  if (touchlineSlideTimer) clearInterval(touchlineSlideTimer);
   currentCategory = category;
   detail.hidden = true; hero.hidden = false;
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
@@ -676,6 +812,21 @@ async function loadCatalog(category = "trending") {
     } else if (category === "serials") {
       const data = await tmdb("/tv/popular");
       items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "hindiserials") {
+      const data = await tmdb("/discover/tv", { with_original_language: "hi", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "pakdrama") {
+      const data = await tmdb("/discover/tv", { with_origin_country: "PK", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "kdrama") {
+      const data = await tmdb("/discover/tv", { with_original_language: "ko", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "anime") {
+      const data = await tmdb("/discover/tv", { with_genres: "16", with_original_language: "ja", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
+    } else if (category === "cartoon") {
+      const data = await tmdb("/discover/tv", { with_genres: "16", sort_by: "popularity.desc" });
+      items = (data.results || []).map(x => normTMDB(x, "tv"));
     }
     render(items);
   } catch (err) {
@@ -683,88 +834,132 @@ async function loadCatalog(category = "trending") {
   }
 }
 
-// TOUCHLINE MATCH CENTRE & 2EMBED LIVE FOOTBALL
+// TOUCHLINE LIVE FOOTBALL MATCH CENTRE WITH 4-SEC SLIDER & 1V1 REAL PLAYERS
 async function loadTouchlineMatches() {
+  if (heroSlideTimer) clearInterval(heroSlideTimer);
   currentCategory = "football";
   detail.hidden = true; hero.hidden = false;
-  document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === "football"));
-  $("resultsTitle").textContent = "TOUCHLINE — Live Matches & Fixtures";
+  document.querySelectorAll("#tabs button").forEach(b => b.classList.remove("active"));
+  $("resultsTitle").textContent = "TOUCHLINE — Live Football Matches & Fixtures";
   status.hidden = false; status.innerHTML = '<span class="dalli-loading">🟢 TOUCHLINE LIVE</span>';
 
-  // Using real SportScore / live fixtures mock or verified live football fixture list
-  try {
-    const res = await fetch("https://sportscore.com/api/v1/fixtures/");
-    const data = await res.json();
-    displayFootballMatches(data.data || []);
-  } catch(e) {
-    // Fallback live football matches with 2embed match IDs for guaranteed playback
-    const sampleLiveMatches = [
-      { id: "39", home: "Real Madrid", away: "Barcelona", competition: "UEFA Champions League", status: "LIVE", score: "2 - 1", time: "74'" },
-      { id: "40", home: "Manchester City", away: "Arsenal", competition: "English Premier League", status: "LIVE", score: "1 - 1", time: "60'" },
-      { id: "42", home: "Bayern Munich", away: "Borussia Dortmund", competition: "Bundesliga", status: "UPCOMING", score: "vs", time: "21:00 UTC" },
-      { id: "47", home: "Inter Milan", away: "AC Milan", competition: "Serie A", status: "FINISHED", score: "3 - 0", FT: "FT" }
-    ];
-    displayFootballMatches(sampleLiveMatches);
-  }
+  const matches = [
+    { 
+      id: "39", home: "Real Madrid", away: "Barcelona", competition: "UEFA Champions League", status: "LIVE", score: "2 - 1", time: "74'",
+      homeLogo: "https://media.api-sports.io/football/teams/541.png", awayLogo: "https://media.api-sports.io/football/teams/529.png",
+      homePlayer: { name: "Kylian Mbappé", img: "https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg", stats: "28 Goals • 7 Assists" },
+      awayPlayer: { name: "Lamine Yamal", img: "https://media.api-sports.io/football/players/335835.png", stats: "14 Goals • 16 Assists" }
+    },
+    { 
+      id: "40", home: "Manchester City", away: "Arsenal", competition: "English Premier League", status: "LIVE", score: "1 - 1", time: "60'",
+      homeLogo: "https://media.api-sports.io/football/teams/50.png", awayLogo: "https://media.api-sports.io/football/teams/42.png",
+      homePlayer: { name: "Erling Haaland", img: "https://media.api-sports.io/football/players/1100.png", stats: "32 Goals • 4 Assists" },
+      awayPlayer: { name: "Bukayo Saka", img: "https://media.api-sports.io/football/players/1460.png", stats: "18 Goals • 14 Assists" }
+    },
+    { 
+      id: "42", home: "Bayern Munich", away: "Borussia Dortmund", competition: "Bundesliga", status: "UPCOMING", score: "vs", time: "21:00 UTC",
+      homeLogo: "https://media.api-sports.io/football/teams/157.png", awayLogo: "https://media.api-sports.io/football/teams/165.png",
+      homePlayer: { name: "Harry Kane", img: "https://media.api-sports.io/football/players/277.png", stats: "30 Goals • 8 Assists" },
+      awayPlayer: { name: "Serhou Guirassy", img: "https://media.api-sports.io/football/players/18889.png", stats: "22 Goals • 5 Assists" }
+    },
+    { 
+      id: "47", home: "Inter Milan", away: "AC Milan", competition: "Serie A", status: "FINISHED", score: "3 - 0", FT: "FT",
+      homeLogo: "https://media.api-sports.io/football/teams/505.png", awayLogo: "https://media.api-sports.io/football/teams/489.png",
+      homePlayer: { name: "Lautaro Martínez", img: "https://media.api-sports.io/football/players/252.png", stats: "24 Goals • 6 Assists" },
+      awayPlayer: { name: "Christian Pulisic", img: "https://media.api-sports.io/football/players/2432.png", stats: "15 Goals • 9 Assists" }
+    }
+  ];
+
+  displayTouchlineDashboard(matches);
 }
 
-function displayFootballMatches(matches) {
+function displayTouchlineDashboard(matches) {
   status.hidden = true;
   results.className = "";
+
+  // 4-Second Slider Hero Rotation for Touchline
+  let sliderIndex = 0;
+  function renderTouchlineHeroSlider() {
+    const m = matches[sliderIndex % matches.length];
+    hero.style.backgroundImage = `url("https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80")`;
+    $("heroEyebrow").textContent = `TOUCHLINE STADIUM • ${m.competition}`;
+    $("heroTitle").textContent = `${m.home} vs ${m.away}`;
+    $("heroRating").textContent = m.status;
+    $("heroYear").textContent = m.time || m.FT;
+    $("heroDescription").textContent = `Live match action featuring star players ${m.homePlayer.name} and ${m.awayPlayer.name}. Stream instantly without language barriers.`;
+    sliderIndex++;
+  }
+  renderTouchlineHeroSlider();
+  if (touchlineSlideTimer) clearInterval(touchlineSlideTimer);
+  touchlineSlideTimer = setInterval(renderTouchlineHeroSlider, 4000);
+
   results.innerHTML = `
-    <div style="grid-column: 1 / -1; margin-bottom:15px; font-weight:800; color:var(--emerald);">⚽ TOUCHLINE Live & Upcoming Matches (Powered by 2Embed & SportScore)</div>
-    <div class="match-list" style="grid-column: 1 / -1; display:grid; grid-template-columns: repeat(2,1fr); gap:15px;">
-      ${matches.map(m => `
-        <div class="match-card" onclick="openMatchStream('${m.home} vs ${m.away}', '${m.id || 39}')">
-          <div class="match-header">
-            <span>${esc(m.competition || "Football Match")}</span>
-            <span class="${m.status === 'LIVE' ? 'match-status-live' : ''}">${esc(m.status)}</span>
+    <div style="grid-column: 1 / -1;">
+      <div class="match-list" style="display:grid; grid-template-columns: repeat(2,1fr); gap:15px;">
+        ${matches.map(m => `
+          <div class="match-card" onclick='openMatchStream(${JSON.stringify(m)})'>
+            <div class="match-top-row">
+              <span>${esc(m.competition)}</span>
+              <span class="${m.status === 'LIVE' ? 'match-status-live' : ''}">${esc(m.status)}</span>
+            </div>
+            <div class="match-teams-row">
+              <div class="team-box"><img class="team-logo" src="${m.homeLogo}" onerror="this.src='https://via.placeholder.com/32?text=⚽'"><span>${esc(m.home)}</span></div>
+              <span class="match-score-badge">${esc(m.score)}</span>
+              <div class="team-box away"><span>${esc(m.away)}</span><img class="team-logo" src="${m.awayLogo}" onerror="this.src='https://via.placeholder.com/32?text=⚽'"></div>
+            </div>
+            <div style="font-size:0.75rem; color:var(--muted); text-align:right;">Kickoff: ${esc(m.time || m.FT || 'Live')}</div>
           </div>
-          <div class="match-teams">
-            <span>${esc(m.home)}</span>
-            <span class="match-score">${esc(m.score)}</span>
-            <span>${esc(m.away)}</span>
-          </div>
-          <div style="font-size:0.75rem; color:var(--muted); text-align:right;">Kickoff: ${esc(m.time || m.FT || 'Live')}</div>
-        </div>
-      `).join('')}
+        `).join('')}
+      </div>
     </div>
   `;
 }
 
-window.openMatchStream = function(matchTitle, matchId) {
+window.openMatchStream = function(m) {
+  if (touchlineSlideTimer) clearInterval(touchlineSlideTimer);
   hero.hidden = true; $("resultsSection").hidden = true; detail.hidden = false;
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   detail.innerHTML = `
     <button class="outline-btn" id="backBtn" style="margin-bottom:20px;">← Back to Match Centre</button>
-    <section class="detail-top" style="background-image:url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1200&q=80')">
-      <div class="detail-info">
-        <div class="eyebrow">TOUCHLINE LIVE STREAM</div>
-        <h1>${esc(matchTitle)}</h1>
-        <div class="hero-meta">
-          <span>🟢 Live Broadcast</span><span class="dot">•</span>
-          <span style="color:var(--emerald);">HD 1080P Stable</span>
-        </div>
-        <p>Streaming live without language barriers using verified 2Embed & Doodstream global sports mirrors.</p>
+    
+    <div class="match-detail-arena">
+      <div class="arena-header">
+        <span class="eyebrow">${esc(m.competition)}</span>
+        <span class="match-status-live">🟢 ${esc(m.status)} (${esc(m.score)})</span>
       </div>
-    </section>
+      <div class="players-comparison">
+        <div class="player-showcase">
+          <img class="player-avatar-img" src="${m.homePlayer.img}" onerror="this.src='https://via.placeholder.com/90?text=Player'">
+          <div style="font-weight:900;font-size:1.05rem;color:var(--emerald);">${esc(m.homePlayer.name)}</div>
+          <div style="font-size:0.75rem;color:var(--muted);">${esc(m.home)} Star</div>
+          <div style="font-size:0.8rem;font-weight:800;color:var(--gold);">${esc(m.homePlayer.stats)}</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="player-showcase">
+          <img class="player-avatar-img" src="${m.awayPlayer.img}" onerror="this.src='https://via.placeholder.com/90?text=Player'">
+          <div style="font-weight:900;font-size:1.05rem;color:var(--emerald);">${esc(m.awayPlayer.name)}</div>
+          <div style="font-size:0.75rem;color:var(--muted);">${esc(m.away)} Star</div>
+          <div style="font-size:0.8rem;font-weight:800;color:var(--gold);">${esc(m.awayPlayer.stats)}</div>
+        </div>
+      </div>
+    </div>
 
     <div class="player-box" id="playerBox">
       <div class="player-head">
-        <strong>Suiii_Stream × TOUCHLINE VIP SPORTS ENGINE</strong>
+        <strong>SUIII × TOUCHLINE VIP SPORTS ENGINE</strong>
         <span style="color:var(--emerald);font-size:.85rem;font-weight:800;">2EMBED / DOODSTREAM ACTIVE</span>
       </div>
 
       <div class="servers" id="footballServers">
-        <button class="server active" data-url="https://vidsrc.cc/v2/embed/football/${matchId}">2Embed Sport Pro</button>
-        <button class="server" data-url="https://dood.yt/e/football_${matchId}">Doodstream Sports</button>
-        <button class="server" data-url="https://netmirror.app/embed/live?id=${matchId}">Netmirror Live</button>
-        <button class="server" data-url="https://multiembed.mov/?live_id=${matchId}">MultiEmbed Sports</button>
+        <button class="server active" data-url="https://vidsrc.cc/v2/embed/football/${m.id}">2Embed Sport Pro</button>
+        <button class="server" data-url="https://dood.yt/e/football_${m.id}">Doodstream Sports</button>
+        <button class="server" data-url="https://netmirror.app/embed/live?id=${m.id}">Netmirror Live</button>
+        <button class="server" data-url="https://multiembed.mov/?live_id=${m.id}">MultiEmbed Sports</button>
       </div>
 
       <div id="playerArea">
-        <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media" src="https://vidsrc.cc/v2/embed/football/${matchId}"></iframe>
+        <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media" src="https://vidsrc.cc/v2/embed/football/${m.id}"></iframe>
       </div>
       <div class="notice">Note: Universal stream loaded. No language restrictions. Powered by Suiii_Stream ©®7 & TOUCHLINE.</div>
     </div>
@@ -792,23 +987,43 @@ async function openDetails(item) {
 
   detail.innerHTML = `<div class="status"><span class="dalli-loading">👑 DALLI💕</span></div>`;
 
+  let castHTML = "";
   let seasonsHTML = "";
   let tmdbId = item.tmdbId;
   let typePath = item.type === "movie" ? "movie" : "tv";
 
   try {
+    const credits = await tmdb(`/${typePath}/${tmdbId}/credits`);
     const detailsData = await tmdb(`/${typePath}/${tmdbId}`);
     item.overview = detailsData.overview || item.overview;
     item.backdrop = detailsData.backdrop_path || item.backdrop;
 
+    const castList = (credits.cast || []).slice(0, 12);
+    castHTML = `
+      <div class="cast-section">
+        <h3>Top Cast</h3>
+        <div class="cast-scroll">
+          ${castList.map(actor => `
+            <div class="cast-card">
+              <img class="cast-img" src="${poster(actor.profile_path)}" alt="${esc(actor.name)}" onerror="this.src='https://via.placeholder.com/90?text=Actor'">
+              <div class="cast-name">${esc(actor.name)}</div>
+              <div class="cast-char">${esc(actor.character || '')}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
     if (item.type === "tv" && detailsData.seasons) {
       const seasons = detailsData.seasons.filter(s => s.season_number > 0);
       seasonsHTML = `
-        <div style="display:flex;gap:10px;align-items:center;padding:14px 22px;background:rgba(8,15,12,0.5);border-bottom:var(--glass-border);flex-wrap:wrap;">
-          <label style="color:var(--emerald);font-weight:800;font-size:0.8rem;">SEASON:</label>
-          <select id="seasonSelect" style="background:#14241c;border:var(--glass-border);padding:6px 12px;border-radius:10px;color:var(--text);">
-            ${seasons.map(s => `<option value="${s.season_number}">Season ${s.season_number}</option>`).join('')}
+        <div class="episodes-bar">
+          <label>SEASON:</label>
+          <select id="seasonSelect">
+            ${seasons.map(s => `<option value="${s.season_number}">Season ${s.season_number} (${s.episode_count} Episodes)</option>`).join('')}
           </select>
+          <label>EPISODE:</label>
+          <select id="episodeSelect"></select>
         </div>
       `;
     }
@@ -816,7 +1031,7 @@ async function openDetails(item) {
 
   detail.innerHTML = `
     <button class="outline-btn" id="backBtn" style="margin-bottom:20px;">← Back to Discover</button>
-    <section class="detail-top" style="${item.backdrop ? 'background-image:url(' + esc(BACK + item.backdrop) + ')' : ''}">
+    <section class="detail-top" style="${item.backdrop ? 'background-image:url(' + esc(back(item.backdrop)) + ')' : ''}">
       <div class="detail-info">
         <div class="eyebrow">${esc(item.provider)}</div>
         <h1>${esc(item.title)}</h1>
@@ -829,26 +1044,62 @@ async function openDetails(item) {
       </div>
     </section>
 
+    ${castHTML}
+
     <div class="player-box" id="playerBox" hidden>
       <div class="player-head">
-        <strong>Suiii_Stream ©®7 VIP MULTI-SERVER STREAM PLAYER</strong>
-        <span style="color:var(--emerald);font-size:.85rem;font-weight:800;">PRO ENGINE</span>
+        <strong>SUIII VIP MULTI-SERVER STREAM PLAYER</strong>
+        <span style="color:var(--gold);font-size:.85rem;font-weight:800;">PRO EMBED ENGINE</span>
       </div>
       
       ${seasonsHTML}
+
+      <div class="audio-bar">
+        <label>SELECT AUDIO / DUBBING:</label>
+        <button class="audio-btn active" data-lang="original">⚡ Original / Universal</button>
+        <button class="audio-btn" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
+        <button class="audio-btn" data-lang="dual">🌐 Dual Audio</button>
+      </div>
 
       <div class="servers" id="servers"></div>
 
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice">Powered by Suiii_Stream ©®7 & TOUCHLINE. Created by @MG1SHWE.</div>
+      <div class="notice" id="audioNotice">Note: Original Audio active for instant 100% server compatibility.</div>
     </div>
   `;
 
   $("backBtn").onclick = () => {
     detail.hidden = true; $("resultsSection").hidden = false; hero.hidden = false;
   };
+
+  if (item.type === "tv") {
+    async function populateEpisodes(seasonNum) {
+      try {
+        const sData = await tmdb(`/tv/${tmdbId}/season/${seasonNum}`);
+        const epSelect = $("episodeSelect");
+        if (epSelect && sData.episodes) {
+          epSelect.innerHTML = sData.episodes.map(ep => `<option value="${ep.episode_number}">Episode ${ep.episode_number}: ${esc(ep.name)}</option>`).join('');
+          epSelect.onchange = (e) => {
+            currentEpisode = Number(e.target.value);
+            renderServers(selectedItem);
+          };
+        }
+      } catch (e) {}
+    }
+
+    const seasonSelect = $("seasonSelect");
+    if (seasonSelect) {
+      seasonSelect.onchange = (e) => {
+        currentSeason = Number(e.target.value);
+        currentEpisode = 1;
+        populateEpisodes(currentSeason);
+        renderServers(selectedItem);
+      };
+      populateEpisodes(1);
+    }
+  }
 
   $("watchBtn").onclick = () => {
     const verifiedKey = localStorage.getItem("suii_access_key");
@@ -861,33 +1112,6 @@ async function openDetails(item) {
       renderServers(item);
     }
   };
-}
-
-function renderServers(item) {
-  const id = item.tmdbId;
-  const isMovie = item.type === "movie";
-
-  const SERVERS = [
-    { name: "2Embed Pro HD", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/1` },
-    { name: "Doodstream VIP", url: isMovie ? `https://dood.yt/e/${id}` : `https://dood.yt/e/${id}` },
-    { name: "TeraBox HD Mirror", url: isMovie ? `https://terabox.app/embed/${id}` : `https://terabox.app/embed/${id}?s=${currentSeason}&e=1` },
-    { name: "Netmirror VIP", url: isMovie ? `https://netmirror.app/embed/movie?id=${id}` : `https://netmirror.app/embed/tv?id=${id}&s=${currentSeason}&e=1` }
-  ];
-
-  $("servers").innerHTML = SERVERS.map((s, idx) => `
-    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
-  `).join("");
-
-  const iframe = $("videoIframe");
-  iframe.src = SERVERS[0].url;
-
-  document.querySelectorAll(".server").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      iframe.src = btn.dataset.url;
-    };
-  });
 }
 
 $("searchInput").oninput = (e) => {
@@ -953,18 +1177,66 @@ $("loginForm").onsubmit = (e) => {
 $("logoutBtn").onclick = () => {
   localStorage.removeItem("suii_access_key");
   $("profileDashboardModal").hidden = true;
+  alert("Logged out successfully!");
   location.reload();
 };
 
+function renderServers(item) {
+  const id = item.tmdbId;
+  const isMovie = item.type === "movie";
+
+  const SERVERS = [
+    { id: "doodstream", name: "SUIII Doodstream VIP", url: isMovie ? `https://dood.yt/e/${id}` : `https://dood.yt/e/${id}` },
+    { id: "terabox", name: "TeraBox HD Mirror", url: isMovie ? `https://terabox.app/embed/${id}` : `https://terabox.app/embed/${id}?s=${currentSeason}&e=${currentEpisode}` },
+    { id: "vidsrc", name: "2Embed / VidSrc Pro HD", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "netmirror", name: "SUIII Netmirror VIP", url: isMovie ? `https://netmirror.app/embed/movie?id=${id}` : `https://netmirror.app/embed/tv?id=${id}&s=${currentSeason}&e=${currentEpisode}` }
+  ];
+
+  $("servers").innerHTML = SERVERS.map((s, idx) => `
+    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
+  `).join("");
+
+  const iframe = $("videoIframe");
+  function processAudioAndLoad(baseUrl) {
+    iframe.src = "about:blank";
+    $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Loading Stream...</span>';
+    setTimeout(() => {
+      if (currentLanguage === "hindi") {
+        iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
+        $("audioNotice").textContent = "Playing via Hindi Dubbed Mirror.";
+      } else {
+        iframe.src = baseUrl;
+        $("audioNotice").textContent = "Playing Original / Universal audio stream.";
+      }
+    }, 1000);
+  }
+
+  processAudioAndLoad(SERVERS[0].url);
+
+  document.querySelectorAll(".audio-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentLanguage = btn.dataset.lang;
+      const activeServerBtn = document.querySelector(".server.active");
+      if (activeServerBtn) processAudioAndLoad(activeServerBtn.dataset.url);
+    };
+  });
+
+  document.querySelectorAll(".server").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      processAudioAndLoad(btn.dataset.url);
+    };
+  });
+}
+
 $("tabs").onclick = (e) => {
   const btn = e.target.closest("button[data-kind]");
-  if (btn) {
-    if (btn.dataset.kind === "football") loadTouchlineMatches();
-    else loadCatalog(btn.dataset.kind);
-  }
+  if (btn) loadCatalog(btn.dataset.kind);
 };
 
-$("brandHome").onclick = () => loadCatalog("trending");
 results.onclick = (e) => {
   const card = e.target.closest(".card");
   if (card && itemsNow[card.dataset.index]) openDetails(itemsNow[card.dataset.index]);
