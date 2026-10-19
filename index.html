@@ -12,10 +12,13 @@
   --bg: #0b090e;
   --panel: rgba(22, 18, 28, 0.75);
   --panel-solid: #15111c;
+  --panel2: rgba(30, 24, 38, 0.85);
   --text: #f5f0fa;
   --muted: #a095b0;
   --gold: #e2b024;
+  --cyan: #00e5ff;
   --accent-glow: rgba(226, 176, 36, 0.25);
+  --line: rgba(255, 255, 255, 0.12);
   --glass: blur(25px) saturate(190%);
   --glass-border: 1px solid rgba(255, 255, 255, 0.14);
   --card-radius: 18px;
@@ -25,7 +28,7 @@
 html { scroll-behavior: smooth; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
-  font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font: 15px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(226, 176, 36, 0.05) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(0, 229, 255, 0.04) 0%, transparent 40%);
@@ -38,7 +41,7 @@ button { cursor: pointer; }
 /* HEADER */
 header {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(13, 11, 16, 0.85);
+  background: rgba(13, 11, 16, 0.75);
   backdrop-filter: var(--glass);
   -webkit-backdrop-filter: var(--glass);
   border-bottom: var(--glass-border);
@@ -147,45 +150,35 @@ input:focus, select:focus {
 
 main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 
-/* HERO */
+/* HERO HERO SLIDER */
 .hero {
-  margin: 20px 0 30px; min-height: 480px; position: relative;
+  margin: 20px 0 30px; min-height: 440px; position: relative;
   overflow: hidden; border-radius: 24px;
   background: #191424 center 35%/cover no-repeat;
   display: flex; align-items: flex-end;
   border: var(--glass-border);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
   transition: background-image 0.6s ease-in-out;
 }
 .hero:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.65) 45%, rgba(11,9,14,0.3) 100%),
-              linear-gradient(90deg, rgba(11, 9, 14, 0.9) 0%, rgba(11,9,14,0.4) 70%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11, 9, 14, 0.7) 40%, transparent 100%),
+              linear-gradient(90deg, rgba(11, 9, 14, 0.85) 0%, transparent 80%);
 }
-.hero-content { position: relative; max-width: 680px; padding: 40px; z-index: 2; }
+.hero-content { position: relative; max-width: 650px; padding: 35px; z-index: 2; }
 .eyebrow { color: var(--gold); font-size: .75rem; letter-spacing: 2px; font-weight: 900; text-transform: uppercase; }
-.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); line-height: 1.05; font-weight: 900; margin: 8px 0; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
-.hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; font-weight: 700; }
+.hero h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; font-weight: 800; margin: 8px 0; }
+.hero-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; color: #d8cec4; font-size: .85rem; }
 .dot { color: var(--gold); }
-.hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 20px; font-size: .95rem; }
+.hero p { color: #d1c6bb; max-width: 520px; margin: 12px 0 18px; font-size: .92rem; }
 
-.hero-episodes-preview {
-  display: flex; gap: 12px; overflow-x: auto; padding: 10px 0 5px; scrollbar-width: none; margin-top: 15px;
-}
-.hero-ep-thumb {
-  flex: 0 0 130px; height: 75px; border-radius: 10px; overflow: hidden; border: 2px solid rgba(255,255,255,0.15);
-  cursor: pointer; position: relative; transition: 0.3s; background: #000;
-}
-.hero-ep-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
-.hero-ep-thumb:hover, .hero-ep-thumb.active { border-color: var(--gold); transform: scale(1.05); }
-.hero-ep-thumb:hover img, .hero-ep-thumb.active img { opacity: 1; }
-.hero-ep-label { position: absolute; bottom: 4px; left: 6px; font-size: 0.7rem; font-weight: 800; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.9); }
-
-.section { margin: 35px 0; }
+.section { margin: 30px 0; }
 .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; margin-bottom: 16px; }
 .section-head h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
 
-.status { padding: 40px 10px; text-align: center; color: var(--gold); }
+.status {
+  padding: 40px 10px; text-align: center; color: var(--gold);
+}
 .dalli-loading {
   font-size: 1.8rem; font-weight: 900; letter-spacing: 2px;
   display: inline-block;
@@ -225,6 +218,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
   color: #0d0b10; font-size: 0.85rem; box-shadow: 0 4px 12px var(--accent-glow);
 }
 
+/* SILENT PREVIEW IFRAME OVERLAY ON POSTER HOLD */
 .preview-frame-overlay {
   position: absolute; inset: 0; width: 100%; height: 100%;
   border: 0; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
@@ -236,29 +230,28 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .card-meta { display: flex; justify-content: space-between; gap: 6px; color: var(--muted); font-size: .76rem; }
 .rating { color: var(--gold); font-weight: 800; }
 
-.cast-section { margin-top: 30px; }
-.cast-section h3 { font-size: 1.15rem; margin-bottom: 14px; color: var(--gold); }
-.cast-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
+.cast-section { margin-top: 25px; }
+.cast-section h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--gold); }
+.cast-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: thin; }
 .cast-card { flex: 0 0 100px; text-align: center; cursor: pointer; }
-.cast-img { width: 95px; height: 95px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; box-shadow: 0 4px 15px var(--accent-glow); }
-.cast-name { font-size: 0.8rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cast-char { font-size: 0.72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); margin-bottom: 6px; }
+.cast-name { font-size: 0.78rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cast-char { font-size: 0.7rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 .episodes-bar { display: flex; gap: 10px; align-items: center; padding: 14px 22px; background: rgba(11, 9, 14, 0.5); border-bottom: var(--glass-border); flex-wrap: wrap; }
 .episodes-bar select { background: #1c1626; border: var(--glass-border); padding: 8px 14px; border-radius: 10px; color: var(--gold); font-weight: 800; }
 
 .detail { margin-top: 25px; }
 .detail-top {
-  min-height: 400px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
+  min-height: 350px; border-radius: 24px; overflow: hidden; background: #191424 center/cover no-repeat;
   position: relative; display: flex; align-items: flex-end; border: var(--glass-border);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 .detail-top:before {
   content: ""; position: absolute; inset: 0;
-  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.7) 50%, transparent 100%);
+  background: linear-gradient(0deg, #0b090e 0%, rgba(11,9,14,0.75) 50%, transparent 100%);
 }
-.detail-info { position: relative; padding: 35px; max-width: 850px; z-index: 2; }
-.detail-info h1 { font-size: clamp(2.2rem, 4.5vw, 3.5rem); margin: 6px 0 10px; font-weight: 900; }
+.detail-info { position: relative; padding: 30px; max-width: 850px; z-index: 2; }
+.detail-info h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); margin: 6px 0 10px; font-weight: 800; }
 
 .player-box {
   margin-top: 25px; border: var(--glass-border);
@@ -309,9 +302,15 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .ask-key-box { margin-top: 15px; text-align: center; font-size: 0.85rem; color: var(--muted); border-top: var(--glass-border); padding-top: 15px; }
 .ask-key-box a { color: var(--gold); font-weight: 800; text-decoration: none; margin: 0 5px; }
 
+/* CATEGORIZED ORIGINAL AVATARS SELECTOR */
 .avatar-cat-title { font-size: 0.72rem; font-weight: 900; color: var(--gold); text-transform: uppercase; margin: 10px 0 4px; text-align: left; }
-.avatar-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
-.avatar-option { width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; cursor: pointer; overflow: hidden; transition: 0.2s; position: relative; }
+.avatar-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px;
+}
+.avatar-option {
+  width: 100%; aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent;
+  cursor: pointer; overflow: hidden; transition: 0.2s; position: relative;
+}
 .avatar-option img { width: 100%; height: 100%; object-fit: cover; }
 .avatar-option.selected { border-color: var(--gold); box-shadow: 0 0 12px var(--accent-glow); }
 
@@ -322,6 +321,7 @@ main { max-width: 1320px; margin: auto; padding: 0 20px 50px; }
 .stat-box { background: rgba(255,255,255,0.04); border: var(--glass-border); padding: 12px; border-radius: 14px; text-align: center; }
 .stat-val { font-size: 1.05rem; font-weight: 900; color: var(--gold); }
 .stat-lbl { font-size: 0.75rem; color: var(--muted); }
+.recent-list { text-align: left; font-size: 0.85rem; margin-top: 15px; background: rgba(255,255,255,0.02); border: var(--glass-border); padding: 12px; border-radius: 14px; }
 
 footer {
   border-top: var(--glass-border); padding: 25px 20px; text-align: center;
@@ -349,13 +349,13 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
       <img id="headerPfp" src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" alt="Profile">
     </div>
-    <div class="brand" id="brandHome" role="button" tabindex="0" title="Suiii_Stream OTT">
+    <div class="brand" id="brandHome" role="button" tabindex="0">
       <span class="brand-mark">◉</span><span>SUIII<span>_STREAM</span></span>
     </div>
   </div>
   <div class="header-actions">
     <div class="search-container">
-      <input id="searchInput" type="search" placeholder="Search movies, shows, anime..." aria-label="Search" autocomplete="off">
+      <input id="searchInput" type="search" placeholder="Search movies, shows, actors..." aria-label="Search" autocomplete="off">
       <div id="searchSuggestions" class="search-suggestions" hidden></div>
     </div>
   </div>
@@ -384,29 +384,18 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
 </div>
 
 <main>
-<!-- CINEMATIC HERO STYLE -->
 <section id="hero" class="hero">
 <div class="hero-content">
-  <div class="eyebrow" id="heroEyebrow">VIP STREAMING PREMIERE</div>
-  <h1 id="heroTitle">Game of Thrones</h1>
+  <div class="eyebrow" id="heroEyebrow">LIQUID GLASS FEATURE</div>
+  <h1 id="heroTitle">Discover Unforgettable Content</h1>
   <div class="hero-meta">
-    <span id="heroRating" style="color:var(--gold);">98% Match</span><span class="dot">•</span>
-    <span id="heroYear">2011-2019</span><span class="dot">•</span>
-    <span>18+</span>
+    <span id="heroYear">SUIII_STREAM</span><span class="dot">•</span>
+    <span id="heroType">VIP OTT</span><span class="dot">•</span>
+    <span id="heroRating">★ Verified</span>
   </div>
-  <p id="heroDescription">Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.</p>
-  <div style="display:flex;gap:12px;align-items:center;">
-    <button class="gold-btn" id="heroPlay" type="button">▶ Resume</button>
-    <button class="outline-btn" id="heroAddList" type="button">+ My List</button>
-  </div>
-
-  <!-- EPISODE SCROLLER -->
-  <div class="hero-episodes-preview" id="heroEpScroller">
-    <div class="hero-ep-thumb active" data-ep="1"><img src="https://image.tmdb.org/t/p/w300/suopoADq0k8YZr4dQXcU6pToj6s.jpg"><span class="hero-ep-label">Trailer</span></div>
-    <div class="hero-ep-thumb" data-ep="2"><img src="https://image.tmdb.org/t/p/w300/zMeIkxyEvUNSTogUaP3WJ45Q7Y3.jpg"><span class="hero-ep-label">01 Dragonstone</span></div>
-    <div class="hero-ep-thumb" data-ep="3"><img src="https://image.tmdb.org/t/p/w300/o7qi2v4uWQ8bZ1tW3KI0Mth2oSx.jpg"><span class="hero-ep-label">02 Stormborn</span></div>
-    <div class="hero-ep-thumb" data-ep="4"><img src="https://image.tmdb.org/t/p/w300/7aPrv2HFvVvO3v418c3b4N4bJ5u.jpg"><span class="hero-ep-label">03 The Queen's</span></div>
-    <div class="hero-ep-thumb" data-ep="5"><img src="https://image.tmdb.org/t/p/w300/z0Iptpx2W8lgDWX8z2E4rF9E01z.jpg"><span class="hero-ep-label">04 Spoils</span></div>
+  <p id="heroDescription">Stream Hollywood, Bollywood, TV Serials, K-Dramas, Marvel, DC, and Anime seamlessly.</p>
+  <div class="hero-actions">
+    <button class="gold-btn" id="heroPlay" type="button">▶ Watch Featured</button>
   </div>
 </div>
 </section>
@@ -464,12 +453,13 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
     <div class="ask-key-box">
       Need an Access Key?<br>
       <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
+      <a href="https://wa.me/" target="_blank">WhatsApp</a> | 
       <a href="https://www.instagram.com/mg_7hwe" target="_blank">Instagram</a>
     </div>
   </div>
 </div>
 
-<!-- USER PROFILE & DASHBOARD MODAL -->
+<!-- USER PROFILE & DASHBOARD MODAL WITH CATEGORIZED ORIGINAL AVATARS -->
 <div class="auth-modal-overlay" id="profileDashboardModal" hidden>
   <div class="auth-modal">
     <button class="drawer-close" id="profileModalClose" style="position:absolute;top:20px;right:20px;">✕</button>
@@ -478,20 +468,40 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
         <img id="dashPfp" src="" alt="Avatar">
       </div>
       <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
-      <span style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
+      <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
+      <!-- ANIME AVATARS -->
       <div class="avatar-cat-title">Anime Characters</div>
       <div class="avatar-grid">
-        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"></div>
-        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/9/131317.jpg"><img src="https://cdn.myanimelist.net/images/characters/9/131317.jpg"></div>
-        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/3/100534.jpg"><img src="https://cdn.myanimelist.net/images/characters/3/100534.jpg"></div>
-        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/78726.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/78726.jpg"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Gojo Satoru"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/9/131317.jpg"><img src="https://cdn.myanimelist.net/images/characters/9/131317.jpg" title="Luffy"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/3/100534.jpg"><img src="https://cdn.myanimelist.net/images/characters/3/100534.jpg" title="Zoro"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/78726.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/78726.jpg" title="Itachi"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/7/284129.jpg"><img src="https://cdn.myanimelist.net/images/characters/7/284129.jpg" title="Kakashi"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/2/241417.jpg"><img src="https://cdn.myanimelist.net/images/characters/2/241417.jpg" title="Levi Ackerman"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/10/216895.jpg"><img src="https://cdn.myanimelist.net/images/characters/10/216895.jpg" title="Eren Yeager"></div>
+        <div class="avatar-option" data-img="https://cdn.myanimelist.net/images/characters/11/535805.jpg"><img src="https://cdn.myanimelist.net/images/characters/11/535805.jpg" title="Sung Jin-Woo"></div>
       </div>
 
-      <div class="avatar-cat-title">Hollywood & Football Legends</div>
+      <!-- HOLLYWOOD AVATARS -->
+      <div class="avatar-cat-title">Hollywood Icons</div>
       <div class="avatar-grid">
-        <div class="avatar-option" data-img="https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg"><img src="https://image.tmdb.org/t/p/w500/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg"></div>
-        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTFiYjA0MGUtNWYyYS00N2I3LWJmOWMtN2U4ZTU4OWFmNTNlXkEyXkFqcGc@._V1_SX300.jpg" title="Batman"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGc@._V1_SX300.jpg" title="Joker"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Spider-Man"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg" title="Iron Man"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTU2NjA1ODgzMF5BMl5BanBnXkFtZTgwMTM2MTI4MjE@._V1_SX300.jpg" title="John Wick"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg" title="Wednesday"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BZjJhMTI1NzEtNzU2YS00YzA4LWE4NTAtMTI2OTJmOGExZDgwXkEyXkFqcGc@._V1_SX300.jpg" title="Thomas Shelby"></div>
+      </div>
+
+      <!-- BOLLYWOOD AVATARS -->
+      <div class="avatar-cat-title">Bollywood Stars</div>
+      <div class="avatar-grid">
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BNmU5YzE4NTctYzk0Ny00ZDk3LWEzNDctNzIxZmY5NTMyNWNhXkEyXkFqcGc@._V1_SX300.jpg" title="SRK"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjA5OTM0NjM2M15BMl5BanBnXkFtZTgwOTIyNDU3MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjA5OTM0NjM2M15BMl5BanBnXkFtZTgwOTIyNDU3MjE@._V1_SX300.jpg" title="Salman Khan"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTQ2MzkwNDM3NV5BMl5BanBnXkFtZTgwNTU0NTI3MjE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTQ2MzkwNDM3NV5BMl5BanBnXkFtZTgwNTU0NTI3MjE@._V1_SX300.jpg" title="Hrithik Roshan"></div>
+        <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTU3MDA1NjM1NV5BMl5BanBnXkFtZTgwMTQ2NTE5MDE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTU3MDA1NjM1NV5BMl5BanBnXkFtZTgwMTQ2NTE5MDE@._V1_SX300.jpg" title="Ranbir Kapoor"></div>
       </div>
 
       <div class="stats-grid">
@@ -505,6 +515,10 @@ footer a { color: var(--gold); text-decoration: none; font-weight: 800; }
         </div>
       </div>
 
+      <div class="recent-list">
+        <strong>Recent Watched / Resume:</strong>
+        <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (Resumed)</div>
+      </div>
       <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
   </div>
@@ -533,7 +547,7 @@ const hero = $("hero");
 let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
-let currentLanguage = "original";
+let currentLanguage = "original"; // Default set to Original for guaranteed instant playback on all servers
 let currentSeason = 1;
 let currentEpisode = 1;
 let heroSlideIndex = 0;
@@ -544,6 +558,7 @@ let holdTimer = null;
 
 $("year").textContent = new Date().getFullYear();
 
+// Drawer Controls
 $("hamburgerBtn").onclick = () => $("navDrawer").classList.add("open");
 $("drawerClose").onclick = () => $("navDrawer").classList.remove("open");
 document.querySelectorAll(".drawer-link[data-cat]").forEach(btn => {
@@ -553,8 +568,7 @@ document.querySelectorAll(".drawer-link[data-cat]").forEach(btn => {
   };
 });
 
-$("brandHome").onclick = () => loadCatalog("trending");
-
+// Profile Modal Controls
 $("profileBtn").onclick = () => {
   const userKey = localStorage.getItem("suii_access_key");
   if (!userKey) {
@@ -566,6 +580,7 @@ $("profileBtn").onclick = () => {
 };
 $("profileModalClose").onclick = () => $("profileDashboardModal").hidden = true;
 
+// Avatar Picker Event
 document.querySelectorAll(".avatar-option").forEach(opt => {
   opt.onclick = () => {
     document.querySelectorAll(".avatar-option").forEach(o => o.classList.remove("selected"));
@@ -596,20 +611,29 @@ function updateProfileUI() {
     function updateCountdown() {
       const expiryTime = keyDate + (7 * 24 * 60 * 60 * 1000);
       const remainingMs = expiryTime - Date.now();
+
       if (remainingMs <= 0) {
         $("dashDaysLeft").textContent = "EXPIRED";
         $("dashExpiry").textContent = "Invalid Key";
         localStorage.removeItem("suii_access_key");
         return;
       }
+
       const days = Math.floor(remainingMs / (1000 * 60 * 60 * 24));
       const hours = Math.floor((remainingMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      $("dashDaysLeft").textContent = `${days}d ${hours}h left`;
+      const mins = Math.floor((remainingMs % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
+
+      $("dashDaysLeft").textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
       $("dashExpiry").textContent = "Active 7-Days";
     }
+
     updateCountdown();
     timerInterval = setInterval(updateCountdown, 1000);
   }
+
+  const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed)";
+  $("dashRecentTitle").textContent = recent;
 }
 
 function esc(value) {
@@ -628,9 +652,9 @@ function back(path) {
   return path.startsWith("http") ? path : BACK + path;
 }
 
-async function getJSON(url) {
-  const response = await fetch(url);
-  if (!response.ok) throw Error("Request failed");
+async function getJSON(url, options) {
+  const response = await fetch(url, options);
+  if (!response.ok) throw Error("Request failed (" + response.status + ")");
   return response.json();
 }
 
@@ -680,6 +704,7 @@ function render(items) {
   attachPosterHoldEvents();
 }
 
+// 4s Silent Trailer Preview on Poster Hold
 function attachPosterHoldEvents() {
   document.querySelectorAll(".card").forEach(cardEl => {
     const tmdbId = cardEl.dataset.tmdbId;
@@ -702,7 +727,10 @@ function attachPosterHoldEvents() {
 
     const endHold = () => {
       clearTimeout(holdTimer);
-      if (iframe) { iframe.src = ""; iframe.hidden = true; }
+      if (iframe) {
+        iframe.src = "";
+        iframe.hidden = true;
+      }
       cardEl.classList.remove("previewing");
     };
 
@@ -715,24 +743,21 @@ function attachPosterHoldEvents() {
 function startHeroSlider(items) {
   if (heroSlideTimer) clearInterval(heroSlideTimer);
   heroSlideIndex = 0;
+
   function updateHeroSlide() {
     if (!items || items.length === 0) return;
     const item = items[heroSlideIndex % items.length];
     $("heroTitle").textContent = item.title;
     $("heroDescription").textContent = item.overview || "Stream exclusive content in high definition.";
-    if (item.backdrop) { hero.style.backgroundImage = `url("${back(item.backdrop)}")`; }
+    if (item.backdrop) {
+      hero.style.backgroundImage = `url("${back(item.backdrop)}")`;
+    }
     heroSlideIndex++;
   }
+
   updateHeroSlide();
   heroSlideTimer = setInterval(updateHeroSlide, 4000);
 }
-
-document.querySelectorAll(".hero-ep-thumb").forEach(thumb => {
-  thumb.onclick = () => {
-    document.querySelectorAll(".hero-ep-thumb").forEach(t => t.classList.remove("active"));
-    thumb.classList.add("active");
-  };
-});
 
 async function loadCatalog(category = "trending") {
   currentCategory = category;
@@ -790,6 +815,7 @@ async function openDetails(item) {
   try {
     const credits = await tmdb(`/${typePath}/${tmdbId}/credits`);
     const detailsData = await tmdb(`/${typePath}/${tmdbId}`);
+
     item.overview = detailsData.overview || item.overview;
     item.backdrop = detailsData.backdrop_path || item.backdrop;
 
@@ -799,7 +825,7 @@ async function openDetails(item) {
         <h3>Top Cast</h3>
         <div class="cast-scroll">
           ${castList.map(actor => `
-            <div class="cast-card">
+            <div class="cast-card" data-person-id="${actor.id}">
               <img class="cast-img" src="${poster(actor.profile_path)}" alt="${esc(actor.name)}" onerror="this.src='https://via.placeholder.com/90?text=Actor'">
               <div class="cast-name">${esc(actor.name)}</div>
               <div class="cast-char">${esc(actor.character || '')}</div>
@@ -822,7 +848,7 @@ async function openDetails(item) {
         </div>
       `;
     }
-  } catch (e) {}
+  } catch (e) { console.warn("Cast load error", e); }
 
   detail.innerHTML = `
     <button class="outline-btn" id="backBtn" style="margin-bottom:20px;">← Back to Discover</button>
@@ -849,19 +875,18 @@ async function openDetails(item) {
       
       ${seasonsHTML}
 
+      <!-- AUDIO SELECTION BAR (ORIGINAL IS FIRST AND DEFAULT) -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
-        <button class="audio-btn active" data-lang="original">⚡ Original / Universal</button>
+        <button class="audio-btn active" data-lang="original">⚡ Original / English (Instant Play)</button>
         <button class="audio-btn" data-lang="hindi">🇮🇳 Hindi Dubbed</button>
         <button class="audio-btn" data-lang="dual">🌐 Dual Audio</button>
       </div>
 
-      <div class="servers" id="servers"></div>
-
       <div id="playerArea">
         <iframe id="videoIframe" class="player-frame" allowfullscreen allow="autoplay; encrypted-media"></iframe>
       </div>
-      <div class="notice" id="audioNotice">Note: Original Audio active for instant 100% server compatibility.</div>
+      <div class="notice" id="audioNotice">Note: Original Audio is active for maximum speed and compatibility across all servers.</div>
     </div>
   `;
 
@@ -896,6 +921,21 @@ async function openDetails(item) {
     }
   }
 
+  detail.querySelectorAll(".cast-card").forEach(cardEl => {
+    cardEl.onclick = async () => {
+      const personId = cardEl.dataset.personId;
+      status.hidden = false; status.innerHTML = '<span class="dalli-loading">👑 DALLI💕</span>';
+      detail.hidden = true; hero.hidden = true; $("resultsSection").hidden = false;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      try {
+        const pCredits = await tmdb(`/person/${personId}/combined_credits`);
+        const pData = (pCredits.cast || []).map(x => normTMDB(x));
+        render(pData);
+        $("resultsTitle").textContent = "Actor Filmography Results";
+      } catch (err) { status.textContent = "Failed to load actor works."; }
+    };
+  });
+
   $("watchBtn").onclick = () => {
     const verifiedKey = localStorage.getItem("suii_access_key");
     if (!verifiedKey) {
@@ -904,22 +944,31 @@ async function openDetails(item) {
       const box = $("playerBox");
       box.hidden = false;
       box.scrollIntoView({ behavior: "smooth" });
+      localStorage.setItem("suii_recent_watch", item.title + " (Resumed)");
       renderServers(item);
     }
   };
 }
 
+// Search Suggestions
 $("searchInput").oninput = (e) => {
   clearTimeout(searchDebounce);
   const q = e.target.value.trim();
   const suggBox = $("searchSuggestions");
-  if (!q) { suggBox.hidden = true; return; }
+
+  if (!q) {
+    suggBox.hidden = true;
+    return;
+  }
 
   searchDebounce = setTimeout(async () => {
     try {
       const res = await tmdb("/search/multi", { query: q });
       const resultsList = (res.results || []).filter(x => x.title || x.name).slice(0, 5);
-      if (resultsList.length === 0) { suggBox.hidden = true; return; }
+      if (resultsList.length === 0) {
+        suggBox.hidden = true;
+        return;
+      }
       suggBox.innerHTML = resultsList.map(item => `
         <div class="suggestion-item" data-id="${item.id}" data-type="${item.media_type || 'movie'}">
           <img src="${poster(item.poster_path)}" alt="">
@@ -935,38 +984,66 @@ $("searchInput").oninput = (e) => {
         el.onclick = async () => {
           suggBox.hidden = true;
           $("searchInput").value = "";
-          const fullItem = await tmdb(`/${el.dataset.type}/${el.dataset.id}`);
-          openDetails(normTMDB(fullItem, el.dataset.type));
+          const clickedId = el.dataset.id;
+          const clickedType = el.dataset.type;
+          const fullItem = await tmdb(`/${clickedType}/${clickedId}`);
+          openDetails(normTMDB(fullItem, clickedType));
         };
       });
     } catch (err) { suggBox.hidden = true; }
   }, 300);
 };
 
+document.onclick = (e) => {
+  if (!e.target.closest(".search-container")) {
+    $("searchSuggestions").hidden = true;
+  }
+};
+
+// Auth Modal
 $("tabLogin").onclick = () => {
-  $("tabLogin").classList.add("active"); $("tabSignup").classList.remove("active");
-  $("loginForm").hidden = false; $("signupForm").hidden = true;
+  $("tabLogin").classList.add("active");
+  $("tabSignup").classList.remove("active");
+  $("loginForm").hidden = false;
+  $("signupForm").hidden = true;
 };
 $("tabSignup").onclick = () => {
-  $("tabSignup").classList.add("active"); $("tabLogin").classList.remove("active");
-  $("signupForm").hidden = false; $("loginForm").hidden = true;
+  $("tabSignup").classList.add("active");
+  $("tabLogin").classList.remove("active");
+  $("signupForm").hidden = false;
+  $("loginForm").hidden = true;
 };
 
 $("loginForm").onsubmit = (e) => {
   e.preventDefault();
   const key = $("loginKey").value.trim().toUpperCase();
   const name = $("loginName").value.trim();
-  if (PERMANENT_KEYS.includes(key) || SEVEN_DAY_KEYS.includes(key)) {
+
+  const isValidKey = PERMANENT_KEYS.includes(key) || SEVEN_DAY_KEYS.includes(key);
+
+  if (isValidKey) {
     localStorage.setItem("suii_access_key", key);
     localStorage.setItem("suii_user_name", name);
     localStorage.setItem("suii_key_time", Date.now());
+    
     updateProfileUI();
     $("authModal").hidden = true;
     alert("CR7 VIP Access Verified Successfully!");
-    if (selectedItem) { $("playerBox").hidden = false; renderServers(selectedItem); }
+
+    if (selectedItem) {
+      $("playerBox").hidden = false;
+      $("playerBox").scrollIntoView({ behavior: "smooth" });
+      renderServers(selectedItem);
+    }
   } else {
-    alert("Invalid Access Key! Contact Telegram @MG1SHWE");
+    alert("Access Denied! Invalid 7-Digit Key. Only official CR7 VIP keys allowed.");
   }
+};
+
+$("signupForm").onsubmit = (e) => {
+  e.preventDefault();
+  alert("Account Registered! Please contact Telegram/Instagram for your CR7 VIP Access Key.");
+  $("tabLogin").click();
 };
 
 $("logoutBtn").onclick = () => {
@@ -976,53 +1053,39 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
+// Render Streams (Original Audio First Workflow for Instant Smooth Playback)
 function renderServers(item) {
-  const id = item.tmdbId;
+  const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
-
-  const SERVERS = [
-    { id: "vip1", name: "suiii_vip1", url: isMovie ? `https://hnembed.net/embed/movie/${id}` : `https://hnembed.net/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "vip2", name: "suiii_vip2", url: isMovie ? `https://hnembed.cc/embed/movie/${id}` : `https://hnembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "vip3", name: "suiii_vip3", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "vip4", name: "suiii_vip4", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` }
-  ];
-
-  $("servers").innerHTML = SERVERS.map((s, idx) => `
-    <button class="server ${idx===0?'active':''}" data-url="${s.url}">${s.name}</button>
-  `).join("");
-
   const iframe = $("videoIframe");
-  function processAudioAndLoad(baseUrl) {
+
+  const baseUrl = isMovie 
+    ? `https://www.2embed.cc/embed/${id}` 
+    : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
+
+  function processAudioAndLoad() {
     iframe.src = "about:blank";
     $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Loading Stream...</span>';
+
     setTimeout(() => {
       if (currentLanguage === "hindi") {
-        iframe.src = baseUrl + (baseUrl.includes("?") ? "&audio=hi" : "?audio=hi");
-        $("audioNotice").textContent = "Playing via Hindi Dubbed Mirror.";
+        iframe.src = baseUrl + "&audio=hi";
+        $("audioNotice").textContent = "Playing via SUIII_VIP Engine (Hindi Audio Prioritized).";
       } else {
         iframe.src = baseUrl;
-        $("audioNotice").textContent = "Playing Original / Universal audio stream.";
+        $("audioNotice").textContent = "Playing Original / Universal audio stream (Fastest & 100% Compatible).";
       }
     }, 1000);
   }
 
-  processAudioAndLoad(SERVERS[0].url);
+  processAudioAndLoad();
 
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll(".audio-btn").forEach(b => b.classList.remove("active"));
       btn.classList.add("active");
       currentLanguage = btn.dataset.lang;
-      const activeServerBtn = document.querySelector(".server.active");
-      if (activeServerBtn) processAudioAndLoad(activeServerBtn.dataset.url);
-    };
-  });
-
-  document.querySelectorAll(".server").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      processAudioAndLoad(btn.dataset.url);
+      processAudioAndLoad();
     };
   });
 }
@@ -1032,12 +1095,16 @@ $("tabs").onclick = (e) => {
   if (btn) loadCatalog(btn.dataset.kind);
 };
 
+$("brandHome").onclick = () => loadCatalog("trending");
 results.onclick = (e) => {
   const card = e.target.closest(".card");
   if (card && itemsNow[card.dataset.index]) openDetails(itemsNow[card.dataset.index]);
 };
 
-if (localStorage.getItem("suii_access_key")) updateProfileUI();
+if (localStorage.getItem("suii_access_key")) {
+  updateProfileUI();
+}
+
 loadCatalog("trending");
 })();
 </script>
