@@ -547,7 +547,7 @@ const hero = $("hero");
 let itemsNow = [];
 let currentCategory = "trending";
 let selectedItem = null;
-let currentLanguage = "original"; // Default set to Original for guaranteed instant playback on all servers
+let currentLanguage = "original"; 
 let currentSeason = 1;
 let currentEpisode = 1;
 let heroSlideIndex = 0;
@@ -875,7 +875,14 @@ async function openDetails(item) {
       
       ${seasonsHTML}
 
-      <!-- AUDIO SELECTION BAR (ORIGINAL IS FIRST AND DEFAULT) -->
+      <!-- SERVER SELECTION BAR (2Embed & Multi-Source Options) -->
+      <div class="servers">
+        <button class="server active" data-server="2embed">🚀 2Embed Server 1</button>
+        <button class="server" data-server="2embed-alt">⚡ 2Embed Server 2</button>
+        <button class="server" data-server="vidsrc">🌐 VidSrc Pro</button>
+      </div>
+
+      <!-- AUDIO SELECTION BAR -->
       <div class="audio-bar">
         <label>SELECT AUDIO / DUBBING:</label>
         <button class="audio-btn active" data-lang="original">⚡ Original / English (Instant Play)</button>
@@ -1053,15 +1060,22 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
-// Render Streams (Original Audio First Workflow for Instant Smooth Playback)
+// Render Streams (2Embed & Multi-Server Support)
+let activeServerKey = "2embed";
+
 function renderServers(item) {
   const id = item.tmdbId || item.externalId || "10874608";
   const isMovie = item.type === "movie";
   const iframe = $("videoIframe");
 
-  const baseUrl = isMovie 
-    ? `https://www.2embed.cc/embed/${id}` 
-    : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
+  let url = "";
+  if (activeServerKey === "2embed") {
+    url = isMovie ? `https://www.2embed.cc/embed/${id}` : `https://www.2embed.cc/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
+  } else if (activeServerKey === "2embed-alt") {
+    url = isMovie ? `https://www.2embed.skin/embed/${id}` : `https://www.2embed.skin/embedtv/${id}&s=${currentSeason}&e=${currentEpisode}`;
+  } else if (activeServerKey === "vidsrc") {
+    url = isMovie ? `https://vidsrc.xyz/embed/movie?tmdb=${id}` : `https://vidsrc.xyz/embed/tv?tmdb=${id}&season=${currentSeason}&episode=${currentEpisode}`;
+  }
 
   function processAudioAndLoad() {
     iframe.src = "about:blank";
@@ -1069,16 +1083,25 @@ function renderServers(item) {
 
     setTimeout(() => {
       if (currentLanguage === "hindi") {
-        iframe.src = baseUrl + "&audio=hi";
+        iframe.src = url + (url.includes("?") ? "&" : "?") + "audio=hi";
         $("audioNotice").textContent = "Playing via SUIII_VIP Engine (Hindi Audio Prioritized).";
       } else {
-        iframe.src = baseUrl;
+        iframe.src = url;
         $("audioNotice").textContent = "Playing Original / Universal audio stream (Fastest & 100% Compatible).";
       }
-    }, 1000);
+    }, 800);
   }
 
   processAudioAndLoad();
+
+  document.querySelectorAll(".server").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".server").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeServerKey = btn.dataset.server;
+      renderServers(item);
+    };
+  });
 
   document.querySelectorAll(".audio-btn").forEach(btn => {
     btn.onclick = () => {
