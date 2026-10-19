@@ -6,6 +6,10 @@
 <meta name="theme-color" content="#0d0b10">
 <meta name="description" content="SUIII_STREAM — Pro Liquid Glass VIP OTT Streaming Platform">
 <title>SUIII_STREAM — Pro Liquid Glass OTT</title>
+<!-- Google Fonts for Anime Theme Support -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Shippori+Mincho+B1:wght@500;800&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   color-scheme: dark;
@@ -22,6 +26,37 @@
   --glass: blur(25px) saturate(190%);
   --glass-border: 1px solid rgba(255, 255, 255, 0.14);
   --card-radius: 18px;
+}
+
+/* ANIME THEME OVERRIDES WHEN ACTIVE */
+body.anime-theme {
+  --bg: #07060a !important;
+  --text: #efe7da !important;
+  --muted: rgba(239,231,218,.55) !important;
+  --gold: #d4141f !important;
+  --accent-glow: rgba(212, 20, 31, 0.4) !important;
+  font-family: "Zen Kaku Gothic New", sans-serif !important;
+  background-color: var(--bg) !important;
+  background-image: none !important;
+}
+body.anime-theme header {
+  background: rgba(7, 6, 10, 0.85) !important;
+  border-bottom: 1px solid rgba(212, 20, 31, 0.3) !important;
+}
+body.anime-theme .brand-mark, body.anime-theme .brand span:last-child {
+  color: #d4141f !important;
+  text-shadow: 0 0 10px rgba(212, 20, 31, 0.6);
+}
+body.anime-theme .gold-btn {
+  background: linear-gradient(135deg, #d4141f 0%, #8b0000 100%) !important;
+  color: #efe7da !important;
+  box-shadow: 0 4px 20px rgba(212, 20, 31, 0.5) !important;
+}
+body.anime-theme .tabs button.active {
+  background: #d4141f !important;
+  color: #efe7da !important;
+  border-color: #d4141f !important;
+  box-shadow: 0 4px 15px rgba(212, 20, 31, 0.5) !important;
 }
 
 * { box-sizing: border-box; }
@@ -763,6 +798,13 @@ async function loadCatalog(category = "trending") {
   currentCategory = category;
   detail.hidden = true; hero.hidden = false;
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("active", b.dataset.kind === category));
+
+  // Toggle Anime Cursed Theme when Anime tab is selected
+  if (category === "anime") {
+    document.body.classList.add("anime-theme");
+  } else {
+    document.body.classList.remove("anime-theme");
+  }
 
   status.hidden = false; status.innerHTML = '<span class="dalli-loading">👑 DALLI💕</span>';
   try {
