@@ -983,8 +983,8 @@ function renderServers(item) {
   const SERVERS = [
     { id: "vip1", name: "suiii_vip1", url: isMovie ? `https://vidsrc.to/embed/movie/${id}` : `https://vidsrc.to/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
     { id: "vip2", name: "suiii_vip2", url: isMovie ? `https://vidsrc.cc/v2/embed/movie/${id}` : `https://vidsrc.cc/v2/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
-    { id: "vip3", name: "suiii_vip3", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` },
-    { id: "vip4", name: "suiii_vip4", url: isMovie ? `https://player.autoembed.cc/embed/movie/${id}` : `https://player.autoembed.cc/embed/tv/${id}/${currentSeason}/${currentEpisode}` }
+    { id: "vip3", name: "suiii_vip3", url: isMovie ? `https://vidsrc.xyz/embed/movie/${id}` : `https://vidsrc.xyz/embed/tv/${id}/${currentSeason}/${currentEpisode}` },
+    { id: "vip4", name: "suiii_vip4", url: isMovie ? `https://multiembed.mov/?video_id=${id}&tmdb=1` : `https://multiembed.mov/?video_id=${id}&tmdb=1&s=${currentSeason}&e=${currentEpisode}` }
   ];
 
   $("servers").innerHTML = SERVERS.map((s, idx) => `
