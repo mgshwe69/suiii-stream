@@ -739,6 +739,82 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
 .pm-load b{display:block;width:min(240px,60%);height:3px;margin:6px auto 0;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden}
 .pm-load b:after{content:"";display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--gold),var(--gold2));animation:wlbar 1.3s ease-in-out infinite}
 #playIntro .pi-skip{z-index:6;bottom:auto;top:10px;right:12px}
+
+/* ===== v6: Android / iOS / Web / TV shells ===== */
+.sidenav{display:none}.tvrail{display:none!important}
+body{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+.brand{position:relative;overflow:hidden}.brand:after{content:"";position:absolute;top:0;bottom:0;left:-60%;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.6),transparent);transform:skewX(-20deg);opacity:0;pointer-events:none}
+.brand.logo-go .wm{animation:lgPop 1.5s cubic-bezier(.2,.8,.2,1)}.brand.logo-go .wm svg path{stroke-dasharray:120;animation:lgDraw 1.3s ease-out}.brand.logo-go:after{animation:lgShine 1.3s .1s}
+@keyframes lgPop{25%{transform:scale(1.14) translateY(-2px);filter:drop-shadow(0 0 14px var(--accent-glow))}60%{transform:scale(.97)}}
+@keyframes lgDraw{from{stroke-dashoffset:120}to{stroke-dashoffset:0}}
+@keyframes lgShine{0%{left:-60%;opacity:1}100%{left:130%;opacity:1}}
+.dock{position:fixed;z-index:400;display:flex;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%)}
+.dock button{border:0;background:none;color:inherit;display:flex;align-items:center;justify-content:center;gap:2px;font-weight:700;transition:.25s}
+.dock i{display:grid;place-items:center;font-style:normal}.dock svg{display:block}
+/* light shell (web / tv / ios) */
+body.mode-web,body.mode-tv,body.mode-ios{--bg:#eceef2;--scrim:#eceef2;--text:#15171c;--muted:#6e7686;--panel-solid:#fff;--line:rgba(0,0,0,.08);--glass-border:1px solid rgba(0,0,0,.07);color-scheme:light;background-image:none}
+body.mode-web,body.mode-tv{--gold:#e5171f;--gold2:#b50f16;--accent-glow:rgba(229,23,31,.28);--card-radius:20px}
+body.mode-ios{--gold:#0a84ff;--gold2:#0060d6;--accent-glow:rgba(10,132,255,.3);--card-radius:22px;background-image:linear-gradient(rgba(60,70,90,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(60,70,90,.1) 1px,transparent 1px),linear-gradient(160deg,#d9dde4,#858c99);background-size:26px 26px,26px 26px,100% 100%;background-attachment:fixed}
+body.mode-web #detailSection,body.mode-tv #detailSection,body.mode-ios #detailSection,body.mode-web .hero,body.mode-tv .hero,body.mode-ios .hero,body.mode-web .auth-modal-overlay,body.mode-tv .auth-modal-overlay,body.mode-ios .auth-modal-overlay,body.mode-web .fa-gal,body.mode-tv .fa-gal,body.mode-ios .fa-gal,body.mode-web #famousStage,body.mode-tv #famousStage,body.mode-ios #famousStage,body.mode-web .drawer,body.mode-tv .drawer,body.mode-ios .drawer{--text:#f5f0fa;--muted:#b3a9c2;--glass-border:1px solid rgba(255,255,255,.14);color:#f5f0fa}
+.hero .eyebrow{display:inline-block}
+body.mode-web .hero .eyebrow,body.mode-tv .hero .eyebrow,body.mode-ios .hero .eyebrow{padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.2);backdrop-filter:blur(14px);text-transform:none;letter-spacing:0;font-size:.8rem;color:#fff}
+/* WEB + TV : sidebar, top pills, dark dock (reference UI) */
+body.mode-web{--sw:232px}body.mode-tv{--sw:280px}
+body.mode-web .sidenav,body.mode-tv .sidenav{display:flex;position:fixed;left:14px;top:14px;bottom:14px;width:var(--sw);flex-direction:column;gap:4px;padding:22px 16px;background:#fff;border-radius:28px;box-shadow:0 10px 40px rgba(20,25,40,.08);z-index:300;overflow-y:auto;scrollbar-width:none}
+body.mode-web header,body.mode-tv header,body.mode-web main,body.mode-tv main,body.mode-web footer,body.mode-tv footer{margin-left:calc(var(--sw) + 28px)}
+body.mode-web header,body.mode-tv header{margin-top:12px;margin-right:16px;background:var(--bg);backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none}
+body.mode-web .top,body.mode-tv .top{max-width:none;padding:8px 0}
+body.mode-web .hamburger-btn,body.mode-tv .hamburger-btn,body.mode-web .header-left .brand,body.mode-tv .header-left .brand{display:none}
+body.mode-web .header-left,body.mode-tv .header-left{order:3}body.mode-web .header-actions,body.mode-tv .header-actions{order:1;flex:1;min-width:0;gap:12px}
+body.mode-web .search-container,body.mode-tv .search-container{flex:0 0 220px}
+body.mode-web input,body.mode-tv input,body.mode-web select,body.mode-tv select{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:999px;color:#15171c}
+body.mode-web .gear-btn,body.mode-tv .gear-btn{background:#fff;border:1px solid rgba(0,0,0,.06);width:40px;height:40px}
+body.mode-web .tabs,body.mode-tv .tabs{position:static;flex:1;min-width:0;margin:0;padding:0;background:none;backdrop-filter:none;overflow-x:auto;flex-wrap:nowrap}
+body.mode-web .tabs button,body.mode-tv .tabs button{background:#fff;color:#3a3e49;border:1px solid rgba(0,0,0,.06);backdrop-filter:none;padding:9px 16px}
+body.mode-web .tabs button.active,body.mode-tv .tabs button.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+body.mode-web .hero,body.mode-tv .hero{border-radius:28px;min-height:420px}body.mode-tv .hero{margin:0 0 24px;min-height:52vh}
+body.mode-web .hero .gold-btn,body.mode-tv .hero .gold-btn{background:#fff;color:#111;border-radius:999px;padding:11px 24px;font-weight:800;border:0}
+body.mode-web .section-head h2,body.mode-tv .section-head h2{font-family:system-ui,sans-serif;font-weight:800;letter-spacing:0}
+body.mode-web .poster-wrap,body.mode-tv .poster-wrap{border:0;box-shadow:0 8px 24px rgba(20,25,40,.12)}
+body.mode-tv #resultsSection,body.mode-tv #famousStage{padding:0}
+body.mode-tv .tabs{position:static!important;margin:0!important}
+.sn-brand{align-self:flex-start;margin:0 6px 18px;cursor:pointer}
+body.mode-web .sn-brand .wm,body.mode-tv .sn-brand .wm{color:#15171c}
+.sn-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border:0;border-radius:14px;background:none;color:#2a2d36;font-weight:700;font-size:.95rem;text-align:left}
+.sn-item.on{color:var(--gold);background:rgba(229,23,31,.07)}.sn-item:hover{background:rgba(0,0,0,.04)}
+.sn-sep{height:1px;background:rgba(0,0,0,.08);margin:10px 6px}.sn-h{font-size:.8rem;color:var(--muted);font-weight:800;margin:4px 8px 6px}
+.sn-cw{display:flex;gap:10px;align-items:center;padding:6px;border-radius:12px;cursor:pointer;color:#2a2d36;font-size:.8rem;font-weight:700}.sn-cw:hover{background:rgba(0,0,0,.04)}
+.sn-cw b{flex:0 0 44px;height:44px;border-radius:10px;background:#ddd center/cover}.sn-cw small{display:block;color:var(--muted);font-weight:500}
+body.mode-web .dock,body.mode-tv .dock{background:#1b1b20;border-radius:999px;padding:8px 10px;gap:6px;box-shadow:0 16px 40px rgba(0,0,0,.3);color:#e9e9ee}
+body.mode-web .dock button,body.mode-tv .dock button{width:46px;height:46px;border-radius:50%}body.mode-web .dock span,body.mode-tv .dock span{display:none}
+body.mode-web .dock button.on,body.mode-tv .dock button.on{background:var(--gold);color:#fff}
+body.mode-tv .dock{bottom:24px}body.mode-tv .dock button{width:62px;height:62px}body.mode-tv .dock svg{width:28px;height:28px}
+/* iOS : liquid glass */
+body.mode-ios header,body.mode-ios .dock,body.mode-ios .tabs button,body.mode-ios input,body.mode-ios select,body.mode-ios .gear-btn,body.mode-ios .profile-avatar,body.mode-ios .ghost-btn{background:rgba(255,255,255,.3);backdrop-filter:blur(20px) saturate(190%);-webkit-backdrop-filter:blur(20px) saturate(190%);border:1px solid rgba(255,255,255,.6);box-shadow:inset 0 1px 1px rgba(255,255,255,.9),inset 0 -1px 2px rgba(255,255,255,.3),0 8px 28px rgba(30,40,60,.16);color:#14161c}
+body.mode-ios header{margin:8px 10px 0;border-radius:30px;top:8px}body.mode-ios .top{padding:8px 12px}
+body.mode-ios .brand .wm{color:#14161c}body.mode-ios .hamburger-btn span{background:#14161c}
+body.mode-ios input,body.mode-ios select,body.mode-ios .tabs button,body.mode-ios .ghost-btn,body.mode-ios .gear-btn{border-radius:999px}
+body.mode-ios .tabs button.active{background:var(--gold);color:#fff;box-shadow:0 6px 18px var(--accent-glow)}
+body.mode-ios .poster-wrap,body.mode-ios .hero,body.mode-ios .cr-card{border:1px solid rgba(255,255,255,.6);box-shadow:inset 0 1px 1px rgba(255,255,255,.7),0 12px 30px rgba(30,40,60,.2)}
+body.mode-ios .hero{border-radius:32px}body.mode-ios .section-head h2{font-family:system-ui,-apple-system,sans-serif;font-weight:800;letter-spacing:0;color:#14161c}
+body.mode-ios .auth-modal,body.mode-ios .drawer,body.mode-ios #toast{background:rgba(28,30,38,.55);backdrop-filter:blur(30px) saturate(190%);-webkit-backdrop-filter:blur(30px) saturate(190%);border:1px solid rgba(255,255,255,.3);border-radius:34px;box-shadow:inset 0 1px 1px rgba(255,255,255,.4),0 24px 60px rgba(0,0,0,.35)}
+body.mode-ios .dock{width:min(92vw,430px);border-radius:999px;padding:6px;gap:2px}
+body.mode-ios .dock button{flex:1;flex-direction:column;border-radius:999px;padding:6px 0 4px;font-size:.64rem;color:#3a3f4b}
+body.mode-ios .dock button.on{color:var(--gold);background:rgba(255,255,255,.55);box-shadow:inset 0 1px 1px #fff,0 4px 14px rgba(10,132,255,.25);animation:lgLens .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes lgLens{0%{transform:scale(.8,1.1)}60%{transform:scale(1.14,.9)}100%{transform:none}}
+/* ANDROID : Material 3 */
+body.mode-android{--panel-solid:#1d1b20;--card-radius:14px}
+body.mode-android header{background:#141218;backdrop-filter:none;border-bottom:0;box-shadow:none}
+body.mode-android input{border-radius:28px;background:#2b2930;backdrop-filter:none}
+body.mode-android .tabs button{border-radius:10px;background:#2b2930;border:1px solid #49454f;backdrop-filter:none}
+body.mode-android .tabs button.active{background:var(--accent-glow);color:var(--gold);border-color:transparent;box-shadow:none}
+body.mode-android .poster-wrap{border:0;box-shadow:0 1px 3px rgba(0,0,0,.5)}
+body.mode-android button:active{filter:brightness(1.25)}
+body.mode-android .dock{left:0;right:0;bottom:0;transform:none;background:#211f26;padding:10px 6px calc(12px + env(safe-area-inset-bottom));border-radius:0;justify-content:space-around;color:#cac4d0}
+body.mode-android .dock button{flex:1;flex-direction:column;gap:4px;font-size:.68rem}
+body.mode-android .dock i{width:60px;height:30px;border-radius:16px;transition:.25s}
+body.mode-android .dock button.on{color:#fff}body.mode-android .dock button.on i{background:var(--accent-glow);color:var(--gold)}
+@media(prefers-reduced-motion:reduce){.brand.logo-go .wm,.brand.logo-go:after{animation:none}}
 </style>
 </head>
 <body>
@@ -783,7 +859,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
     <div class="i-stream">STREAM</div>
     <div class="i-tag">VIP · CINEMA · UNLIMITED</div>
   </div>
-  <div class="i-hint" id="introHint" hidden>🔊 TAP ANYWHERE FOR SOUND</div>
+  <div class="i-hint" id="introHint" hidden></div>
   <div class="i-mg" id="introMg"></div>
   <div class="i-flash"></div>
 </div>
@@ -801,7 +877,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
       <span></span><span></span><span></span>
     </button>
     <div class="profile-avatar" id="profileBtn" title="SUIII Profile & Dashboard">
-      <img id="headerPfp" src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" alt="Profile">
+      <img id="headerPfp" src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg" alt="Profile">
     </div>
     <div class="brand" id="brandHome" role="button" tabindex="0">
       <span class="wm">SU<b>III</b><svg viewBox="0 0 100 12" preserveAspectRatio="none"><path d="M2 3 C 30 13, 70 13, 97 2" fill="none" stroke="url(#lg)" stroke-width="3.2" stroke-linecap="round"/><path d="M88 1.5 L98 1.8 L94 8" fill="none" stroke="url(#lg)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="wm-s">STREAM</span>
@@ -826,7 +902,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
   <div class="drawer-section-title">Navigation</div>
   <button class="drawer-link" data-cat="trending">🔥 Home</button>
   <button class="drawer-link" data-cat="serials">📺 TV Show</button>
-  <button class="drawer-link" data-cat="hindiserials">🇮🇳 Hindi Serials</button>
+  <button class="drawer-link" data-cat="Serials">🇮🇳 Hindi Serials</button>
   <button class="drawer-link" data-cat="pakdrama">🇵🇰 Pakistan Drama</button>
   <button class="drawer-link" data-cat="kdrama">🇰🇷 K Drama</button>
   <button class="drawer-link" data-cat="movies">🎬 Movie</button>
@@ -841,6 +917,8 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
   <a class="drawer-link" href="https://t.me/MG1SHWE" target="_blank">Telegram (<span class="mg-fill"></span>)</a>
 </div>
 
+<aside class="sidenav" id="sideNav" aria-label="Menu"></aside>
+<nav class="dock" id="dock" aria-label="Main"></nav>
 <main>
 <section id="hero" class="hero">
 <div class="hero-content">
@@ -931,6 +1009,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
       <h3 id="dashName" style="margin:5px 0;font-size:1.3rem;">SUIII VIP User</h3>
       <span id="dashGenderBadge" style="color:var(--gold);font-size:0.8rem;font-weight:800;">CR7 VIP MEMBER</span>
 
+      <div class="avatar-cat-title">Top Icons · Male / Female (default)</div><div class="avatar-grid"><div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg" title="Iron Man (Top Male)"></div><div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGc@._V1_SX300.jpg" title="Wednesday (Top Female)"></div></div>
       <div class="avatar-cat-title">Anime Characters</div>
       <div class="avatar-grid">
         <div class="avatar-option" data-img="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg"><img src="https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg" title="Gojo Satoru"></div>
@@ -994,7 +1073,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
     </div>
     <div class="set-sub">Experience</div>
     <label class="set-row"><span>Intro Animation<small>App open hote hi logo intro</small></span><span class="sw"><input type="checkbox" id="setIntro"><i></i></span></label>
-    <label class="set-row"><span>Intro Sound<small>Cinematic boom &amp; swell</small></span><span class="sw"><input type="checkbox" id="setSound"><i></i></span></label>
+    <label class="set-row" style="display:none"><span>Intro Sound<small>Cinematic boom &amp; swell</small></span><span class="sw"><input type="checkbox" id="setSound"><i></i></span></label>
     <label class="set-row"><span>3D Motion Effects<small>Poster tilt &amp; 3D carousel</small></span><span class="sw"><input type="checkbox" id="setFx"><i></i></span></label>
     <div class="set-sub">Profiles</div>
     <div class="seg" id="segProf"></div><button class="ghost-btn" id="delProf" type="button" style="width:100%;margin-bottom:8px">🗑 Delete this profile</button>
@@ -1002,7 +1081,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
     <label class="set-row"><span>Auto Next Episode<small>Countdown + Next button</small></span><span class="sw"><input type="checkbox" id="setNext"><i></i></span></label>
     <label class="set-row"><span>New Episode Alerts<small>My List ke shows ka naya episode</small></span><span class="sw"><input type="checkbox" id="setNotif"><i></i></span></label>
     <div class="set-sub">Device Mode</div>
-    <div class="seg" id="segMode"><button data-mode="auto">Auto</button><button data-mode="mobile">📱 iOS/Android</button><button data-mode="tv">📺 TV</button><button data-mode="desktop">💻 PC</button></div>
+    <div class="seg" id="segMode"><button data-mode="auto">Auto</button><button data-mode="android">🤖 Android</button><button data-mode="ios"> iOS</button><button data-mode="web">💻 Web</button><button data-mode="tv">📺 TV</button></div>
     <div class="set-sub">Animation Quality</div>
     <div class="seg" id="segPerf"><button data-perf="ultra">Ultra (4K)</button><button data-perf="high">High</button><button data-perf="lite">Lite</button></div>
     <button class="gold-btn" id="replayIntro" style="width:100%;margin-top:8px;">▶ Replay Intro</button>
@@ -1021,9 +1100,10 @@ let IMG = "https://image.tmdb.org/t/p/w500";
 let BACK = "https://image.tmdb.org/t/p/w1280";
 
 const PERMANENT_KEYS = ["CR7PERM1", "CR7PERM2", "CR7PERM3"];
-const SEVEN_DAY_KEYS = ["CR70001", "CR70002", "CR70003", "CR70004"];
+const SEVEN_DAY_KEYS = ["CR70001", "CR70002", "CR70003", "CR706251"];
 
 const $ = id => document.getElementById(id);
+const DEF_AV = "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_SX300.jpg";
 const results = $("results");
 const status = $("status");
 const detail = $("detailSection");
@@ -1081,7 +1161,7 @@ document.querySelectorAll(".avatar-option").forEach(opt => {
 
 function updateProfileUI() {
   const name = localStorage.getItem("suii_user_name") || "VIP User";
-  const avatar = localStorage.getItem("suii_user_avatar") || "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTgyMTE@._V1_SX300.jpg";
+  const avatar = localStorage.getItem("suii_user_avatar") || DEF_AV;
   const userKey = localStorage.getItem("suii_access_key");
   const keyDate = Number(localStorage.getItem("suii_key_time") || Date.now());
 
@@ -1912,6 +1992,7 @@ const DEF = { theme: "gold", intro: true, sound: true, fx: true };
 let S = Object.assign({mode:"auto",perf:"ultra",autonext:true,notif:false}, DEF);
 try { S = Object.assign(S, JSON.parse(localStorage.getItem("suii_settings") || "{}")); } catch (e) {}
 const THEME_COLOR = { gold: "#0d0b10", neon: "#050812", crimson: "#0c0405" };
+S.sound=true;S.intro=true;
 function saveS() { try { localStorage.setItem("suii_settings", JSON.stringify(S)); } catch (e) {} }
 function applySettings() {
   document.documentElement.setAttribute("data-theme", S.theme);
@@ -1919,8 +2000,8 @@ function applySettings() {
   const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = THEME_COLOR[S.theme] || "#0d0b10";
   document.querySelectorAll(".theme-card").forEach(c => c.classList.toggle("sel", c.dataset.theme === S.theme));
   const ua=navigator.userAgent, isTV=/Android TV|AFTM|AFTS|AFTT|SMART-TV|SmartTV|Tizen|Web0S|WebOS|CrKey|BRAVIA|Leanback|GoogleTV|HbbTV/i.test(ua)||/[?&]mode=tv/.test(location.search);
-  let m2=S.mode; if(m2==="auto") m2=isTV?"tv":(innerWidth<900?"mobile":"desktop");
-  document.body.classList.remove("mode-tv","mode-mobile","mode-desktop"); document.body.classList.add("mode-"+m2);
+  let m2=S.mode; if(m2==="desktop")m2="web"; if(m2==="mobile")m2="auto"; if(m2==="auto") m2=isTV?"tv":(/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1)?"ios":(/Android/i.test(ua)||innerWidth<700?"android":"web"));
+  document.body.classList.remove("mode-tv","mode-mobile","mode-desktop","mode-ios","mode-android","mode-web"); document.body.classList.add("mode-"+m2); if(m2==="ios"||m2==="android")document.body.classList.add("mode-mobile"); if(m2==="web")document.body.classList.add("mode-desktop"); syncNav();
   document.body.classList.toggle("perf-lite",S.perf==="lite");
   IMG={ultra:"https://image.tmdb.org/t/p/w780",high:"https://image.tmdb.org/t/p/w500",lite:"https://image.tmdb.org/t/p/w342"}[S.perf]||IMG;
   BACK={ultra:"https://image.tmdb.org/t/p/original",high:"https://image.tmdb.org/t/p/w1280",lite:"https://image.tmdb.org/t/p/w780"}[S.perf]||BACK;
@@ -2046,7 +2127,7 @@ function runIntro(force) {
   const evs = ["pointerdown", "touchstart", "keydown", "click", "wheel"], h = () => { c.resume().then(() => c.state === "running" && play(), () => {}); };
   evs.forEach(e => window.addEventListener(e, h, { passive: true })); unlock = () => evs.forEach(e => window.removeEventListener(e, h));
   c.resume().then(() => { if (c.state === "running") play(); }, () => {});
-  setTimeout(() => { if (c.state === "running") play(); else if (introLive && !played) $("introHint").hidden = false; }, 150);
+  setTimeout(() => { if (c.state === "running") play();  }, 150);
 }
 $("introSkip").onclick = endIntro;
 
@@ -2092,6 +2173,29 @@ function mgInit() {
 }
 mgInit(); setTimeout(mgLoad, 400);
 new MutationObserver(() => { clearTimeout(mgW); mgW = setTimeout(mgInit, 80); }).observe(document.body, { childList: true, subtree: true });
+
+
+/* ===== v6: dock / sidebar, logo loop, avatars ===== */
+const ICO={trending:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',mylist:'<path d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.8-8 11-8 11z"/>',famous:'<path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"/>',serials:'<rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8"/>',profile:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>',movies:'<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>'};
+const svgI=k=>'<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ICO[k]+'</svg>';
+$("dock").innerHTML=[["trending","Home"],["mylist","My List"],["famous","Famous"],["serials","Shows"],["profile","Profile"]].map(n=>'<button data-go="'+n[0]+'" aria-label="'+n[1]+'"><i>'+svgI(n[0])+'</i><span>'+n[1]+'</span></button>').join("");
+$("sideNav").innerHTML='<div class="brand sn-brand" id="snBrand" role="button" tabindex="0"></div>'+[["trending","Home"],["movies","Explore"],["mylist","Favorite"],["sep"],["profile","Profile"],["settings","Settings"]].map(n=>n[0]==="sep"?'<div class="sn-sep"></div>':'<button class="sn-item" data-go="'+n[0]+'">'+svgI(n[0])+n[1]+'</button>').join("")+'<div class="sn-sep"></div><div class="sn-h">Continue watching</div><div id="snCW"></div>';
+$("snBrand").innerHTML=$("brandHome").innerHTML;$("snBrand").onclick=()=>$("brandHome").click();
+function navGo(g){if(g==="settings")openSettings();else if(g==="profile")$("profileBtn").click();else loadCatalog(g);}
+[$("dock"),$("sideNav")].forEach(el=>el.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)navGo(b.dataset.go);}));
+function navSync(){const a=document.querySelector("#tabs .active"),k=a?a.dataset.kind:currentCategory;document.querySelectorAll("[data-go]").forEach(b=>b.classList.toggle("on",b.dataset.go===k));}
+function syncNav(){const B=document.body.classList,m=B.contains("mode-web")||B.contains("mode-tv"),t=$("tabs"),ha=document.querySelector(".header-actions");
+  if(m&&t.parentNode!==ha)ha.insertBefore(t,$("micBtn"));else if(!m&&t.parentNode===ha)$("filterBar").parentNode.insertBefore(t,$("filterBar"));navSync();}
+new MutationObserver(navSync).observe($("tabs"),{subtree:true,attributes:true,attributeFilter:["class"]});
+let cwSig="";setInterval(()=>{const s=$("contRow"),b=$("snCW");if(!s||!b)return;const sig=s.innerHTML;if(sig===cwSig)return;cwSig=sig;b.innerHTML="";
+  s.querySelectorAll(".cr-card").forEach((c,i)=>{if(i>3)return;const t=c.querySelector(".cr-t"),d=document.createElement("div");d.className="sn-cw";d.innerHTML='<b style="background-image:'+c.style.backgroundImage.replace(/"/g,"'")+'"></b><span>'+(t?t.innerHTML:"")+'</span>';d.onclick=()=>c.click();b.appendChild(d);});},3000);
+function logoLoop(){const L=document.querySelectorAll(".brand");L.forEach(b=>b.classList.add("logo-go"));setTimeout(()=>L.forEach(b=>b.classList.remove("logo-go")),1700);}
+setTimeout(logoLoop,2500);setInterval(logoLoop,16000);
+const AV_FB='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><rect width="80" height="80" fill="#1a1524"/><circle cx="40" cy="31" r="14" fill="#e2b024"/><path d="M12 76c4-18 16-24 28-24s24 6 28 24z" fill="#e2b024"/></svg>');
+function markAv(){const a=localStorage.getItem("suii_user_avatar")||DEF_AV;document.querySelectorAll(".avatar-option").forEach(o=>o.classList.toggle("selected",o.dataset.img===a));}
+document.querySelectorAll("#headerPfp,#dashPfp,.avatar-option img").forEach(im=>{im.onerror=()=>{im.onerror=null;im.src=AV_FB;};});
+{const a=localStorage.getItem("suii_user_avatar")||DEF_AV;$("headerPfp").src=a;$("dashPfp").src=a;markAv();}
+$("profileBtn").addEventListener("click",markAv);syncNav();
 
 /* Internet Archive (free server) */
 async function archiveEmbed(item, isMovie) {
