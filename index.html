@@ -926,6 +926,29 @@ body.mode-tv .server:focus,body.mode-tv .audio-btn:focus{outline:4px solid #fff;
 @keyframes gbFloat{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-6px) rotate(1.4deg)}}
 .gb-label{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:999px;background:rgba(10,8,14,.78);border:1px solid var(--gold);color:#fff;font-weight:800;font-size:.8rem;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
 .gb-crack{position:absolute}
+
+/* ===== PERF ENGINE CSS ===== */
+body{background-attachment:scroll!important}
+.card{content-visibility:auto;contain-intrinsic-size:auto 300px;contain:layout style}
+body.perf-mid *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+body.perf-mid .card,body.perf-mid .poster-wrap,body.perf-mid .hero,body.perf-mid .fa-strip,body.perf-mid .fa-img{transform:none;backface-visibility:visible}
+body.perf-lite{background-image:none!important}
+body.perf-lite *,body.perf-lite *::before,body.perf-lite *::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.15s!important;transition-delay:0s!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;filter:none!important;box-shadow:none!important;text-shadow:none!important;mix-blend-mode:normal!important;will-change:auto!important}
+body.perf-lite .card,body.perf-lite .poster-wrap,body.perf-lite .hero,body.perf-lite .fa-strip,body.perf-lite .fa-img{transform:none!important;backface-visibility:visible!important}
+body.perf-lite *{transform-style:flat!important}
+body.perf-lite .cine-stage,body.perf-lite .w-title,body.perf-lite .w-pin{perspective:none!important}
+body.perf-lite #world .wvig,body.perf-lite #wfx{display:none}
+#intro.lite .i-rib,#intro.lite .i-glow,#intro.lite .i-flash,#intro.lite .i-s1,#intro.lite .i-s2,#intro.lite .i-sv,#intro.lite #introFrames,#intro.lite .i-line{display:none!important}
+
+/* ===== smooth glass cast / similar carousel on low devices ===== */
+.cine-sec{content-visibility:auto;contain-intrinsic-size:auto 420px}
+.cine-stage{contain:layout paint}
+body.perf-mid .cc-face,body.perf-lite .cc-face{-webkit-box-reflect:none}
+body.perf-lite .cine-stage{-webkit-mask-image:none;mask-image:none}
+body.perf-lite .cc-face{background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.03)),#191424;border:1px solid rgba(255,255,255,.24)}
+body.perf-lite .cc-face::after{content:"";position:absolute;left:0;right:0;top:0;height:40%;background:linear-gradient(180deg,rgba(255,255,255,.17),transparent);pointer-events:none}
+body.perf-lite .cc-cap{background:linear-gradient(0deg,rgba(8,6,12,.9),rgba(8,6,12,.35) 70%,transparent)}
+body.perf-lite .cine-track,body.perf-lite .cine-card{will-change:auto!important}
 </style>
 </head>
 <body>
@@ -1203,7 +1226,7 @@ body.mode-tv .server:focus,body.mode-tv .audio-btn:focus{outline:4px solid #fff;
     <div class="set-sub">Device Mode</div>
     <div class="seg" id="segMode"><button data-mode="auto">Auto</button><button data-mode="ios">🍎 iOS</button><button data-mode="android">🤖 Android</button><button data-mode="desktop">💻 Web</button><button data-mode="tv">📺 TV</button></div>
     <div class="set-sub">Animation Quality</div>
-    <div class="seg" id="segPerf"><button data-perf="ultra">Ultra (4K)</button><button data-perf="high">High</button><button data-perf="lite">Lite</button></div>
+    <div class="seg" id="segPerf"><button data-perf="auto">Auto (best)</button><button data-perf="ultra">Ultra (4K)</button><button data-perf="high">High</button><button data-perf="lite">Lite</button></div>
     <button class="gold-btn" id="replayIntro" style="width:100%;margin-top:8px;">▶ Replay Intro</button>
   </div>
 </div>
@@ -1368,8 +1391,7 @@ function card(item, index) {
   return `
     <article class="card" data-index="${index}" data-tmdb-id="${item.tmdbId}" data-type="${item.type}">
       <div class="poster-wrap">
-        <img class="poster" loading="lazy" src="${esc(poster(item.poster))}" alt="">
-        <iframe class="preview-frame-overlay" hidden></iframe>
+        <img class="poster" loading="lazy" decoding="async" src="${esc(poster(item.poster))}" alt="">
         <div class="poster-overlay"></div>
         <span class="play-dot">▶</span>
       </div>
@@ -1399,7 +1421,7 @@ function attachPosterHoldEvents() {
   document.querySelectorAll(".card").forEach(cardEl => {
     const tmdbId = cardEl.dataset.tmdbId;
     const type = cardEl.dataset.type;
-    const iframe = cardEl.querySelector(".preview-frame-overlay");
+    let iframe = null;
 
     const startHold = () => {
       holdTimer = setTimeout(async () => {
@@ -1407,6 +1429,7 @@ function attachPosterHoldEvents() {
           const videos = await tmdb(`/${type}/${tmdbId}/videos`);
           const trailer = (videos.results || []).find(v => v.type === "Trailer" || v.type === "Teaser") || videos.results[0];
           if (trailer && trailer.key) {
+            if (!iframe) { iframe = document.createElement("iframe"); iframe.className = "preview-frame-overlay"; iframe.setAttribute("allow", "autoplay"); cardEl.querySelector(".poster-wrap").appendChild(iframe); }
             iframe.src = `https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&start=20`;
             iframe.hidden = false;
             cardEl.classList.add("previewing");
@@ -1417,10 +1440,7 @@ function attachPosterHoldEvents() {
 
     const endHold = () => {
       clearTimeout(holdTimer);
-      if (iframe) {
-        iframe.src = "";
-        iframe.hidden = true;
-      }
+      if (iframe) { iframe.remove(); iframe = null; }
       cardEl.classList.remove("previewing");
     };
 
@@ -1467,11 +1487,12 @@ const FAMOUS = [
 let famousCache = null;
 async function loadFamous() {
   if (famousCache) return famousCache;
+  try { var fc = JSON.parse(localStorage.getItem("suii_fam1") || "null"); if (fc && Date.now() - fc.t < 6048e5 && fc.o && fc.o.length > 20) { famousCache = fc.o; return famousCache; } } catch (e) {}
   const rows = await Promise.all(FAMOUS.map(f => tmdb("/search/" + f[1], f[1] === "movie" ? { query: f[0], year: f[2] } : { query: f[0], first_air_date_year: f[2] })
     .then(r => { const x = (r.results || []).filter(y => y.poster_path)[0]; return x ? normTMDB(x, f[1]) : null; }).catch(() => null)));
   const mv = rows.filter((x, i) => x && FAMOUS[i][1] === "movie"), tv = rows.filter((x, i) => x && FAMOUS[i][1] === "tv"), out = [];
   for (let i = 0; i < Math.max(mv.length, tv.length); i++) { if (mv[i]) out.push(mv[i]); if (tv[i]) out.push(tv[i]); }
-  if (out.length) famousCache = out;
+  if (out.length) { famousCache = out; try { localStorage.setItem("suii_fam1", JSON.stringify({ t: Date.now(), o: out })); } catch (e) {} }
   return out;
 }
 
@@ -1539,7 +1560,7 @@ function tvFocusInit(){
     const a=cur.getBoundingClientRect(),ax=a.left+a.width/2,ay=a.top+a.height/2;let best=null,bs=1e9;
     els.forEach(x=>{if(x===cur)return;const b=x.getBoundingClientRect(),dx=b.left+b.width/2-ax,dy=b.top+b.height/2-ay,
       along=dx*dir[0]+dy*dir[1];if(along<=4)return;const perp=Math.abs(dx*dir[1])+Math.abs(dy*dir[0]);const sc=along+perp*2.2;if(sc<bs){bs=sc;best=x;}});
-    if(best){best.focus();best.scrollIntoView({block:"nearest",inline:"center",behavior:S.perf==="lite"?"auto":"smooth"});}
+    if(best){best.focus();best.scrollIntoView({block:"nearest",inline:"center",behavior:effPerf()==="lite"?"auto":"smooth"});}
   });
 }
 
@@ -1584,7 +1605,7 @@ async function resume(i) {
 async function heroTrailer() {
   const old = $("heroTrailer"); if (old) old.remove();
   const my = ++htTok;
-  if (currentCategory !== "trending" || S.perf === "lite" || !itemsNow.length) return;
+  if (currentCategory !== "trending" || effPerf()==="lite" || !itemsNow.length) return;
   setTimeout(async () => {
     if (my !== htTok || currentCategory !== "trending" || hero.hidden) return;
     clearInterval(heroSlideTimer);
@@ -2145,6 +2166,44 @@ if (localStorage.getItem("suii_access_key")) {
 const DEF = { theme: "gold", intro: true, sound: true, fx: true };
 let S = Object.assign({mode:"auto",perf:"ultra",autonext:true,notif:false}, DEF);
 try { S = Object.assign(S, JSON.parse(localStorage.getItem("suii_settings") || "{}")); } catch (e) {}
+/* ===== PERF ENGINE: auto-detect low-end / 32-bit, auto-degrade, smooth everywhere ===== */
+var PFLAG = "suii_autolow";
+if (S.perfv !== 2) { S.perf = "auto"; S.perfv = 2; }
+function devScore() {
+  var ua = navigator.userAgent || "", c = navigator.hardwareConcurrency || 4, m = navigator.deviceMemory || 4, cn = navigator.connection || {};
+  if (/armv7|armv8l|i686|x86_32|WOW64/i.test(ua) || m <= 2 || (c <= 4 && m <= 3) || (/Android/i.test(ua) && c <= 4) || cn.saveData || /^(slow-2g|2g|3g)$/.test(cn.effectiveType || "")) return 0;
+  if (c <= 6 || m <= 4) return 1;
+  return 2;
+}
+function effPerf() {
+  var p = S.perf;
+  if (p === "auto" || !p) {
+    try { var t = +localStorage.getItem(PFLAG); if (t && Date.now() - t < 12096e5) return "lite"; } catch (e) {}
+    var d = devScore(); return d === 0 ? "lite" : d === 1 ? "high" : "ultra";
+  }
+  return p;
+}
+function PFX() {
+  var p = effPerf(), b = document.body, ui = document.documentElement.dataset.ui || "", big = /tv|desktop/.test(ui), h = "https://image.tmdb.org/t/p/";
+  b.classList.toggle("perf-lite", p === "lite"); b.classList.toggle("perf-mid", p === "high");
+  document.documentElement.style.scrollBehavior = p === "lite" ? "auto" : "";
+  IMG = h + ({ ultra: big ? "w780" : "w500", high: "w342", lite: "w185" }[p] || "w342");
+  BACK = h + ({ ultra: big ? "original" : "w1280", high: "w780", lite: "w500" }[p] || "w780");
+}
+(function () { /* 3D / tilt effects switch off automatically in lite, user's own choice is still saved */
+  var fxp = S.fx !== false; try { delete S.fx; } catch (e) {}
+  Object.defineProperty(S, "fx", { get: function () { return fxp && effPerf() !== "lite"; }, set: function (v) { fxp = !!v; }, enumerable: false, configurable: true });
+  S.toJSON = function () { var o = {}, k; for (k in this) if (Object.prototype.hasOwnProperty.call(this, k) && k !== "toJSON") o[k] = this[k]; o.fx = fxp; return o; };
+})();
+(function () { /* FPS watchdog: if the phone drops frames, switch to lite and remember it */
+  var n = 0, slow = 0, last = 0, t0 = performance.now();
+  function f(t) {
+    if (last) { var d = t - last; if (d < 500) { n++; if (d > 45) slow++; } } last = t;
+    if (n >= 90) { if (slow / n > .3 && S.perf === "auto" && effPerf() !== "lite") { try { localStorage.setItem(PFLAG, String(Date.now())); } catch (e) {} PFX(); } n = 0; slow = 0; }
+    if (performance.now() - t0 < 25000) requestAnimationFrame(f);
+  }
+  requestAnimationFrame(f);
+})();
 const THEME_COLOR = { gold: "#0d0b10", neon: "#050812", crimson: "#0c0405" };
 function saveS() { try { localStorage.setItem("suii_settings", JSON.stringify(S)); } catch (e) {} }
 function applySettings() {
@@ -2155,9 +2214,7 @@ function applySettings() {
   let m2 = S.mode; if (m2 === "auto" || m2 === "mobile") { m2 = detectUI(); if (S.mode === "mobile" && (m2 === "desktop" || m2 === "tv")) m2 = "android"; }
   document.body.classList.remove("mode-tv", "mode-mobile", "mode-desktop", "mode-ios", "mode-android"); document.body.classList.add("mode-" + m2); if (m2 === "ios" || m2 === "android") document.body.classList.add("mode-mobile");
   document.documentElement.dataset.ui = m2; placeTabs(m2); { const pb = $("profileBtn"); if (pb) pb.dataset.name = localStorage.getItem("suii_user_name") || "VIP User"; }
-  document.body.classList.toggle("perf-lite",S.perf==="lite");
-  IMG={ultra:"https://image.tmdb.org/t/p/w780",high:"https://image.tmdb.org/t/p/w500",lite:"https://image.tmdb.org/t/p/w342"}[S.perf]||IMG;
-  BACK={ultra:"https://image.tmdb.org/t/p/original",high:"https://image.tmdb.org/t/p/w1280",lite:"https://image.tmdb.org/t/p/w780"}[S.perf]||BACK;
+  PFX();
   document.body.style.setProperty("--card-radius", ({ tv: "22px", ios: "22px", android: "14px", desktop: "14px" })[m2]);
   document.querySelectorAll("#segMode button").forEach(b=>b.classList.toggle("sel",b.dataset.mode===S.mode));
   document.querySelectorAll("#segPerf button").forEach(b=>b.classList.toggle("sel",b.dataset.perf===S.perf));
@@ -2275,12 +2332,12 @@ function runIntro(force) {
   /* intro + intro sound are permanent (settings toggles no longer disable them) */
   clearIntroTimers(); introLive = true; document.documentElement.classList.add("introing");
   intro.classList.remove("go", "out"); intro.hidden = false; $("introFrames").innerHTML = ""; $("introCap").className = "i-cap"; $("introCap").textContent = ""; $("introHint").hidden = true; if (mgIntro) { mgIntro.stop(); mgIntro = null; } $("introMg").classList.remove("on"); $("introMg").innerHTML = ""; void intro.offsetWidth;
-  const t0 = performance.now(); intro.classList.add("go");
-  TL.FT.forEach((x, k) => frameTimers.push(setTimeout(() => showFrame(k), x * 1000)));
+  const t0 = performance.now(); intro.classList.toggle("lite", effPerf()==="lite"); intro.classList.add("go");
+  (effPerf()==="lite"?[]:TL.FT).forEach((x, k) => frameTimers.push(setTimeout(() => showFrame(k), x * 1000)));
   frameTimers.push(setTimeout(() => { $("introFrames").innerHTML = ""; $("introCap").classList.add("off"); }, TL.E * 1000));
   $("introBy").classList.remove("on"); $("introBy").innerHTML = mgTag().replace('class="mg-tag', 'data-w="1" class="mg-tag');
-  frameTimers.push(setTimeout(() => { if (!introLive) return; const by = $("introBy"); by.classList.add("on"); const t = by.querySelector(".mg-tag"); if (t) mgReplay(t); }, (TL.E + 1.7) * 1000));
-  introTimer = setTimeout(endIntro, (TL.E + 4.5) * 1000);
+  frameTimers.push(setTimeout(() => { if (!introLive) return; const by = $("introBy"); by.classList.add("on"); const t = by.querySelector(".mg-tag"); if (t) mgReplay(t); }, effPerf()==="lite" ? 500 : (TL.E + 1.7) * 1000));
+  introTimer = setTimeout(endIntro, effPerf()==="lite" ? 2600 : (TL.E + 4.5) * 1000);
   const c = getCtx(); if (!c) return; let played = false;
   const play = () => { if (played || !introLive) return; played = true; $("introHint").hidden = true; if (unlock) { unlock(); unlock = null; } introSound((performance.now() - t0) / 1000); };
   const evs = ["pointerdown", "touchstart", "keydown", "click", "wheel"], h = () => { c.resume().then(() => c.state === "running" && play(), () => {}); };
@@ -2414,7 +2471,7 @@ function buildHero(item, m, crew) {
     </div>
   </section>`;
 }
-const ccard = (img, name, sub, attr) => `<div class="cine-card" ${attr}><div class="cc-face"><img loading="lazy" src="${esc(img)}" alt="${esc(name)}" onerror="this.src='https://via.placeholder.com/300x450?text=SUIII'"><div class="cc-cap"><b>${esc(name)}</b><span>${esc(sub || "")}</span></div></div></div>`;
+const ccard = (img, name, sub, attr) => `<div class="cine-card" ${attr}><div class="cc-face"><img loading="lazy" decoding="async" src="${esc(img)}" alt="${esc(name)}" onerror="this.src='https://via.placeholder.com/300x450?text=SUIII'"><div class="cc-cap"><b>${esc(name)}</b><span>${esc(sub || "")}</span></div></div></div>`;
 function buildCast(list) {
   if (!list.length) return "";
   return `<div class="cine-sec cine-rv" style="--d:.9s"><h3>🎭 Cast Spotlight</h3><p class="hint">Drag karo ya apne aap scroll hone do · actor par tap = filmography</p>
@@ -2426,11 +2483,14 @@ function buildSim(list) {
     <div class="cine-stage" data-speed="-0.035"><div class="cine-track">${list.map((x, i) => ccard(poster(x.poster_path), x.title || x.name, "★ " + Number(x.vote_average || 0).toFixed(1), `data-sim="${i}"`)).join("")}</div></div></div>`;
 }
 function mkStage(stage) {
+  const LITE = effPerf() === "lite";
   const track = stage.querySelector(".cine-track");
   [...track.children].forEach(c => track.appendChild(c.cloneNode(true)));
   const cards = [...track.children], speed = stage.dataset.speed === "0" ? 0 : (Number(stage.dataset.speed) || .04);
   let x = 0, drag = false, sx = 0, x0 = 0, moved = 0, hover = false, half = 1, vel = 0;
-  const measure = () => { half = track.scrollWidth / 2 || 1; };
+  let SW = 1, vis = true; const measure = () => { half = track.scrollWidth / 2 || 1; SW = stage.offsetWidth || 1; cards.forEach(c => { c._m = c.offsetLeft + c.offsetWidth / 2; }); };
+  window.addEventListener("resize", () => { half = 1; });
+  if ("IntersectionObserver" in window) new IntersectionObserver(es => { vis = es[0].isIntersecting; }, { rootMargin: "120px" }).observe(stage);
   stage.addEventListener("pointerdown", e => { drag = true; sx = e.clientX; x0 = x; moved = 0; });
   window.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - sx; moved = Math.max(moved, Math.abs(dx)); x = x0 + dx; vel = dx; });
   window.addEventListener("pointerup", () => { drag = false; });
@@ -2443,21 +2503,22 @@ function mkStage(stage) {
   }, true);
   stage.addEventListener("wheel", e => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { x -= e.deltaX; e.preventDefault(); } }, { passive: false });
   return dt => {
-    if (!stage.offsetWidth) return; if (half <= 1) measure();
+    if (!vis) return; if (half <= 1) { if (!stage.offsetWidth) return; measure(); }
     if (!drag) x -= speed * dt * (hover ? .25 : 1);
     x = ((x % half) - half) % half; // keep in (-half, 0]
-    track.style.transform = `translate3d(${x}px,0,0)`;
-    const cx = stage.offsetWidth / 2, fx = S.fx;
+    track.style.transform = `translate3d(${LITE ? Math.round(x) : x.toFixed(1)}px,0,0)`;
+    if (!S.fx) return;
+    const cx = SW / 2;
     for (let i = 0; i < cards.length; i++) {
-      const c = cards[i]; if (!fx) { continue; }
-      const mid = x + c.offsetLeft + c.offsetWidth / 2, d = (mid - cx) / cx, a = Math.min(Math.abs(d), 1.4);
+      const c = cards[i], mid = x + c._m, d = (mid - cx) / cx; if (d < -1.6 || d > 1.6) continue;
+      const a = Math.min(Math.abs(d), 1.4);
       c.style.transform = `translateZ(${-a * 170}px) rotateY(${-d * 36}deg) scale(${1 - a * .08})`;
       c.style.opacity = Math.max(.25, 1 - a * .4);
     }
   };
 }
 function initCinema() {
-  cancelAnimationFrame(cineRAF);
+  cancelAnimationFrame(cineRAF); const LITE = effPerf() === "lite";
   const stages = [...detail.querySelectorAll(".cine-stage")].map(mkStage);
   const bg = detail.querySelector(".cine-bg"), p3 = $("p3");
   if (p3) {
@@ -2465,12 +2526,14 @@ function initCinema() {
     host.addEventListener("pointermove", e => { if (!S.fx) return; const r = host.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5; p3.classList.add("act"); p3.style.transform = `rotateY(${px * 40}deg) rotateX(${-py * 30}deg) scale(1.04)`; p3.style.setProperty("--gx", (110 - (px + .5) * 130) + "%"); });
     host.addEventListener("pointerleave", () => { p3.classList.remove("act"); p3.style.transform = ""; p3.style.setProperty("--gx", "120%"); });
   }
-  let last = performance.now();
+  let last = performance.now(), lastSY = -1;
   (function loop(t) {
     if (detail.hidden || !detail.isConnected) return;
+    if (document.hidden || (LITE && t - last < 30)) { cineRAF = requestAnimationFrame(loop); return; }
     const dt = Math.min(50, t - last); last = t;
     stages.forEach(s => s(dt));
-    if (bg) bg.style.transform = `translate3d(0,${Math.min(window.scrollY, 800) * .28}px,0) scale(1.08)`;
+    const sy = Math.min(window.scrollY, 800);
+    if (bg && sy !== lastSY && !LITE) { lastSY = sy; bg.style.transform = `translate3d(0,${sy * .28}px,0) scale(1.08)`; }
     cineRAF = requestAnimationFrame(loop);
   })(last);
 }
@@ -2743,7 +2806,7 @@ function drawFX(W,dt,now){
   c.globalAlpha=1;
 }
 function endWorld(){
-  var W=WORLD;if(!W)return;WORLD=null;cancelAnimationFrame(W.raf);
+  var W=WORLD;if(!W)return;WORLD=null;cancelAnimationFrame(W.raf);if(W.lt)clearInterval(W.lt);
   window.removeEventListener('pointermove',W.onm);window.removeEventListener('resize',W.onr);
   if(W.io)W.io.disconnect();
   [W.el,W.prog,W.lk].forEach(function(n){if(n&&n.parentNode)n.parentNode.removeChild(n);});
@@ -2771,7 +2834,7 @@ function buildWorld(item,meta,logo,kw){
     ua=navigator.userAgent||'',
     calm=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches),
     low=(navigator.hardwareConcurrency||4)<=2||(navigator.deviceMemory||4)<=1||/WOW64|armv7|armv8l|i686|x86_32/i.test(ua), /* 32-bit / low-end → lite mode */
-    q=(calm||!S.fx)?0:(low?1:2),
+    lite=effPerf()==="lite",q=(calm||!S.fx)?0:(low?1:2),
     bd=document.body,st=bd.style,cols=[mix(m,'#000',.35),mix(m,'#000',.62),mix(t,'#000',.8)],
     lk=document.createElement('link');
   lk.rel='stylesheet';lk.href='https://fonts.googleapis.com/css2?family='+font.replace(/ /g,'+')+'&display=swap';document.head.appendChild(lk);
@@ -2780,7 +2843,7 @@ function buildWorld(item,meta,logo,kw){
   var L=function(n){return '<div class="wl" data-k="'+[.1,.2,.34][n]+'" data-x="'+[6,14,26][n]+'">'+scene(sc,r,cols[n],n,a)+'</div>';};
   var el=document.createElement('div');el.id='world';el.setAttribute('aria-hidden','true');
   el.style.background='linear-gradient(180deg,'+t+' 0%,'+m+' 52%,'+b+' 100%)';
-  el.innerHTML=extra(ex,a,a2)+L(0)+'<canvas id="wfx"></canvas>'+L(1)+L(2)+'<div class="wvig"></div>';
+  el.innerHTML=lite?L(1):extra(ex,a,a2)+L(0)+'<canvas id="wfx"></canvas>'+L(1)+L(2)+'<div class="wvig"></div>';
   var prog=document.createElement('div');prog.id='wprog';
   bd.appendChild(el);bd.appendChild(prog);bd.classList.add('world-on');if(calm)bd.classList.add('w-calm');if(q<2)bd.classList.add('w-lite');
 
@@ -2791,7 +2854,7 @@ function buildWorld(item,meta,logo,kw){
   var tag=(meta&&meta.tagline)||((meta&&meta.genres)||[]).map(function(g){return g.name;}).join('  •  ');
   var sn=((item.overview||'').match(/[^.!?]+[.!?]+/g)||[]).map(function(x){return x.trim();}).filter(function(x){return x.length>12;}).slice(0,4).map(function(x){return x.length>150?x.slice(0,147)+'…':x;});
   var html='<section class="w-title" id="wTitle"><h1 class="w-big" id="wBig" aria-label="'+esc(item.title||'')+'" style="font-size:'+fs+'vw;max-font-size:11rem;text-transform:'+up+'">'+(logo?'<img class="w-logo" src="'+esc(logo)+'" alt="'+esc(item.title||'')+'">':'')+'<div class="w-txt"'+(logo?' style="display:none"':'')+'>'+big+'</div></h1>'+(tag?'<p class="w-tag">'+esc(tag)+'</p>':'')+'<div class="w-cue"></div></section>'
-    +(sn.length?'<section class="w-story" id="wStory" style="height:'+((sn.length+1)*80)+'vh"><div class="w-pin">'+sn.map(function(x){return '<p class="w-line">'+esc(x)+'</p>';}).join('')+'</div></section>':'');
+    +(sn.length&&!lite?'<section class="w-story" id="wStory" style="height:'+((sn.length+1)*80)+'vh"><div class="w-pin">'+sn.map(function(x){return '<p class="w-line">'+esc(x)+'</p>';}).join('')+'</div></section>':'');
   var hero=detail.querySelector('.cine-hero'),box=document.createElement('div');box.innerHTML=html;
   while(box.firstChild){if(hero)detail.insertBefore(box.firstChild,hero);else detail.appendChild(box.firstChild);}
   var big$=$('wBig');if(big$)big$.style.fontSize='min('+fs+'vw,11rem)';
@@ -2803,7 +2866,7 @@ function buildWorld(item,meta,logo,kw){
   /* 3D scroll reveals */
   var W={el:el,prog:prog,lk:lk,cv:$('wfx'),a:a,q:q,s:window.pageYOffset||0,mx:0,tx:0,last:performance.now(),acc:0,fr:0,tp:-1,w:window.innerWidth,h:window.innerHeight,dpr:1,P:[],
     title:$('wTitle'),big:big$,story:$('wStory'),def:FXD[fx]||null,L:[]};
-  W.ctx=W.cv.getContext?W.cv.getContext('2d'):null;if(!W.ctx)W.def=null;
+  W.ctx=W.cv&&W.cv.getContext?W.cv.getContext('2d'):null;if(!W.ctx)W.def=null;
   W.lines=detail.querySelectorAll('.w-line');
   [].forEach.call(el.querySelectorAll('[data-k]'),function(e){W.L.push({el:e,k:parseFloat(e.getAttribute('data-k')),x:parseFloat(e.getAttribute('data-x'))});});
   var secs=detail.querySelectorAll('.cine-hero,.cine-sec,.player-box');
@@ -2817,7 +2880,7 @@ function buildWorld(item,meta,logo,kw){
   W.onr=function(){W.w=window.innerWidth;W.h=window.innerHeight;if(W.ctx)sizeCv(W);};
   W.onm=function(e){W.tx=e.clientX/W.w-.5;};
   window.addEventListener('resize',W.onr);if(q>0)window.addEventListener('pointermove',W.onm,{passive:true});
-  WORLD=W;W.raf=requestAnimationFrame(worldLoop);
+  WORLD=W;if(lite){[].forEach.call(secs,function(e){e.classList.add('in');});W.lt=setInterval(function(){if(WORLD!==W||detail.hidden||!detail.isConnected)endWorld();},800);}else W.raf=requestAnimationFrame(worldLoop);
 }
 function worldLoop(now){
   var W=WORLD;if(!W)return;
