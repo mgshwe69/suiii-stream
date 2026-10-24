@@ -622,7 +622,7 @@ body.mode-tv .card:focus,body.mode-tv .card:hover{transform:scale(1.12);z-index:
 body.mode-tv .fa-wrap{height:64vh}
 body.mode-tv #famousStage{padding:0 36px}
 body.mode-tv .auth-modal{transform:scale(1.15)}
-body.mode-tv *{cursor:none}
+body.mode-tv:not(.tv-mouse) *{cursor:none}body.mode-tv.tv-idle *{cursor:none!important}
 /* Mobile mode */
 body.mode-mobile .tvrail{display:none}
 body.mode-mobile .grid{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px}
@@ -671,7 +671,7 @@ body.perf-lite .fa-strip{transition-duration:.35s}
 #nextEp{position:absolute;right:12px;bottom:12px;z-index:4;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
 #nextBan{background:rgba(10,8,14,.9);border:1px solid var(--gold);border-radius:14px;padding:10px 14px;display:flex;gap:10px;align-items:center;font-weight:800}
 body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #tabs button:not([data-kind=cartoon]):not([data-kind=anime]):not([data-kind=mylist]),body.kids .drawer-link[data-cat]:not([data-cat=cartoon]):not([data-cat=anime]),body.kids #tvRail [data-go=search],body.kids #tvRail [data-go=famous],body.kids #tvRail [data-go=movies]{display:none!important}
-/* ===== v5: new underline mark (smile arrow hata diya) ===== */
+/* ===== v5: new underline mark (smile arrow removed) ===== */
 .i-swoosh .pl{fill:url(#ig);stroke:none;opacity:0;transform-box:fill-box;transform-origin:center}
 #intro.go .i-swoosh .pl{animation:plIn .5s calc(var(--E)*1s + 2.3s) cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes plIn{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:scale(1)}}
@@ -707,7 +707,7 @@ body.kids .search-container,body.kids #filterBar,body.kids #micBtn,body.kids #ta
 .i-by2.on{opacity:1}
 .pm-by{margin-top:18px;font-size:clamp(1.2rem,5vw,1.8rem)}
 #intro .i-hint{z-index:10}
-/* MG1SHWE naam tag (har jagah jahan naam aata hai) */
+/* MG1SHWE name tag (used wherever the name appears) */
 .mg-tag{position:relative;display:inline-block;font-family:'Permanent Marker','Bebas Neue',Impact,sans-serif;font-size:1.15em;letter-spacing:.04em;color:#fff;text-transform:uppercase;white-space:nowrap;line-height:1.15;padding:0 .12em;text-shadow:0 0 10px rgba(255,30,70,.35)}
 .mg-tag .mgw i{font-style:normal;display:inline-block;opacity:0}
 .mg-tag .mgw i.r{color:#ff1f3d}
@@ -890,7 +890,7 @@ body.mode-tv .gold-btn{padding:16px 34px;font-size:1.2rem}
 body.mode-tv .server,body.mode-tv .audio-btn{padding:14px 22px;font-size:1.05rem}
 body.mode-tv .server:focus,body.mode-tv .audio-btn:focus{outline:4px solid #fff;transform:scale(1.06)}
 
-/* FIX: 3D me track card ke aage aa jata tha -> tap/hold card tak pahunchta hi nahi tha */
+/* FIX: in 3D the track overlapped the card, so taps/holds never reached it */
 .cine-track{pointer-events:none}
 .cine-card{pointer-events:auto}
 /* ===== ADD-ON: Full search page / Watch Order / Glass break ===== */
@@ -949,6 +949,22 @@ body.perf-lite .cc-face{background:linear-gradient(135deg,rgba(255,255,255,.14),
 body.perf-lite .cc-face::after{content:"";position:absolute;left:0;right:0;top:0;height:40%;background:linear-gradient(180deg,rgba(255,255,255,.17),transparent);pointer-events:none}
 body.perf-lite .cc-cap{background:linear-gradient(0deg,rgba(8,6,12,.9),rgba(8,6,12,.35) 70%,transparent)}
 body.perf-lite .cine-track,body.perf-lite .cine-card{will-change:auto!important}
+
+/* ===== v7 ===== */
+.card{content-visibility:auto;contain-intrinsic-size:auto 300px}.grid{contain:layout style}
+html.hid *,html.hid *:before,html.hid *:after{animation-play-state:paused!important}
+body.is-scroll .card,body.is-scroll .poster-wrap{transition:none!important}
+body{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+body.mode-tv.tv-mouse #settingsBtn{display:grid}body.mode-tv.tv-mouse .hamburger-btn{display:flex}
+.pf-sec{text-align:left;margin-top:14px;background:rgba(255,255,255,.04);border:var(--glass-border);border-radius:14px;padding:12px;font-size:.82rem}
+.pf-sec h4{margin:0 0 8px;font-size:.78rem;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
+.pf-sec h4 button{background:none;border:0;color:var(--muted);font-size:.72rem}
+.pf-row{display:flex;justify-content:space-between;gap:10px;padding:3px 0;color:var(--muted)}.pf-row b{color:var(--text);font-weight:700;text-align:right}
+.pf-th{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.pf-th div{flex:0 0 64px;font-size:.62rem;cursor:pointer;text-align:center}
+.pf-th img{width:64px;height:92px;object-fit:cover;border-radius:10px;display:block;margin-bottom:3px}
+.pf-th span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf-chip{display:inline-block;margin:0 6px 6px 0;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:var(--glass-border);color:var(--text);font-size:.76rem;cursor:pointer}
+#bkToast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;z-index:3000;background:rgba(20,16,26,.92);color:#fff;padding:10px 18px;border-radius:999px;font-size:.85rem;transition:.3s;pointer-events:none}#bkToast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
@@ -1131,6 +1147,7 @@ body.perf-lite .cine-track,body.perf-lite .cine-card{will-change:auto!important}
       <button type="submit" class="gold-btn">Register Account</button>
     </form>
 
+    <div style="font-size:.72rem;color:var(--muted);text-align:center;margin-top:10px">ℹ On login, your name, age, device and approximate location are sent to the admin (MG1SHWE).</div>
     <div class="ask-key-box">
       Need an Access Key?<br>
       <a href="https://t.me/MG1SHWE" target="_blank">Telegram</a> | 
@@ -1199,6 +1216,7 @@ body.perf-lite .cine-track,body.perf-lite .cine-card{will-change:auto!important}
         <strong>Recent Watched / Resume:</strong>
         <div id="dashRecentTitle" style="color:var(--gold);margin-top:5px;">Pushpa 2: The Rule (Resumed)</div>
       </div>
+      <div id="profExtra"></div>
       <button class="gold-btn" id="logoutBtn" style="margin-top:20px;width:100%;">Logout Account</button>
     </div>
   </div>
@@ -1215,14 +1233,14 @@ body.perf-lite .cine-track,body.perf-lite .cine-card{will-change:auto!important}
       <button class="theme-card" data-theme="crimson"><div class="theme-prev" style="--c:#ff4757;background:linear-gradient(135deg,#2a0c11,#0c0405)"></div><b>Crimson Cinema</b><small>Movie noir</small></button>
     </div>
     <div class="set-sub">Experience</div>
-    <label class="set-row"><span>Intro Animation<small>App open hote hi logo intro</small></span><span class="sw"><input type="checkbox" id="setIntro"><i></i></span></label>
+    <label class="set-row"><span>Intro Animation<small>Logo intro when the app opens</small></span><span class="sw"><input type="checkbox" id="setIntro"><i></i></span></label>
     <label class="set-row"><span>Intro Sound<small>Cinematic boom &amp; swell</small></span><span class="sw"><input type="checkbox" id="setSound"><i></i></span></label>
     <label class="set-row"><span>3D Motion Effects<small>Poster tilt &amp; 3D carousel</small></span><span class="sw"><input type="checkbox" id="setFx"><i></i></span></label>
     <div class="set-sub">Profiles</div>
     <div class="seg" id="segProf"></div><button class="ghost-btn" id="delProf" type="button" style="width:100%;margin-bottom:8px">🗑 Delete this profile</button>
     <div class="set-sub">Smart</div>
     <label class="set-row"><span>Auto Next Episode<small>Countdown + Next button</small></span><span class="sw"><input type="checkbox" id="setNext"><i></i></span></label>
-    <label class="set-row"><span>New Episode Alerts<small>My List ke shows ka naya episode</small></span><span class="sw"><input type="checkbox" id="setNotif"><i></i></span></label>
+    <label class="set-row"><span>New Episode Alerts<small>New episodes of shows in My List</small></span><span class="sw"><input type="checkbox" id="setNotif"><i></i></span></label>
     <div class="set-sub">Device Mode</div>
     <div class="seg" id="segMode"><button data-mode="auto">Auto</button><button data-mode="ios">🍎 iOS</button><button data-mode="android">🤖 Android</button><button data-mode="desktop">💻 Web</button><button data-mode="tv">📺 TV</button></div>
     <div class="set-sub">Animation Quality</div>
@@ -1242,8 +1260,19 @@ const TMDB_BASE = "https://api.themoviedb.org/3";
 let IMG = "https://image.tmdb.org/t/p/w500";
 let BACK = "https://image.tmdb.org/t/p/w1280";
 
-const PERMANENT_KEYS = ["CR7PERM1", "CR7PERM2", "CR7PERM3"];
-const SEVEN_DAY_KEYS = ["CR70001", "CR70002", "CR70003", "CR70004"];
+var KEYDB = {"ed05b8f750781584f73103a3e32fd1938448cb4c01912992e22026ecdc180982":1,"db9d8904dd4e680b2b58dc87726112ffa0bd23d4c3bd1b54bf5822dc8e0e5434":1,"a6531eed9e34cb6a4c331298b61ea9b560fc8689b6ccb6322522bdff59cbff4e":1,"8978491f79351bf32f90dd24ec36397780fad96505f0e2a2b46219c0f006c6f5":1,"d0159f29c41c27c2f42cd3e9ffae7dca9df539b637fc582334ae0777047d314b":1,"21a9f25050bc41ab5f83769122eeb07a521cd9a52faac77f226f46624d6c9dff":1,"5e88510dc6625c2d9afe2445b08c6006e196a8dd928378468a5b64313b7759d1":1,"3c54c309152c3ac5c18a540c9950693345449fb2bec52b60126117ec2ebe0ba7":3,"14411c807a98ae554bc5f2829202d62b2c23705769dda3192f7ef0a0cc577c78":3,"c625bef4acf8b00dde17b8a8ee41dd31d02866e1a07c34f2fbb8063839af929a":3,"f64d2158cff43575880de32cabad1a8468364f3a01891ffd1ac26a3ed3158145":3,"87a0d7db9f9c7b053689740716629c663b657e448bc9a1355aa6696878d99995":3,"2a9a842a5f858a45a2668e68e49ce5347aab448262b525568edb085abae8698e":3,"9a59f4580fe1b1a41fa19691b85f0c87114f4d44664debda709acf876dab3478":3,"faba1115917e42a8b5b147742da98f24de097d0767bce729ebb7f787fb0c7411":7,"774fa47e2bc5b4f903013a58ffe8237d3f0f7e0bf63aebc1ca253198e09a6037":7,"4efb8ec8d606aa9c32b6885fe8d3a9d0179008a9ebb12a844d1eb3d8b16d8a96":7,"041138fd7c8f7b3ff84e67b307a8f3f51c5e3e80a1d34bc585750eac619addd6":7,"ffbe7fd5b556e3d718b555c9c57f67405f451d5ed42e0e9fc2b18d57ce0a7b1a":7,"652c295efd4db7ca9f31e05f526158a7a750f5ce7acdb5ec12c1925d26d6d279":7,"31369a15e045a600a9918c96df2688ca373ee99ccde0d5e790c38dafa5daefdd":7,"f7b1016928943dfe85ae3297c2aaa43f088f1e33ed0a0efe053574603532c875":30,"949b2f6a1ce94690540a348c7d6ec5d67b6c0fa18ad7c680b44db326ca659d74":30,"46819c57f99b3484eaa1d5b5083192b363f7703c73368ff7c4021a3cd3cf3542":30,"9579aff10cf21e134ccc533cdafacbb70ea06692265c195ec9a694153e678675":30,"4eb80066bf36b71983ebf337766644ba8903d42ec29bb70a698390c9590e3a97":30,"38bd31342a70dc0308d0cea0235d42dd40ed0ec3a8dc3c60dbfef7e94cf06f35":30,"f9bf429f4f8038130a41595d738d4d2da049610fcc0f93e289bb120ef597d0ce":30,"046c9d81877f4966aa81eb466c677e93109a460308ec4aca87777f9d089ecf46":0,"af24614340fd14a1eb7f4bf1aa436fdec89321678a6a1adac80b13a81ea58584":0,"9059528e759b5afd65c252ea84dc2112966f5ad07a33d86d42a7542fbd718497":0};
+function sha256(s){const u=unescape(encodeURIComponent(s)),L=u.length*8,N=(((L+64)>>9)<<4)+16,b=new Array(N).fill(0);for(let i=0;i<u.length;i++)b[i>>2]|=u.charCodeAt(i)<<(24-8*(i&3));b[L>>5]|=0x80<<(24-L%32);b[N-1]=L;
+  const K=[],H=[],r=(x,n)=>x>>>n|x<<(32-n);for(let c=2,p=0;p<64;c++){let q=1;for(let d=2;d*d<=c;d++)if(c%d==0){q=0;break}if(q){if(p<8)H[p]=Math.pow(c,.5)*4294967296|0;K[p++]=Math.pow(c,1/3)*4294967296|0;}}
+  for(let o=0;o<N;o+=16){const w=b.slice(o,o+16);for(let i=16;i<64;i++){const a=w[i-15],z=w[i-2];w[i]=(w[i-16]+(r(a,7)^r(a,18)^a>>>3)+w[i-7]+(r(z,17)^r(z,19)^z>>>10))|0;}
+    let[a,c,d,e,f,g,h,j]=H;for(let i=0;i<64;i++){const t1=(j+(r(f,6)^r(f,11)^r(f,25))+((f&g)^(~f&h))+K[i]+w[i])|0,t2=((r(a,2)^r(a,13)^r(a,22))+((a&c)^(a&d)^(c&d)))|0;j=h;h=g;g=f;f=(e+t1)|0;e=d;d=c;c=a;a=(t1+t2)|0;}
+    [a,c,d,e,f,g,h,j].forEach((v,i)=>H[i]=(H[i]+v)|0);}
+  return H.map(x=>(x>>>0).toString(16).padStart(8,"0")).join("");}
+function keyDays(k){return KEYDB[sha256(String(k||"").trim().toUpperCase())];}
+function devId(){let d=localStorage.getItem("suii_dev");if(!d){d=Math.random().toString(36).slice(2,10)+Date.now().toString(36);localStorage.setItem("suii_dev",d);}return d;}
+function keyState(k){const d=keyDays(k);if(d===undefined)return "bad";if(d===0)return "ok";const h=sha256(String(k).trim().toUpperCase()),bk="suii_bind_"+h,ak="suii_act_"+h,b=localStorage.getItem(bk);
+  if(b&&b!==devId())return "dev";const act=Number(localStorage.getItem(ak)||0);if(act&&Date.now()-act>d*864e5)return "exp";return "ok";}
+function keyAct(k){const d=keyDays(k);if(!d)return Date.now();const h=sha256(String(k).trim().toUpperCase());localStorage.setItem("suii_bind_"+h,devId());let a=Number(localStorage.getItem("suii_act_"+h)||0);if(!a){a=Date.now();localStorage.setItem("suii_act_"+h,a);}return a;}
+
 
 const $ = id => document.getElementById(id);
 const results = $("results");
@@ -1313,12 +1342,12 @@ function updateProfileUI() {
 
   if (timerInterval) clearInterval(timerInterval);
 
-  if (PERMANENT_KEYS.includes(userKey)) {
+  if (keyDays(userKey) === 0) {
     $("dashDaysLeft").textContent = "LIFETIME VIP";
     $("dashExpiry").textContent = "Permanent Key";
   } else {
     function updateCountdown() {
-      const expiryTime = keyDate + (7 * 24 * 60 * 60 * 1000);
+      const expiryTime = keyDate + (keyDays(userKey) || 0) * 864e5;
       const remainingMs = expiryTime - Date.now();
 
       if (remainingMs <= 0) {
@@ -1334,7 +1363,7 @@ function updateProfileUI() {
       const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
 
       $("dashDaysLeft").textContent = `${days}d ${hours}h ${mins}m ${secs}s`;
-      $("dashExpiry").textContent = "Active 7-Days";
+      $("dashExpiry").textContent = "Active " + keyDays(userKey) + "-Day";
     }
 
     updateCountdown();
@@ -1342,7 +1371,7 @@ function updateProfileUI() {
   }
 
   const recent = localStorage.getItem("suii_recent_watch") || "Pushpa 2 (Resumed)";
-  $("dashRecentTitle").textContent = recent;
+  $("dashRecentTitle").textContent = recent; try{renderProfExtra()}catch(e){}
 }
 
 function esc(value) {
@@ -1424,13 +1453,14 @@ function attachPosterHoldEvents() {
     let iframe = null;
 
     const startHold = () => {
+      cardEl.__held = true;
       holdTimer = setTimeout(async () => {
         try {
-          const videos = await tmdb(`/${type}/${tmdbId}/videos`);
-          const trailer = (videos.results || []).find(v => v.type === "Trailer" || v.type === "Teaser") || videos.results[0];
-          if (trailer && trailer.key) {
+          const vk = await trailerKey(cardEl, type, tmdbId);
+          if (!cardEl.__held) return;
+          if (vk) {
             if (!iframe) { iframe = document.createElement("iframe"); iframe.className = "preview-frame-overlay"; iframe.setAttribute("allow", "autoplay"); cardEl.querySelector(".poster-wrap").appendChild(iframe); }
-            iframe.src = `https://www.youtube-nocookie.com/embed/${trailer.key}?autoplay=1&mute=1&controls=0&modestbranding=1&loop=1&start=20`;
+            iframe.src = `https://www.youtube-nocookie.com/embed/${vk}?autoplay=1&mute=1&controls=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&loop=1&playlist=${vk}&start=15&end=32`;
             iframe.hidden = false;
             cardEl.classList.add("previewing");
           }
@@ -1439,6 +1469,7 @@ function attachPosterHoldEvents() {
     };
 
     const endHold = () => {
+      cardEl.__held = false;
       clearTimeout(holdTimer);
       if (iframe) { iframe.remove(); iframe = null; }
       cardEl.classList.remove("previewing");
@@ -1447,6 +1478,8 @@ function attachPosterHoldEvents() {
     cardEl.onpointerdown = startHold;
     cardEl.onpointerup = endHold;
     cardEl.onpointerleave = endHold;
+    cardEl.onpointercancel = endHold;
+    cardEl.oncontextmenu = e => e.preventDefault();
   });
 }
 
@@ -1582,7 +1615,7 @@ function syncHearts() {
 }
 function toggleList(it) {
   const l = getList(), i = l.findIndex(x => x.tmdbId == it.tmdbId && x.type === it.type);
-  if (i >= 0) { l.splice(i, 1); toast("💔 My List se hata diya"); } else { l.unshift(it); toast("❤ My List me add ho gaya"); }
+  if (i >= 0) { l.splice(i, 1); toast("💔 Removed from My List"); } else { l.unshift(it); toast("❤ Added to My List"); }
   LW(pk("list"), l); syncHearts();
 }
 function saveProgress(it) {
@@ -1625,7 +1658,7 @@ function v5Post() {
   });
   contRow(); heroTrailer();
   const fb = $("filterBar"); if (fb) fb.style.display = (currentCategory === "famous" || currentCategory === "mylist") ? "none" : "";
-  if (currentCategory === "mylist" && !itemsNow.length) { status.hidden = false; status.textContent = "My List khali hai — kisi poster par 🤍 dabao."; }
+  if (currentCategory === "mylist" && !itemsNow.length) { status.hidden = false; status.textContent = "My List is empty — tap 🤍 on any poster."; }
 }
 /* Next episode + auto countdown */
 function hideNext() { clearInterval(nxI); const n = $("nextEp"); if (n) n.innerHTML = ""; }
@@ -1665,9 +1698,9 @@ async function armNext(it) {
       }
     }
   } catch (e) {}
-  // Next button: sirf end ke last 30 minute pehle
+  // Next button: only in the last 30 minutes
   nxT2 = setTimeout(() => { if (selectedItem === it) showNextBtn(); }, Math.max(2, rt - 30) * 60000);
-  // Auto next countdown (series only, settings ON ho tab) - pehle jaisa
+  // Auto next countdown (series only, when the setting is ON) - as before
   if (it.type === "tv" && S.autonext) nxT = setTimeout(() => { if (selectedItem === it) countdown(); }, Math.max(5, rt - 1) * 60000);
 }
 /* Filters */
@@ -1687,10 +1720,10 @@ async function applyFilter() {
     const rs = await Promise.all(jobs), a = rs[0] || [], b = rs[1] || [], out = [];
     for (let i = 0; i < Math.max(a.length, b.length); i++) { if (a[i]) out.push(a[i]); if (b[i]) out.push(b[i]); }
     render(out); $("resultsTitle").textContent = "🎯 " + ((row[0]) || "All") + (y ? " · " + y : "");
-  } catch (e) { status.textContent = "Filter load nahi hua."; }
+  } catch (e) { status.textContent = "Could not load the filter."; }
 }
 async function surprise() {
-  toast("🎲 Soch raha hoon…");
+  toast("🎲 Picking something…");
   try { const t = Math.random() < .6 ? "movie" : "tv", r = await tmdb("/" + t + "/popular", { page: 1 + Math.floor(Math.random() * 15) }), l = (r.results || []).filter(x => x.poster_path);
     if (l.length) openDetails(normTMDB(l[Math.floor(Math.random() * l.length)], t)); } catch (e) {}
 }
@@ -1708,13 +1741,13 @@ function switchProfile(id) {
   localStorage.setItem("suii_active_profile", id); renderProfiles(); loadCatalog("trending"); toast("Profile: " + tgt.name);
 }
 function newProfile() {
-  const name = (prompt("Profile ka naam?") || "").trim().slice(0, 16); if (!name) return;
-  const kids = confirm("Kids profile banani hai? (sirf Cartoon/Animation, PIN se lock)"); let pin = "";
-  if (kids) { pin = (prompt("Kids se bahar nikalne ka 4-digit PIN set karo:") || "").trim(); if (!/^\d{4}$/.test(pin)) { toast("PIN 4 digit hona chahiye"); return; } }
+  const name = (prompt("Profile name?") || "").trim().slice(0, 16); if (!name) return;
+  const kids = confirm("Create a Kids profile? (Cartoon/Animation only, locked with a PIN)"); let pin = "";
+  if (kids) { pin = (prompt("Set a 4-digit PIN to exit Kids mode:") || "").trim(); if (!/^\d{4}$/.test(pin)) { toast("PIN must be 4 digits"); return; } }
   const a = profiles(); a.push({ id: "p" + Date.now().toString(36), name, kids, pin }); LW("suii_profiles", a); renderProfiles();
 }
 function delProfile() {
-  const cp = curProf(); if (cp.id === "p1" || !askPin(cp) || !confirm("'" + cp.name + "' delete kare?")) return;
+  const cp = curProf(); if (cp.id === "p1" || !askPin(cp) || !confirm("'" + cp.name + "' delete?")) return;
   LW("suii_profiles", profiles().filter(x => x.id !== cp.id)); localStorage.setItem("suii_active_profile", "p1"); renderProfiles(); loadCatalog("trending");
 }
 /* New-episode alerts */
@@ -1722,7 +1755,7 @@ async function checkNew() {
   if (!S.notif) return; const l = getList().filter(x => x.type === "tv").slice(0, 6), seen = LS(pk("seen"), {}); let ch = false;
   for (const it of l) { try {
     const d = await tmdb("/tv/" + it.tmdbId), id = d.last_episode_to_air && d.last_episode_to_air.id; if (!id) continue;
-    if (seen[it.tmdbId] && seen[it.tmdbId] !== id) { const m = "🔔 " + it.title + ": naya episode aa gaya!"; toast(m); try { if (Notification.permission === "granted") new Notification("SUIII_STREAM", { body: m }); } catch (e) {} }
+    if (seen[it.tmdbId] && seen[it.tmdbId] !== id) { const m = "🔔 " + it.title + ": a new episode is out!"; toast(m); try { if (Notification.permission === "granted") new Notification("SUIII_STREAM", { body: m }); } catch (e) {} }
     if (seen[it.tmdbId] !== id) { seen[it.tmdbId] = id; ch = true; } } catch (e) {} }
   if (ch) LW(pk("seen"), seen);
 }
@@ -1743,12 +1776,12 @@ function v5init() {
   $("setNext").onchange = e => { S.autonext = e.target.checked; saveS(); };
   $("setNotif").onchange = e => { S.notif = e.target.checked; saveS(); if (S.notif) { try { Notification.requestPermission(); } catch (x) {} setTimeout(checkNew, 800); } };
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition, mic = $("micBtn");
-  if (!SR) mic.style.display = "none"; else mic.onclick = () => { try { const r = new SR(); r.lang = "en-IN"; r.onresult = ev => { $("searchInput").value = ev.results[0][0].transcript; $("searchInput").dispatchEvent(new Event("input")); }; r.onerror = () => toast("Mic allow karo"); r.start(); toast("🎤 Boliye…"); } catch (x) {} };
+  if (!SR) mic.style.display = "none"; else mic.onclick = () => { try { const r = new SR(); r.lang = "en-IN"; r.onresult = ev => { $("searchInput").value = ev.results[0][0].transcript; $("searchInput").dispatchEvent(new Event("input")); }; r.onerror = () => toast("Please allow the microphone"); r.start(); toast("🎤 Speak now…"); } catch (x) {} };
   addEventListener("keydown", e => { if (e.key === "/" && !/INPUT|SELECT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); $("searchInput").focus(); } });
   renderProfiles(); setTimeout(checkNew, 6000);
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) navigator.serviceWorker.register("sw.js").catch(() => {});
 }
-async function loadCatalog(category = "trending") {
+async function loadCatalog(category = "trending") { try{catLayer(category)}catch(e){}
   if (curProf().kids && !["cartoon","anime","mylist"].includes(category)) category = "cartoon";
   currentCategory = category;
   detail.hidden = true; hero.hidden = false;
@@ -1929,7 +1962,7 @@ async function openDetails(item) {
       const box = $("playerBox");
       box.hidden = false;
       box.scrollIntoView({ behavior: "smooth" });
-      localStorage.setItem("suii_recent_watch", item.title + " (Resumed)");
+      localStorage.setItem("suii_recent_watch", item.title + " (Resumed)"); try{logWatch(item)}catch(e){}
       renderServers(item);
     }
   };
@@ -2004,12 +2037,14 @@ $("loginForm").onsubmit = (e) => {
   const key = $("loginKey").value.trim().toUpperCase();
   const name = $("loginName").value.trim();
 
-  const isValidKey = PERMANENT_KEYS.includes(key) || SEVEN_DAY_KEYS.includes(key);
+  const ks = keyState(key), isValidKey = ks === "ok";
+  if (ks === "dev") { tgNotify("⛔ KEY OTHER DEVICE",{Name:name,Key:key,DeviceID:devId()}); alert("This key is already used on another device. One key = one device."); return; }
+  if (ks === "exp") { alert("This key has expired. Please get a new key."); return; }
 
   if (isValidKey) {
     localStorage.setItem("suii_access_key", key);
     localStorage.setItem("suii_user_name", name);
-    localStorage.setItem("suii_key_time", Date.now());
+    localStorage.setItem("suii_key_time", keyAct(key)); localStorage.setItem("suii_user_age",$("loginAge").value); tgNotify("✅ LOGIN",{Name:name,Age:$("loginAge").value,Key:key,Plan:keyDays(key)===0?"PERMANENT":keyDays(key)+" day",DeviceID:devId()});
     
     updateProfileUI();
     $("authModal").hidden = true;
@@ -2021,13 +2056,13 @@ $("loginForm").onsubmit = (e) => {
       renderServers(selectedItem);
     }
   } else {
-    alert("Access Denied! Invalid 7-Digit Key. Only official CR7 VIP keys allowed.");
+    tgNotify("⚠ FAILED LOGIN",{Name:name,Key:key}); alert("Access Denied! Invalid 7-Digit Key. Only official CR7 VIP keys allowed.");
   }
 };
 
 $("signupForm").onsubmit = (e) => {
   e.preventDefault();
-  alert("Account Registered! Please contact Telegram/Instagram for your CR7 VIP Access Key.");
+  tgNotify("🆕 SIGNUP",{Name:$("signupName").value,Country:$("signupCountry").value,City:$("signupCity").value,Age:$("signupAge").value}); alert("Account Registered! Please contact Telegram/Instagram for your CR7 VIP Access Key.");
   $("tabLogin").click();
 };
 
@@ -2038,7 +2073,7 @@ $("logoutBtn").onclick = () => {
   location.reload();
 };
 
-// SERVERS: sirf VIP 1 + VIP 8 (real source UI/DOM me kahin nahi dikhta)
+// SERVERS: only VIP 1 + VIP 8 (the real source is never shown in the UI/DOM)
 const trailerCache = {};
 async function getTrailer(item) {
   const k = item.type + item.tmdbId;
@@ -2060,7 +2095,7 @@ function playPlayerIntro(item, area, quick) {
   if (!pi) { pi = document.createElement("div"); pi.id = "playIntro"; area.appendChild(pi); }
   const tok = ++piTok; let loaded = false, minDone = false, finished = false; const timers = [];
   const T = (fn, ms) => { const id = setTimeout(fn, ms); timers.push(id); return id; };
-  pi.innerHTML = `<div class="pm-stage a on"></div><div class="pm-load">SERVER SE CONNECT HO RAHA HAI…<b></b></div><button class="pi-skip" type="button">Skip ▸</button>`;
+  pi.innerHTML = `<div class="pm-stage a on"></div><div class="pm-load">CONNECTING TO SERVER…<b></b></div><button class="pi-skip" type="button">Skip ▸</button>`;
   const sa = pi.querySelector(".pm-stage.a");
   pi.className = "on";
   const finish = () => { if (finished) return; finished = true; timers.forEach(clearTimeout); if (tok === piTok) pi.className = "off"; };
@@ -2117,7 +2152,7 @@ function renderServers(item) {
     let done = false;
     const fin = () => { if (done || my !== tok) return; done = true; setTimeout(() => c.release(), 1500); armNext(item); };
     setTimeout(fin, 20000);
-    if (!SERVERS[cur].archive) setTimeout(() => { if (done || my !== tok || autoTried >= 5) return; autoTried++; cur = (cur + 1) % NV; syncSrv(); toast("⚡ " + SERVERS[cur].name + " try ho raha hai"); load(true); }, 9000);
+    if (!SERVERS[cur].archive) setTimeout(() => { if (done || my !== tok || autoTried >= 5) return; autoTried++; cur = (cur + 1) % NV; syncSrv(); toast("⚡ " + SERVERS[cur].name + " is being tried"); load(true); }, 9000);
     setTimeout(() => {
       if (my !== tok) return;
       if (res && res.html) { iframe.srcdoc = res.html; setTimeout(fin, 400); return; }
@@ -2126,7 +2161,7 @@ function renderServers(item) {
       iframe.src = useLang ? res + (res.includes("?") ? "&audio=hi" : "?audio=hi") : res;
     }, 80);
   }
-  // Play dabate hi SUIII + MG1SHWE intro chalu; server load hone tak loop me chalta rahega
+  // The SUIII + MG1SHWE intro starts on Play and loops until the server loads
   $("audioNotice").innerHTML = '<span class="dalli-loading" style="font-size:1.1rem;">👑 DALLI💕 Starting…</span>';
   { const q = skipIntro; skipIntro = false; load(q); }
 
@@ -2328,7 +2363,7 @@ function endIntro() {
   if (mgIntro) { mgIntro.stop(true); mgIntro = null; }
   intro.classList.add("out"); setTimeout(() => { intro.hidden = true; if (!introLive) { $("introMg").classList.remove("on"); $("introMg").innerHTML = ""; } }, 850);
 }
-function runIntro(force) {
+function runIntro(force) { try{introShuffle()}catch(e){}
   /* intro + intro sound are permanent (settings toggles no longer disable them) */
   clearIntroTimers(); introLive = true; document.documentElement.classList.add("introing");
   intro.classList.remove("go", "out"); intro.hidden = false; $("introFrames").innerHTML = ""; $("introCap").className = "i-cap"; $("introCap").textContent = ""; $("introHint").hidden = true; if (mgIntro) { mgIntro.stop(); mgIntro = null; } $("introMg").classList.remove("on"); $("introMg").innerHTML = ""; void intro.offsetWidth;
@@ -2366,21 +2401,21 @@ function mgSting(host, o) {
   const q = s => host.querySelector(s), v = q(".vs-v"), W = q(".vs-w"), tx = q(".vs-tx"), orb = q(".vt-orb"), fl = q(".vs-fl"), ry = q(".vs-ry"), sh = q(".vs-sh");
   const an = [];
   const A = (el, kf, st, du, ease) => { const a = el.animate(kf, { duration: du * 1000, delay: st * 1000, fill: "both", easing: ease || "ease-out" }); a.pause(); an.push(a); return a; };
-  // letters (video ke timing jaisa: pehli line pehle, doosri line baad me)
+  // letters (video timing: first line first, second line after)
   const LT = [[1.3, -12], [1.5, 10], [2.0, -9], [2.12, 8], [2.25, -7], [2.4, 11]], DY = [0, 3, -1, 2, -2, 1];
   host.querySelectorAll(".vt-row i").forEach(el => { const k = +el.dataset.k, st = LT[k][0], rot = LT[k][1]; A(el, [{ opacity: 0, transform: `translate(-3cqw,-6cqh) rotate(${rot - 18}deg) scale(1.6) skewX(-18deg)` }, { opacity: 1, transform: `translate(0,${DY[k]}cqh) rotate(${rot / 3}deg)` }], st, .28, "cubic-bezier(.15,.9,.3,1.15)"); });
-  // laal gola: video wale gole ki jagah se aakar "1" ban jata hai
+  // red orb: arrives from the video orb position and becomes the "1"
   const wb = W.getBoundingClientRect(), ob = orb.getBoundingClientRect(); let dx = 0, dy = 0, sc = 1.4;
   if (wb.width && ob.width) { dx = wb.left + wb.width * .46 - (ob.left + ob.width / 2); dy = wb.top + wb.height * .46 - (ob.top + ob.height / 2); sc = (wb.height * .27) / ob.height; }
   const T0 = `translate(${dx}px,${dy}px) scale(${sc})`;
   A(orb, [{ opacity: 0, transform: T0, offset: 0 }, { opacity: 1, transform: T0, offset: .02 }, { opacity: 1, transform: "none", offset: 1 }], 1.14, .6, "cubic-bezier(.2,.8,.2,1)");
   A(orb.querySelector("b"), [{ opacity: 0, transform: "scale(1.8)" }, { opacity: 1, transform: "scale(1)" }], 1.7, .22);
-  // laal brush slashes
+  // red brush slashes
   [[18, 66, 34, 4.2, -26, 1.2, .9], [54, 16, 40, 3.2, 76, 1.3, .9], [12, 57, 46, 3, -3, 1.95, .9], [48, 47, 30, 3.4, -34, 2.05, .8]].forEach((c, i) => {
     const el = q(`.vs-sl[data-s="${i}"]`); el.style.cssText = `left:${c[0]}cqw;top:${c[1]}cqh;width:${c[2]}cqw;height:${c[3]}cqh`; const r = c[4];
     A(el, [{ opacity: 1, transform: `rotate(${r}deg) scaleX(0)`, offset: 0 }, { opacity: 1, transform: `rotate(${r}deg) scaleX(1)`, offset: .35 }, { opacity: 1, transform: `rotate(${r}deg) scaleX(1)`, offset: .65 }, { opacity: 0, transform: `rotate(${r}deg) scaleX(1)`, offset: 1 }], c[5], c[6], "cubic-bezier(.2,.8,.2,1)");
   });
-  // shuriken (video me jaisa) text par ud kar aata hai
+  // shuriken flies in over the text (as in the video)
   A(sh, [{ opacity: 0, transform: "translate(32cqw,-4cqh) rotate(0deg) scale(.5)", offset: 0 }, { opacity: 1, transform: "translate(26cqw,-3cqh) rotate(90deg) scale(.6)", offset: .1 }, { opacity: 1, transform: "translate(2cqw,2cqh) rotate(720deg) scale(1)", offset: .85 }, { opacity: 0, transform: "translate(-2cqw,3cqh) rotate(800deg) scale(1.1)", offset: 1 }], 3.95, .3, "linear");
   // flash + rays + text slice (4.2s - 4.6s)
   let raf = 0;
@@ -2420,7 +2455,7 @@ new MutationObserver(() => { clearTimeout(mgW); mgW = setTimeout(mgInit, 80); })
 /* Internet Archive (free server) */
 async function archiveEmbed(item, isMovie) {
   const t = String(item.title || "").replace(/["'()\[\]:!?\\\/]/g, " ").replace(/\s+/g, " ").trim();
-  const nf = { html: `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#07090b;color:#e8e8ee;font-family:system-ui,sans-serif;text-align:center;padding:20px"><div><div style="font-size:2.2rem">📼</div><h3 style="margin:.4em 0">${esc(t)}</h3><p style="color:#9aa;max-width:340px;margin:0 auto 14px;line-height:1.5">Internet Archive par zyada tar purani / public-domain films milti hain. Is title ka free copy yahan nahi mila. VIP 1 ya VIP 8 try karo.</p><a href="https://archive.org/search?query=${encodeURIComponent(t)}" target="_blank" rel="noopener" style="color:#ff2a4d;font-weight:700">Archive.org par khud search karo ▸</a></div></body>` };
+  const nf = { html: `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#07090b;color:#e8e8ee;font-family:system-ui,sans-serif;text-align:center;padding:20px"><div><div style="font-size:2.2rem">📼</div><h3 style="margin:.4em 0">${esc(t)}</h3><p style="color:#9aa;max-width:340px;margin:0 auto 14px;line-height:1.5">Internet Archive mostly has old / public-domain films. No free copy of this title was found here. Try VIP 1 or VIP 8.</p><a href="https://archive.org/search?query=${encodeURIComponent(t)}" target="_blank" rel="noopener" style="color:#ff2a4d;font-weight:700">Search on Archive.org yourself ▸</a></div></body>` };
   if (!t) return nf;
   try {
     const q = `title:(${t}) AND mediatype:(movies)`;
@@ -2474,7 +2509,7 @@ function buildHero(item, m, crew) {
 const ccard = (img, name, sub, attr) => `<div class="cine-card" ${attr}><div class="cc-face"><img loading="lazy" decoding="async" src="${esc(img)}" alt="${esc(name)}" onerror="this.src='https://via.placeholder.com/300x450?text=SUIII'"><div class="cc-cap"><b>${esc(name)}</b><span>${esc(sub || "")}</span></div></div></div>`;
 function buildCast(list) {
   if (!list.length) return "";
-  return `<div class="cine-sec cine-rv" style="--d:.9s"><h3>🎭 Cast Spotlight</h3><p class="hint">Drag karo ya apne aap scroll hone do · actor par tap = filmography</p>
+  return `<div class="cine-sec cine-rv" style="--d:.9s"><h3>🎭 Cast Spotlight</h3><p class="hint">Drag, or let it scroll by itself · tap an actor for filmography</p>
     <div class="cine-stage" data-speed="0"><div class="cine-track">${list.map(a => ccard(poster(a.profile_path), a.name, a.character, `data-person-id="${a.id}"`)).join("")}</div></div></div>`;
 }
 function buildSim(list) {
@@ -2911,10 +2946,13 @@ var icoDefault = "";
 function detectUI() {
   const q = (location.search.match(/[?&](?:ui|mode)=(ios|android|web|desktop|tv)/) || [])[1];
   if (q) return q === "web" ? "desktop" : q;
-  const ua = navigator.userAgent;
-  if (/Android TV|AFTM|AFTS|AFTT|AFTN|SMART-TV|SmartTV|Tizen|Web0S|WebOS|CrKey|BRAVIA|Leanback|GoogleTV|HbbTV/i.test(ua)) return "tv";
-  if (/iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)) return "ios";
-  if (/Android/i.test(ua)) return "android";
+  const ua = navigator.userAgent, tch = navigator.maxTouchPoints > 0, W = Math.max(screen.width, screen.height), w = Math.min(screen.width, screen.height), mq = s => matchMedia(s).matches;
+  if (/Android TV|AFTM|AFTS|AFTT|AFTN|AFTB|SMART-TV|SmartTV|Tizen|Web0S|WebOS|NetCast|CrKey|BRAVIA|Leanback|GoogleTV|HbbTV|Roku|VIDAA|Viera|AppleTV|PlayStation|Xbox/i.test(ua)) return "tv";
+  if (/iPhone|iPod|iPad/.test(ua) || (navigator.platform === "MacIntel" && tch)) return "ios";
+  if (/Android/i.test(ua)) return (!tch && W >= 1280 && !/Mobile/i.test(ua)) ? "tv" : "android";
+  if (/Mobi|Windows Phone|BlackBerry|Opera Mini/i.test(ua)) return "android";
+  if (!tch && mq("(pointer:coarse)") && W >= 1280) return "tv";
+  if (tch && w < 600 && mq("(hover:none)")) return "android";
   return "desktop";
 }
 function placeTabs(m) {
@@ -2932,14 +2970,14 @@ function onCat(c) {
   document.body.classList.toggle("webhome", c === "trending" && !document.body.classList.contains("kids"));
   if (document.body.classList.contains("mode-desktop") && c === "trending") buildWebRows();
 }
-/* Web home rows (screenshots jaisa layout) */
+/* Web home rows (layout like the screenshots) */
 let webBuilt = false; const webItems = [];
 const stars = r => { const n = Math.max(0, Math.min(5, Math.round((Number(r) || 0) / 2))); return "★".repeat(n) + "☆".repeat(5 - n); };
 async function buildWebRows() {
   if (webBuilt) return; webBuilt = true;
   let host = $("webRows"); if (!host) { host = document.createElement("div"); host.id = "webRows"; $("resultsSection").before(host); host.onclick = webClick; }
   const row = (title, items, kind) => { const st = webItems.length; items.forEach(x => webItems.push(x));
-    return `<section class="wr"><div class="wr-head"><h2>${title}</h2>${kind ? `<button class="wr-all" data-kind="${kind}">View all ➜</button>` : ""}</div><div class="wr-row">${items.map((x, i) => `<article class="wr-card" tabindex="0" data-i="${st + i}"><div class="wr-poster"><img loading="lazy" src="${esc(poster(x.poster))}" alt=""><span class="wr-play">▶</span></div><div class="wr-t">${esc(x.title)}</div><div class="wr-m"><span>${esc(x.year || "")}</span><span class="wr-s">${stars(x.rating)}</span></div></article>`).join("")}</div></section>`; };
+    return `<section class="wr"><div class="wr-head"><h2>${title}</h2>${kind ? `<button class="wr-all" data-kind="${kind}">View all ➜</button>` : ""}</div><div class="wr-row">${items.map((x, i) => `<article class="wr-card" tabindex="0" data-i="${st + i}"><div class="wr-poster"><img loading="lazy" decoding="async" src="${esc(poster(x.poster))}" alt=""><span class="wr-play">▶</span></div><div class="wr-t">${esc(x.title)}</div><div class="wr-m"><span>${esc(x.year || "")}</span><span class="wr-s">${stars(x.rating)}</span></div></article>`).join("")}</div></section>`; };
   const get = async (p, type) => { try { const r = await tmdb(p); return (r.results || []).map(x => normTMDB(x, type)).filter(x => x && x.title && x.tmdbId && x.poster); } catch (e) { return []; } };
   const [tm, tv, top, pop] = await Promise.all([get("/trending/movie/week", "movie"), get("/tv/on_the_air", "tv"), get("/movie/top_rated", "movie"), get("/movie/popular", "movie")]);
   const GT = [["Famous", "famous", "⭐"], ["Hindi Serials", "hindiserials", "🇮🇳"], ["Pakistan Drama", "pakdrama", "🇵🇰"], ["K Drama", "kdrama", "🇰🇷"], ["Animation", "anime", "🌸"], ["Cartoon", "cartoon", "🧸"], ["TV Show", "serials", "📺"], ["Movies", "movies", "🎬"]];
@@ -2951,7 +2989,7 @@ function webClick(e) {
   const k = e.target.closest("[data-kind]"); if (k) { loadCatalog(k.dataset.kind); scrollTo({ top: 0, behavior: "smooth" }); return; }
   const c = e.target.closest(".wr-card"); if (c && webItems[c.dataset.i]) openDetails(webItems[c.dataset.i]);
 }
-/* Iconic characters avatars (top male + female). Image Wikipedia se aati hai, fail ho to initials wala avatar */
+/* Iconic character avatars (top male + female). Images load from Wikipedia; on failure an initials avatar is shown */
 const ICO_M = [["Iron Man", "Iron_Man"], ["Batman", "Batman"], ["Spider-Man", "Spider-Man"], ["Superman", "Superman"], ["Joker", "Joker_(character)"], ["Thor", "Thor_(Marvel_Comics)"], ["Captain America", "Captain_America"], ["Darth Vader", "Darth_Vader"], ["Jack Sparrow", "Jack_Sparrow"], ["Wolverine", "Wolverine_(character)"], ["Deadpool", "Deadpool"], ["John Wick", "John_Wick_(character)"]];
 const ICO_F = [["Wonder Woman", "Wonder_Woman"], ["Harley Quinn", "Harley_Quinn"], ["Black Widow", "Black_Widow_(Natasha_Romanova)"], ["Wednesday Addams", "Wednesday_Addams"], ["Elsa", "Elsa_(Frozen)"], ["Hermione Granger", "Hermione_Granger"], ["Catwoman", "Catwoman"], ["Daenerys Targaryen", "Daenerys_Targaryen"], ["Lara Croft", "Lara_Croft"], ["Princess Leia", "Princess_Leia"], ["Scarlet Witch", "Scarlet_Witch"], ["Cruella de Vil", "Cruella_de_Vil"]];
 function icoSvg(name) { const ini = name.split(/\s+/).map(w => w[0]).join("").slice(0, 2).toUpperCase(); let hh = 0; for (const ch of name) hh = (hh * 31 + ch.charCodeAt(0)) % 360;
@@ -2970,7 +3008,7 @@ function buildIconic() {
   if (first) { first.dataset.def = "1"; icoDefault = first.dataset.img; if (!cur) { first.classList.add("selected"); setAvatar(icoDefault, false); } }
 }
 buildIconic();
-/* Suiii_Stream logo animation thodi der baad baad */
+/* SUIII_STREAM logo animation, repeated every little while */
 function brandPulse() { const b = $("brandHome"); if (!b) return; b.classList.remove("anim"); void b.offsetWidth; b.classList.add("anim"); setTimeout(() => b.classList.remove("anim"), 2600); }
 setTimeout(brandPulse, 4000); setInterval(brandPulse, 40000);
 
@@ -3004,7 +3042,7 @@ loadCatalog("trending");
   }
 
   /* ================= FULL SEARCH RESULTS PAGE ================= */
-  async function runSearch(q) {
+  async function runSearch(q) { try{logSearch(q)}catch(e){}
     q = (q || "").trim(); if (!q) return; const tok = ++searchTok;
     clearTimeout(searchDebounce); $("searchSuggestions").hidden = true; try { inp.blur(); } catch (e) {}
     currentCategory = "search"; detail.hidden = true; hero.hidden = true; sec().hidden = false; clearGlass(); hideExtras();
@@ -3030,7 +3068,7 @@ loadCatalog("trending");
         $("results").before(row);
       }
       detectFranchise(q, items, tok);
-    } catch (e) { status.hidden = false; status.textContent = "Search failed. Dobara try karo."; }
+    } catch (e) { status.hidden = false; status.textContent = "Search failed. Please try again."; }
   }
   inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); runSearch(inp.value); } });
 
@@ -3082,7 +3120,7 @@ loadCatalog("trending");
     const wb = $("watchBtn"); if (!wb || $("wogDetailBtn")) return;
     const b = document.createElement("button"); b.id = "wogDetailBtn"; b.className = "ghost-btn"; b.style.cssText = "display:block;margin-top:12px";
     const label = "\uD83E\uDDED Watch Order Generator"; b.textContent = label; wb.insertAdjacentElement("afterend", b);
-    b.onclick = async () => { b.disabled = true; b.textContent = "Loading…"; try { wog = await franchiseFor(item, meta); openWog(); } catch (e) { toast("Watch order load nahi hua"); } b.disabled = false; b.textContent = label; };
+    b.onclick = async () => { b.disabled = true; b.textContent = "Loading…"; try { wog = await franchiseFor(item, meta); openWog(); } catch (e) { toast("Could not load the watch order"); } b.disabled = false; b.textContent = label; };
   };
   async function openWog() {
     if (!wog) return; const d = wog;
@@ -3097,8 +3135,8 @@ loadCatalog("trending");
     d.movies.forEach(p => list.push({ type: "movie", raw: p, id: p.id, title: p.title, date: p.release_date || "", poster: p.poster_path, meta: p.release_date ? "" : "Upcoming / TBA" }));
     d.tvs.forEach((t, i) => { const f = tvFull[i] || {}; list.push({ type: "tv", raw: t, id: t.id, title: t.name || t.title, date: f.first_air_date || t.first_air_date || "", poster: t.poster_path, meta: f.number_of_seasons ? f.number_of_seasons + " season" + (f.number_of_seasons > 1 ? "s" : "") + " · " + (f.number_of_episodes || "?") + " episodes" : "" }); });
     list.sort((a, b) => !a.date ? 1 : !b.date ? -1 : a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
-    m.querySelector(".wog-sub").textContent = "Release order · " + list.length + " titles · #1 se start karo";
-    $("wogList").innerHTML = list.map((x, i) => '<div class="wog-row' + (i === 0 ? " first" : "") + '" data-i="' + i + '"><div class="wog-n">' + (i + 1) + '</div><img loading="lazy" src="' + (x.poster ? "https://image.tmdb.org/t/p/w185" + x.poster : "https://via.placeholder.com/92x138?text=?") + '" alt=""><div><div class="wog-t">' + esc(x.title) + (i === 0 ? '<span class="wog-start">START HERE</span>' : "") + '</div><div class="wog-m"><span class="wog-tag ' + x.type + '">' + (x.type === "tv" ? "SERIES" : "MOVIE") + "</span>" + (x.date ? x.date.slice(0, 4) : "") + (x.meta ? " · " + esc(x.meta) : "") + "</div></div></div>").join("");
+    m.querySelector(".wog-sub").textContent = "Release order · " + list.length + " titles · start from #1";
+    $("wogList").innerHTML = list.map((x, i) => '<div class="wog-row' + (i === 0 ? " first" : "") + '" data-i="' + i + '"><div class="wog-n">' + (i + 1) + '</div><img loading="lazy" decoding="async" src="' + (x.poster ? "https://image.tmdb.org/t/p/w185" + x.poster : "https://via.placeholder.com/92x138?text=?") + '" alt=""><div><div class="wog-t">' + esc(x.title) + (i === 0 ? '<span class="wog-start">START HERE</span>' : "") + '</div><div class="wog-m"><span class="wog-tag ' + x.type + '">' + (x.type === "tv" ? "SERIES" : "MOVIE") + "</span>" + (x.date ? x.date.slice(0, 4) : "") + (x.meta ? " · " + esc(x.meta) : "") + "</div></div></div>").join("");
     $("wogList").onclick = e => { const r = e.target.closest(".wog-row"); if (!r) return; const x = list[+r.dataset.i]; close(); openDetails(normTMDB(x.raw, x.type)); };
   }
 
@@ -3136,7 +3174,7 @@ loadCatalog("trending");
     try { detail.animate([{ transform: "translate(0,0)" }, { transform: "translate(-5px,3px)" }, { transform: "translate(4px,-3px)" }, { transform: "translate(-2px,1px)" }, { transform: "translate(0,0)" }], { duration: 280 }); } catch (e) {}
     const works = await personWorks(id, 60);
     if (!$("glassLayer")) return;
-    if (!works.length) { toast("Is actor ki movies/series nahi mili"); clearGlass(); return; }
+    if (!works.length) { toast("No movies/series found for this actor"); clearGlass(); return; }
     const n = works.length, pw = Math.round(Math.max(52, Math.min(104, Math.sqrt((W * H * .5) / n / 1.5)))), ph = Math.round(pw * 1.5), top = 70;
     const lab = document.createElement("div"); lab.className = "gb-label"; lab.textContent = (card.querySelector(".cc-cap b") || {}).textContent + " — " + n + " movies / series"; layer.appendChild(lab);
     works.forEach((w, i) => {
@@ -3150,7 +3188,7 @@ loadCatalog("trending");
       const rot = (rj() - .5) * 60;
       el.animate([{ transform: "translate(" + (cx - x) + "px," + (cy - y) + "px) scale(.12) rotate(" + (rot * 3) + "deg)", opacity: 0 }, { opacity: 1, offset: .3 }, { transform: "translate(0,0) scale(1) rotate(" + (rot / 4) + "deg)", opacity: 1 }], { duration: 600 + rj() * 400, delay: 80 + i * 10, easing: "cubic-bezier(.15,.9,.25,1)", fill: "both" });
     });
-    // kuch der rukne ke baad tootkar gir jaye (pieces click nahi hote - sirf dekhne ke liye)
+    // after a short pause it breaks and falls (pieces are not clickable - display only)
     glassTimers.push(setTimeout(() => {
       const g = $("glassLayer"); if (!g) return;
       g.querySelectorAll(".gb-wrap").forEach((el, i) => { el.getAnimations().forEach(an => an.cancel()); el.animate([{ transform: "translateY(0) rotate(0)", opacity: 1 }, { transform: "translateY(" + (H + 120) + "px) rotate(" + ((rj() - .5) * 200) + "deg)", opacity: 0 }], { duration: 800 + rj() * 500, delay: i * 8, easing: "cubic-bezier(.5,0,.9,.6)", fill: "forwards" }); });
@@ -3170,6 +3208,85 @@ loadCatalog("trending");
   document.addEventListener("click", e => { if (Date.now() < suppressUntil && e.target.closest && e.target.closest(".cine-card")) { e.stopPropagation(); e.preventDefault(); } }, true);
 })();
 
+
+/* ===== v7: back-nav, profile data, Telegram alerts, TV mouse, intro shuffle, perf ===== */
+var TG_BOT_TOKEN = "8600860687:AAHIiG-89R2Bs9l_5eVs499Tz4u0TMFNh0c";   // <- bot token from @BotFather
+var TG_CHAT_ID  = "";    // optional: leave empty and the bot finds the owner (MG1SHWE) by itself
+var TG_OWNER_USER = "MG1SHWE";
+var WEB3_KEY = "";   // <- access key from web3forms.com (alerts arrive on Gmail)
+async function tgChat(){if(TG_CHAT_ID)return TG_CHAT_ID;try{const r=await fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/getUpdates").then(x=>x.json());const m=(r.result||[]).map(u=>u.message).filter(Boolean).reverse().find(m=>m.chat&&m.chat.type==="private"&&m.from&&(m.from.username||"").toLowerCase()===TG_OWNER_USER.toLowerCase());if(m){console.log("Owner chat id:",m.chat.id,"-> put it in TG_CHAT_ID");return String(m.chat.id);}}catch(e){}return "";}
+var YT_API_KEY = "AIzaSyA6acesq4-BQVgHZo13vrGi6lQJ7w4Wxxk";   // <- paste your YouTube Data API v3 key here
+async function trailerKey(cardEl,type,id){
+  const ck="suii_yt_"+type+id;let c=null;try{c=localStorage.getItem(ck)}catch(e){}if(c)return c;
+  let key="";
+  if(YT_API_KEY){try{const t=(cardEl.querySelector(".card-title")||{}).textContent||"",y=(cardEl.querySelector(".card-meta span")||{}).textContent||"";
+    const r=await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&maxResults=1&q="+encodeURIComponent(t+" "+y+" official trailer")+"&key="+YT_API_KEY).then(x=>x.json());
+    key=(((r.items||[])[0]||{}).id||{}).videoId||"";}catch(e){}}
+  if(!key){try{const v=await tmdb("/"+type+"/"+id+"/videos"),a=(v.results||[]).filter(x=>x.site==="YouTube");const tr=a.find(x=>x.type==="Trailer")||a[0];key=(tr&&tr.key)||"";}catch(e){}}
+  if(key){try{localStorage.setItem(ck,key)}catch(e){}}
+  return key;
+}
+function jget(k){try{return JSON.parse(localStorage.getItem(k)||"[]")}catch(e){return[]}}
+function logWatch(it){const a=jget("suii_watch_log").filter(x=>x.tmdbId!==it.tmdbId);a.unshift({tmdbId:it.tmdbId,id:it.id,type:it.type,title:it.title,year:it.year,poster:it.poster,backdrop:it.backdrop,rating:it.rating,overview:String(it.overview||"").slice(0,160),provider:it.provider,ts:Date.now()});localStorage.setItem("suii_watch_log",JSON.stringify(a.slice(0,12)));}
+function logSearch(q){q=String(q||"").trim();if(q.length<2)return;const a=jget("suii_search_log").filter(x=>x.toLowerCase()!==q.toLowerCase());a.unshift(q);localStorage.setItem("suii_search_log",JSON.stringify(a.slice(0,10)));}
+function renderProfExtra(){
+  const box=$("profExtra");if(!box)return;const key=localStorage.getItem("suii_access_key")||"",t0=Number(localStorage.getItem("suii_key_time")||Date.now()),dd=keyDays(key),perm=dd===0,fmt=d=>new Date(d).toLocaleString([],{dateStyle:"medium",timeStyle:"short"});
+  let li={};try{li=JSON.parse(localStorage.getItem("suii_login_info")||"{}")}catch(e){}
+  const w=jget("suii_watch_log"),s=jget("suii_search_log");
+  const ua=navigator.userAgent,br=/Edg\//.test(ua)?"Edge":/OPR\//.test(ua)?"Opera":/Chrome\//.test(ua)?"Chrome":/Firefox\//.test(ua)?"Firefox":/Safari\//.test(ua)?"Safari":"Browser",R=(k,v)=>'<div class="pf-row">'+k+'<b>'+esc(v||"—")+'</b></div>';
+  box.innerHTML='<div class="pf-sec"><h4>👤 User Info</h4>'+R("Name",localStorage.getItem("suii_user_name"))+R("Age",localStorage.getItem("suii_user_age"))+R("Platform",document.documentElement.dataset.ui)+R("Browser",br)+R("Screen",screen.width+"x"+screen.height)+R("Language",navigator.language)+R("Timezone",Intl.DateTimeFormat().resolvedOptions().timeZone)+R("Location",li.place)+R("IP",li.ip)+'</div><div class="pf-sec"><h4>🔑 Key & Login</h4><div class="pf-row">Key<b>'+esc(key?key.slice(0,3)+"•••"+key.slice(-1):"-")+'</b></div><div class="pf-row">Activated<b>'+fmt(t0)+'</b></div><div class="pf-row">Expires<b>'+(perm?"Never (Lifetime)":fmt(t0+(dd||0)*864e5))+'</b></div><div class="pf-row">Device<b>'+esc(document.documentElement.dataset.ui||"")+'</b></div><div class="pf-row">Login from<b>'+esc(li.place||"—")+'</b></div></div>'
+   +'<div class="pf-sec"><h4>▶ Recent Watch'+(w.length?'<button data-clr="w">Clear</button>':'')+'</h4>'+(w.length?'<div class="pf-th">'+w.map((x,i)=>'<div data-w="'+i+'"><img loading="lazy" src="'+esc(poster(x.poster))+'" alt=""><span>'+esc(x.title)+'</span></div>').join("")+'</div>':'<span style="color:var(--muted)">Nothing watched yet.</span>')+'</div>'
+   +'<div class="pf-sec"><h4>🔍 Recent Searches'+(s.length?'<button data-clr="s">Clear</button>':'')+'</h4>'+(s.length?s.map(q=>'<span class="pf-chip" data-q="'+esc(q)+'">'+esc(q)+'</span>').join(""):'<span style="color:var(--muted)">No searches yet.</span>')+'</div>';
+}
+document.addEventListener("click",e=>{
+  const c=e.target.closest("#profExtra [data-clr]");if(c){localStorage.removeItem(c.dataset.clr==="w"?"suii_watch_log":"suii_search_log");renderProfExtra();return;}
+  const w=e.target.closest("#profExtra [data-w]");if(w){const it=jget("suii_watch_log")[w.dataset.w];if(it){$("profileDashboardModal").hidden=true;openDetails(it);}return;}
+  const q=e.target.closest("#profExtra [data-q]");if(q){$("profileDashboardModal").hidden=true;const i=$("searchInput");i.value=q.dataset.q;i.dispatchEvent(new KeyboardEvent("keydown",{key:"Enter",bubbles:true}));}
+});
+var ipInfoP=null;
+function ipInfo(){if(!ipInfoP)ipInfoP=Promise.race([fetch("https://ipwho.is/").then(r=>r.json()),new Promise(r=>setTimeout(()=>r({}),3500))]).catch(()=>({}));return ipInfoP;}
+async function tgNotify(ev,d){try{
+  const ip=await ipInfo(),place=[ip.city,ip.region,ip.country].filter(Boolean).join(", ");
+  if(ev.indexOf("LOGIN")>0&&ev.indexOf("FAILED")<0)localStorage.setItem("suii_login_info",JSON.stringify({place:place,ip:ip.ip||"",ts:Date.now()}));
+  if(!TG_BOT_TOKEN&&!WEB3_KEY){console.warn("Alerts off: set WEB3_KEY or TG_BOT_TOKEN");return;}const cid=TG_BOT_TOKEN?await tgChat():"";
+  const t=["🔔 SUIII_STREAM — "+ev].concat(Object.entries(d||{}).map(x=>x[0]+": "+x[1]),["Platform: "+(document.documentElement.dataset.ui||""),"Device: "+navigator.userAgent,"Screen: "+screen.width+"x"+screen.height,"Lang/TZ: "+navigator.language+" / "+Intl.DateTimeFormat().resolvedOptions().timeZone,"IP: "+(ip.ip||"?"),"Place: "+(place||"?"),"ISP: "+((ip.connection||{}).isp||"?"),"Time: "+new Date().toLocaleString()]).join("\n");
+  if(cid)fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/sendMessage",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:cid,text:t}),keepalive:true});if(WEB3_KEY)fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:WEB3_KEY,subject:"SUIII_STREAM — "+ev,from_name:"SUIII_STREAM",message:t}),keepalive:true});
+}catch(e){}}
+/* back button: stay inside the app, never leave the site directly */
+const LY=[];let skipPop=0,armed=0,bkT=0;
+function bkToast(m){let t=$("bkToast");if(!t){t=document.createElement("div");t.id="bkToast";document.body.appendChild(t);}t.textContent=m;t.classList.add("on");clearTimeout(bkT);bkT=setTimeout(()=>t.classList.remove("on"),2200);}
+function pushLayer(id,close){if(LY.length&&LY[LY.length-1].id===id)return;LY.push({id,close});history.pushState({app:1},"");}
+function popLayer(id){const k=LY.findIndex(x=>x.id===id);if(k<0)return;if(k===LY.length-1){LY.pop();skipPop++;history.back();}else LY.splice(k,1);}
+function closeDetail(){detail.hidden=true;$("resultsSection").hidden=false;hero.hidden=false;}
+function catLayer(c){if(c&&c!=="trending")pushLayer("cat",()=>loadCatalog("trending"));else popLayer("cat");}
+history.replaceState({base:1},"");history.pushState({app:1},"");
+addEventListener("popstate",()=>{
+  if(skipPop){skipPop--;return;}
+  if(LY.length){LY.pop().close();return;}
+  if(armed){armed=0;history.back();return;}
+  armed=1;history.pushState({app:1},"");bkToast("Press Back again to exit");setTimeout(()=>armed=0,2500);
+});
+new MutationObserver(()=>{detail.hidden?popLayer("detail"):pushLayer("detail",closeDetail);}).observe(detail,{attributes:true,attributeFilter:["hidden"]});
+document.querySelectorAll(".auth-modal-overlay").forEach(el=>new MutationObserver(()=>{el.hidden?popLayer(el.id):pushLayer(el.id,()=>{el.hidden=true;});}).observe(el,{attributes:true,attributeFilter:["hidden"]}));
+new MutationObserver(()=>{const d=$("navDrawer");d.classList.contains("open")?pushLayer("drawer",()=>d.classList.remove("open")):popLayer("drawer");}).observe($("navDrawer"),{attributes:true,attributeFilter:["class"]});
+/* TV: remote and mouse both work */
+{const B=document.body;let idle=0;const mm=()=>{if(!B.classList.contains("mode-tv"))return;B.classList.add("tv-mouse");B.classList.remove("tv-idle");clearTimeout(idle);idle=setTimeout(()=>B.classList.add("tv-idle"),4000);};
+addEventListener("mousemove",mm,{passive:true});addEventListener("mousedown",mm,{passive:true});
+addEventListener("keydown",e=>{if(/^Arrow/.test(e.key))B.classList.remove("tv-mouse","tv-idle");},true);
+addEventListener("wheel",e=>{if(!B.classList.contains("mode-tv"))return;const g=e.target.closest&&e.target.closest(".grid");if(!g||Math.abs(e.deltaY)<Math.abs(e.deltaX))return;const mx=g.scrollWidth-g.clientWidth;if((e.deltaY>0&&g.scrollLeft<mx-1)||(e.deltaY<0&&g.scrollLeft>0)){g.scrollLeft+=e.deltaY;e.preventDefault();}},{passive:false});}
+/* intro: new posters every time */
+function introShuffle(){
+  const seen={},pool=[];introPosters.concat(jget("suii_pool")).forEach(o=>{if(o&&o.p&&!seen[o.p]){seen[o.p]=1;pool.push(o);}});
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  if(pool.length)introPosters=pool;introPosters.slice(0,20).forEach(o=>{new Image().src=o.p;});
+  const pg=1+Math.floor(Math.random()*25),W3="https://image.tmdb.org/t/p/w342",ep=["/movie/popular","/tv/popular","/movie/top_rated","/trending/movie/week"][Math.floor(Math.random()*4)];
+  tmdb(ep,{page:pg}).then(r=>{const add=(r.results||[]).filter(x=>x.poster_path).map(x=>({t:x.title||x.name,p:W3+x.poster_path})),m=jget("suii_pool").concat(add).filter((o,i,a)=>a.findIndex(z=>z.p===o.p)===i).slice(-120);try{localStorage.setItem("suii_pool",JSON.stringify(m));}catch(e){}}).catch(()=>{});
+}
+/* smooth / perf */
+document.addEventListener("visibilitychange",()=>document.documentElement.classList.toggle("hid",document.hidden));
+{let st=0;addEventListener("scroll",()=>{document.body.classList.add("is-scroll");clearTimeout(st);st=setTimeout(()=>document.body.classList.remove("is-scroll"),140);},{passive:true});}
+{let rt=0;const re=()=>{clearTimeout(rt);rt=setTimeout(()=>{if((S.mode==="auto"||!S.mode)&&detectUI()!==document.documentElement.dataset.ui)applySettings();},300);};addEventListener("resize",re,{passive:true});addEventListener("orientationchange",re);}
+if(!localStorage.getItem("suii_settings")&&(navigator.deviceMemory<=2||navigator.hardwareConcurrency<=4)){S.perf="lite";saveS();applySettings();}
 })();
 </script>
 
