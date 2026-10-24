@@ -889,6 +889,40 @@ body.mode-tv .hero h1{font-size:clamp(2.6rem,4.6vw,4.4rem)}
 body.mode-tv .gold-btn{padding:16px 34px;font-size:1.2rem}
 body.mode-tv .server,body.mode-tv .audio-btn{padding:14px 22px;font-size:1.05rem}
 body.mode-tv .server:focus,body.mode-tv .audio-btn:focus{outline:4px solid #fff;transform:scale(1.06)}
+
+/* ===== ADD-ON: Full search page / Watch Order / Glass break ===== */
+#wogWrap{margin:26px 0 8px;display:flex;justify-content:center}
+#wogBtn{display:flex;align-items:center;gap:12px;padding:14px 22px;border-radius:18px;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03));color:#fff;font-weight:900;font-size:1rem;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 26px var(--accent-glow,rgba(226,176,36,.25));text-align:left}
+#wogBtn small{display:block;font-weight:600;color:var(--muted);font-size:.74rem;margin-top:2px}
+#wogBtn:active{transform:scale(.98)}
+#srPeople{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 14px;margin-bottom:6px}
+#srPeople .sr-p{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:#fff;font-weight:800;font-size:.82rem;cursor:pointer}
+#srPeople .sr-p img{width:34px;height:34px;border-radius:50%;object-fit:cover}
+#wogModal{position:fixed;inset:0;z-index:10000;background:rgba(5,4,8,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:flex-end;justify-content:center}
+#wogModal .wog-box{width:min(720px,100%);max-height:92vh;overflow:auto;background:#0f0c15;border:1px solid rgba(255,255,255,.14);border-radius:22px 22px 0 0;padding:20px 16px 28px;color:#fff}
+@media(min-width:760px){#wogModal{align-items:center}#wogModal .wog-box{border-radius:22px}}
+#wogModal h3{margin:0 0 4px;font-size:1.25rem}
+#wogModal .wog-sub{color:var(--muted);font-size:.8rem;margin-bottom:16px}
+#wogModal .wog-x{float:right;background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:50%;width:34px;height:34px;font-size:1rem;cursor:pointer}
+.wog-row{display:flex;align-items:center;gap:12px;padding:10px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);margin-bottom:10px;cursor:pointer}
+.wog-row:active{transform:scale(.99)}
+.wog-row.first{border-color:var(--gold);background:rgba(226,176,36,.12)}
+.wog-n{flex:0 0 30px;height:30px;border-radius:50%;background:var(--gold);color:#0a0a12;font-weight:900;display:grid;place-items:center;font-size:.85rem}
+.wog-row img{width:46px;height:69px;border-radius:8px;object-fit:cover;flex:0 0 46px}
+.wog-t{font-weight:800;font-size:.92rem;line-height:1.25}
+.wog-m{color:var(--muted);font-size:.74rem;margin-top:3px}
+.wog-tag{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.65rem;font-weight:900;margin-right:6px;background:rgba(255,255,255,.14)}
+.wog-tag.tv{background:rgba(0,229,255,.22)}
+.wog-start{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--gold);color:#0a0a12;font-size:.65rem;font-weight:900}
+#glassLayer{position:fixed;inset:0;z-index:9998;pointer-events:none;overflow:hidden}
+#glassLayer *{pointer-events:none!important}
+.gb-wrap{position:absolute;filter:drop-shadow(0 8px 10px rgba(0,0,0,.65)) drop-shadow(0 0 3px rgba(255,255,255,.55));will-change:transform}
+.gb-piece{position:relative;width:100%;height:100%;background-size:cover;background-position:center;animation:gbFloat 2.6s ease-in-out infinite alternate}
+.gb-piece::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(255,255,255,.5),rgba(255,255,255,0) 38%,rgba(255,255,255,.14) 68%,rgba(255,255,255,0));mix-blend-mode:screen}
+.gb-t{position:absolute;left:0;right:0;bottom:0;padding:14px 6px 8px;font-size:.58rem;font-weight:800;line-height:1.1;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+@keyframes gbFloat{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-6px) rotate(1.4deg)}}
+.gb-label{position:absolute;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:999px;background:rgba(10,8,14,.78);border:1px solid var(--gold);color:#fff;font-weight:800;font-size:.8rem;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.gb-crack{position:absolute}
 </style>
 </head>
 <body>
@@ -1345,6 +1379,7 @@ function card(item, index) {
 }
 
 function render(items) {
+  addHide(); addClear();
   itemsNow = items.filter(x => x && x.title && x.tmdbId);
   results.innerHTML = itemsNow.map(card).join("");
   $("count").textContent = itemsNow.length + " titles";
@@ -1514,7 +1549,8 @@ const pk = n => "suii_" + curProf().id + "_" + n;
 const getList = () => LS(pk("list"), []);
 const getCont = () => LS(pk("cont"), []);
 const inList = it => it && getList().some(x => x.tmdbId == it.tmdbId && x.type === it.type);
-let skipIntro = false, htTok = 0, nxT = 0, nxI = 0;
+let addHide = () => {}, addClear = () => {};
+let skipIntro = false, htTok = 0, nxT = 0, nxI = 0, nxT2 = 0, nextMovieItem = null;
 function toast(m) { let t = $("toast"); if (!t) { t = document.createElement("div"); t.id = "toast"; document.body.appendChild(t); } t.textContent = m; t.className = "on"; clearTimeout(t._t); t._t = setTimeout(() => t.className = "", 3200); }
 function syncHearts() {
   document.querySelectorAll("#results .card").forEach(c => { const it = itemsNow[c.dataset.index], h = c.querySelector(".heart"); if (it && h) h.textContent = inList(it) ? "❤" : "🤍"; });
@@ -1583,12 +1619,32 @@ function countdown() {
 }
 function showNextBtn() {
   const area = $("playerArea"); if (!area) return; let n = $("nextEp"); if (!n) { n = document.createElement("div"); n.id = "nextEp"; area.appendChild(n); }
-  n.innerHTML = '<button class="ghost-btn" id="nxBtn">⏭ Next Episode</button>'; $("nxBtn").onclick = goNext;
+  if (selectedItem && selectedItem.type === "movie") {
+    if (!nextMovieItem) return;
+    n.innerHTML = '<button class="ghost-btn" id="nxBtn">\u23ED Next Movie</button>'; $("nxBtn").onclick = () => { hideNext(); openDetails(nextMovieItem); }; return;
+  }
+  n.innerHTML = '<button class="ghost-btn" id="nxBtn">\u23ED Next Episode</button>'; $("nxBtn").onclick = goNext;
 }
 async function armNext(it) {
-  clearTimeout(nxT); hideNext(); if (it.type !== "tv") return; showNextBtn(); if (!S.autonext) return;
-  let rt = 40; try { const sd = await tmdb("/tv/" + it.tmdbId + "/season/" + currentSeason); const ep = (sd.episodes || []).find(x => x.episode_number === currentEpisode); rt = (ep && ep.runtime) || 40; } catch (e) {}
-  nxT = setTimeout(() => { if (selectedItem === it) countdown(); }, Math.max(5, rt - 1) * 60000);
+  clearTimeout(nxT); clearTimeout(nxT2); hideNext(); nextMovieItem = null;
+  if (it.type !== "tv" && it.type !== "movie") return;
+  let rt = it.type === "tv" ? 40 : 110;
+  try {
+    if (it.type === "tv") {
+      const sd = await tmdb("/tv/" + it.tmdbId + "/season/" + currentSeason); const ep = (sd.episodes || []).find(x => x.episode_number === currentEpisode); rt = (ep && ep.runtime) || 40;
+    } else {
+      const m = await tmdb("/movie/" + it.tmdbId); rt = m.runtime || 110;
+      if (m.belongs_to_collection) {
+        const col = await tmdb("/collection/" + m.belongs_to_collection.id), today = new Date().toISOString().slice(0, 10);
+        const parts = (col.parts || []).filter(x => x.release_date && x.release_date <= today).sort((a, b) => a.release_date < b.release_date ? -1 : 1);
+        const k = parts.findIndex(x => x.id === it.tmdbId); if (k >= 0 && parts[k + 1]) nextMovieItem = normTMDB(parts[k + 1], "movie");
+      }
+    }
+  } catch (e) {}
+  // Next button: sirf end ke last 30 minute pehle
+  nxT2 = setTimeout(() => { if (selectedItem === it) showNextBtn(); }, Math.max(2, rt - 30) * 60000);
+  // Auto next countdown (series only, settings ON ho tab) - pehle jaisa
+  if (it.type === "tv" && S.autonext) nxT = setTimeout(() => { if (selectedItem === it) countdown(); }, Math.max(5, rt - 1) * 60000);
 }
 /* Filters */
 const GEN = [["Action", 28, 10759], ["Comedy", 35, 35], ["Drama", 18, 18], ["Romance", 10749, 0], ["Horror", 27, 0], ["Thriller", 53, 0], ["Sci-Fi", 878, 10765], ["Animation", 16, 16], ["Crime", 80, 80], ["Family", 10751, 10751]];
@@ -2849,7 +2905,173 @@ v5init();
 applySettings();
 runIntro(false);
 loadCatalog("trending");
+/* ================= ADD-ON: Full search page + Watch Order Generator + Glass-break on cast hold ================= */
+(function () {
+  const inp = $("searchInput"); let searchTok = 0;
+  const norm = s => String(s || "").toLowerCase().replace(/[^a-z0-9\u0900-\u097f ]+/g, " ").replace(/\s+/g, " ").trim();
+  const STOP = new Set(["collection", "the", "a", "of", "and", "saga", "series", "movie", "movies", "film", "films"]);
+  const toks = q => norm(q).split(" ").filter(w => w && !STOP.has(w));
+  const matches = (name, q) => { const n = " " + norm(name), t = toks(q); return t.length > 0 && t.every(w => n.includes(" " + w)); };
+  const sec = () => $("resultsSection");
+
+  /* ---- helpers to clear add-on UI whenever any normal catalog renders ---- */
+  function hideExtras() { const w = $("wogWrap"); if (w) w.remove(); const p = $("srPeople"); if (p) p.remove(); }
+  addHide = hideExtras; addClear = () => clearGlass();
+
+  /* ---- actor filmography (same as cast-tap behaviour) ---- */
+  async function actorWorks(personId) {
+    status.hidden = false; status.innerHTML = '<span class="dalli-loading">DALLI…</span>';
+    detail.hidden = true; hero.hidden = true; sec().hidden = false; scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      const works = await personWorks(personId, 400), pInfo = await tmdb("/person/" + personId).catch(() => ({}));
+      render(works.map(x => normTMDB(x, x.media_type)));
+      const nm = works.filter(x => x.media_type === "movie").length;
+      $("resultsTitle").textContent = (pInfo.name || "Actor") + " — " + nm + " Movies · " + (works.length - nm) + " Shows (tap any poster to open)";
+    } catch (e) { status.textContent = "Failed to load actor works."; }
+  }
+
+  /* ================= FULL SEARCH RESULTS PAGE ================= */
+  async function runSearch(q) {
+    q = (q || "").trim(); if (!q) return; const tok = ++searchTok;
+    clearTimeout(searchDebounce); $("searchSuggestions").hidden = true; try { inp.blur(); } catch (e) {}
+    currentCategory = "search"; detail.hidden = true; hero.hidden = true; sec().hidden = false; clearGlass(); hideExtras();
+    document.querySelectorAll("#tabs button").forEach(b => b.classList.remove("active"));
+    status.hidden = false; status.innerHTML = '<span class="dalli-loading">DALLI…</span>';
+    $("resultsTitle").textContent = 'Search: "' + q + '"'; $("count").textContent = "";
+    scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      const p1 = await tmdb("/search/multi", { query: q, page: 1, include_adult: "false" });
+      const pages = Math.min(p1.total_pages || 1, 5), rest = [];
+      for (let p = 2; p <= pages; p++) rest.push(tmdb("/search/multi", { query: q, page: p, include_adult: "false" }).catch(() => ({ results: [] })));
+      const all = [p1].concat(await Promise.all(rest)); if (tok !== searchTok) return;
+      const raw = all.flatMap(r => r.results || []), seen = {};
+      const items = raw.filter(x => (x.media_type === "movie" || x.media_type === "tv") && x.poster_path && !seen[x.media_type + x.id] && (seen[x.media_type + x.id] = 1));
+      const people = raw.filter(x => x.media_type === "person" && x.profile_path).slice(0, 8);
+      render(items.map(x => normTMDB(x, x.media_type)));
+      $("resultsTitle").textContent = 'Results for "' + q + '"';
+      if (!items.length) status.textContent = 'No results found for "' + q + '"';
+      if (people.length) {
+        const row = document.createElement("div"); row.id = "srPeople";
+        row.innerHTML = people.map(pp => '<button class="sr-p" data-pid="' + pp.id + '"><img src="https://image.tmdb.org/t/p/w185' + pp.profile_path + '" alt="">' + esc(pp.name) + '</button>').join("");
+        row.onclick = e => { const b = e.target.closest("[data-pid]"); if (b) actorWorks(b.dataset.pid); };
+        $("results").before(row);
+      }
+      detectFranchise(q, items, tok);
+    } catch (e) { status.hidden = false; status.textContent = "Search failed. Dobara try karo."; }
+  }
+  inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); runSearch(inp.value); } });
+
+  /* ================= FRANCHISE DETECT + WATCH ORDER GENERATOR ================= */
+  let wog = null;
+  async function detectFranchise(q, items, tok) {
+    try {
+      const topMovies = items.filter(x => x.media_type === "movie").slice(0, 6);
+      const [cs, ...mv] = await Promise.all([tmdb("/search/collection", { query: q }).catch(() => ({ results: [] }))].concat(topMovies.map(m => tmdb("/movie/" + m.id).catch(() => null))));
+      const cols = new Map();
+      (cs.results || []).filter(c => matches(c.name, q)).slice(0, 6).forEach(c => cols.set(c.id, c.name));
+      mv.forEach(m => { const bc = m && m.belongs_to_collection; if (bc && (matches(bc.name, q) || matches(m.title, q))) cols.set(bc.id, bc.name); });
+      const tvs = items.filter(x => x.media_type === "tv" && matches(x.name || x.title, q)).slice(0, 10);
+      const colData = await Promise.all([...cols.keys()].slice(0, 8).map(id => tmdb("/collection/" + id).catch(() => null)));
+      const movies = new Map();
+      colData.forEach(c => c && (c.parts || []).forEach(p => movies.set(p.id, p)));
+      const nMov = movies.size, nTv = tvs.length;
+      if (tok !== searchTok) return;
+      if (!(nMov >= 2 || (nMov >= 1 && nTv >= 1) || nTv >= 2)) return;
+      wog = { q, movies: [...movies.values()], tvs };
+      const w = document.createElement("div"); w.id = "wogWrap";
+      w.innerHTML = '<button id="wogBtn"><span style="font-size:1.6rem">\uD83E\uDDED</span><span>Watch Order Generator<small>' + esc(q) + " franchise · " + nMov + " movies · " + nTv + " series</small></span></button>";
+      w.querySelector("button").onclick = openWog;
+      $("results").after(w);
+    } catch (e) {}
+  }
+  async function openWog() {
+    if (!wog) return; const d = wog;
+    const old = $("wogModal"); if (old) old.remove();
+    const m = document.createElement("div"); m.id = "wogModal";
+    m.innerHTML = '<div class="wog-box"><button class="wog-x" aria-label="Close">✕</button><h3>Watch Order — ' + esc(d.q) + '</h3><div class="wog-sub">Loading…</div><div id="wogList"></div></div>';
+    document.body.appendChild(m);
+    const close = () => { m.remove(); document.removeEventListener("keydown", esc2); }, esc2 = e => { if (e.key === "Escape") close(); };
+    m.querySelector(".wog-x").onclick = close; m.onclick = e => { if (e.target === m) close(); }; document.addEventListener("keydown", esc2);
+    const tvFull = await Promise.all(d.tvs.map(t => tmdb("/tv/" + t.id).catch(() => null)));
+    const list = [];
+    d.movies.forEach(p => list.push({ type: "movie", raw: p, id: p.id, title: p.title, date: p.release_date || "", poster: p.poster_path, meta: p.release_date ? "" : "Upcoming / TBA" }));
+    d.tvs.forEach((t, i) => { const f = tvFull[i] || {}; list.push({ type: "tv", raw: t, id: t.id, title: t.name || t.title, date: f.first_air_date || t.first_air_date || "", poster: t.poster_path, meta: f.number_of_seasons ? f.number_of_seasons + " season" + (f.number_of_seasons > 1 ? "s" : "") + " · " + (f.number_of_episodes || "?") + " episodes" : "" }); });
+    list.sort((a, b) => !a.date ? 1 : !b.date ? -1 : a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    m.querySelector(".wog-sub").textContent = "Release order · " + list.length + " titles · #1 se start karo";
+    $("wogList").innerHTML = list.map((x, i) => '<div class="wog-row' + (i === 0 ? " first" : "") + '" data-i="' + i + '"><div class="wog-n">' + (i + 1) + '</div><img loading="lazy" src="' + (x.poster ? "https://image.tmdb.org/t/p/w185" + x.poster : "https://via.placeholder.com/92x138?text=?") + '" alt=""><div><div class="wog-t">' + esc(x.title) + (i === 0 ? '<span class="wog-start">START HERE</span>' : "") + '</div><div class="wog-m"><span class="wog-tag ' + x.type + '">' + (x.type === "tv" ? "SERIES" : "MOVIE") + "</span>" + (x.date ? x.date.slice(0, 4) : "") + (x.meta ? " · " + esc(x.meta) : "") + "</div></div></div>").join("");
+    $("wogList").onclick = e => { const r = e.target.closest(".wog-row"); if (!r) return; const x = list[+r.dataset.i]; close(); openDetails(normTMDB(x.raw, x.type)); };
+  }
+
+  /* ================= CAST HOLD -> GLASS BREAK ================= */
+  const pcache = {};
+  function personWorks(id, cap) {
+    cap = cap || 60;
+    if (!pcache[id]) pcache[id] = tmdb("/person/" + id + "/combined_credits").then(c => {
+      const seen = {};
+      return (c.cast || []).filter(x => x.poster_path && (x.media_type === "movie" || x.media_type === "tv") && !(x.genre_ids || []).some(g => g === 10767 || g === 10763) && !seen[x.media_type + x.id] && (seen[x.media_type + x.id] = 1)).sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
+    }).catch(() => { delete pcache[id]; return []; });
+    return pcache[id].then(l => l.slice(0, cap));
+  }
+  let glassTimers = [];
+  function clearGlass() { glassTimers.forEach(clearTimeout); glassTimers = []; const g = $("glassLayer"); if (g) g.remove(); }
+  function crackSound() {
+    try {
+      if (typeof S !== "undefined" && S.sound === false) return; const c = getCtx(); if (!c) return; if (c.state === "suspended") c.resume();
+      const t = c.currentTime, n = c.createBufferSource(); n.buffer = noiseBuf(c, .5);
+      const hp = c.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 2600; const g = c.createGain();
+      g.gain.setValueAtTime(.32, t); g.gain.exponentialRampToValueAtTime(.001, t + .45); n.connect(hp); hp.connect(g); g.connect(c.destination); n.start(t);
+      for (let i = 0; i < 9; i++) { const o = c.createOscillator(), og = c.createGain(), at = t + .03 + Math.random() * .4; o.type = "sine"; o.frequency.value = 2600 + Math.random() * 3800; og.gain.setValueAtTime(.07, at); og.gain.exponentialRampToValueAtTime(.001, at + .09); o.connect(og); og.connect(c.destination); o.start(at); o.stop(at + .1); }
+    } catch (e) {}
+  }
+  const rj = () => Math.random();
+  async function shatter(card, id) {
+    clearGlass(); crackSound();
+    const r = card.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2, W = innerWidth, H = innerHeight;
+    const layer = document.createElement("div"); layer.id = "glassLayer"; document.body.appendChild(layer);
+    // crack flash on the card
+    let lines = ""; for (let k = 0; k < 11; k++) { const a = (k / 11) * 6.283 + rj() * .4; let x = 50, y = 50, d = "M50 50"; for (let s = 0; s < 4; s++) { x += Math.cos(a + (rj() - .5) * .7) * (14 + rj() * 8); y += Math.sin(a + (rj() - .5) * .7) * (18 + rj() * 10); d += " L" + x.toFixed(1) + " " + y.toFixed(1); } lines += '<path d="' + d + '"/>'; }
+    const ck = document.createElement("div"); ck.className = "gb-crack"; ck.style.cssText = "left:" + r.left + "px;top:" + r.top + "px;width:" + r.width + "px;height:" + r.height + "px;background:radial-gradient(circle,rgba(255,255,255,.85),rgba(255,255,255,.25) 45%,transparent 70%);border-radius:14px";
+    ck.innerHTML = '<svg viewBox="0 0 100 100" preserveAspectRatio="none" width="100%" height="100%" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" style="filter:drop-shadow(0 0 3px #fff)">' + lines + "</svg>";
+    layer.appendChild(ck); ck.animate([{ opacity: 1, transform: "scale(1)" }, { opacity: 0, transform: "scale(1.5)" }], { duration: 700, easing: "ease-out", fill: "forwards" });
+    try { detail.animate([{ transform: "translate(0,0)" }, { transform: "translate(-5px,3px)" }, { transform: "translate(4px,-3px)" }, { transform: "translate(-2px,1px)" }, { transform: "translate(0,0)" }], { duration: 280 }); } catch (e) {}
+    const works = await personWorks(id, 60);
+    if (!$("glassLayer")) return;
+    if (!works.length) { toast("Is actor ki movies/series nahi mili"); clearGlass(); return; }
+    const n = works.length, pw = Math.round(Math.max(52, Math.min(104, Math.sqrt((W * H * .5) / n / 1.5)))), ph = Math.round(pw * 1.5), top = 70;
+    const lab = document.createElement("div"); lab.className = "gb-label"; lab.textContent = (card.querySelector(".cc-cap b") || {}).textContent + " — " + n + " movies / series"; layer.appendChild(lab);
+    works.forEach((w, i) => {
+      const t = Math.sqrt((i + 1) / n), a = i * 2.39996 + rj() * .3;
+      let x = cx + Math.cos(a) * W * .48 * t + (rj() - .5) * 14, y = cy + Math.sin(a) * H * .44 * t + (rj() - .5) * 14;
+      x = Math.max(pw / 2 + 4, Math.min(W - pw / 2 - 4, x)); y = Math.max(ph / 2 + top, Math.min(H - ph / 2 - 6, y));
+      const p = (v, s) => (v * s).toFixed(1) + "%", poly = "polygon(" + [[rj() * 12, rj() * 9], [38 + rj() * 24, rj() * 5], [88 + rj() * 12, rj() * 12], [92 + rj() * 8, 86 + rj() * 14], [40 + rj() * 20, 95 + rj() * 5], [rj() * 10, 86 + rj() * 14]].map(q => q[0].toFixed(1) + "% " + q[1].toFixed(1) + "%").join(",") + ")";
+      const el = document.createElement("div"); el.className = "gb-wrap"; el.style.cssText = "left:" + (x - pw / 2) + "px;top:" + (y - ph / 2) + "px;width:" + pw + "px;height:" + ph + "px";
+      const inner = document.createElement("div"); inner.className = "gb-piece"; inner.style.cssText = "clip-path:" + poly + ";-webkit-clip-path:" + poly + ";background-image:url(https://image.tmdb.org/t/p/w185" + w.poster_path + ");animation-delay:-" + (rj() * 2.4).toFixed(2) + "s";
+      inner.innerHTML = '<span class="gb-t">' + esc(w.title || w.name) + "</span>"; el.appendChild(inner); layer.appendChild(el);
+      const rot = (rj() - .5) * 60;
+      el.animate([{ transform: "translate(" + (cx - x) + "px," + (cy - y) + "px) scale(.12) rotate(" + (rot * 3) + "deg)", opacity: 0 }, { opacity: 1, offset: .3 }, { transform: "translate(0,0) scale(1) rotate(" + (rot / 4) + "deg)", opacity: 1 }], { duration: 600 + rj() * 400, delay: 80 + i * 10, easing: "cubic-bezier(.15,.9,.25,1)", fill: "both" });
+    });
+    // kuch der rukne ke baad tootkar gir jaye (pieces click nahi hote - sirf dekhne ke liye)
+    glassTimers.push(setTimeout(() => {
+      const g = $("glassLayer"); if (!g) return;
+      g.querySelectorAll(".gb-wrap").forEach((el, i) => { el.getAnimations().forEach(an => an.cancel()); el.animate([{ transform: "translateY(0) rotate(0)", opacity: 1 }, { transform: "translateY(" + (H + 120) + "px) rotate(" + ((rj() - .5) * 200) + "deg)", opacity: 0 }], { duration: 800 + rj() * 500, delay: i * 8, easing: "cubic-bezier(.5,0,.9,.6)", fill: "forwards" }); });
+      glassTimers.push(setTimeout(clearGlass, 2200));
+    }, 7000));
+  }
+  let hold = null, sx = 0, sy = 0, broke = false, suppressUntil = 0;
+  detail.addEventListener("pointerdown", e => {
+    const c = e.target.closest(".cine-card[data-person-id]"); if (!c) return;
+    sx = e.clientX; sy = e.clientY; const id = c.dataset.personId; personWorks(id, 60); clearTimeout(hold);
+    hold = setTimeout(() => { hold = null; broke = true; shatter(c, id); }, 550);
+  });
+  detail.addEventListener("pointermove", e => { if (hold && Math.hypot(e.clientX - sx, e.clientY - sy) > 10) { clearTimeout(hold); hold = null; } });
+  detail.addEventListener("pointercancel", () => { clearTimeout(hold); hold = null; });
+  detail.addEventListener("contextmenu", e => { if (e.target.closest(".cine-card")) e.preventDefault(); });
+  window.addEventListener("pointerup", () => { clearTimeout(hold); hold = null; if (broke) { broke = false; suppressUntil = Date.now() + 450; } });
+  document.addEventListener("click", e => { if (Date.now() < suppressUntil && e.target.closest && e.target.closest(".cine-card")) { e.stopPropagation(); e.preventDefault(); } }, true);
+})();
+
 })();
 </script>
+
 </body>
 </html>
