@@ -890,6 +890,9 @@ body.mode-tv .gold-btn{padding:16px 34px;font-size:1.2rem}
 body.mode-tv .server,body.mode-tv .audio-btn{padding:14px 22px;font-size:1.05rem}
 body.mode-tv .server:focus,body.mode-tv .audio-btn:focus{outline:4px solid #fff;transform:scale(1.06)}
 
+/* FIX: 3D me track card ke aage aa jata tha -> tap/hold card tak pahunchta hi nahi tha */
+.cine-track{pointer-events:none}
+.cine-card{pointer-events:auto}
 /* ===== ADD-ON: Full search page / Watch Order / Glass break ===== */
 #wogWrap{margin:26px 0 8px;display:flex;justify-content:center}
 #wogBtn{display:flex;align-items:center;gap:12px;padding:14px 22px;border-radius:18px;border:1px solid var(--gold);background:linear-gradient(135deg,rgba(255,255,255,.1),rgba(255,255,255,.03));color:#fff;font-weight:900;font-size:1rem;cursor:pointer;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 0 26px var(--accent-glow,rgba(226,176,36,.25));text-align:left}
@@ -1549,7 +1552,7 @@ const pk = n => "suii_" + curProf().id + "_" + n;
 const getList = () => LS(pk("list"), []);
 const getCont = () => LS(pk("cont"), []);
 const inList = it => it && getList().some(x => x.tmdbId == it.tmdbId && x.type === it.type);
-let addHide = () => {}, addClear = () => {};
+let addHide = () => {}, addClear = () => {}, addDetailWog = () => {};
 let skipIntro = false, htTok = 0, nxT = 0, nxI = 0, nxT2 = 0, nextMovieItem = null;
 function toast(m) { let t = $("toast"); if (!t) { t = document.createElement("div"); t.id = "toast"; document.body.appendChild(t); } t.textContent = m; t.className = "on"; clearTimeout(t._t); t._t = setTimeout(() => t.className = "", 3200); }
 function syncHearts() {
@@ -1844,6 +1847,7 @@ async function openDetails(item) {
   `;
 
   initCinema();
+  try { addDetailWog(item, meta); } catch (e) {}
   Promise.all([loadLogo(item, meta), loadKw(item)]).then(function (r) {
     if (selectedItem !== item || detail.hidden) return;
     try { buildWorld(item, meta, r[0], r[1]); } catch (e) { console.warn("world", e); }
@@ -2232,25 +2236,31 @@ const intro = $("intro");
 $("introWord").innerHTML = "SUIII".split("").map((ch, i) => `<span class="${i > 1 ? "g" : ""}" style="--i:${i}">${ch}</span>`).join("");
 $("introRib").innerHTML = Array.from({ length: 28 }, (_, i) => `<i style="--d:${Math.abs(i - 14)};--c:${["var(--gold)", "var(--gold2)", "var(--cyan)", "#ffffff"][i % 4]}"></i>`).join("");
 // montage timeline: frames flash faster and faster, then TU-DUM
-const NF = 14, FT = []; { let x = .95; for (let k = 0; k < NF; k++) { FT.push(x); x += .22 - .15 * k / (NF - 1); } var TL = { FT, E: x + .05 }; }
+const NF = 18, FT = []; { let x = .95; for (let k = 0; k < NF; k++) { FT.push(x); x += .25 - .15 * k / (NF - 1); } var TL = { FT, E: x + .05 }; }
 intro.style.setProperty("--E", TL.E.toFixed(2));
 const FEAT = [["🎬", "MOVIES", "HOLLYWOOD"], ["📺", "TV", "SHOWS"], ["🇮🇳", "HINDI", "SERIALS"], ["🇵🇰", "PAKISTAN", "DRAMA"], ["🇰🇷", "K", "DRAMA"], ["🌸", "ANIME", "& TOONS"], ["⚡", "8 VIP", "SERVERS"], ["🎧", "HINDI", "DUBBED"], ["🎭", "CAST", "SPOTLIGHT"], ["🧊", "3D", "POSTERS"], ["🎞", "TRAILER", "PREVIEW"], ["🎨", "3", "THEMES"], ["🔥", "TRENDING", "NOW"], ["👑", "VIP", "ACCESS"]];
 const SERIES = ["Harry Potter Collection", "The Avengers Collection", "Fast & Furious Collection", "John Wick Collection", "Mission: Impossible Collection", "The Dark Knight Collection", "The Lord of the Rings Collection", "Star Wars Collection", "Jurassic Park Collection", "Pirates of the Caribbean Collection", "Spider-Man Collection", "Transformers Collection", "The Hunger Games Collection", "Despicable Me Collection", "Toy Story Collection", "Baahubali Collection", "Dhoom Collection", "Avatar Collection", "Ice Age Collection", "Kung Fu Panda Collection"];
-let introPosters = []; try { introPosters = JSON.parse(localStorage.getItem("suii_series") || "[]"); } catch (e) {}
+let introPosters = []; try { introPosters = JSON.parse(localStorage.getItem("suii_series2") || localStorage.getItem("suii_series") || "[]"); } catch (e) {}
 introPosters.forEach(o => { new Image().src = o.p; });
-Promise.allSettled(SERIES.map(n => tmdb("/search/collection", { query: n }))).then(rs => {
-  const out = []; rs.forEach((r, i) => { const x = r.status === "fulfilled" && r.value && (r.value.results || []).find(y => y.poster_path); if (x) out.push({ t: SERIES[i].replace(/ Collection$/, ""), p: "https://image.tmdb.org/t/p/w342" + x.poster_path }); });
-  if (out.length >= 4) { introPosters = out; try { localStorage.setItem("suii_series", JSON.stringify(out)); } catch (e) {} out.forEach(o => { new Image().src = o.p; }); }
-  else if (!introPosters.length) return tmdb("/trending/movie/week").then(r => { introPosters = (r.results || []).filter(x => x.poster_path).slice(0, 12).map(x => ({ t: x.title, p: "https://image.tmdb.org/t/p/w342" + x.poster_path })); introPosters.forEach(o => { new Image().src = o.p; }); });
-}).catch(() => {});
+{
+  const W3 = "https://image.tmdb.org/t/p/w342", pk = (arr, n, nm) => (arr || []).filter(x => x.poster_path).slice(0, n).map(x => ({ t: x[nm] || x.title || x.name, p: W3 + x.poster_path }));
+  Promise.allSettled(SERIES.map(n => tmdb("/search/collection", { query: n })).concat([
+    tmdb("/trending/tv/week"), tmdb("/discover/tv", { with_genres: "16", with_original_language: "ja", sort_by: "popularity.desc" }),
+    tmdb("/discover/movie", { with_genres: "16", with_original_language: "ja", sort_by: "popularity.desc" }), tmdb("/movie/popular")
+  ])).then(rs => {
+    const nS = SERIES.length, mv = [], g = i => rs[i].status === "fulfilled" && rs[i].value ? rs[i].value : {};
+    for (let i = 0; i < nS; i++) { const x = (g(i).results || []).find(y => y.poster_path); if (x) mv.push({ t: SERIES[i].replace(/ Collection$/, ""), p: W3 + x.poster_path }); }
+    mv.push(...pk(g(nS + 3).results, 6));
+    const tv = pk(g(nS).results, 10), an = pk(g(nS + 1).results, 8).concat(pk(g(nS + 2).results, 4)), out = [], n = Math.max(mv.length, tv.length, an.length);
+    for (let i = 0; i < n; i++) { if (mv[i]) out.push(mv[i]); if (tv[i]) out.push(tv[i]); if (an[i]) out.push(an[i]); }
+    if (out.length >= 6) { introPosters = out; try { localStorage.setItem("suii_series2", JSON.stringify(out)); } catch (e) {} out.forEach(o => { new Image().src = o.p; }); }
+  }).catch(() => {});
+}
 const FF = `font-family="'Bebas Neue',Impact,'Arial Black',sans-serif" text-anchor="middle"`;
 function showFrame(k) {
-  const poster = (k % 5 !== 4 && introPosters.length) ? introPosters[(k - Math.floor(k / 5)) % introPosters.length] : null;
-  if (poster) { $("introFrames").innerHTML = `<g class="fr"><image href="${poster.p}" width="420" height="560" preserveAspectRatio="xMidYMid slice"/><rect width="420" height="560" fill="rgba(0,0,0,.22)"/></g>`; $("introCap").textContent = poster.t.toUpperCase(); return; }
-  const f = FEAT[(introPosters.length ? k >> 1 : k) % FEAT.length], v = k % 3;
-  const bg = ["#0a0a12", "var(--gold)", "var(--cyan)"][v], fg = ["var(--gold)", "#0a0a12", "#06060a"][v];
-  $("introFrames").innerHTML = `<g class="fr"><rect width="420" height="560" style="fill:${bg}"/><text x="210" y="270" font-size="150" text-anchor="middle">${f[0]}</text><text x="210" y="395" font-size="120" ${FF} style="fill:${fg}">${f[1]}</text><text x="210" y="468" font-size="70" ${FF} style="fill:${v === 0 ? "#fff" : fg}">${f[2]}</text></g>`;
-  $("introCap").textContent = f[1] + " " + f[2];
+  if (!introPosters.length) return;
+  const poster = introPosters[k % introPosters.length];
+  $("introFrames").innerHTML = `<g class="fr"><image href="${poster.p}" width="420" height="560" preserveAspectRatio="xMidYMid slice"/><rect width="420" height="560" fill="rgba(0,0,0,.22)"/></g>`; $("introCap").textContent = poster.t.toUpperCase();
 }
 let introTimer = 0, introLive = false, frameTimers = [], unlock = null;
 function clearIntroTimers() { clearTimeout(introTimer); frameTimers.forEach(clearTimeout); frameTimers = []; if (unlock) { unlock(); unlock = null; } }
@@ -2408,7 +2418,7 @@ const ccard = (img, name, sub, attr) => `<div class="cine-card" ${attr}><div cla
 function buildCast(list) {
   if (!list.length) return "";
   return `<div class="cine-sec cine-rv" style="--d:.9s"><h3>🎭 Cast Spotlight</h3><p class="hint">Drag karo ya apne aap scroll hone do · actor par tap = filmography</p>
-    <div class="cine-stage" data-speed="0.05"><div class="cine-track">${list.map(a => ccard(poster(a.profile_path), a.name, a.character, `data-person-id="${a.id}"`)).join("")}</div></div></div>`;
+    <div class="cine-stage" data-speed="0"><div class="cine-track">${list.map(a => ccard(poster(a.profile_path), a.name, a.character, `data-person-id="${a.id}"`)).join("")}</div></div></div>`;
 }
 function buildSim(list) {
   if (!list.length) return "";
@@ -2418,7 +2428,7 @@ function buildSim(list) {
 function mkStage(stage) {
   const track = stage.querySelector(".cine-track");
   [...track.children].forEach(c => track.appendChild(c.cloneNode(true)));
-  const cards = [...track.children], speed = Number(stage.dataset.speed) || .04;
+  const cards = [...track.children], speed = stage.dataset.speed === "0" ? 0 : (Number(stage.dataset.speed) || .04);
   let x = 0, drag = false, sx = 0, x0 = 0, moved = 0, hover = false, half = 1, vel = 0;
   const measure = () => { half = track.scrollWidth / 2 || 1; };
   stage.addEventListener("pointerdown", e => { drag = true; sx = e.clientX; x0 = x; moved = 0; });
@@ -2984,6 +2994,33 @@ loadCatalog("trending");
       $("results").after(w);
     } catch (e) {}
   }
+
+  /* ---- Watch Order Generator button: "WATCH NOW" ke niche (detail page) ---- */
+  async function franchiseFor(item, meta) {
+    const isTv = item.type === "tv", cols = new Map(); let q = item.title || "";
+    if (!isTv && meta && meta.belongs_to_collection) { cols.set(meta.belongs_to_collection.id, meta.belongs_to_collection.name); q = meta.belongs_to_collection.name.replace(/\s*collection\s*$/i, "").trim() || q; }
+    const cand = [q], tk = toks(q);
+    if (tk.length >= 2) { cand.push(tk.slice(0, 2).join(" ")); if (tk[0].length >= 5) cand.push(tk[0]); }
+    let movies = new Map(), tvs = [], used = q;
+    for (const cq of cand) {
+      const [cs, tr] = await Promise.all([tmdb("/search/collection", { query: cq }).catch(() => ({ results: [] })), tmdb("/search/tv", { query: cq }).catch(() => ({ results: [] }))]);
+      const c2 = new Map(cols); (cs.results || []).filter(c => matches(c.name, cq)).slice(0, 6).forEach(c => c2.set(c.id, c.name));
+      const data = await Promise.all([...c2.keys()].slice(0, 8).map(id => tmdb("/collection/" + id).catch(() => null)));
+      const mv = new Map(); data.forEach(c => c && (c.parts || []).forEach(p => mv.set(p.id, p)));
+      const tl = (tr.results || []).filter(x => x.poster_path && matches(x.name, cq)).slice(0, 10);
+      movies = mv; tvs = tl; used = cq;
+      if (mv.size + tl.length >= 2) break;
+    }
+    if (!isTv && !movies.has(item.tmdbId)) movies.set(item.tmdbId, { id: item.tmdbId, title: item.title, release_date: (meta && meta.release_date) || (item.year ? item.year + "-01-01" : ""), poster_path: item.poster });
+    if (isTv && !tvs.some(x => x.id === item.tmdbId)) tvs.push({ id: item.tmdbId, name: item.title, first_air_date: (meta && meta.first_air_date) || (item.year ? item.year + "-01-01" : ""), poster_path: item.poster });
+    return { q: used, movies: [...movies.values()], tvs };
+  }
+  addDetailWog = function (item, meta) {
+    const wb = $("watchBtn"); if (!wb || $("wogDetailBtn")) return;
+    const b = document.createElement("button"); b.id = "wogDetailBtn"; b.className = "ghost-btn"; b.style.cssText = "display:block;margin-top:12px";
+    const label = "\uD83E\uDDED Watch Order Generator"; b.textContent = label; wb.insertAdjacentElement("afterend", b);
+    b.onclick = async () => { b.disabled = true; b.textContent = "Loading…"; try { wog = await franchiseFor(item, meta); openWog(); } catch (e) { toast("Watch order load nahi hua"); } b.disabled = false; b.textContent = label; };
+  };
   async function openWog() {
     if (!wog) return; const d = wog;
     const old = $("wogModal"); if (old) old.remove();
