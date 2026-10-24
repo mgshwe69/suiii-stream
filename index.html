@@ -3211,11 +3211,14 @@ loadCatalog("trending");
 
 /* ===== v7: back-nav, profile data, Telegram alerts, TV mouse, intro shuffle, perf ===== */
 var TG_BOT_TOKEN = "8600860687:AAHIiG-89R2Bs9l_5eVs499Tz4u0TMFNh0c";   // <- bot token from @BotFather
-var TG_CHAT_ID  = "";    // optional: leave empty and the bot finds the owner (MG1SHWE) by itself
+/* ============ TELEGRAM OWNER ID ============
+   Put your numeric Telegram owner ID between the quotes below, e.g. "123456789" */
+var TG_CHAT_ID  = "8724579345";    // <- PUT YOUR TELEGRAM OWNER ID HERE
+/* =========================================== */
 var TG_OWNER_USER = "MG1SHWE";
 var WEB3_KEY = "";   // <- access key from web3forms.com (alerts arrive on Gmail)
-async function tgChat(){if(TG_CHAT_ID)return TG_CHAT_ID;try{const r=await fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/getUpdates").then(x=>x.json());const m=(r.result||[]).map(u=>u.message).filter(Boolean).reverse().find(m=>m.chat&&m.chat.type==="private"&&m.from&&(m.from.username||"").toLowerCase()===TG_OWNER_USER.toLowerCase());if(m){console.log("Owner chat id:",m.chat.id,"-> put it in TG_CHAT_ID");return String(m.chat.id);}}catch(e){}return "";}
-var YT_API_KEY = "AIzaSyA6acesq4-BQVgHZo13vrGi6lQJ7w4Wxxk";   // <- paste your YouTube Data API v3 key here
+async function tgChat(){if(TG_CHAT_ID)return TG_CHAT_ID;try{const r=await fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/getUpdates").then(x=>x.json());const L=(r.result||[]).map(u=>u.message).filter(m=>m&&m.chat&&m.chat.type==="private").reverse(),m=L.find(m=>m.from&&(m.from.username||"").toLowerCase()===TG_OWNER_USER.toLowerCase())||L[0];if(m){console.log("Owner chat id:",m.chat.id,"-> put it in TG_CHAT_ID");return String(m.chat.id);}}catch(e){}return "";}
+var YT_API_KEY = "";   // <- paste your YouTube Data API v3 key here
 async function trailerKey(cardEl,type,id){
   const ck="suii_yt_"+type+id;let c=null;try{c=localStorage.getItem(ck)}catch(e){}if(c)return c;
   let key="";
@@ -3250,7 +3253,7 @@ async function tgNotify(ev,d){try{
   if(ev.indexOf("LOGIN")>0&&ev.indexOf("FAILED")<0)localStorage.setItem("suii_login_info",JSON.stringify({place:place,ip:ip.ip||"",ts:Date.now()}));
   if(!TG_BOT_TOKEN&&!WEB3_KEY){console.warn("Alerts off: set WEB3_KEY or TG_BOT_TOKEN");return;}const cid=TG_BOT_TOKEN?await tgChat():"";
   const t=["🔔 SUIII_STREAM — "+ev].concat(Object.entries(d||{}).map(x=>x[0]+": "+x[1]),["Platform: "+(document.documentElement.dataset.ui||""),"Device: "+navigator.userAgent,"Screen: "+screen.width+"x"+screen.height,"Lang/TZ: "+navigator.language+" / "+Intl.DateTimeFormat().resolvedOptions().timeZone,"IP: "+(ip.ip||"?"),"Place: "+(place||"?"),"ISP: "+((ip.connection||{}).isp||"?"),"Time: "+new Date().toLocaleString()]).join("\n");
-  if(cid)fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/sendMessage",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:cid,text:t}),keepalive:true});if(WEB3_KEY)fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:WEB3_KEY,subject:"SUIII_STREAM — "+ev,from_name:"SUIII_STREAM",message:t}),keepalive:true});
+  if(cid)fetch("https://api.telegram.org/bot"+TG_BOT_TOKEN+"/sendMessage",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:cid,text:t}),keepalive:true}).then(x=>x.json()).then(j=>{if(!j.ok)console.warn("Telegram error:",j.description);}).catch(e=>console.warn("Telegram failed",e));if(WEB3_KEY)fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({access_key:WEB3_KEY,subject:"SUIII_STREAM — "+ev,from_name:"SUIII_STREAM",message:t}),keepalive:true});
 }catch(e){}}
 /* back button: stay inside the app, never leave the site directly */
 const LY=[];let skipPop=0,armed=0,bkT=0;
